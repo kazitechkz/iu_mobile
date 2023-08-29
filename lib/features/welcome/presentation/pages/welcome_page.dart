@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iu_front/welcome/presentation/bloc/welcome_bloc.dart';
-import 'package:iu_front/welcome/presentation/widgets/welcome_widget.dart';
-import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:iu_front/features/welcome/presentation/bloc/welcome_bloc.dart';
+import 'package:iu_front/features/welcome/presentation/widgets/welcome_widget.dart';
 
-import '../../../core/constants/constants.dart';
+import '../../../../core/constants/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -25,8 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         builder: (context, state) {
           return Scaffold(
             body: Container(
-              child:
-              Stack(
+              child: Stack(
                   alignment: Alignment.center,
                   children: [
                     PageView(
@@ -64,22 +62,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     Positioned(
                       bottom: 100,
-                      child: PageViewDotIndicator(
-                        currentItem: state.index,
-                        count: 3,
-                        unselectedColor: Colors.black26,
-                        selectedColor: Colors.indigo,
-                        duration: const Duration(milliseconds: 200),
-                        unselectedSize: Size(10, 10),
-                        size: Size(12, 12),
-                        boxShape: BoxShape.circle,
+                      child: DotsIndicator(
+                        position: state.index,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        dotsCount: 3,
+                        decorator: DotsDecorator(
+                          color: Colors.grey,
+                          size: const Size.square(8.0),
+                          activeSize: const Size(15.0, 8.0),
+                          activeColor: Colors.indigo,
+                          activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)
+                          )
+                        ),
                       ),
                     ),
                   ]
 
               ),
-
-
             ),
           );
         },
