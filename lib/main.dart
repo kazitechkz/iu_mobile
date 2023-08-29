@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iu_front/features/auth/presentation/pages/login.dart';
+import 'package:iu_front/features/auth/presentation/pages/auth.dart';
+import 'package:iu_front/features/auth/presentation/pages/register.dart';
 import 'package:iu_front/features/welcome/presentation/pages/welcome_page.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginScreen(),
+        home: RegisterScreen(),
       ),
     );
   }
