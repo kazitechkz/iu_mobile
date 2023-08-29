@@ -40,6 +40,7 @@ dependencies:
 
   #chached image
   cached_network_image: ^3.2.0
+  page_view_dot_indicator: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -89,33 +90,4 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/bears/IMG_7350-min.jpeg
-    - assets/bears/IMG_7351-min.jpeg
-    - assets/bears/IMG_7352-min.jpeg
-    - assets/bears/IMG_7353-min.jpeg
-    - assets/bears/IMG_7354-min.jpeg
-    - assets/bears/IMG_7355-min.jpeg
-    - assets/bears/IMG_7356-min.jpeg
-    - assets/bears/Koala_2 1-min.png
-    - assets/bears/Koala_2-min.png
-    - assets/bears/Koala_3-min.png
-    - assets/bears/Maths-min.png
-    - assets/bears/Английский_Язык-min.png
-    - assets/bears/Биология-min.png
-    - assets/bears/География-min.png
-    - assets/bears/Думает-min.png
-    - assets/bears/За_Столом-min.png
-    - assets/bears/Иллюстрация_без_названия-min.png
-    - assets/bears/Информатика-min.png
-    - assets/bears/История-min.png
-    - assets/bears/История_Казахстана-min.png
-    - assets/bears/Казахская_Литература-min.png
-    - assets/bears/Казахский_Язык-min.png
-    - assets/bears/Логика-min.png
-    - assets/bears/Основы_Прав-min.png
-    - assets/bears/Русская_Литература-min.png
-    - assets/bears/Русский_Язык-min.png
-    - assets/bears/С_Кубком-min.png
-    - assets/bears/Физика-min.png
-    - assets/bears/Химия-min.png
-    - assets/bears/Чтение-min.png
+    - assets/bears/
