@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/services/injection_main.container.dart';
 import 'core/services/router.dart';
@@ -15,17 +16,19 @@ class MyApp extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'EDU APP',
-      theme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          //fontFamily: MyFonts.SofiaSans,
-          appBarTheme: const AppBarTheme(color: Colors.transparent),
-          useMaterial3: true,
-          //ColorScheme.fromSwatch(accentColor: MyColors.MAIN_VIOLET)),
-
-    ),
-      routerConfig: appRouterConfig,
+    return ScreenUtilInit(
+      child: MaterialApp.router(
+        title: 'EDU APP',
+        theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            //fontFamily: MyFonts.SofiaSans,
+            appBarTheme: const AppBarTheme(color: Colors.transparent),
+            useMaterial3: true,
+            //ColorScheme.fromSwatch(accentColor: MyColors.MAIN_VIOLET)),
+      
+      ),
+        routerConfig: appRouterConfig,
+      ),
     );
   }
 }

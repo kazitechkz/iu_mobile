@@ -16,9 +16,8 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
       _cacheVisitedCase = cacheVisitedCase,
       _checkIsFirstTimeCase = checkIsFirstTimeCase,
         super(WelcomeInitialState()) {
-    on<WelcomeEvent>((event, emit) {
-
-    });
+    on<WelcomeCacheEvent>(_cacheVisitedHandler);
+    on<WelcomeCheckVisitEvent>(_checkIsFirstTimeHandler);
   }
 
   final CacheVisitedCase _cacheVisitedCase;
@@ -32,7 +31,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
             (success) => emit(WelcomeCachedState()));
   }
 
-  Future<void> _checkIsFirstTimeHandler(CheckIsFirstTimeCase event, Emitter<WelcomeState> emit)async {
+  Future<void> _checkIsFirstTimeHandler(WelcomeCheckVisitEvent event, Emitter<WelcomeState> emit)async {
     emit(WelcomeLoadingState());
     final result = await _checkIsFirstTimeCase();
     result.fold(
