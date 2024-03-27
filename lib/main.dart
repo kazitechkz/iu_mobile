@@ -18,8 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'EDU APP',
         theme: ThemeData(
+            fontFamily: 'Oswald',
             visualDensity: VisualDensity.adaptivePlatformDensity,
             //fontFamily: MyFonts.SofiaSans,
             appBarTheme: const AppBarTheme(color: Colors.transparent),

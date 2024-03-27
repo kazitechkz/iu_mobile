@@ -1,6 +1,8 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/app_constants/color_constant.dart';
@@ -31,20 +33,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           if(state is WelcomeCheckedState && state.isVisited){
             print('test');
           }
-          if(state is WelcomeCachedState){
-            print('test2');
-          }
+          // if(state is WelcomeCachedState){
+          //   print('test2');
+          // }
         },
         builder: (context, state) {
-          if(state is WelcomeCheckedState || state is WelcomeCachedState){
-            return Container();
-          }
-          if(state is WelcomeFailedState){
-            return const Text('');
-          }
+          // if(state is WelcomeCheckedState || state is WelcomeCachedState){
+          //   return Container();
+          // }
+          // if(state is WelcomeFailedState){
+          //   return const Text('');
+          // }
           return GradientBackground(
             image: 'assets/images/new-bg.webp',
             child: Stack(
+              alignment: Alignment.topCenter,
               children: [
                 PageView(
                   controller: pageController,
@@ -54,20 +57,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     OnWelcomeWidget(data: const WelcomeEntity.third(),pageController: pageController,index: 2, isLast: true,),
                   ],
                 ),
-                Align(
-                  alignment: const Alignment(0, 0.9),
+                Positioned(
+                  bottom: 200.h,
                   child: SmoothPageIndicator(
                     controller: pageController,
                     count: 3,
                     onDotClicked: (index){
                       pageController.animateToPage(index, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
                     },
-                    effect: const WormEffect(
+                    effect: const ExpandingDotsEffect(
                         dotHeight:15,
                         dotWidth: 15,
-                        dotColor: Colors.white,
+                        dotColor: ColorConstant.violetFirst,
                         spacing: 25,
-                        activeDotColor: ColorConstant.violetFirst
+                        activeDotColor: ColorConstant.orangeColorDark
                     ),
                   ),
                 )
