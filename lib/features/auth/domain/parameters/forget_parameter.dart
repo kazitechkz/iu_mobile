@@ -1,3 +1,5 @@
+import 'package:iu/core/utils/typedef.dart';
+
 class ForgetParameter{
   const ForgetParameter({
     required this.email,
@@ -7,4 +9,12 @@ class ForgetParameter{
   final String email;
   final String code;
   final String password;
+
+  DataMap toMap(){
+    return {
+      "email":email,
+      "code":code,
+      "password":password
+    };
+  }
 }

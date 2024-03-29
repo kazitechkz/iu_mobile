@@ -26,3 +26,22 @@ Future<void> _welcomeSLInit() async {
   //Data Source
   sl.registerLazySingleton<WelcomeDataSourceInterface>(() => WelcomeDataSourceImpl());
 }
+
+Future<void> _authSLInit() async {
+  //Bloc
+  sl.registerFactory(() => AuthBloc(
+      signInCase: sl<SignInCase>(),
+      signUpCase: sl<SignUpCase>(),
+      verifyCase: sl<VerifyCase>(),
+      forgetCase: sl<ForgetCase>(),
+  ));
+  //Cases
+  sl.registerLazySingleton(() => ForgetCase(sl()));
+  sl.registerLazySingleton(() => SignInCase(sl()));
+  sl.registerLazySingleton(() => SignUpCase(sl()));
+  sl.registerLazySingleton(() => VerifyCase(sl()));
+  //Repository
+  sl.registerLazySingleton<AuthInterface>(() => AuthRepository(sl()));
+  //Data Source
+  sl.registerLazySingleton<AuthDataSourceInterface>(() => AuthDataSourceImpl());
+}

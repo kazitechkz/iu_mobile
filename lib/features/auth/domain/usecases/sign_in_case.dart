@@ -11,7 +11,7 @@ class SignInCase extends UseCaseWithParams<AuthUserEntity,SignInParameter>{
   
   @override
   ResultFuture<AuthUserEntity> call(SignInParameter params) {
-    return this.authInterface.signIn(params);
+    return authInterface.signIn(params);
   }
   
 }

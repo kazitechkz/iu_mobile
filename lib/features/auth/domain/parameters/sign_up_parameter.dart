@@ -1,3 +1,5 @@
+import '../../../../core/utils/typedef.dart';
+
 class SignUpParameter{
   SignUpParameter.name({
     required this.name,
@@ -12,4 +14,14 @@ class SignUpParameter{
   final String username;
   final String phone;
   final String password;
+
+  DataMap toMap(){
+    return {
+      "name":name,
+      "email":email,
+      "username":username,
+      "phone":phone,
+      "password":password
+    };
+  }
 }
