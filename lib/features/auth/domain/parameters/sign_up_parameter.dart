@@ -1,7 +1,7 @@
 import '../../../../core/utils/typedef.dart';
 
 class SignUpParameter{
-  SignUpParameter.name({
+  SignUpParameter({
     required this.name,
     required this.email,
     required this.username,

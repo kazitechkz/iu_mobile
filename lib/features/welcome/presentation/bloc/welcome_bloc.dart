@@ -11,32 +11,51 @@ part 'welcome_event.dart';
 part 'welcome_state.dart';
 
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
-  WelcomeBloc({required CacheVisitedCase cacheVisitedCase,required CheckIsFirstTimeCase checkIsFirstTimeCase})
-      :
-      _cacheVisitedCase = cacheVisitedCase,
-      _checkIsFirstTimeCase = checkIsFirstTimeCase,
-        super(WelcomeInitialState()) {
+  WelcomeBloc(
+      {required CacheVisitedCase cacheVisitedCase,
+      required CheckIsFirstTimeCase checkIsFirstTimeCase})
+      : _cacheVisitedCase = cacheVisitedCase,
+        _checkIsFirstTimeCase = checkIsFirstTimeCase,
+        super(WelcomeInitialState(0)) {
     on<WelcomeCacheEvent>(_cacheVisitedHandler);
     on<WelcomeCheckVisitEvent>(_checkIsFirstTimeHandler);
+    on<WelcomePageEvent>(_changeWelcomePage);
   }
 
   final CacheVisitedCase _cacheVisitedCase;
   final CheckIsFirstTimeCase _checkIsFirstTimeCase;
 
-  Future<void> _cacheVisitedHandler(WelcomeCacheEvent event, Emitter<WelcomeState> emit)async {
+  Future<void> _cacheVisitedHandler(
+      WelcomeCacheEvent event, Emitter<WelcomeState> emit) async {
     emit(WelcomeLoadingState());
     final result = await _cacheVisitedCase();
     result.fold(
-            (failure) => emit(WelcomeFailedState(FailureData(message: failure.message, statusCode: failure.statusCode,errors: failure.errors))), 
-            (success) => emit(WelcomeCachedState()));
+        (failure) => emit(WelcomeFailedState(FailureData(
+            message: failure.message,
+            statusCode: failure.statusCode,
+            errors: failure.errors))),
+        (success) => emit(WelcomeCachedState()));
   }
 
-  Future<void> _checkIsFirstTimeHandler(WelcomeCheckVisitEvent event, Emitter<WelcomeState> emit)async {
+  Future<void> _changeWelcomePage(
+      WelcomePageEvent event, Emitter<WelcomeState> emit) async {
+    emit(WelcomeInitialState(event.page));
+  }
+
+  Future<void> _checkIsFirstTimeHandler(
+      WelcomeCheckVisitEvent event, Emitter<WelcomeState> emit) async {
     emit(WelcomeLoadingState());
     final result = await _checkIsFirstTimeCase();
     result.fold(
-            (failure) => emit(WelcomeFailedState(FailureData(message: failure.message, statusCode: failure.statusCode,errors: failure.errors))),
-            (success) => emit(WelcomeCheckedState(success)));
+        (failure) => emit(WelcomeFailedState(FailureData(
+            message: failure.message,
+            statusCode: failure.statusCode,
+            errors: failure.errors))), (success) {
+      if (success == true) {
+        emit(WelcomeCheckedState(success));
+      } else {
+        emit(WelcomeInitialState(0));
+      }
+    });
   }
-
 }

@@ -9,7 +9,8 @@ class ResponseData<T> {
   ResponseData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    errors = json['errors'] != null ? new Errors.fromJson(json['errors']) : null;
+    errors =
+        json['errors'] != null ? new Errors.fromJson(json['errors']) : null;
     data = json['data'];
   }
 }
@@ -21,10 +22,9 @@ class Errors {
 
   factory Errors.fromJson(Map<String, dynamic> json) {
     Map<String, List<String>> errorsMap = {};
-    json['errors']?.forEach((key, value) {
+    json.forEach((key, value) {
       errorsMap[key] = List<String>.from(value);
     });
     return Errors(errors: errorsMap);
   }
-
 }

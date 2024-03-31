@@ -1,0 +1,22 @@
+{
+  "next": "Далее",
+  "welcome": "Добро пожаловать",
+  "sign_in_to_continue": "Войдите чтобы продолжить",
+  "or": "или",
+  "sign_in": "Вход",
+  "sign_up": "Зарегистрироваться",
+  "email": "Ваш E-Mail",
+  "phone": "Номер телефона",
+  "name": "Ф.И.О.",
+  "password": "Пароль",
+  "incorrect_email": "Неверная почта",
+  "incorrect_password": "Неверный пароль",
+  "incorrect_phone": "Неверный телефон",
+  "incorrect_name": "Неверные данные поля ФИО",
+  "incorrect_value": "Пожалуйста, введите верные данные",
+  "forgot_password": "Забыли пароль?",
+  "no_account": "Нет Аккаунта?",
+  "have_account": "Уже Есть Аккаунт?",
+  "verify_account": "Подтвердить аккаунт",
+  "verify_account_text": "Введите код прибывший на вашу почту"
+}

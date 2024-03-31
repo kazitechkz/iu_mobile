@@ -1,0 +1,9 @@
+//Генерация изменений в перевода из ARB
+flutter gen-l10n
+//Очистка кода и переустановка зависимостей
+flutter clean
+flutter pub get
+//При возникновении конфликта с генерацией кода, удалить .dart_tool и запустить очистку и переустановку
+rm -R .dart_tool
+//Создание Adapter Hive
+flutter packages pub run build_runner build

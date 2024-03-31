@@ -3,33 +3,30 @@ import 'package:iu/core/utils/hive_utils.dart';
 
 import '../../../../core/errors/exception.dart';
 
-abstract class WelcomeDataSourceInterface{
+abstract class WelcomeDataSourceInterface {
   const WelcomeDataSourceInterface();
   Future<bool> checkIsFirstTimeDS();
   Future<void> cacheVisitedDS();
 }
 
-class WelcomeDataSourceImpl implements WelcomeDataSourceInterface{
+class WelcomeDataSourceImpl implements WelcomeDataSourceInterface {
   final hiveBox = HiveUtils();
 
   @override
-  Future<void> cacheVisitedDS()async {
-    try{
+  Future<void> cacheVisitedDS() async {
+    try {
       await hiveBox.setBool(HiveConstant.welcomeScreenKey, true);
-    }
-    on Exception catch(e){
+    } on Exception catch (e) {
       throw CacheException(message: e.toString());
     }
   }
 
   @override
-  Future<bool> checkIsFirstTimeDS()async {
-    try{
-      return await hiveBox.getBool(HiveConstant.welcomeScreenKey, true);
-    }
-    on Exception catch(e){
+  Future<bool> checkIsFirstTimeDS() async {
+    try {
+      return await hiveBox.getBool(HiveConstant.welcomeScreenKey);
+    } on Exception catch (e) {
       throw CacheException(message: e.toString());
     }
   }
-
 }

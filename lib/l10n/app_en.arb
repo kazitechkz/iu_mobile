@@ -1,0 +1,22 @@
+{
+    "next": "Next",
+    "welcome": "Welcome",
+    "sign_in_to_continue": "Log in to continue",
+    "or": "or",
+    "sign_in": "Input",
+    "sign_up": "Register",
+    "email": "Your E-Mail",
+    "phone": "Phone number",
+    "name": "Full name",
+    "password": "Password",
+    "incorrect_email": "Invalid mail",
+    "incorrect_password": "Invalid password",
+    "incorrect_phone": "Invalid phone",
+    "incorrect_name": "Invalid NAME field data",
+    "incorrect_value": "Please enter the correct data",
+    "forgot_password": "Forgot your password?",
+    "no_account": "No Account?",
+    "have_account": "Already Have An Account?",
+    "verify_account": "Verify account",
+    "verify_account_text": "Enter the code that arrived at your email"
+}

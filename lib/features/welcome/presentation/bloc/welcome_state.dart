@@ -5,16 +5,18 @@ abstract class WelcomeState extends Equatable {
 }
 
 class WelcomeInitialState extends WelcomeState {
+  int currentPage;
+  WelcomeInitialState(this.currentPage);
+  @override
+  List<Object> get props => [currentPage];
+}
+
+class WelcomeLoadingState extends WelcomeState {
   @override
   List<Object> get props => [];
 }
 
-class WelcomeLoadingState extends WelcomeState{
-  @override
-  List<Object> get props => [];
-}
-
-class WelcomeCheckedState extends WelcomeState{
+class WelcomeCheckedState extends WelcomeState {
   final bool isVisited;
   const WelcomeCheckedState(this.isVisited);
 
@@ -22,12 +24,12 @@ class WelcomeCheckedState extends WelcomeState{
   List<bool> get props => [isVisited];
 }
 
-class WelcomeCachedState extends WelcomeState{
+class WelcomeCachedState extends WelcomeState {
   @override
   List<Object> get props => [];
 }
 
-class WelcomeFailedState extends WelcomeState{
+class WelcomeFailedState extends WelcomeState {
   final FailureData fail;
   const WelcomeFailedState(this.fail);
 
