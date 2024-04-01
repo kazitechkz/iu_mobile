@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/hive_constant.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
+import 'package:iu/core/services/router_middleware.dart';
 import 'package:iu/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
@@ -10,13 +11,15 @@ import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
+import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
+import '../providers/user_provider.dart';
 import '../utils/hive_utils.dart';
 import 'injection_main.container.dart';
 
 final appRouterConfig = GoRouter(
-  initialLocation: "/",
+  initialLocation: "/${RouteConstant.signInScreenName}",
   routes: [
     GoRoute(
       path: '/',
@@ -27,13 +30,7 @@ final appRouterConfig = GoRouter(
         );
       },
       redirect: (BuildContext context, GoRouterState state) async {
-        final isVisited =
-            await HiveUtils().getBool(HiveConstant.welcomeScreenKey);
-        //If User Has Already Visited Welcome Page
-        if (isVisited) {
-          return "/${RouteConstant.signInScreenName}";
-        }
-        return null;
+        return await RouterMiddleWare().checkInitialPage(context, state);
       },
     ),
     GoRoute(
@@ -45,6 +42,9 @@ final appRouterConfig = GoRouter(
           child: const AuthScreen(),
         );
       },
+      redirect: (BuildContext context, GoRouterState state) async {
+        return await RouterMiddleWare().guestMiddleWare(context, state);
+      }
     ),
     GoRoute(
       path: "/${RouteConstant.signInScreenName}",
@@ -55,6 +55,9 @@ final appRouterConfig = GoRouter(
           child: const SignInScreen(),
         );
       },
+      redirect: (BuildContext context, GoRouterState state) async {
+          return await RouterMiddleWare().guestMiddleWare(context, state);
+      }
     ),
     GoRoute(
       path: "/${RouteConstant.signUpScreenName}",
@@ -65,6 +68,9 @@ final appRouterConfig = GoRouter(
           child: const SignUpScreen(),
         );
       },
+      redirect: (BuildContext context, GoRouterState state) async {
+        return await RouterMiddleWare().guestMiddleWare(context, state);
+      }
     ),
     GoRoute(
       path: "/${RouteConstant.verifyScreenName}/:userId",
@@ -76,6 +82,9 @@ final appRouterConfig = GoRouter(
           child: VerifyScreen(userId: userID.toString()),
         );
       },
+        redirect: (BuildContext context, GoRouterState state) async {
+          return await RouterMiddleWare().guestMiddleWare(context, state);
+        }
     ),
     GoRoute(
       path: "/${RouteConstant.forgetScreenName}",
@@ -86,6 +95,19 @@ final appRouterConfig = GoRouter(
           child: const ForgetScreen(),
         );
       },
+        redirect: (BuildContext context, GoRouterState state) async {
+          return await RouterMiddleWare().guestMiddleWare(context, state);
+        }
+    ),
+    GoRoute(
+      path: "/${RouteConstant.dashboardScreenName}",
+      name: RouteConstant.dashboardScreenName,
+      builder: (context, state) {
+        return const DashBoardScreen();
+      },
+        redirect: (BuildContext context, GoRouterState state) async {
+          return await RouterMiddleWare().authMiddleWare(context, state);
+        }
     ),
   ],
 );

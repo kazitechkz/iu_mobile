@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/app_constants/image_constant.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
+import 'package:iu/core/providers/user_provider.dart';
 import 'package:iu/core/utils/toasters.dart';
 import 'package:iu/core/widgets/header_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,6 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
         }
         if (state is AuthSignedInState) {
           AppToaster.showSuccess("Добро пожаловать!");
+          context.pushReplacementNamed("/${RouteConstant.dashboardScreenName}");
         }
       },
       builder: (context, state) {

@@ -3,20 +3,25 @@ part of 'injection_main.container.dart';
 final sl = GetIt.instance;
 
 Future<void> slInit() async {
-  await _commonSLInit();
+  await _hiveSLInit();
+  await _dioSLInit();
   await _welcomeSLInit();
   await _authSLInit();
 }
 
-Future<void> _commonSLInit() async {
-  final dio = Dio();
-  dio.interceptors.add(ServerErrorInterceptor());
+Future<void> _hiveSLInit() async {
   await Hive.initFlutter();
   Hive.registerAdapter(AuthUserHiveAdapter());
-  // Hive.registerAdapter();
-  sl.registerLazySingleton<Dio>(() => dio);
   sl.registerLazySingleton<HiveInterface>(() => Hive);
 }
+
+Future<void> _dioSLInit() async {
+  final dio = Dio();
+  final token = await HiveUtils().getString(HiveConstant.tokenKey);
+  dio.interceptors.add(BearerTokenInterceptor(token));
+  sl.registerLazySingleton<Dio>(() => dio);
+}
+
 
 Future<void> _welcomeSLInit() async {
   //Bloc

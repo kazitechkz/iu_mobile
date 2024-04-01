@@ -34,7 +34,7 @@ class HiveUtils {
   }
 
   Future<void> setLocalUser(AuthUserEntity userEntity) async{
-    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
+    final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
     final localUser = AuthUserHive(
         id:userEntity.id,
         username: userEntity.username,
@@ -52,12 +52,15 @@ class HiveUtils {
   }
 
   Future<AuthUserHive?> getLocalUser() async{
-    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
-    return userBox.getAt(0);
+    final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
+    if(userBox.isNotEmpty){
+      return userBox.getAt(0);
+    }
+
   }
 
   Future<void> clearLocalUser() async{
-    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
+    final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
     await userBox.clear();
   }
 
