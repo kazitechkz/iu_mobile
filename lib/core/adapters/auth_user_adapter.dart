@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-
+part 'auth_user_adapter.g.dart';
 @HiveType(typeId: 0)
 class AuthUserHive extends HiveObject {
   @HiveField(0)

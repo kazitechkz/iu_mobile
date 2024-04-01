@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
+import 'package:iu/core/adapters/auth_user_adapter.dart';
 import 'package:iu/core/app_constants/hive_constant.dart';
+import 'package:iu/features/auth/domain/entities/auth_user_entity.dart';
 
 import '../services/injection_main.container.dart';
 
@@ -30,4 +32,40 @@ class HiveUtils {
     Box myBox = await hive.openBox(HiveConstant.appBox);
     myBox.delete(key);
   }
+
+  Future<void> setLocalUser(AuthUserEntity userEntity) async{
+    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
+    final localUser = AuthUserHive(
+        id:userEntity.id,
+        username: userEntity.username,
+        name:userEntity.name,
+        email:userEntity.email,
+        phone: userEntity.phone,
+        balance: userEntity.balance,
+        role: userEntity.role,
+        isKundelik: userEntity.isKundelik,
+        parentName: userEntity.parentName,
+        parentPhone: userEntity.parentPhone
+    );
+    await userBox.clear();
+    await userBox.add(localUser);
+  }
+
+  Future<AuthUserHive?> getLocalUser() async{
+    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
+    return userBox.getAt(0);
+  }
+
+  Future<void> clearLocalUser() async{
+    final userBox = await Hive.box<AuthUserHive>(HiveConstant.localUser);
+    await userBox.clear();
+  }
+
+  Future<void> loggedOutFromHive() async{
+    await clearLocalUser();
+    await clearByKey(HiveConstant.tokenKey);
+  }
+
+
+
 }

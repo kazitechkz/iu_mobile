@@ -12,6 +12,7 @@ Future<void> _commonSLInit() async {
   final dio = Dio();
   dio.interceptors.add(ServerErrorInterceptor());
   await Hive.initFlutter();
+  Hive.registerAdapter(AuthUserHiveAdapter());
   // Hive.registerAdapter();
   sl.registerLazySingleton<Dio>(() => dio);
   sl.registerLazySingleton<HiveInterface>(() => Hive);
