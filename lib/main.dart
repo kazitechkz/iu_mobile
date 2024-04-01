@@ -11,12 +11,14 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   await slInit();
-  runApp(const MyApp());
+  runApp( MyApp(navigatorKey: navigatorKey));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+   MyApp({required this.navigatorKey,super.key});
+  GlobalKey<NavigatorState> navigatorKey;
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -24,7 +26,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    sl<Dio>().interceptors.add(ServerErrorInterceptor(context));
+    super.initState();
+    sl<Dio>().interceptors.add(ServerErrorInterceptor(widget.navigatorKey));
   }
 
   @override
@@ -33,6 +36,7 @@ class _MyAppState extends State<MyApp> {
       create: (_) => UserProvider(),
       child: ScreenUtilInit(
         child: MaterialApp.router(
+          key: widget.navigatorKey,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             AppLocalizations.delegate,

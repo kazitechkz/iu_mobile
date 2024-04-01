@@ -7,6 +7,8 @@ import 'package:iu/core/utils/hive_utils.dart';
 import 'package:iu/core/utils/http_utils.dart';
 import 'package:iu/features/auth/domain/parameters/reset_parameter.dart';
 
+import '../../../../core/interceptors/bearer_interceptor.dart';
+import '../../../../core/services/injection_main.container.dart';
 import '../../domain/entities/auth_user_entity.dart';
 import '../../domain/parameters/forget_parameter.dart';
 import '../../domain/parameters/sign_in_parameter.dart';
@@ -46,6 +48,7 @@ class AuthDataSourceImpl extends AuthDataSourceInterface {
       final result = await httpUtils.post(ApiConstant.backApiLogin,
           queryParameters: parameter.toMap());
       final data = AuthInfoModel.fromMap(result["data"]);
+      sl<Dio>().interceptors.add(BearerTokenInterceptor(data.token));
       await hiveUtils.setString(HiveConstant.tokenKey, data.token);
       await hiveUtils.setLocalUser(data.user);
       return data.user;

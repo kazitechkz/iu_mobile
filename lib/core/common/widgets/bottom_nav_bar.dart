@@ -1,10 +1,13 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/features/dashboard/presentation/dashboard_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -15,6 +18,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin{
+  int activeIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -33,10 +37,18 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-              iconList[index],
-              size: 20,
-              color: isActive ? ColorConstant.violetFirst : ColorConstant.borderGrayColor,
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    activeIndex = index;
+                  });
+                  context.pushReplacementNamed(routingName[index]);
+                },
+                child: Icon(
+                iconList[index],
+                size: 20,
+                color: isActive ? ColorConstant.violetFirst : ColorConstant.borderGrayColor,
+                ),
               ),
               Text(
                   iconLabel[index],
@@ -49,7 +61,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
           );
         },
       elevation: 12,
-      activeIndex: 0,
+      activeIndex: activeIndex,
       gapLocation: GapLocation.center,
       notchSmoothness: NotchSmoothness.verySmoothEdge,
       leftCornerRadius: 24,
@@ -72,7 +84,12 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     "Battle",
     "Профиль"
   ];
-
+  List<String> routingName = [
+    RouteConstant.dashboardScreenName,
+    RouteConstant.stepsScreenName,
+    RouteConstant.authScreenName,
+    "Профиль"
+  ];
 
 
 

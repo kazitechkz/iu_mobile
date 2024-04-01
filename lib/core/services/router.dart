@@ -9,6 +9,8 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
+import 'package:iu/features/steps/presentation/screens/step_screen.dart';
 
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
@@ -19,14 +21,14 @@ import '../utils/hive_utils.dart';
 import 'injection_main.container.dart';
 
 final appRouterConfig = GoRouter(
-  initialLocation: "/${RouteConstant.signInScreenName}",
+  initialLocation: "/",
   routes: [
     GoRoute(
       path: '/',
       builder: (context, state) {
         return BlocProvider(
           create: (_) => sl<WelcomeBloc>(),
-          child: WelcomeScreen(),
+          child: const WelcomeScreen(),
         );
       },
       redirect: (BuildContext context, GoRouterState state) async {
@@ -104,6 +106,19 @@ final appRouterConfig = GoRouter(
       name: RouteConstant.dashboardScreenName,
       builder: (context, state) {
         return const DashBoardScreen();
+      },
+        redirect: (BuildContext context, GoRouterState state) async {
+          return await RouterMiddleWare().authMiddleWare(context, state);
+        }
+    ),
+    GoRoute(
+      path: "/${RouteConstant.stepsScreenName}",
+      name: RouteConstant.stepsScreenName,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (_) => sl<StepBloc>(),
+          child: const StepScreen(),
+        );
       },
         redirect: (BuildContext context, GoRouterState state) async {
           return await RouterMiddleWare().authMiddleWare(context, state);

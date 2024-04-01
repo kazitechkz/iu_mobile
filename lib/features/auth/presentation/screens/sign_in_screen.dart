@@ -46,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
         }
         if (state is AuthSignedInState) {
           AppToaster.showSuccess("Добро пожаловать!");
-          context.pushReplacementNamed("/${RouteConstant.dashboardScreenName}");
+          context.pushReplacementNamed(RouteConstant.dashboardScreenName);
         }
       },
       builder: (context, state) {

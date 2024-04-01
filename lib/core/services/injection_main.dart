@@ -7,6 +7,7 @@ Future<void> slInit() async {
   await _dioSLInit();
   await _welcomeSLInit();
   await _authSLInit();
+  await _stepSLInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -17,7 +18,9 @@ Future<void> _hiveSLInit() async {
 
 Future<void> _dioSLInit() async {
   final dio = Dio();
+  dio.options.headers['Accept'] = 'application/json';
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
+  // HiveUtils().loggedOutFromHive();
   dio.interceptors.add(BearerTokenInterceptor(token));
   sl.registerLazySingleton<Dio>(() => dio);
 }
@@ -57,4 +60,11 @@ Future<void> _authSLInit() async {
   sl.registerLazySingleton<AuthInterface>(() => AuthRepository(sl()));
   //Data Source
   sl.registerLazySingleton<AuthDataSourceInterface>(() => AuthDataSourceImpl());
+}
+
+Future<void> _stepSLInit() async {
+  sl.registerFactory(() => StepBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => StepUseCase(sl()));
+  sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
+  sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 }

@@ -65,8 +65,10 @@ class HiveUtils {
   }
 
   Future<void> loggedOutFromHive() async{
+    print("DELETING....");
     await clearLocalUser();
     await clearByKey(HiveConstant.tokenKey);
+    print("DELETED");
   }
 
 

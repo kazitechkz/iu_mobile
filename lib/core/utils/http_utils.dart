@@ -6,6 +6,8 @@ class HttpUtil {
   final Dio dio = sl<Dio>();
 
 
+
+
   Future post(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
     var response = await dio.post(
         path,
@@ -21,6 +23,7 @@ class HttpUtil {
         data: data,
         queryParameters: queryParameters
     );
+    print(response.statusCode);
     return response.data;
   }
 
