@@ -10,15 +10,12 @@ class DashBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Главная страница"),
+      ),
       body: Center(
         child: Text("Dashboard ${context.read<UserProvider>().user?.name}"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
-      //params
-     ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

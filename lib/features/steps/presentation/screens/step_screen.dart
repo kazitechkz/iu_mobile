@@ -29,7 +29,7 @@ class _StepScreenState extends State<StepScreen> {
           // TODO: implement listener
         },
         builder: (context, state) {
-          if(state is Step.StepInState){
+          if (state is Step.StepInState) {
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 25.w),
               child: CustomScrollView(
@@ -41,22 +41,23 @@ class _StepScreenState extends State<StepScreen> {
                   // SliverToBoxAdapter(child: searchView()),
                   // SliverToBoxAdapter(child: menuView()),
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 0.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 18.h, horizontal: 0.w),
                     sliver: SliverGrid(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          childAspectRatio: 1.6
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 15,
+                              crossAxisSpacing: 15,
+                              childAspectRatio: 1.6),
                       delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return GestureDetector(
-                              child: courseGrid((state).stepEntities[index]),
-                            );
-                          },
-                          childCount: (state as Step.StepInState).stepEntities.length
-                      ),
+                          (BuildContext context, int index) {
+                        return GestureDetector(
+                          child: courseGrid((state).stepEntities[index]),
+                        );
+                      },
+                          childCount:
+                              (state as Step.StepInState).stepEntities.length),
                     ),
                   )
                 ],
@@ -66,7 +67,6 @@ class _StepScreenState extends State<StepScreen> {
           return Text("WOW");
         },
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

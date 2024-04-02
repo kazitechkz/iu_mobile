@@ -8,21 +8,19 @@ import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 
 class ServerErrorInterceptor extends Interceptor {
-  final GlobalKey<NavigatorState> navigatorKey;
-  ServerErrorInterceptor(this.navigatorKey);
+  final GoRouter goRouter;
+  ServerErrorInterceptor(this.goRouter);
 
   @override
   void onError(err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
       final responseData = err.response!.data;
-      if(err.response!.statusCode == 401){
+      if (err.response!.statusCode == 401) {
         // Очистка данных пользователя в Hive
         HiveUtils().loggedOutFromHive().then((_) {
           // Перенаправление пользователя на экран входа
-          navigatorKey.currentState?.pushNamed('/');
+          goRouter.goNamed(RouteConstant.authScreenName);
         });
-
-
       }
       handler.next(err);
     } else {
@@ -30,8 +28,5 @@ class ServerErrorInterceptor extends Interceptor {
     }
   }
 
-
-  void _handleUnauthorized() {
-
-  }
+  void _handleUnauthorized() {}
 }

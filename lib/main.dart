@@ -13,12 +13,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   await slInit();
-  runApp( MyApp(navigatorKey: navigatorKey));
+  runApp(MyApp(navigatorKey: navigatorKey));
 }
 
 class MyApp extends StatefulWidget {
-   MyApp({required this.navigatorKey,super.key});
+  MyApp({required this.navigatorKey, super.key});
   GlobalKey<NavigatorState> navigatorKey;
+  late RouteNavigation route;
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -27,7 +28,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    sl<Dio>().interceptors.add(ServerErrorInterceptor(widget.navigatorKey));
+    widget.route = RouteNavigation(widget.navigatorKey);
+    sl<Dio>()
+        .interceptors
+        .add(ServerErrorInterceptor(widget.route.appRouterConfig));
   }
 
   @override
@@ -36,7 +40,6 @@ class _MyAppState extends State<MyApp> {
       create: (_) => UserProvider(),
       child: ScreenUtilInit(
         child: MaterialApp.router(
-          key: widget.navigatorKey,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -59,10 +62,9 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
             //ColorScheme.fromSwatch(accentColor: MyColors.MAIN_VIOLET)),
           ),
-          routerConfig: appRouterConfig,
+          routerConfig: widget.route.appRouterConfig,
         ),
       ),
     );
   }
 }
-
