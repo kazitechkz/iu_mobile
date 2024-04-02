@@ -7,4 +7,6 @@ class ApiConstant{
   static const String backResetToken = "${baseApiUrl}auth/send-reset-token";
   static const String backResetPassword = "${baseApiUrl}auth/reset";
   static const String getAllStep = "${baseApiUrl}steps";
+  static const String getAllStep = "${baseApiUrl}steps/1";
+  static const String getAllSubjects = "${baseApiUrl}subjects";
 }

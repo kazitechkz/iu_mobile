@@ -11,6 +11,9 @@ import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/screens/step_screen.dart';
+import 'package:iu/features/unt/presentation/bloc/unt_bloc.dart';
+import 'package:iu/features/unt/presentation/screens/unt_full_screen.dart';
+import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
@@ -136,7 +139,37 @@ class RouteNavigation {
                       }),
                 ],
               ),
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
+                      path: "/${RouteConstant.untModeScreenName}",
+                      name: RouteConstant.untModeScreenName,
+                      builder: (context, state) {
+                        return BlocProvider(
+                          create: (_) => sl<StepBloc>(),
+                          child: UntModeScreen(),
+                        );
+                      },
+                      redirect:
+                          (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare()
+                            .authMiddleWare(context, state);
+                      }),
+                ],
+              ),
             ]),
+        GoRoute(
+            path: "/${RouteConstant.untFullScreenName}",
+            name: RouteConstant.untFullScreenName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<UntBloc>(),
+                child: const UntFullScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
       ],
     );
   }

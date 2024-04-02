@@ -7,4 +7,6 @@ class RouteConstant {
   static const String verifyScreenName = "verify";
   static const String stepsScreenName = "steps";
   static const String dashboardScreenName = "dashboard";
+  static const String untModeScreenName = "unt-mode";
+  static const String untFullScreenName = "unt-full";
 }

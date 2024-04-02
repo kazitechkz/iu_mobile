@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:iu/core/app_constants/font_constants.dart';
 import 'core/interceptors/error_interceptor.dart';
 import 'core/providers/user_provider.dart';
 import 'core/services/injection_main.container.dart';
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           ],
           title: 'EDU APP',
           theme: ThemeData(
-            fontFamily: 'Oswald',
+            fontFamily: FontConstant.oswald,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             //fontFamily: MyFonts.SofiaSans,
             appBarTheme: const AppBarTheme(color: Colors.transparent),

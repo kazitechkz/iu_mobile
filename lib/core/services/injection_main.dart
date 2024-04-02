@@ -8,6 +8,7 @@ Future<void> slInit() async {
   await _welcomeSLInit();
   await _authSLInit();
   await _stepSLInit();
+  await _untSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -73,4 +74,11 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton(() => StepUseCase(sl()));
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
+}
+
+Future<void> _untSlInit() async {
+  sl.registerFactory(() => UntBloc(getSubjectsCase:sl<GetSubjectsCase>()));
+  sl.registerLazySingleton(() => GetSubjectsCase(sl()));
+  sl.registerLazySingleton<UntInterface>(() => UntRepository(sl()));
+  sl.registerLazySingleton<UntDataSourceInterface>(() => UntDataSourceImpl());
 }
