@@ -15,7 +15,7 @@ class StepLoadingState extends StepState {
 }
 
 class StepInState extends StepState {
-  final List<StepEntity> stepEntities;
+  final List<MainStepEntity> stepEntities;
   const StepInState(this.stepEntities);
   @override
   List<Object?> get props => [stepEntities];

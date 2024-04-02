@@ -32,10 +32,10 @@ class StepModel extends StepEntity {
       subject_id: map['subject_id'] as int,
       category_id: map['category_id'] as int,
       plan_id: map['plan_id'] as int,
-      level: 1,
-      is_free: 1,
-      is_active: 1,
-      image: map['image'] as FileEntity,
+      level: map['level'] as int,
+      is_free: map['is_free'] as int,
+      is_active: map['is_active'] as int,
+      image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
       progress_kk: map['progress'] as int,
       progress_ru: map['progress'] as int,
       subject: map['subject'] as SubjectEntity
@@ -59,4 +59,43 @@ class StepModel extends StepEntity {
     return data;
   }
 
+}
+
+class MainStepModel extends MainStepEntity {
+  const MainStepModel({
+    required super.steps_count,
+    required super.sub_steps_count,
+    required super.progress,
+    required super.id,
+    required super.title_kk,
+    required super.title_ru,
+    required super.enable,
+    required super.is_compulsory,
+    required super.max_questions_quantity,
+    required super.questions_step,
+    required super.created_at,
+    required super.updated_at,
+    super.image
+  });
+
+  factory MainStepModel.fromJson(Map<String, dynamic> json) {
+    return MainStepModel.fromMap(json);
+  }
+
+  MainStepModel.fromMap(DataMap map)
+      : this(
+      id: map['id'] as int,
+      title_kk: map['title_kk'] as String,
+      title_ru: map['title_ru'] as String,
+      steps_count: map['steps_count'] as int,
+      sub_steps_count: map['sub_steps_count'] as int,
+      progress: map['progress'] as int,
+      enable: map['enable'] as int,
+      image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
+      is_compulsory: map['is_compulsory'] as int,
+      max_questions_quantity: map['max_questions_quantity'] as int,
+      questions_step: map['questions_step'] as int,
+      created_at: map['created_at'] as dynamic,
+      updated_at: map['updated_at'] as dynamic,
+  );
 }

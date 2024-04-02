@@ -23,7 +23,6 @@ class HttpUtil {
         data: data,
         queryParameters: queryParameters
     );
-    print(response.statusCode);
     return response.data;
   }
 

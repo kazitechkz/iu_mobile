@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iu/features/steps/domain/entities/step_entity.dart';
-import '../../../../core/common/widgets/bottom_nav_bar.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 import '../bloc/step_bloc.dart' as Step;
 import '../widgets/step_widgets.dart';
 
@@ -24,47 +26,66 @@ class _StepScreenState extends State<StepScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<Step.StepBloc, Step.StepState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+      body: BlocBuilder<Step.StepBloc, Step.StepState>(
         builder: (context, state) {
+          if (state is Step.StepLoadingState) {
+            return const Center(child:  GFLoader(
+                type:GFLoaderType.ios
+            ),);
+          }
           if (state is Step.StepInState) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 25.w),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                      child: homePageText('Hello', color: Colors.grey)),
-                  SliverToBoxAdapter(child: homePageText('TIMA', top: 5)),
-                  SliverPadding(padding: EdgeInsets.only(top: 20.h)),
-                  // SliverToBoxAdapter(child: searchView()),
-                  // SliverToBoxAdapter(child: menuView()),
-                  SliverPadding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 18.h, horizontal: 0.w),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                              childAspectRatio: 1.6),
-                      delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                        return GestureDetector(
-                          child: courseGrid((state).stepEntities[index]),
-                        );
-                      },
-                          childCount:
-                              (state as Step.StepInState).stepEntities.length),
-                    ),
-                  )
-                ],
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<Step.StepBloc>().add(const Step.StepInEvent());
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 25.w),
+                child: CustomScrollView(
+                  slivers: [
+                    // SliverToBoxAdapter(
+                    //     child: homePageText('Hello', color: Colors.grey)),
+                    // SliverToBoxAdapter(child: homePageText('TIMA', top: 5)),
+                    // SliverPadding(padding: EdgeInsets.only(top: 20.h)),
+                    // SliverToBoxAdapter(child: searchView()),
+                    // SliverToBoxAdapter(child: menuView()),
+                    SliverPadding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18.h, horizontal: 0.w),
+                      sliver: SliverGrid(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 15,
+                                crossAxisSpacing: 15,
+                                childAspectRatio: 0.84),
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: courseGrid((state).stepEntities[index]),
+                          );
+                        },
+                            childCount:
+                                (state).stepEntities.length),
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           }
-          return Text("WOW");
+          return RefreshIndicator(
+              onRefresh: () async {
+                context.read<Step.StepBloc>().add(const Step.StepInEvent());
+              },
+              child: Center(
+                  child: TextButton(
+                    onPressed: () async {
+                      context.read<Step.StepBloc>().add(const Step.StepInEvent());
+                    },
+                    child: const Text('Refresh', style: TextStyle(fontWeight: FontWeight.bold),),
+                  )
+              )
+          );
         },
       ),
     );

@@ -1,7 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getwidget/colors/gf_color.dart';
+import 'package:getwidget/components/avatar/gf_avatar.dart';
+import 'package:getwidget/components/card/gf_card.dart';
+import 'package:getwidget/components/list_tile/gf_list_tile.dart';
+import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
+import 'package:getwidget/position/gf_position.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
 
+import '../../../../core/common/models/subject.dart';
 import '../../../../core/services/image_service.dart';
 
 AppBar buildAppBar(String imageURl) {
@@ -114,9 +123,10 @@ Widget searchView() {
     ],
   );
 }
-Widget reUsableText(String text, {Color color = Colors.pink, int fontSize = 14, FontWeight fontWeight = FontWeight.bold}) {
+Widget reUsableText(String text, {Color color = Colors.pink, int fontSize = 14, FontWeight fontWeight = FontWeight.bold, TextAlign align = TextAlign.start}) {
   return Text(
     text,
+    textAlign: align,
     style: TextStyle(
         color: color,
         fontWeight: fontWeight,
@@ -153,7 +163,7 @@ Widget menuView() {
   );
 }
 
-Widget _reUsableMenuText(String menuText, {Color textColor = Colors.pink, Color bgColor = Colors.pink}) {
+Widget _reUsableMenuText(String menuText, {Color textColor = Colors.white, Color bgColor = Colors.pink}) {
   return Container(
     margin: EdgeInsets.only(right: 20.w),
     decoration: BoxDecoration(
@@ -162,47 +172,73 @@ Widget _reUsableMenuText(String menuText, {Color textColor = Colors.pink, Color 
         border: Border.all(color: bgColor)
     ),
     padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
-    child: reUsableText(menuText, color: textColor, fontWeight: FontWeight.normal, fontSize: 12),
+    child: reUsableText(menuText, color: textColor, fontWeight: FontWeight.normal, fontSize: 12, align: TextAlign.center),
   );
 }
 
-Widget courseGrid(StepEntity stepEntity) {
+Widget courseGrid(MainStepEntity stepEntity) {
   return Container(
-    padding: EdgeInsets.all(12.w),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.w),
-        image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(ImageService.getAvaFromServer(stepEntity.image?.url))
-        )
+    padding: EdgeInsets.only(bottom: 10.h),
+    decoration: const BoxDecoration(
+       //Border.all
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10.0),
+        topRight: Radius.circular(10.0),
+        bottomLeft: Radius.circular(10.0),
+        bottomRight: Radius.circular(10.0),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.greenAccent,
+          offset: Offset(
+            5.0,
+            5.0,
+          ),
+          blurRadius: 10.0,
+          spreadRadius: 2.0,
+        ), //BoxShadow
+        BoxShadow(
+          color: Colors.white,
+          offset: Offset(0.0, 0.0),
+          blurRadius: 0.0,
+          spreadRadius: 0.0,
+        ), //BoxShadow
+      ],
     ),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          stepEntity.title_ru??'',
-          maxLines: 1,
-          overflow: TextOverflow.fade,
-          textAlign: TextAlign.left,
-          softWrap: false,
-          style: TextStyle(
-              color: Colors.pink,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.bold
+        Container(
+          height: 80.h,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.w),
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: getImageProviderFromServer(stepEntity.image?.url)
+              )
+          )
+        ),
+        _reUsableMenuText(stepEntity.title_ru, bgColor: Colors.transparent, textColor: Colors.black),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Hello'),
+              Text('TIMA')
+            ],
           ),
         ),
-        SizedBox(height: 5.h,),
-        Text(
-          'Flutter best course',
-          maxLines: 1,
-          overflow: TextOverflow.fade,
-          textAlign: TextAlign.left,
-          softWrap: false,
-          style: TextStyle(
-              color: Colors.yellow,
-              fontSize: 10.sp,
-              fontWeight: FontWeight.normal
+        GFProgressBar(
+          percentage: stepEntity.progress/100,
+          lineHeight: 14,
+          alignment: MainAxisAlignment.spaceBetween,
+          // leading  : const Icon( Icons.sentiment_dissatisfied, color: GFColors.DANGER),
+          // trailing: const Icon( Icons.sentiment_satisfied, color: GFColors.SUCCESS),
+          backgroundColor: Colors.black26,
+          progressBarColor: GFColors.INFO,
+          child: Text('${stepEntity.progress}%', textAlign: TextAlign.end,
+            style: const TextStyle(fontSize: 10, color: Colors.white),
           ),
         )
       ],

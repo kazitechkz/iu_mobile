@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:iu/core/common/models/subject.dart';
 import 'package:iu/core/utils/typedef.dart';
 import 'package:iu/features/steps/data/datasources/step_datasource.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
@@ -11,7 +12,7 @@ class StepRepository implements StepInterface {
   final StepDataSourceInterface stepDataSourceInterface;
   const StepRepository(this.stepDataSourceInterface);
   @override
-  ResultFuture<List<StepEntity>> getAll() async {
+  ResultFuture<List<MainStepEntity>> getAll() async {
     try {
       final result = await stepDataSourceInterface.getAll();
       return Right(result);

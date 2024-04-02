@@ -45,7 +45,8 @@ class SubjectModel extends SubjectEntity {
     required super.max_questions_quantity,
     required super.questions_step,
     required super.created_at,
-    required super.updated_at
+    required super.updated_at,
+    super.image
   });
 
   factory SubjectModel.fromJson(Map<String, dynamic> json) {
@@ -62,7 +63,8 @@ class SubjectModel extends SubjectEntity {
     max_questions_quantity: map['max_questions_quantity'] as int,
     questions_step: map['questions_step'] as int,
     created_at: map['created_at'] as dynamic,
-    updated_at: map['updated_at'] as dynamic
+    updated_at: map['updated_at'] as dynamic,
+    image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
   );
 
   DataMap toJson() {
@@ -76,6 +78,7 @@ class SubjectModel extends SubjectEntity {
     data['questions_step'] = questions_step;
     data['created_at'] = created_at;
     data['updated_at'] = updated_at;
+    data['image'] = image;
     return data;
   }
 }

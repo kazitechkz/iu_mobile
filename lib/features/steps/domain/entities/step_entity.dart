@@ -39,6 +39,12 @@ class StepEntity extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [id, title_kk, title_ru, image, subject_id, category_id, plan_id, level, is_free, is_active, progress_kk, progress_ru, subject];
-
 }
 
+class MainStepEntity extends SubjectEntity {
+  final int steps_count;
+  final int sub_steps_count;
+  final int progress;
+  final FileEntity? image;
+  const MainStepEntity({this.image, required this.steps_count, required this.sub_steps_count, required this.progress,required super.id, required super.title_kk, required super.title_ru, required super.enable, required super.is_compulsory, required super.max_questions_quantity, required super.questions_step, required super.created_at, required super.updated_at});
+}
