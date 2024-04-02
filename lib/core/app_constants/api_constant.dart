@@ -6,5 +6,5 @@ class ApiConstant{
   static const String backVerifyEmail = "${baseApiUrl}auth/verify-email";
   static const String backResetToken = "${baseApiUrl}auth/send-reset-token";
   static const String backResetPassword = "${baseApiUrl}auth/reset";
-  static const String getAllStep = "${baseApiUrl}steps/1";
+  static const String getAllStep = "${baseApiUrl}steps";
 }

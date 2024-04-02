@@ -15,6 +15,7 @@ class SubjectEntity extends Equatable {
   final int questions_step;
   final dynamic created_at;
   final dynamic updated_at;
+  final int? image_url;
   final FileEntity? image;
 
   const SubjectEntity({
@@ -27,12 +28,13 @@ class SubjectEntity extends Equatable {
     required this.questions_step,
     required this.created_at,
     required this.updated_at,
+    this.image_url,
     this.image,
   });
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id, title_kk, title_ru, enable, is_compulsory, max_questions_quantity, questions_step, created_at, updated_at, image];
+  List<Object?> get props => [id, title_kk, title_ru, enable, is_compulsory, max_questions_quantity, questions_step, created_at, updated_at, image, image_url];
 }
 
 class SubjectModel extends SubjectEntity {
@@ -46,7 +48,8 @@ class SubjectModel extends SubjectEntity {
     required super.questions_step,
     required super.created_at,
     required super.updated_at,
-    super.image
+    super.image,
+    super.image_url
   });
 
   factory SubjectModel.fromJson(Map<String, dynamic> json) {
@@ -62,6 +65,7 @@ class SubjectModel extends SubjectEntity {
     is_compulsory: map['is_compulsory'] as int,
     max_questions_quantity: map['max_questions_quantity'] as int,
     questions_step: map['questions_step'] as int,
+    image_url: map['image_url'] as int,
     created_at: map['created_at'] as dynamic,
     updated_at: map['updated_at'] as dynamic,
     image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
@@ -79,6 +83,7 @@ class SubjectModel extends SubjectEntity {
     data['created_at'] = created_at;
     data['updated_at'] = updated_at;
     data['image'] = image;
+    data['image_url'] = image_url;
     return data;
   }
 }

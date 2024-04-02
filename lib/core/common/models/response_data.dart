@@ -10,7 +10,7 @@ class ResponseData<T> {
     status = json['status'];
     message = json['message'];
     errors =
-        json['errors'] != null ? new Errors.fromJson(json['errors']) : null;
+        json['errors'] != null ? Errors.fromJson(json['errors']) : null;
     data = json['data'];
   }
 }

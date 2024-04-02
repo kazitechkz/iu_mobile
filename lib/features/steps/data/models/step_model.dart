@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../../../core/common/models/file_entity.dart';
 import '../../../../core/common/models/subject.dart';
 import '../../../../core/utils/typedef.dart';
@@ -75,11 +77,13 @@ class MainStepModel extends MainStepEntity {
     required super.questions_step,
     required super.created_at,
     required super.updated_at,
-    super.image
+    super.image,
+    super.image_url
   });
 
-  factory MainStepModel.fromJson(Map<String, dynamic> json) {
-    return MainStepModel.fromMap(json);
+  factory MainStepModel.fromJson(String json) {
+    DataMap data = jsonDecode(json) as DataMap;
+    return MainStepModel.fromMap(data);
   }
 
   MainStepModel.fromMap(DataMap map)
@@ -92,6 +96,7 @@ class MainStepModel extends MainStepEntity {
       progress: map['progress'] as int,
       enable: map['enable'] as int,
       image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
+      image_url: map['image_url'] as int,
       is_compulsory: map['is_compulsory'] as int,
       max_questions_quantity: map['max_questions_quantity'] as int,
       questions_step: map['questions_step'] as int,

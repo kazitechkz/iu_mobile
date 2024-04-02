@@ -17,8 +17,14 @@ Future<void> _hiveSLInit() async {
 }
 
 Future<void> _dioSLInit() async {
-  final dio = Dio();
-  dio.options.headers['Accept'] = 'application/json';
+  BaseOptions options = BaseOptions(
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+      headers: {'Accept' : "application/json"},
+      contentType: "application/json: charset=utf-8",
+      responseType: ResponseType.json
+  );
+  final dio = Dio(options);
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
   // HiveUtils().loggedOutFromHive();
   dio.interceptors.add(BearerTokenInterceptor(token));

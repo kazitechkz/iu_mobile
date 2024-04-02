@@ -18,12 +18,11 @@ class StepDataSourceImpl extends StepDataSourceInterface {
   @override
   Future<List<MainStepEntity>> getAll() async {
     try {
-      final result = await httpUtils.get(ApiConstant.getAllStep);
-      ResponseData<List<dynamic>> res = ResponseData<List<dynamic>>.fromJson(result);
+      final result = await httpUtils.get("${ApiConstant.getAllStep}/1");
       List<MainStepEntity> entities = [];
-      print(res.data);
-      res.data?.forEach((item){
-        entities.add(MainStepModel.fromJson(item));
+      ResponseData<List<dynamic>> data = ResponseData<List<dynamic>>.fromJson(result);
+      data.data?.forEach((item){
+        entities.add(MainStepModel.fromMap(item));
       });
       return entities;
     } on DioException catch (e) {
