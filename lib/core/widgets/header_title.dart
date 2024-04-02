@@ -4,8 +4,9 @@ import 'package:iu/core/app_constants/color_constant.dart';
 
 class HeaderTitle extends StatelessWidget {
   final String title;
+  final double fontSize;
 
-  const HeaderTitle({super.key, required this.title});
+  HeaderTitle({super.key, required this.title, this.fontSize = 28});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class HeaderTitle extends StatelessWidget {
       title,
       style: TextStyle(
           color: ColorConstant.mainDarkColor,
-          fontSize: 28.sp,
+          fontSize: fontSize.sp,
           fontWeight: FontWeight.bold),
     );
   }
