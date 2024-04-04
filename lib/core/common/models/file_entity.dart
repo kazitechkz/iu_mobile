@@ -22,7 +22,6 @@ class FileModel extends FileEntity {
   });
 
   factory FileModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return FileModel.fromMap(json);
   }
 
