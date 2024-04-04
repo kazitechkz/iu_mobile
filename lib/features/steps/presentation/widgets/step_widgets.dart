@@ -192,20 +192,32 @@ Widget courseGrid(MainStepEntity stepEntity) {
           backgroundImage: getImageProviderFromServer(stepEntity.image?.url),
         ),
         titleText: stepEntity.title_ru,
-        // subTitle: ,
-        description: GFProgressBar(
-            margin: EdgeInsets.symmetric(vertical: 5.h),
-            percentage: stepEntity.progress/100,
-            lineHeight: 14,
-            alignment: MainAxisAlignment.spaceBetween,
-            // leading  : const Icon( Icons.sentiment_dissatisfied, color: GFColors.DANGER),
-            // trailing: const Icon( Icons.sentiment_satisfied, color: GFColors.SUCCESS),
-            backgroundColor: Colors.black26,
-            progressBarColor: GFColors.INFO,
-            child: Text('${stepEntity.progress}%', textAlign: TextAlign.end,
-              style: const TextStyle(fontSize: 10, color: Colors.white),
-            ),
+        subTitle: Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Главы: ${stepEntity.steps_count}'),
+              Text('Темы: ${stepEntity.sub_steps_count}')
+            ],
           ),
+        ),
+        description: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: GFProgressBar(
+              margin: EdgeInsets.symmetric(vertical: 5.h),
+              percentage: stepEntity.progress/100,
+              lineHeight: 14,
+              alignment: MainAxisAlignment.spaceBetween,
+              // leading  : const Icon( Icons.sentiment_dissatisfied, color: GFColors.DANGER),
+              // trailing: const Icon( Icons.sentiment_satisfied, color: GFColors.SUCCESS),
+              backgroundColor: Colors.black26,
+              progressBarColor: GFColors.INFO,
+              child: Text('${stepEntity.progress}%', textAlign: TextAlign.end,
+                style: const TextStyle(fontSize: 10, color: Colors.white),
+              ),
+            ),
+        ),
     ),
   );
   // return Container(

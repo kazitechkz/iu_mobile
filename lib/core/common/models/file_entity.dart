@@ -22,7 +22,6 @@ class FileModel extends FileEntity {
   });
 
   factory FileModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return FileModel.fromMap(json);
   }
 
@@ -33,7 +32,7 @@ class FileModel extends FileEntity {
         );
 
   DataMap toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['url'] = url;
     return data;

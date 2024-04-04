@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -13,8 +14,8 @@ class SubjectEntity extends Equatable {
   final int is_compulsory;
   final int max_questions_quantity;
   final int questions_step;
-  final dynamic created_at;
-  final dynamic updated_at;
+  final String? created_at;
+  final String? updated_at;
   final int? image_url;
   final FileEntity? image;
 
@@ -26,8 +27,8 @@ class SubjectEntity extends Equatable {
     required this.is_compulsory,
     required this.max_questions_quantity,
     required this.questions_step,
-    required this.created_at,
-    required this.updated_at,
+    this.created_at,
+    this.updated_at,
     this.image_url,
     this.image,
   });
@@ -46,8 +47,8 @@ class SubjectModel extends SubjectEntity {
     required super.is_compulsory,
     required super.max_questions_quantity,
     required super.questions_step,
-    required super.created_at,
-    required super.updated_at,
+    super.created_at,
+    super.updated_at,
     super.image,
     super.image_url
   });
@@ -66,10 +67,15 @@ class SubjectModel extends SubjectEntity {
     max_questions_quantity: map['max_questions_quantity'] as int,
     questions_step: map['questions_step'] as int,
     image_url: map['image_url'] as int,
-    created_at: map['created_at'] as dynamic,
-    updated_at: map['updated_at'] as dynamic,
+    created_at: map['created_at'] != null ? map['created_at'] as String : null,
+    updated_at: map['updated_at'] != null ? map['updated_at'] as String : null,
     image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
   );
+
+  static List<SubjectModel> fromJsonList(String jsonString) {
+    final parsed = jsonDecode(jsonString).cast<Map<String, dynamic>>();
+    return parsed.map<SubjectModel>((json) => SubjectModel.fromJson(json)).toList();
+  }
 
   DataMap toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

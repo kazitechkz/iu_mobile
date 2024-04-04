@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:iu/core/app_constants/api_constant.dart';
 import 'package:iu/core/common/models/response_data.dart';
@@ -19,15 +21,18 @@ class StepDataSourceImpl extends StepDataSourceInterface {
   Future<List<MainStepEntity>> getAll() async {
     try {
       final result = await httpUtils.get("${ApiConstant.getAllStep}/1");
-      List<MainStepEntity> entities = [];
-      ResponseData<List<dynamic>> data = ResponseData<List<dynamic>>.fromJson(result);
-      data.data?.forEach((item){
-        entities.add(MainStepModel.fromMap(item));
-      });
-      return entities;
+
+      ResponseData<MainStepModel> responseData = ResponseData.fromJsonList(
+        result,
+            (json) => MainStepModel.fromMap(json as Map<String, dynamic>),
+      );
+      List<MainStepModel> items = responseData.listData??[];
+      return items;
     } on DioException catch (e) {
+      print(e);
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
+      print(e);
       throw ApiException(message: e.toString());
     }
   }

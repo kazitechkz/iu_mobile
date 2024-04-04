@@ -18,12 +18,12 @@ class HttpUtil {
   }
 
   Future get(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    var response = await dio.get(
-        path,
-        data: data,
-        queryParameters: queryParameters
-    );
-    return response.data;
+      var response = await dio.get(
+          path,
+          data: data,
+          queryParameters: queryParameters
+      );
+      return response.data;
   }
 
   Future update(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {

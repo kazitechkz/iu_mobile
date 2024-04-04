@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:iu/core/common/widgets/app_bar.dart';
 import 'package:transformable_list_view/transformable_list_view.dart';
 import '../bloc/step_bloc.dart' as Step;
 import '../widgets/step_widgets.dart';
@@ -29,12 +30,16 @@ class _StepScreenState extends State<StepScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: mainAppBar(context, titleText: 'Steps'),
       body: BlocConsumer<Step.StepBloc, Step.StepState>(
         builder: (context, state) {
           if (state is Step.StepLoadingState) {
             return const Center(child:  GFLoader(
                 type:GFLoaderType.ios
             ),);
+          }
+          if (state is Step.StepErrorState) {
+            return const Center(child:  Text('TEST'));
           }
           if (state is Step.StepInState) {
             return RefreshIndicator(
@@ -43,11 +48,6 @@ class _StepScreenState extends State<StepScreen> {
               },
               child: CustomScrollView(
                 slivers: [
-                  const SliverAppBar(
-                    title: Text('Sliver Example'),
-                    floating: true,
-                    snap: true,
-                  ),
                   TransformableSliverList.builder(
                     itemCount: (state).stepEntities.length,
                     getTransformMatrix: TransformMatrices.rotate,
@@ -68,9 +68,9 @@ class _StepScreenState extends State<StepScreen> {
               )
           );
         }, listener: (context, state) {
-          if (state is Step.StepErrorState) {
-              context.read<Step.StepBloc>().add(const Step.StepInEvent());
-            }
+          // if (state is Step.StepErrorState) {
+          //     context.read<Step.StepBloc>().add(const Step.StepInEvent());
+          //   }
         },
       ),
     );

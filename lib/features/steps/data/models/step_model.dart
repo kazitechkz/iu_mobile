@@ -35,8 +35,8 @@ class StepModel extends StepEntity {
       category_id: map['category_id'] as int,
       plan_id: map['plan_id'] as int,
       level: map['level'] as int,
-      is_free: map['is_free'] as int,
-      is_active: map['is_active'] as int,
+      is_free: map['is_free'] as bool,
+      is_active: map['is_active'] as bool,
       image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
       progress_kk: map['progress'] as int,
       progress_ru: map['progress'] as int,
@@ -75,8 +75,8 @@ class MainStepModel extends MainStepEntity {
     required super.is_compulsory,
     required super.max_questions_quantity,
     required super.questions_step,
-    required super.created_at,
-    required super.updated_at,
+    super.created_at,
+    super.updated_at,
     super.image,
     super.image_url
   });
@@ -96,11 +96,11 @@ class MainStepModel extends MainStepEntity {
       progress: map['progress'] as int,
       enable: map['enable'] as int,
       image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
-      image_url: map['image_url'] as int,
+      image_url: map['image_url'] != null ? map['image_url'] as int : null,
       is_compulsory: map['is_compulsory'] as int,
       max_questions_quantity: map['max_questions_quantity'] as int,
       questions_step: map['questions_step'] as int,
-      created_at: map['created_at'] as dynamic,
-      updated_at: map['updated_at'] as dynamic,
+      created_at: map['created_at'] != null ? map['created_at'] as String : null,
+      updated_at: map['updated_at'] != null ? map['updated_at'] as String : null,
   );
 }

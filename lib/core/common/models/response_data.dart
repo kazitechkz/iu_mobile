@@ -3,8 +3,9 @@ class ResponseData<T> {
   String? message;
   Errors? errors;
   T? data;
+  List<T>? listData;
 
-  ResponseData({this.status, this.message, this.errors, this.data});
+  ResponseData({this.status, this.message, this.errors, this.data, this.listData});
 
   ResponseData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -12,6 +13,19 @@ class ResponseData<T> {
     errors =
         json['errors'] != null ? Errors.fromJson(json['errors']) : null;
     data = json['data'];
+  }
+
+  factory ResponseData.fromJsonList(Map<String, dynamic> json, T Function(dynamic json) fromJsonData) {
+    return ResponseData<T>(
+      status: json['status'],
+      message: json['message'],
+      errors: json['errors'] != null ? Errors.fromJson(json['errors']) : null,
+      listData: json['data'] != null ? _listFromJson<T>(json['data'], fromJsonData) : null,
+    );
+  }
+
+  static List<T> _listFromJson<T>(List<dynamic> jsonList, T Function(dynamic json) fromJsonData) {
+    return jsonList.map((dynamic json) => fromJsonData(json)).toList();
   }
 }
 
