@@ -13,18 +13,21 @@ import 'package:iu/features/attempt/domain/parameters/save_question_parameter.da
 import '../../../../core/common/models/pagination_data.dart';
 import '../entities/answer_result_entity.dart';
 import '../entities/attempt_common_entity.dart';
+import '../entities/attempt_type_entity.dart';
 
-abstract class AttemptInterface{
-    ResultFuture<PaginationData<List<AttemptEntity>>> allAttempts(AllAttemptsParameter allAttemptsParameter);
-    ResultFuture<List<AttemptEntity>> allAttemptTypes();
-    ResultFuture<AnswerResultEntity> answer(AnswerParameter answerParameter);
-    ResultFuture<AnsweredResultEntity> answeredResult(AnsweredResultParameter answeredParameter);
-    ResultFuture<int> createAttempt(CreateAttemptParameter createAttemptParameter);
-    ResultFuture<FinishAttemptEntity> finishAttempt(int attemptId);
-    ResultFuture<AttemptCommonEntity> getAttempt(dynamic data);
-    ResultFuture<AttemptEntity> getAttemptByPromoCode(String promoCode);
-    ResultFuture<GetStatEntity> getAttemptStat(String attemptId);
-    ResultFuture<UntStatEntity> getUNTStat();
-    ResultFuture<bool> saveQuestion(SaveQuestionParameter parameter);
-
+abstract class AttemptInterface {
+  ResultFuture<PaginationData<List<AttemptEntity>>> allAttempts(
+      AllAttemptsParameter allAttemptsParameter);
+  ResultFuture<List<AttemptTypeEntity>> allAttemptTypes();
+  ResultFuture<AnswerResultEntity> answer(AnswerParameter answerParameter);
+  ResultFuture<AnsweredResultEntity> answeredResult(
+      AnsweredResultParameter answeredParameter);
+  ResultFuture<int> createAttempt(
+      CreateAttemptParameter createAttemptParameter);
+  ResultFuture<FinishAttemptEntity> finishAttempt(int attemptId);
+  ResultFuture<AttemptCommonEntity> getAttempt(int attemptId);
+  ResultFuture<AttemptEntity> getAttemptByPromoCode(String promoCode);
+  ResultFuture<GetStatEntity> getAttemptStat(int attemptId);
+  ResultFuture<UntStatEntity> getUNTStat();
+  ResultFuture<bool> saveQuestion(SaveQuestionParameter parameter);
 }

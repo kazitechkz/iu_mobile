@@ -9,6 +9,7 @@ Future<void> slInit() async {
   await _authSLInit();
   await _stepSLInit();
   await _untSlInit();
+  await _attemptSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -21,17 +22,15 @@ Future<void> _dioSLInit() async {
   BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
-      headers: {'Accept' : "application/json"},
-      contentType: "application/json: charset=utf-8",
-      responseType: ResponseType.json
-  );
+      headers: {'Accept': "application/json"},
+      contentType: "application/json;charset=utf-8",
+      responseType: ResponseType.json);
   final dio = Dio(options);
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
   // HiveUtils().loggedOutFromHive();
   dio.interceptors.add(BearerTokenInterceptor(token));
   sl.registerLazySingleton<Dio>(() => dio);
 }
-
 
 Future<void> _welcomeSLInit() async {
   //Bloc
@@ -77,8 +76,22 @@ Future<void> _stepSLInit() async {
 }
 
 Future<void> _untSlInit() async {
-  sl.registerFactory(() => UntBloc(getSubjectsCase:sl<GetSubjectsCase>()));
+  sl.registerFactory(() => UntBloc(getSubjectsCase: sl<GetSubjectsCase>()));
   sl.registerLazySingleton(() => GetSubjectsCase(sl()));
   sl.registerLazySingleton<UntInterface>(() => UntRepository(sl()));
   sl.registerLazySingleton<UntDataSourceInterface>(() => UntDataSourceImpl());
+}
+
+Future<void> _attemptSlInit() async {
+  sl.registerLazySingleton(() => AllAttemptsCase(sl()));
+  sl.registerLazySingleton(() => AllAttemptTypesCase(sl()));
+  sl.registerLazySingleton(() => AnswerCase(sl()));
+  sl.registerLazySingleton(() => AnswerResultCase(sl()));
+  sl.registerLazySingleton(() => CreateAttemptCase(sl()));
+  sl.registerLazySingleton(() => FinishAttemptCase(sl()));
+  sl.registerLazySingleton(() => GetAttemptByPromoCodeCase(sl()));
+  sl.registerLazySingleton(() => GetAttemptCase(sl()));
+  sl.registerLazySingleton(() => GetAttemptStatCase(sl()));
+  sl.registerLazySingleton(() => GetUntStatCase(sl()));
+  sl.registerLazySingleton(() => SaveQuestionCase(sl()));
 }

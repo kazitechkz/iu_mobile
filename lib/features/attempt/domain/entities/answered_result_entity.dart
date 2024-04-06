@@ -1,4 +1,4 @@
-class AnsweredResultEntity{
-  final Map<int, List<String>> data;
+class AnsweredResultEntity {
+  final Map<int, List<String?>> data;
   const AnsweredResultEntity(this.data);
 }
