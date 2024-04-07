@@ -94,4 +94,26 @@ Future<void> _attemptSlInit() async {
   sl.registerLazySingleton(() => GetAttemptStatCase(sl()));
   sl.registerLazySingleton(() => GetUntStatCase(sl()));
   sl.registerLazySingleton(() => SaveQuestionCase(sl()));
+  sl.registerLazySingleton<AttemptInterface>(() => AttemptRepository(sl()));
+  sl.registerLazySingleton<AttemptDataSourceInterface>(
+      () => AttemptDataSourceImpl());
+}
+
+Future<void> _tournamentSlInit() async {
+  sl.registerLazySingleton(() => CreateTournamentCase(sl()));
+  sl.registerLazySingleton(() => GetAllTournamentCase(sl()));
+  sl.registerLazySingleton(() => GetListOfTournamentsCase(sl()));
+  sl.registerLazySingleton(() => GetSubTournamentDetailCase(sl()));
+  sl.registerLazySingleton(() => GetSubTournamentParticipantsCase(sl()));
+  sl.registerLazySingleton(() => GetSubTournamentResultsCase(sl()));
+  sl.registerLazySingleton(() => GetSubTournamentRivalsCase(sl()));
+  sl.registerLazySingleton(() => GetSubTournamentWinnersCase(sl()));
+  sl.registerLazySingleton(() => GetTournamentAwardsCase(sl()));
+  sl.registerLazySingleton(() => GetTournamentDetailCase(sl()));
+  sl.registerLazySingleton(() => OnParticipateTournamentCase(sl()));
+  sl.registerLazySingleton(() => OnPayTournamentCase(sl()));
+  sl.registerLazySingleton<TournamentInterface>(
+      () => TournamentRepository(sl()));
+  sl.registerLazySingleton<TournamentDataSourceInterface>(
+      () => TournamentDataSourceImpl());
 }

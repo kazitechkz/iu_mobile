@@ -45,6 +45,46 @@ class PaginationData<T> {
         prevPageUrl = json["prev_page_url"] as String?,
         to = json["to"] != null ? json["to"] as int : 0,
         total = json["total"] != null ? json["total"] as int : 0;
+  factory PaginationData.fromJson(Map<String, dynamic> json) {
+    return PaginationData<T>.fromMap(json);
+  }
+  PaginationData<T> copyWith({
+    required T data,
+    required PaginationData other,
+  }) {
+    return PaginationData<T>(
+      currentPage: other.currentPage ?? this.currentPage,
+      data: data ?? this.data,
+      firstPageUrl: other.firstPageUrl ?? this.firstPageUrl,
+      from: other.from ?? this.from,
+      lastPage: other.lastPage ?? this.lastPage,
+      lastPageUrl: other.lastPageUrl ?? this.lastPageUrl,
+      links: other.links ?? this.links,
+      nextPageUrl: other.nextPageUrl ?? this.nextPageUrl,
+      path: other.path ?? this.path,
+      perPage: other.perPage ?? this.perPage,
+      prevPageUrl: other.prevPageUrl ?? this.prevPageUrl,
+      to: other.to ?? this.to,
+      total: other.total ?? this.total,
+    );
+  }
+
+  factory PaginationData.fromType(PaginationData paginationData, T data) {
+    return PaginationData<T>(
+        currentPage: paginationData.currentPage,
+        data: data,
+        firstPageUrl: paginationData.firstPageUrl,
+        from: paginationData.from,
+        lastPage: paginationData.lastPage,
+        lastPageUrl: paginationData.lastPageUrl,
+        links: paginationData.links,
+        nextPageUrl: paginationData.nextPageUrl,
+        path: paginationData.path,
+        perPage: paginationData.perPage,
+        prevPageUrl: paginationData.prevPageUrl,
+        to: paginationData.to,
+        total: paginationData.total);
+  }
 }
 
 class PaginationLink {

@@ -21,4 +21,23 @@ class ApiConstant {
       "${baseApiUrl}statistics-attempt-by/";
   static const String getUntStat = "${baseApiUrl}user-unt-statistics";
   static const String saveQuestion = "${baseApiUrl}save-question/";
+  static const String getAllTournament = "${baseApiUrl}tournaments-all";
+  static const String getListTournament = "${baseApiUrl}tournaments-list";
+  static const String getTournamentDetail = "${baseApiUrl}tournament-detail/";
+  static const String getSubTournamentDetail =
+      "${baseApiUrl}sub-tournament-detail/";
+  static const String createTournamentAttempt =
+      "${baseApiUrl}tournament-attempt";
+  static const String payTournament = "${baseApiUrl}pay-tournament";
+  static const String getSubTournamentParticipants =
+      "${baseApiUrl}sub-tournament-participants/";
+  static const String participateTournament =
+      "${baseApiUrl}participate-tournament";
+  static const String getSubTournamentResults =
+      "${baseApiUrl}sub-tournament-results/";
+  static const String getSubTournamentRivals =
+      "${baseApiUrl}sub-tournament-rivals/";
+  static const String getTournamentAwards = "${baseApiUrl}tournament-awards/";
+  static const String getSubTournamentWinners =
+      "${baseApiUrl}sub-tournament-winners/";
 }
