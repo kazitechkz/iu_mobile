@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/ordinary_user.dart';
+import 'package:iu/features/battle/domain/entities/battle_step_question_entity.dart';
+import 'package:iu/features/battle/domain/entities/battle_step_result_entity.dart';
 
 class BattleStepEntity extends Equatable {
   final int id;
@@ -15,7 +17,10 @@ class BattleStepEntity extends Equatable {
       required this.isLast,
       this.createdAt,
       this.updatedAt,
-      this.currentUser});
+      this.currentUser,
+      this.battleStepQuestions,
+      this.battleStepResults,
+      });
 
   final String promoCode;
   final int battleId;
@@ -27,9 +32,8 @@ class BattleStepEntity extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final OrdinaryUserEntity? currentUser;
-
-  // battle_step_questions:BattleStepQuestion[]|null
-  // battle_step_results:BattleStepResult[]|null
+  final List<BattleStepQuestionEntity>? battleStepQuestions;
+  final List<BattleStepResultEntity>? battleStepResults;
 
   @override
   List<Object?> get props => [

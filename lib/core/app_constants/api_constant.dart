@@ -1,6 +1,6 @@
 class ApiConstant {
-  // static const String baseApiUrl = "http://10.0.2.2:8000/api/";
-  static const String baseApiUrl = "http://192.168.0.104/api/";
+  static const String baseApiUrl = "http://192.168.0.127/api/";
+  // static const String baseApiUrl = "http://192.168.0.104/api/";
   static const String backApiLogin = "${baseApiUrl}auth/login";
   static const String backApiRegister = "${baseApiUrl}auth/register";
   static const String backVerifyEmail = "${baseApiUrl}auth/verify-email";
@@ -40,4 +40,23 @@ class ApiConstant {
   static const String getTournamentAwards = "${baseApiUrl}tournament-awards/";
   static const String getSubTournamentWinners =
       "${baseApiUrl}sub-tournament-winners/";
+  static const String battleCreate =
+      "${baseApiUrl}battle-create";
+  static const String getBattleByPromoCode =
+      "${baseApiUrl}battle/";
+  static const String getBattleHistory =
+      "${baseApiUrl}battle-history";
+  static const String myActiveBattles =
+      "${baseApiUrl}my-active-battles";
+  static const String getBattleStats =
+      "${baseApiUrl}battle-stats";
+  static const String getActiveBattles="${baseApiUrl}battles";
+  static const String joinToBattle="${baseApiUrl}join-to-battle-by-promo-code";
+  static const String getBattleSubjects="${baseApiUrl}battle-subjects/";
+  static const String battleStepCreate="${baseApiUrl}battle-step-create";
+  static const String getBattleStep="${baseApiUrl}battle-by-step/";
+  static const String battleAnswer="${baseApiUrl}battle-by-step-answer";
+  static const String getBattleQuestionsByPromoCode="${baseApiUrl}battle-questions/";
+  static const String finishBattleResult="${baseApiUrl}battle-finish-result/";
+
 }
