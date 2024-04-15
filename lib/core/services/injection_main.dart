@@ -10,6 +10,8 @@ Future<void> slInit() async {
   await _stepSLInit();
   await _untSlInit();
   await _attemptSlInit();
+  await _tournamentSlInit();
+  await _battleSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -116,4 +118,23 @@ Future<void> _tournamentSlInit() async {
       () => TournamentRepository(sl()));
   sl.registerLazySingleton<TournamentDataSourceInterface>(
       () => TournamentDataSourceImpl());
+}
+
+Future<void> _battleSlInit() async {
+  sl.registerLazySingleton(() => AnswerBattleQuestionCase(sl()));
+  sl.registerLazySingleton(() => CreateBattleCase(sl()));
+  sl.registerLazySingleton(() => CreateBattleStepCase(sl()));
+  sl.registerLazySingleton(() => FinishBattleResultCase(sl()));
+  sl.registerLazySingleton(() => GetActiveBattlesCase(sl()));
+  sl.registerLazySingleton(() => GetBattleByPromoCase(sl()));
+  sl.registerLazySingleton(() => GetBattleHistoryCase(sl()));
+  sl.registerLazySingleton(() => GetBattleStatsCase(sl()));
+  sl.registerLazySingleton(() => GetBattleStepCase(sl()));
+  sl.registerLazySingleton(() => GetBattleStepQuestionsCase(sl()));
+  sl.registerLazySingleton(() => GetBattleSubjectsCase(sl()));
+  sl.registerLazySingleton(() => JoinToBattleCase(sl()));
+  sl.registerLazySingleton(() => MyActiveBattlesCase(sl()));
+  sl.registerLazySingleton<BattleInterface>(() => BattleRepository(sl()));
+  sl.registerLazySingleton<BattleDataSourceInterface>(
+      () => BattleDataSourceImpl());
 }
