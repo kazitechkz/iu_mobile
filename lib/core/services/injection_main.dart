@@ -12,6 +12,7 @@ Future<void> slInit() async {
   await _attemptSlInit();
   await _tournamentSlInit();
   await _battleSlInit();
+  await _careerSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -137,4 +138,19 @@ Future<void> _battleSlInit() async {
   sl.registerLazySingleton<BattleInterface>(() => BattleRepository(sl()));
   sl.registerLazySingleton<BattleDataSourceInterface>(
       () => BattleDataSourceImpl());
+}
+
+
+Future<void> _careerSlInit() async {
+  sl.registerLazySingleton(() => FinishCareerCase(sl()));
+  sl.registerLazySingleton(() => GetCareerQuizCase(sl()));
+  sl.registerLazySingleton(() => GetCareerQuizGroupListCase(sl()));
+  sl.registerLazySingleton(() => GetCareerQuizzesCase(sl()));
+  sl.registerLazySingleton(() => MyCareerAttemptsCase(sl()));
+  sl.registerLazySingleton(() => PassCareerQuizCase(sl()));
+  sl.registerLazySingleton(() => PayCareerCase(sl()));
+  sl.registerLazySingleton(() => ResultCareerQuiz(sl()));
+  sl.registerLazySingleton<CareerInterface>(() => CareerRepository(sl()));
+  sl.registerLazySingleton<CareerDataSourceInterface>(
+          () => CareerDataSourceImpl());
 }

@@ -58,5 +58,13 @@ class ApiConstant {
   static const String battleAnswer="${baseApiUrl}battle-by-step-answer";
   static const String getBattleQuestionsByPromoCode="${baseApiUrl}battle-questions/";
   static const String finishBattleResult="${baseApiUrl}battle-finish-result/";
+  static const String getCareerQuizzes="${baseApiUrl}career-quizzes";
+  static const String getCareerQuizDetail="${baseApiUrl}career-quiz-detail/";
+  static const String getCareerQuizGroupList="${baseApiUrl}career-quiz-groups-list";
+  static const String myCareerAttempts="${baseApiUrl}my-career-attempts";
+  static const String passCareerQuiz="${baseApiUrl}pass-career-quiz/";
+  static const String resultCareerQuiz="${baseApiUrl}result-career-quiz/";
+  static const String payCareer="${baseApiUrl}pay-career";
+  static const String finishCareerQuiz="${baseApiUrl}finish-career-quiz";
 
 }

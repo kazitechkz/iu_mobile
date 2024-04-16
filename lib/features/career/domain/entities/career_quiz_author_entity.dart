@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/file_entity.dart';
-import 'package:iu/features/career/data/career_quiz_entity.dart';
+import 'career_quiz_entity.dart';
 
 class CareerQuizAuthorEntity extends Equatable {
   const CareerQuizAuthorEntity({

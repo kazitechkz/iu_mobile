@@ -1,1 +1,0 @@
-class CareerQuizQuestionEntity extends Equatable {}

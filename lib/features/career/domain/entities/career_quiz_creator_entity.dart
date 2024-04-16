@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:iu/features/career/data/career_quiz_author_entity.dart';
+import 'career_quiz_author_entity.dart';
+import 'career_quiz_entity.dart';
 
 class CareerQuizCreatorEntity extends Equatable {
   final int id;
@@ -8,7 +9,7 @@ class CareerQuizCreatorEntity extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final CareerQuizAuthorEntity? careerQuizAuthor;
-  // career_quiz:CareerQuiz|null
+  final CareerQuizEntity? careerQuiz;
 
   const CareerQuizCreatorEntity(
       {required this.id,
@@ -16,8 +17,10 @@ class CareerQuizCreatorEntity extends Equatable {
       required this.authorId,
       this.createdAt,
       this.updatedAt,
-      this.careerQuizAuthor});
+      this.careerQuizAuthor,
+        this.careerQuiz
+      });
 
   @override
-  List<Object?> get props => [id, quizId, authorId];
+  List<Object?> get props => [id, quizId, authorId,careerQuizAuthor,careerQuiz];
 }
