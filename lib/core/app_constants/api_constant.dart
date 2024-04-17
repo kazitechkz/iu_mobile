@@ -66,5 +66,15 @@ class ApiConstant {
   static const String resultCareerQuiz="${baseApiUrl}result-career-quiz/";
   static const String payCareer="${baseApiUrl}pay-career";
   static const String finishCareerQuiz="${baseApiUrl}finish-career-quiz";
+  static const String getAllVideos="${baseApiUrl}all-videos";
+  static const String getMainVideos="${baseApiUrl}main-videos";
+  static const String getVideoAuthor="${baseApiUrl}video-author-detail/";
+  static const String getVideoDetail="${baseApiUrl}video-detail/";
+  static const String allForum="${baseApiUrl}forum/index";
+  static const String createDiscuss="${baseApiUrl}discuss/create";
+  static const String forumCreate="${baseApiUrl}forum/create";
+  static const String getForum="${baseApiUrl}forum/show/";
+  static const String getForumDiscuss="${baseApiUrl}forum/discuss/";
+  static const String ratingForum="${baseApiUrl}forum/rating";
 
 }
