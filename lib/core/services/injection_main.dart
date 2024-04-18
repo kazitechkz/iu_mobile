@@ -16,6 +16,8 @@ Future<void> slInit() async {
   await _iutubeSlInit();
   await _forumSlInit();
   await _newsSlInit();
+  await _notificationSlInit();
+  await _statSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -185,4 +187,25 @@ Future<void> _newsSlInit() async {
   sl.registerLazySingleton(() => GetSingleNewsCase(sl()));
   sl.registerLazySingleton<NewsInterface>(() => NewsRepository(sl()));
   sl.registerLazySingleton<NewsDataSourceInterface>(() => NewsDataSourceImpl());
+}
+
+
+
+Future<void> _notificationSlInit() async {
+  sl.registerLazySingleton(() => CheckNotificationCase(sl()));
+  sl.registerLazySingleton(() => GetNotificationAllCase(sl()));
+  sl.registerLazySingleton(() => GetNotificationTypeCase(sl()));
+  sl.registerLazySingleton(() => GetUnreadMessageCountCase(sl()));
+  sl.registerLazySingleton(() => MyNotificationIdsCase(sl()));
+  sl.registerLazySingleton<NotificationInterface>(() => NotificationRepository(sl()));
+  sl.registerLazySingleton<NotificationDataSourceInterface>(() => NotificationDataSourceImpl());
+}
+
+Future<void> _statSlInit() async {
+  sl.registerLazySingleton(() => FullStatCase(sl()));
+  sl.registerLazySingleton(() => ResultByAttemptIdCase(sl()));
+  sl.registerLazySingleton(() => StatByAttemptIdCase(sl()));
+  sl.registerLazySingleton(() => StatBySubjectIdCase(sl()));
+  sl.registerLazySingleton<StatInterface>(() => StatRepository(sl()));
+  sl.registerLazySingleton<StatDataSourceInterface>(() => StatDataSourceImpl());
 }

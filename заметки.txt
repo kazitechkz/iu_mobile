@@ -9,3 +9,8 @@ rm -R .dart_tool
 flutter packages pub run build_runner build
 
 Если вы столкнетесь с конфликтами во время генерации, используйте flutter pub run build_runner build --delete-conflicting-outputs для их разрешения.
+
+Протестировать:
+ -news
+ -notifaction
+ -stat
