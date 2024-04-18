@@ -80,4 +80,15 @@ class ApiConstant {
   static const String getAllNews = "${baseApiUrl}all-news";
   static const String getImportantNews = "${baseApiUrl}important-news";
   static const String getSingleNews = "${baseApiUrl}single-news/";
+  static const String checkNotification = "${baseApiUrl}notification/check-notification/";
+  static const String getNotificationAll = "${baseApiUrl}notification/all";
+  static const String getNotificationTypeAll = "${baseApiUrl}notification/notification-types";
+  static const String getUnreadMessageCount = "${baseApiUrl}notification/unread-count";
+  static const String myNotificationIds = "${baseApiUrl}notification/my-notification-ids";
+  static const String fullStat = "${baseApiUrl}statistics/full-stats";
+  static const String findSubStepBySubCategoryId = "${baseApiUrl}findSubStepBySubCategoryId";
+  static const String resultByAttemptId = "${baseApiUrl}statistics/attempt-result/";
+  static const String statByAttemptId = "${baseApiUrl}statistics/attempt-stats/";
+  static const String statBySubjectId = "${baseApiUrl}statistics/subject-stats/";
+
 }
