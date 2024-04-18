@@ -12,6 +12,7 @@ import '../models/step_model.dart';
 
 abstract class StepDataSourceInterface {
   Future<List<MainStepEntity>> getAll();
+  Future<List<StepEntity>> getStepDetail(String id);
 }
 
 class StepDataSourceImpl extends StepDataSourceInterface {
@@ -20,19 +21,27 @@ class StepDataSourceImpl extends StepDataSourceInterface {
   @override
   Future<List<MainStepEntity>> getAll() async {
     try {
-      final result = await httpUtils.get("${ApiConstant.getAllStep}/1");
-
-      ResponseData<MainStepModel> responseData = ResponseData.fromJsonList(
-        result,
-            (json) => MainStepModel.fromMap(json as Map<String, dynamic>),
-      );
-      List<MainStepModel> items = responseData.listData??[];
-      return items;
+      final result = await httpUtils.get("${ApiConstant.getAllStep}1");
+      final responseData = ResponseData.fromJson(result);
+      List<MainStepModel> steps = MainStepModel.fromMapList(responseData.data.cast<Map<String, dynamic>>());
+      return steps;
     } on DioException catch (e) {
-      print(e);
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
-      print(e);
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<StepEntity>> getStepDetail(String id) async {
+    try {
+      final result = await httpUtils.get(ApiConstant.getStepDetail + id);
+      final responseData = ResponseData.fromJson(result);
+      List<StepModel> steps = StepModel.fromMapList(responseData.data.cast<Map<String, dynamic>>());
+      return steps;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
       throw ApiException(message: e.toString());
     }
   }

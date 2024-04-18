@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:iu/core/utils/typedef.dart';
-import 'package:iu/features/steps/data/datasources/step_datasource.dart';
-import 'package:iu/features/steps/domain/entities/step_entity.dart';
-import 'package:iu/features/steps/domain/interface/step_interface.dart';
+import 'package:iu/features/sub_steps/data/datasources/sub_step_datasource.dart';
+import 'package:iu/features/sub_steps/domain/entities/sub_step_entity.dart';
+import 'package:iu/features/sub_steps/domain/interface/sub_step_interface.dart';
 
 import '../../../../core/errors/exception.dart';
 import '../../../../core/errors/failure.dart';
 
-class StepRepository implements StepInterface {
-  final StepDataSourceInterface stepDataSourceInterface;
-  const StepRepository(this.stepDataSourceInterface);
+class SubStepRepository extends SubStepInterface {
+  final SubStepDataSourceInterface stepDataSourceInterface;
+  SubStepRepository(this.stepDataSourceInterface);
   @override
-  ResultFuture<List<MainStepEntity>> getAll() async {
+  ResultFuture<List<SubStepEntity>> getSubSteps(String stepID) async {
     try {
-      final result = await stepDataSourceInterface.getAll();
+      final result = await stepDataSourceInterface.getSubSteps(stepID);
       return Right(result);
     } on ApiException catch (e) {
       ApiFailure failure = ApiFailure.fromException(e);
@@ -26,9 +26,9 @@ class StepRepository implements StepInterface {
   }
 
   @override
-  ResultFuture<List<StepEntity>> getStepDetail(String id) async {
+  ResultFuture<SubStepEntity> getSubStepDetail(String subStepID) async {
     try {
-      final result = await stepDataSourceInterface.getStepDetail(id);
+      final result = await stepDataSourceInterface.getSubStepDetail(subStepID);
       return Right(result);
     } on ApiException catch (e) {
       ApiFailure failure = ApiFailure.fromException(e);
@@ -39,5 +39,4 @@ class StepRepository implements StepInterface {
       return Left(failure);
     }
   }
-
 }
