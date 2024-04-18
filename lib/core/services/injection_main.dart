@@ -15,6 +15,7 @@ Future<void> slInit() async {
   await _careerSlInit();
   await _iutubeSlInit();
   await _forumSlInit();
+  await _newsSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -142,7 +143,6 @@ Future<void> _battleSlInit() async {
       () => BattleDataSourceImpl());
 }
 
-
 Future<void> _careerSlInit() async {
   sl.registerLazySingleton(() => FinishCareerCase(sl()));
   sl.registerLazySingleton(() => GetCareerQuizCase(sl()));
@@ -154,7 +154,7 @@ Future<void> _careerSlInit() async {
   sl.registerLazySingleton(() => ResultCareerQuiz(sl()));
   sl.registerLazySingleton<CareerInterface>(() => CareerRepository(sl()));
   sl.registerLazySingleton<CareerDataSourceInterface>(
-          () => CareerDataSourceImpl());
+      () => CareerDataSourceImpl());
 }
 
 Future<void> _iutubeSlInit() async {
@@ -164,7 +164,7 @@ Future<void> _iutubeSlInit() async {
   sl.registerLazySingleton(() => GetVideoDetailCase(sl()));
   sl.registerLazySingleton<IUTubeInterface>(() => IUTubeRepository(sl()));
   sl.registerLazySingleton<IUTubeDataSourceInterface>(
-          () => IUTubeDataSourceImpl());
+      () => IUTubeDataSourceImpl());
 }
 
 Future<void> _forumSlInit() async {
@@ -176,5 +176,13 @@ Future<void> _forumSlInit() async {
   sl.registerLazySingleton(() => RatingForumCase(sl()));
   sl.registerLazySingleton<ForumInterface>(() => ForumRepository(sl()));
   sl.registerLazySingleton<ForumDataSourceInterface>(
-          () => ForumDataSourceImpl());
+      () => ForumDataSourceImpl());
+}
+
+Future<void> _newsSlInit() async {
+  sl.registerLazySingleton(() => AllNewsCase(sl()));
+  sl.registerLazySingleton(() => GetImportantNewsCase(sl()));
+  sl.registerLazySingleton(() => GetSingleNewsCase(sl()));
+  sl.registerLazySingleton<NewsInterface>(() => NewsRepository(sl()));
+  sl.registerLazySingleton<NewsDataSourceInterface>(() => NewsDataSourceImpl());
 }

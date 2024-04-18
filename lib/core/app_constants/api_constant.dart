@@ -40,41 +40,41 @@ class ApiConstant {
   static const String getTournamentAwards = "${baseApiUrl}tournament-awards/";
   static const String getSubTournamentWinners =
       "${baseApiUrl}sub-tournament-winners/";
-  static const String battleCreate =
-      "${baseApiUrl}battle-create";
-  static const String getBattleByPromoCode =
-      "${baseApiUrl}battle/";
-  static const String getBattleHistory =
-      "${baseApiUrl}battle-history";
-  static const String myActiveBattles =
-      "${baseApiUrl}my-active-battles";
-  static const String getBattleStats =
-      "${baseApiUrl}battle-stats";
-  static const String getActiveBattles="${baseApiUrl}battles";
-  static const String joinToBattle="${baseApiUrl}join-to-battle-by-promo-code";
-  static const String getBattleSubjects="${baseApiUrl}battle-subjects/";
-  static const String battleStepCreate="${baseApiUrl}battle-step-create";
-  static const String getBattleStep="${baseApiUrl}battle-by-step/";
-  static const String battleAnswer="${baseApiUrl}battle-by-step-answer";
-  static const String getBattleQuestionsByPromoCode="${baseApiUrl}battle-questions/";
-  static const String finishBattleResult="${baseApiUrl}battle-finish-result/";
-  static const String getCareerQuizzes="${baseApiUrl}career-quizzes";
-  static const String getCareerQuizDetail="${baseApiUrl}career-quiz-detail/";
-  static const String getCareerQuizGroupList="${baseApiUrl}career-quiz-groups-list";
-  static const String myCareerAttempts="${baseApiUrl}my-career-attempts";
-  static const String passCareerQuiz="${baseApiUrl}pass-career-quiz/";
-  static const String resultCareerQuiz="${baseApiUrl}result-career-quiz/";
-  static const String payCareer="${baseApiUrl}pay-career";
-  static const String finishCareerQuiz="${baseApiUrl}finish-career-quiz";
-  static const String getAllVideos="${baseApiUrl}all-videos";
-  static const String getMainVideos="${baseApiUrl}main-videos";
-  static const String getVideoAuthor="${baseApiUrl}video-author-detail/";
-  static const String getVideoDetail="${baseApiUrl}video-detail/";
-  static const String allForum="${baseApiUrl}forum/index";
-  static const String createDiscuss="${baseApiUrl}discuss/create";
-  static const String forumCreate="${baseApiUrl}forum/create";
-  static const String getForum="${baseApiUrl}forum/show/";
-  static const String getForumDiscuss="${baseApiUrl}forum/discuss/";
-  static const String ratingForum="${baseApiUrl}forum/rating";
-
+  static const String battleCreate = "${baseApiUrl}battle-create";
+  static const String getBattleByPromoCode = "${baseApiUrl}battle/";
+  static const String getBattleHistory = "${baseApiUrl}battle-history";
+  static const String myActiveBattles = "${baseApiUrl}my-active-battles";
+  static const String getBattleStats = "${baseApiUrl}battle-stats";
+  static const String getActiveBattles = "${baseApiUrl}battles";
+  static const String joinToBattle =
+      "${baseApiUrl}join-to-battle-by-promo-code";
+  static const String getBattleSubjects = "${baseApiUrl}battle-subjects/";
+  static const String battleStepCreate = "${baseApiUrl}battle-step-create";
+  static const String getBattleStep = "${baseApiUrl}battle-by-step/";
+  static const String battleAnswer = "${baseApiUrl}battle-by-step-answer";
+  static const String getBattleQuestionsByPromoCode =
+      "${baseApiUrl}battle-questions/";
+  static const String finishBattleResult = "${baseApiUrl}battle-finish-result/";
+  static const String getCareerQuizzes = "${baseApiUrl}career-quizzes";
+  static const String getCareerQuizDetail = "${baseApiUrl}career-quiz-detail/";
+  static const String getCareerQuizGroupList =
+      "${baseApiUrl}career-quiz-groups-list";
+  static const String myCareerAttempts = "${baseApiUrl}my-career-attempts";
+  static const String passCareerQuiz = "${baseApiUrl}pass-career-quiz/";
+  static const String resultCareerQuiz = "${baseApiUrl}result-career-quiz/";
+  static const String payCareer = "${baseApiUrl}pay-career";
+  static const String finishCareerQuiz = "${baseApiUrl}finish-career-quiz";
+  static const String getAllVideos = "${baseApiUrl}all-videos";
+  static const String getMainVideos = "${baseApiUrl}main-videos";
+  static const String getVideoAuthor = "${baseApiUrl}video-author-detail/";
+  static const String getVideoDetail = "${baseApiUrl}video-detail/";
+  static const String allForum = "${baseApiUrl}forum/index";
+  static const String createDiscuss = "${baseApiUrl}discuss/create";
+  static const String forumCreate = "${baseApiUrl}forum/create";
+  static const String getForum = "${baseApiUrl}forum/show/";
+  static const String getForumDiscuss = "${baseApiUrl}forum/discuss/";
+  static const String ratingForum = "${baseApiUrl}forum/rating";
+  static const String getAllNews = "${baseApiUrl}all-news";
+  static const String getImportantNews = "${baseApiUrl}important-news";
+  static const String getSingleNews = "${baseApiUrl}single-news/";
 }
