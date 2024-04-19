@@ -17,8 +17,8 @@ class StepModel extends StepEntity {
     required super.is_free,
     required super.is_active,
     super.image,
-     super.progress_kk,
-     super.progress_ru,
+    super.progress_kk,
+    super.progress_ru,
     super.subject
   });
 
@@ -38,29 +38,13 @@ class StepModel extends StepEntity {
       is_free: map['is_free'] as bool,
       is_active: map['is_active'] as bool,
       image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
-      progress_kk: map['progress'] as int,
-      progress_ru: map['progress'] as int,
-      subject: map['subject'] as SubjectEntity
+      progress_kk: map['progress_kk'] != null ? map['progress_kk'] as int : null,
+      progress_ru: map['progress_ru'] != null ? map['progress_ru'] as int : null,
+      subject: map['subject'] != null ? SubjectModel.fromMap(map['subject']) : null
   );
-
-  DataMap toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title_kk'] = title_kk;
-    data['title_ru'] = title_ru;
-    data['subject_id'] = subject_id;
-    data['category_id'] = category_id;
-    data['plan_id'] = plan_id;
-    data['level'] = level;
-    data['is_free'] = is_free;
-    data['is_active'] = is_active;
-    data['image'] = image;
-    data['progress_kk'] = progress_kk;
-    data['progress_ru'] = progress_ru;
-    data['subject'] = subject;
-    return data;
+  static List<StepModel> fromMapList(List<Map<String, dynamic>> mapList) {
+    return mapList.map((map) => StepModel.fromMap(map)).toList();
   }
-
 }
 
 class MainStepModel extends MainStepEntity {
@@ -103,4 +87,8 @@ class MainStepModel extends MainStepEntity {
       created_at: map['created_at'] != null ? map['created_at'] as String : null,
       updated_at: map['updated_at'] != null ? map['updated_at'] as String : null,
   );
+
+  static List<MainStepModel> fromMapList(List<Map<String, dynamic>> mapList) {
+    return mapList.map((map) => MainStepModel.fromMap(map)).toList();
+  }
 }

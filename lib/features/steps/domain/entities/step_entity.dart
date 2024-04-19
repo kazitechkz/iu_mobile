@@ -33,8 +33,8 @@ class StepEntity extends Equatable {
     required this.is_active,
     this.image,
     this.image_url,
-     this.progress_kk,
-     this.progress_ru,
+    this.progress_kk,
+    this.progress_ru,
     this.subject
   });
 
@@ -49,5 +49,20 @@ class MainStepEntity extends SubjectEntity {
   final int progress;
   final FileEntity? image;
   final int? image_url;
-  const MainStepEntity({this.image_url, this.image, required this.steps_count, required this.sub_steps_count, required this.progress,required super.id, required super.title_kk, required super.title_ru, required super.enable, required super.is_compulsory, required super.max_questions_quantity, required super.questions_step, super.created_at, super.updated_at});
+  const MainStepEntity({
+    this.image_url,
+    this.image,
+    required this.steps_count,
+    required this.sub_steps_count,
+    required this.progress,
+    required super.id,
+    required super.title_kk,
+    required super.title_ru,
+    required super.enable,
+    required super.is_compulsory,
+    required super.max_questions_quantity,
+    required super.questions_step,
+    super.created_at,
+    super.updated_at
+  });
 }

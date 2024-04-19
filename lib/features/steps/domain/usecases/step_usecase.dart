@@ -10,7 +10,6 @@ class StepUseCase extends UseCaseWithoutParams<List<MainStepEntity>> {
   const StepUseCase(this.interface);
   @override
   ResultFuture<List<MainStepEntity>> call() {
-    // TODO: implement call
     return interface.getAll();
   }
 

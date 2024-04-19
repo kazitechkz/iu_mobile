@@ -67,9 +67,9 @@ class _StepScreenState extends State<StepScreen> {
               )
           );
         }, listener: (context, state) {
-          // if (state is Step.StepErrorState) {
-          //     context.read<Step.StepBloc>().add(const Step.StepInEvent());
-          //   }
+          if (state is Step.StepErrorState) {
+              context.read<Step.StepBloc>().add(const Step.StepInEvent());
+            }
         },
       ),
     );
