@@ -14,3 +14,4 @@ flutter packages pub run build_runner build
  -news
  -notifaction
  -stat
+ -Добавить plan в me

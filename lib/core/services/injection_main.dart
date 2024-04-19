@@ -22,6 +22,8 @@ Future<void> slInit() async {
   await _subjectSLInit();
   await _categorySLInit();
   await _subCategorySLInit();
+  await _techSupportSlInit();
+  await _accountSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -245,4 +247,24 @@ Future<void> _statSlInit() async {
   sl.registerLazySingleton(() => StatBySubjectIdCase(sl()));
   sl.registerLazySingleton<StatInterface>(() => StatRepository(sl()));
   sl.registerLazySingleton<StatDataSourceInterface>(() => StatDataSourceImpl());
+}
+
+Future<void> _techSupportSlInit() async {
+  sl.registerLazySingleton(() => CloseTechSupportTicketCase(sl()));
+  sl.registerLazySingleton(() => CreateTechSupportMessageCase(sl()));
+  sl.registerLazySingleton(() => CreateTechSupportTicketCase(sl()));
+  sl.registerLazySingleton(() => GetMyTechSupportTicketsCase(sl()));
+  sl.registerLazySingleton(() => GetTechSupportCategoriesCase(sl()));
+  sl.registerLazySingleton(() => GetTechSupportTicketDetailCase(sl()));
+  sl.registerLazySingleton(() => GetTechSupportTypesCase(sl()));
+  sl.registerLazySingleton<TechSupportInterface>(() => TechSupportRepository(sl()));
+  sl.registerLazySingleton<TechSupportDataSourceInterface>(() => TechSupportDataSourceImpl());
+}
+
+Future<void> _accountSlInit() async {
+  sl.registerLazySingleton(() => AccountCase(sl()));
+  sl.registerLazySingleton(() => AccountChangeCase(sl()));
+  sl.registerLazySingleton(() => FindUserByEmailCase(sl()));
+  sl.registerLazySingleton<UserInterface>(() => UserRepository(sl()));
+  sl.registerLazySingleton<UserDataSourceInterface>(() => UserDataSourceImpl());
 }
