@@ -87,5 +87,16 @@ class ApiConstant {
   static const String resultByAttemptId = "${baseApiUrl}statistics/attempt-result/";
   static const String statByAttemptId = "${baseApiUrl}statistics/attempt-stats/";
   static const String statBySubjectId = "${baseApiUrl}statistics/subject-stats/";
+  static const String closeTechSupportTicket = "${baseApiUrl}tech-support-close-ticket";
+  static const String createTechSupportMessage = "${baseApiUrl}tech-support-create-message";
+  static const String createTechSupportTicket = "${baseApiUrl}tech-support-create-ticket";
+  static const String getMyTechSupportTickets = "${baseApiUrl}my-tech-support-tickets";
+  static const String getTechSupportCategories = "${baseApiUrl}tech-support-categories";
+  static const String getTechSupportTicketDetail = "${baseApiUrl}get-tech-support-ticket-detail/";
+  static const String getTechSupportTypes = "${baseApiUrl}tech-support-types";
+  static const String me = "${baseApiUrl}me";
+  static const String updateMe = "${baseApiUrl}change-profile";
+  static const String findUserByEmail = "${baseApiUrl}find-user-by-email";
+
 
 }
