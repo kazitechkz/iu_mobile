@@ -1,5 +1,5 @@
 class ApiConstant {
-  static const String baseApiUrl = "http://192.168.0.123:8000/api/";
+  static const String baseApiUrl = "http://192.168.0.203:8000/api/";
   // static const String baseApiUrl = "http://192.168.0.104/api/";
   static const String backApiLogin = "${baseApiUrl}auth/login";
   static const String backApiRegister = "${baseApiUrl}auth/register";
@@ -10,6 +10,13 @@ class ApiConstant {
   static const String getStepDetail = "${baseApiUrl}step-detail/";
   static const String getSubSteps = "${baseApiUrl}sub-steps/";
   static const String getSubStepDetail = "${baseApiUrl}sub-step/";
+  static const String getSubStepExams = "${baseApiUrl}get-step-tests/";
+  static const String passSubStepExam = "${baseApiUrl}pass-step-test";
+  static const String getFact = "${baseApiUrl}facts/";
+  static const String getSubjects = "${baseApiUrl}subjects";
+  static const String getMySubjects = "${baseApiUrl}get-my-subjects";
+  static const String getCategories = "${baseApiUrl}categories";
+  static const String getSubCategories = "${baseApiUrl}sub-categories";
   static const String getAllSubjects = "${baseApiUrl}subjects";
   static const String userAttempts = "${baseApiUrl}user-attempts";
   static const String allAttemptTypes = "${baseApiUrl}attempt-types";

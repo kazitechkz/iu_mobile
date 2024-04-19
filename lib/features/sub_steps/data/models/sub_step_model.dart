@@ -1,3 +1,6 @@
+import 'package:iu/features/sub_steps/data/models/sub_result_model.dart';
+import 'package:iu/features/sub_steps/data/models/sub_step_content_model.dart';
+import 'package:iu/features/sub_steps/data/models/sub_step_video.dart';
 import 'package:iu/features/sub_steps/domain/entities/sub_step_entity.dart';
 
 import '../../../steps/data/models/step_model.dart';
@@ -44,51 +47,5 @@ class SubStepModel extends SubStepEntity {
 
   static List<SubStepModel> fromMapList(List<Map<String, dynamic>> mapList) {
     return mapList.map((map) => SubStepModel.fromJson(map)).toList();
-  }
-}
-
-class SubStepContentModel extends SubStepContentEntity {
-  const SubStepContentModel(
-      {required super.id,
-      required super.text_kk,
-      required super.text_ru,
-      required super.is_active});
-
-  factory SubStepContentModel.fromJson(Map<String, dynamic> json) {
-    return SubStepContentModel(
-        id: json['id'] as int,
-        text_kk: json['text_kk'] as String,
-        text_ru: json['text_ru'] as String,
-        is_active: json['is_active'] as int);
-  }
-}
-
-class SubStepVideoModel extends SubStepVideoEntity {
-  const SubStepVideoModel(
-      {required super.id, required super.sub_step_id, required super.url});
-
-  factory SubStepVideoModel.fromJson(Map<String, dynamic> json) {
-    return SubStepVideoModel(
-        id: json['id'] as int,
-        sub_step_id: json['sub_step_id'] as int,
-        url: json['url'] as String);
-  }
-}
-
-class SubResultModel extends SubResultEntity {
-  const SubResultModel({required super.id, required super.locale_id, required super.sub_step_id, required super.user_id, required super.user_point});
-
-  factory SubResultModel.fromJson(Map<String, dynamic> json) {
-    return SubResultModel(
-        id: json['id'] as int,
-        locale_id: json['locale_id'] as int,
-        sub_step_id: json['sub_step_id'] as int,
-        user_id: json['user_id'] as int,
-        user_point: json['user_point'] as String
-    );
-  }
-
-  static List<SubResultModel> fromMapList(List<Map<String, dynamic>> mapList) {
-    return mapList.map((map) => SubResultModel.fromJson(map)).toList();
   }
 }

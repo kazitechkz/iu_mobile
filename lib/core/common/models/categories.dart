@@ -69,4 +69,8 @@ class CategoryModel extends CategoryEntity {
     data['m_questions_count'] = m_questions_count;
     return data;
   }
+
+  static List<CategoryModel> fromMapList(List<Map<String, dynamic>> mapList) {
+    return mapList.map((map) => CategoryModel.fromMap(map)).toList();
+  }
 }

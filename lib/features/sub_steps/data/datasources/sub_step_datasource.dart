@@ -1,5 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:iu/core/utils/typedef.dart';
+import 'package:iu/features/sub_steps/data/models/sub_step_exam_model.dart';
 import 'package:iu/features/sub_steps/domain/entities/sub_step_entity.dart';
+import 'package:iu/features/sub_steps/domain/entities/sub_step_exam_entity.dart';
+import 'package:iu/features/sub_steps/domain/parameters/pass_sub_step_exam_params.dart';
+import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
 
 import '../../../../core/app_constants/api_constant.dart';
 import '../../../../core/common/models/response_data.dart';
@@ -10,6 +15,8 @@ import '../models/sub_step_model.dart';
 abstract class SubStepDataSourceInterface {
   Future<List<SubStepEntity>> getSubSteps(String stepID);
   Future<SubStepEntity> getSubStepDetail(String subStepID);
+  Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
+  Future<int> passSubStepExam(List<PassSubStepExamParams> params);
 }
 
 class SubStepDataSourceImpl extends SubStepDataSourceInterface {
@@ -36,6 +43,35 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
       final response = await httpUtils.get(ApiConstant.getSubStepDetail + subStepID);
       final responseData = ResponseData.fromJson(response);
       SubStepEntity data = SubStepModel.fromJson(responseData.data);
+      return data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params) async {
+    try {
+      final response = await httpUtils.get('${ApiConstant.getSubStepExams}${params.sub_step_id}/${params.locale_id}');
+      final responseData = ResponseData.fromJson(response);
+      List<SubStepExamEntity> data = SubStepExamModel.fromMapList(responseData.data.cast<DataMap>());
+      return data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<int> passSubStepExam(List<PassSubStepExamParams> params) async {
+    try {
+      List<DataMap> paramsJson = params.map((e) => e.toJson()).toList();
+      final response = await httpUtils.post(ApiConstant.passSubStepExam, data: paramsJson);
+      final responseData = ResponseData.fromJson(response);
+      int data = responseData.data;
       return data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);

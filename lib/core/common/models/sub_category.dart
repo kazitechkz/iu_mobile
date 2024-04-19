@@ -11,7 +11,7 @@ class SubCategoryEntity extends Equatable {
   final int category_id;
   final String title_kk;
   final String title_ru;
-  final CategoryEntity category;
+  final CategoryEntity? category;
   final int s_questions_count;
   final int c_questions_count;
   final int m_questions_count;
@@ -21,7 +21,7 @@ class SubCategoryEntity extends Equatable {
     required this.title_kk,
     required this.title_ru,
     required this.category_id,
-    required this.category,
+    this.category,
     required this.s_questions_count,
     required this.c_questions_count,
     required this.m_questions_count
@@ -34,7 +34,7 @@ class SubCategoryEntity extends Equatable {
 
 class SubCategoryModel extends SubCategoryEntity {
   const SubCategoryModel({
-    required super.id, required super.title_kk, required super.title_ru, required super.category_id, required super.category, required super.s_questions_count, required super.c_questions_count, required super.m_questions_count});
+    required super.id, required super.title_kk, required super.title_ru, required super.category_id, super.category, required super.s_questions_count, required super.c_questions_count, required super.m_questions_count});
 
   factory SubCategoryModel.fromJson(Map<String, dynamic> json) {
     return SubCategoryModel.fromMap(json);
@@ -46,7 +46,7 @@ class SubCategoryModel extends SubCategoryEntity {
     title_kk: map['title_kk'] as String,
     title_ru: map['title_ru'] as String,
     category_id: map['category_id'] as int,
-    category: map['category'] as CategoryEntity,
+    category: map['category'] != null ? CategoryModel.fromJson(map['category']) : null,
     s_questions_count: map['s_questions_count'] as int,
     c_questions_count: map['c_questions_count'] as int,
     m_questions_count: map['m_questions_count'] as int
@@ -63,5 +63,9 @@ class SubCategoryModel extends SubCategoryEntity {
     data['c_questions_count'] = c_questions_count;
     data['m_questions_count'] = m_questions_count;
     return data;
+  }
+
+  static List<SubCategoryModel> fromMapList(List<Map<String, dynamic>> mapList) {
+    return mapList.map((map) => SubCategoryModel.fromMap(map)).toList();
   }
 }

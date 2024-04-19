@@ -18,6 +18,10 @@ Future<void> slInit() async {
   await _newsSlInit();
   await _notificationSlInit();
   await _statSlInit();
+  await _factSLInit();
+  await _subjectSLInit();
+  await _categorySLInit();
+  await _subCategorySLInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -86,9 +90,34 @@ Future<void> _stepSLInit() async {
   // sl.registerFactory(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
+  sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
   sl.registerLazySingleton<SubStepInterface>(() => SubStepRepository(sl()));
   sl.registerLazySingleton<SubStepDataSourceInterface>(() => SubStepDataSourceImpl());
+}
 
+Future<void> _factSLInit() async {
+  // sl.registerFactory(() => FactBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => FactUseCase(sl()));
+  sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
+  sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
+}
+Future<void> _subjectSLInit() async {
+  // sl.registerFactory(() => SubjectBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => SubjectUseCase(sl()));
+  sl.registerLazySingleton<SubjectInterface>(() => SubjectRepository(sl()));
+  sl.registerLazySingleton<SubjectDatasourceInterface>(() => SubjectDatasourceImpl());
+}
+Future<void> _categorySLInit() async {
+  // sl.registerFactory(() => CategoryBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => CategoryUseCase(sl()));
+  sl.registerLazySingleton<CategoryInterface>(() => CategoryRepository(sl()));
+  sl.registerLazySingleton<CategoryDatasourceInterface>(() => CategoryDatasourceImpl());
+}
+Future<void> _subCategorySLInit() async {
+  // sl.registerFactory(() => SubCategoryBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => SubCategoryUseCase(sl()));
+  sl.registerLazySingleton<SubCategoryInterface>(() => SubCategoryRepository(sl()));
+  sl.registerLazySingleton<SubCategoryDatasourceInterface>(() => SubCategoryDatasourceImpl());
 }
 
 Future<void> _untSlInit() async {
