@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../errors/exception.dart';
 import '../services/injection_main.container.dart';
 
 class HttpUtil {
@@ -9,12 +10,18 @@ class HttpUtil {
 
 
   Future post(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    var response = await dio.post(
-        path,
-        data: data,
-        queryParameters: queryParameters
-    );
-    return response.data;
+    try {
+      var response = await dio.post(
+          path,
+          data: data,
+          queryParameters: queryParameters
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
   }
 
   Future get(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
@@ -25,17 +32,25 @@ class HttpUtil {
             queryParameters: queryParameters
         );
         return response.data;
-      } catch (e) {
-        print(e.toString());
+      } on DioException catch (e) {
+        throw ApiException.fromDioError(e);
+      } on Exception catch (e) {
+        throw ApiException(message: e.toString());
       }
   }
 
   Future update(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    var response = await dio.put(
-        path,
-        data: data,
-        queryParameters: queryParameters
-    );
-    return response.data;
+    try {
+      var response = await dio.put(
+          path,
+          data: data,
+          queryParameters: queryParameters
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
   }
 }

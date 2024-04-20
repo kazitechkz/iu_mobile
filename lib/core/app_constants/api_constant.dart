@@ -1,5 +1,5 @@
 class ApiConstant {
-  static const String baseApiUrl = "http://192.168.0.203:8000/api/";
+  static const String baseApiUrl = "http://192.168.1.243:8000/api/";
   // static const String baseApiUrl = "http://192.168.0.104/api/";
   static const String backApiLogin = "${baseApiUrl}auth/login";
   static const String backApiRegister = "${baseApiUrl}auth/register";
@@ -107,6 +107,10 @@ class ApiConstant {
   static const String me = "${baseApiUrl}me";
   static const String updateMe = "${baseApiUrl}change-profile";
   static const String findUserByEmail = "${baseApiUrl}find-user-by-email";
+  static const String getAppealTypes = "${baseApiUrl}appeal-types";
+  static const String createAppeal = "${baseApiUrl}create-appeal-question";
+  static const String getMyAppeals = "${baseApiUrl}my-appeals-questions";
+  static const String getMyAppealById = "${baseApiUrl}my-appeal-question-by/";
 
 
 }

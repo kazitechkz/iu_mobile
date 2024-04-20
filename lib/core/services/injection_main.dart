@@ -23,6 +23,7 @@ Future<void> slInit() async {
   await _categorySLInit();
   await _subCategorySLInit();
   await _techSupportSlInit();
+  await _appealSLInit();
   await _accountSlInit();
 }
 
@@ -102,6 +103,15 @@ Future<void> _factSLInit() async {
   sl.registerLazySingleton(() => FactUseCase(sl()));
   sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
   sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
+}
+Future<void> _appealSLInit() async {
+  // sl.registerFactory(() => AppealBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => AppealTypeUseCase(sl()));
+  sl.registerLazySingleton(() => CreateAppealUseCase(sl()));
+  sl.registerLazySingleton(() => AppealUseCase(sl()));
+  sl.registerLazySingleton(() => AppealByIdCase(sl()));
+  sl.registerLazySingleton<AppealInterface>(() => AppealRepository(sl()));
+  sl.registerLazySingleton<AppealDatasourceInterface>(() => AppealDatasourceInterfaceImpl());
 }
 Future<void> _subjectSLInit() async {
   // sl.registerFactory(() => SubjectBloc(stepUseCase: sl<StepUseCase>()));

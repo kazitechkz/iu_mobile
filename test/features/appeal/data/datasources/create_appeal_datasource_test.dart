@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:iu/core/app_constants/api_constant.dart';
 import 'package:iu/core/common/models/response_data.dart';
-import 'package:iu/core/common/models/subject.dart';
 import 'package:iu/core/interceptors/bearer_interceptor.dart';
 import 'package:iu/core/services/injection_main.container.dart';
 import 'package:iu/core/utils/http_utils.dart';
 import 'package:iu/core/utils/typedef.dart';
-import 'package:iu/features/sub_steps/data/models/sub_step_exam_model.dart';
-import 'package:iu/features/sub_steps/domain/entities/sub_step_exam_entity.dart';
+import 'package:iu/features/appeal/data/models/appeal_type_model.dart';
+import 'package:iu/features/appeal/domain/parameters/create_appeal_params.dart';
 
 Future<void> main() async {
   BaseOptions options = BaseOptions(
@@ -22,8 +21,9 @@ Future<void> main() async {
   dio.interceptors.add(BearerTokenInterceptor(
       "2304|T7kXl6GZGM02BIYqqr9ClEMwqlfIngNPzqt11hj76e5aa493"));
   sl.registerLazySingleton<Dio>(() => dio);
-  final response = await HttpUtil().get(ApiConstant.getMySubjects);
-  final responseData = ResponseData.fromJson(response);
-  List<SubjectEntity> data = SubjectModel.fromMapList(responseData.data.cast<DataMap>());
+  CreateAppealParams params = const CreateAppealParams(message: 'message', questionId: 12728, typeId: 2);
+  final response = await HttpUtil().post(ApiConstant.createAppeal, data: params.toJson());
+  final ResponseData responseData = ResponseData.fromJson(response);
+  final bool data = responseData.data;
   print(data);
 }

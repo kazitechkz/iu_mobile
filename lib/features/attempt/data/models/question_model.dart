@@ -63,9 +63,9 @@ class QuestionModel extends QuestionEntity {
           context: map["context"] != null
               ? ContextModel.fromJson(map["context"])
               : null,
-          subject: map["subject"] != null ? SubjectModel.fromJson(map) : null,
+          subject: map["subject"] != null ? SubjectModel.fromJson(map['subject']) : null,
           subcategory: map["subcategory"] != null
-              ? SubCategoryModel.fromJson(map)
+              ? SubCategoryModel.fromJson(map['subcategory'])
               : null,
           attemptQuestions: map["attempt_questions"] != null
               ? AttemptQuestionModel.fromMapList(map["attempt_questions"])
