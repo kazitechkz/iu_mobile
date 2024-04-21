@@ -25,6 +25,7 @@ Future<void> slInit() async {
   await _techSupportSlInit();
   await _appealSLInit();
   await _accountSlInit();
+  await _questionSlInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -95,7 +96,8 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
   sl.registerLazySingleton<SubStepInterface>(() => SubStepRepository(sl()));
-  sl.registerLazySingleton<SubStepDataSourceInterface>(() => SubStepDataSourceImpl());
+  sl.registerLazySingleton<SubStepDataSourceInterface>(
+      () => SubStepDataSourceImpl());
 }
 
 Future<void> _factSLInit() async {
@@ -104,6 +106,7 @@ Future<void> _factSLInit() async {
   sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
   sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
 }
+
 Future<void> _appealSLInit() async {
   // sl.registerFactory(() => AppealBloc(stepUseCase: sl<StepUseCase>()));
   sl.registerLazySingleton(() => AppealTypeUseCase(sl()));
@@ -111,25 +114,33 @@ Future<void> _appealSLInit() async {
   sl.registerLazySingleton(() => AppealUseCase(sl()));
   sl.registerLazySingleton(() => AppealByIdCase(sl()));
   sl.registerLazySingleton<AppealInterface>(() => AppealRepository(sl()));
-  sl.registerLazySingleton<AppealDatasourceInterface>(() => AppealDatasourceInterfaceImpl());
+  sl.registerLazySingleton<AppealDatasourceInterface>(
+      () => AppealDatasourceInterfaceImpl());
 }
+
 Future<void> _subjectSLInit() async {
   // sl.registerFactory(() => SubjectBloc(stepUseCase: sl<StepUseCase>()));
   sl.registerLazySingleton(() => SubjectUseCase(sl()));
   sl.registerLazySingleton<SubjectInterface>(() => SubjectRepository(sl()));
-  sl.registerLazySingleton<SubjectDatasourceInterface>(() => SubjectDatasourceImpl());
+  sl.registerLazySingleton<SubjectDatasourceInterface>(
+      () => SubjectDatasourceImpl());
 }
+
 Future<void> _categorySLInit() async {
   // sl.registerFactory(() => CategoryBloc(stepUseCase: sl<StepUseCase>()));
   sl.registerLazySingleton(() => CategoryUseCase(sl()));
   sl.registerLazySingleton<CategoryInterface>(() => CategoryRepository(sl()));
-  sl.registerLazySingleton<CategoryDatasourceInterface>(() => CategoryDatasourceImpl());
+  sl.registerLazySingleton<CategoryDatasourceInterface>(
+      () => CategoryDatasourceImpl());
 }
+
 Future<void> _subCategorySLInit() async {
   // sl.registerFactory(() => SubCategoryBloc(stepUseCase: sl<StepUseCase>()));
   sl.registerLazySingleton(() => SubCategoryUseCase(sl()));
-  sl.registerLazySingleton<SubCategoryInterface>(() => SubCategoryRepository(sl()));
-  sl.registerLazySingleton<SubCategoryDatasourceInterface>(() => SubCategoryDatasourceImpl());
+  sl.registerLazySingleton<SubCategoryInterface>(
+      () => SubCategoryRepository(sl()));
+  sl.registerLazySingleton<SubCategoryDatasourceInterface>(
+      () => SubCategoryDatasourceImpl());
 }
 
 Future<void> _untSlInit() async {
@@ -238,16 +249,16 @@ Future<void> _newsSlInit() async {
   sl.registerLazySingleton<NewsDataSourceInterface>(() => NewsDataSourceImpl());
 }
 
-
-
 Future<void> _notificationSlInit() async {
   sl.registerLazySingleton(() => CheckNotificationCase(sl()));
   sl.registerLazySingleton(() => GetNotificationAllCase(sl()));
   sl.registerLazySingleton(() => GetNotificationTypeCase(sl()));
   sl.registerLazySingleton(() => GetUnreadMessageCountCase(sl()));
   sl.registerLazySingleton(() => MyNotificationIdsCase(sl()));
-  sl.registerLazySingleton<NotificationInterface>(() => NotificationRepository(sl()));
-  sl.registerLazySingleton<NotificationDataSourceInterface>(() => NotificationDataSourceImpl());
+  sl.registerLazySingleton<NotificationInterface>(
+      () => NotificationRepository(sl()));
+  sl.registerLazySingleton<NotificationDataSourceInterface>(
+      () => NotificationDataSourceImpl());
 }
 
 Future<void> _statSlInit() async {
@@ -267,8 +278,10 @@ Future<void> _techSupportSlInit() async {
   sl.registerLazySingleton(() => GetTechSupportCategoriesCase(sl()));
   sl.registerLazySingleton(() => GetTechSupportTicketDetailCase(sl()));
   sl.registerLazySingleton(() => GetTechSupportTypesCase(sl()));
-  sl.registerLazySingleton<TechSupportInterface>(() => TechSupportRepository(sl()));
-  sl.registerLazySingleton<TechSupportDataSourceInterface>(() => TechSupportDataSourceImpl());
+  sl.registerLazySingleton<TechSupportInterface>(
+      () => TechSupportRepository(sl()));
+  sl.registerLazySingleton<TechSupportDataSourceInterface>(
+      () => TechSupportDataSourceImpl());
 }
 
 Future<void> _accountSlInit() async {
@@ -277,4 +290,14 @@ Future<void> _accountSlInit() async {
   sl.registerLazySingleton(() => FindUserByEmailCase(sl()));
   sl.registerLazySingleton<UserInterface>(() => UserRepository(sl()));
   sl.registerLazySingleton<UserDataSourceInterface>(() => UserDataSourceImpl());
+}
+
+Future<void> _questionSlInit() async {
+  sl.registerLazySingleton(() => GetCategoryQuestionCase(sl()));
+  sl.registerLazySingleton(() => GetMySavedQuestionByIdCase(sl()));
+  sl.registerLazySingleton(() => GetMySavedQuestionsCase(sl()));
+  sl.registerLazySingleton(() => GetSubCategoryQuestionCountCase(sl()));
+  sl.registerLazySingleton<QuestionInterface>(() => QuestionRepository(sl()));
+  sl.registerLazySingleton<QuestionDataSourceInterface>(
+      () => QuestionDataSourceImpl());
 }

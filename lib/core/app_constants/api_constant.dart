@@ -87,22 +87,36 @@ class ApiConstant {
   static const String getAllNews = "${baseApiUrl}all-news";
   static const String getImportantNews = "${baseApiUrl}important-news";
   static const String getSingleNews = "${baseApiUrl}single-news/";
-  static const String checkNotification = "${baseApiUrl}notification/check-notification/";
+  static const String checkNotification =
+      "${baseApiUrl}notification/check-notification/";
   static const String getNotificationAll = "${baseApiUrl}notification/all";
-  static const String getNotificationTypeAll = "${baseApiUrl}notification/notification-types";
-  static const String getUnreadMessageCount = "${baseApiUrl}notification/unread-count";
-  static const String myNotificationIds = "${baseApiUrl}notification/my-notification-ids";
+  static const String getNotificationTypeAll =
+      "${baseApiUrl}notification/notification-types";
+  static const String getUnreadMessageCount =
+      "${baseApiUrl}notification/unread-count";
+  static const String myNotificationIds =
+      "${baseApiUrl}notification/my-notification-ids";
   static const String fullStat = "${baseApiUrl}statistics/full-stats";
-  static const String findSubStepBySubCategoryId = "${baseApiUrl}findSubStepBySubCategoryId";
-  static const String resultByAttemptId = "${baseApiUrl}statistics/attempt-result/";
-  static const String statByAttemptId = "${baseApiUrl}statistics/attempt-stats/";
-  static const String statBySubjectId = "${baseApiUrl}statistics/subject-stats/";
-  static const String closeTechSupportTicket = "${baseApiUrl}tech-support-close-ticket";
-  static const String createTechSupportMessage = "${baseApiUrl}tech-support-create-message";
-  static const String createTechSupportTicket = "${baseApiUrl}tech-support-create-ticket";
-  static const String getMyTechSupportTickets = "${baseApiUrl}my-tech-support-tickets";
-  static const String getTechSupportCategories = "${baseApiUrl}tech-support-categories";
-  static const String getTechSupportTicketDetail = "${baseApiUrl}get-tech-support-ticket-detail/";
+  static const String findSubStepBySubCategoryId =
+      "${baseApiUrl}findSubStepBySubCategoryId";
+  static const String resultByAttemptId =
+      "${baseApiUrl}statistics/attempt-result/";
+  static const String statByAttemptId =
+      "${baseApiUrl}statistics/attempt-stats/";
+  static const String statBySubjectId =
+      "${baseApiUrl}statistics/subject-stats/";
+  static const String closeTechSupportTicket =
+      "${baseApiUrl}tech-support-close-ticket";
+  static const String createTechSupportMessage =
+      "${baseApiUrl}tech-support-create-message";
+  static const String createTechSupportTicket =
+      "${baseApiUrl}tech-support-create-ticket";
+  static const String getMyTechSupportTickets =
+      "${baseApiUrl}my-tech-support-tickets";
+  static const String getTechSupportCategories =
+      "${baseApiUrl}tech-support-categories";
+  static const String getTechSupportTicketDetail =
+      "${baseApiUrl}get-tech-support-ticket-detail/";
   static const String getTechSupportTypes = "${baseApiUrl}tech-support-types";
   static const String me = "${baseApiUrl}me";
   static const String updateMe = "${baseApiUrl}change-profile";
@@ -111,6 +125,11 @@ class ApiConstant {
   static const String createAppeal = "${baseApiUrl}create-appeal-question";
   static const String getMyAppeals = "${baseApiUrl}my-appeals-questions";
   static const String getMyAppealById = "${baseApiUrl}my-appeal-question-by/";
-
-
+  static const String getCategoryQuestionCount =
+      "${baseApiUrl}get-category-question-count";
+  static const String getMySavedQuestionById =
+      "${baseApiUrl}my-saved-question-by/";
+  static const String getMySavedQuestions = "${baseApiUrl}my-saved-questions";
+  static const String getSubCategoryQuestionCount =
+      "${baseApiUrl}get-sub-category-question-count";
 }
