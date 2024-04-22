@@ -27,6 +27,7 @@ Future<void> slInit() async {
   await _accountSlInit();
   await _questionSlInit();
   await _attemptSettingsSLInit();
+  await _openAiSLInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -104,6 +105,11 @@ Future<void> _factSLInit() async {
   sl.registerLazySingleton(() => FactUseCase(sl()));
   sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
   sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
+}
+Future<void> _openAiSLInit() async {
+  sl.registerLazySingleton(() => OpenAiUseCase(sl()));
+  sl.registerLazySingleton<OpenAiInterface>(() => OpenAiRepository(sl()));
+  sl.registerLazySingleton<OpenAiDatasourceInterface>(() => OpenAiDatasourceImpl());
 }
 Future<void> _attemptSettingsSLInit() async {
   sl.registerLazySingleton(() => CreateAttemptSettingUseCase(sl()));

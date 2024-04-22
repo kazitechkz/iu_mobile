@@ -89,6 +89,10 @@ import 'package:iu/features/notification/domain/use_cases/get_notification_all_c
 import 'package:iu/features/notification/domain/use_cases/get_notification_type_case.dart';
 import 'package:iu/features/notification/domain/use_cases/get_unread_message_count_case.dart';
 import 'package:iu/features/notification/domain/use_cases/my_notification_ids_case.dart';
+import 'package:iu/features/open_ai/data/datasources/open_ai_datasource.dart';
+import 'package:iu/features/open_ai/data/repositories/open_ai_repository.dart';
+import 'package:iu/features/open_ai/domain/interfaces/open_ai_interface.dart';
+import 'package:iu/features/open_ai/domain/use_cases/open_ai_use_case.dart';
 import 'package:iu/features/question/data/datasources/question_datasource.dart';
 import 'package:iu/features/question/data/repositories/question_repository.dart';
 import 'package:iu/features/question/domain/interface/question_interface.dart';

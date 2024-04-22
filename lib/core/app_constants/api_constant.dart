@@ -138,4 +138,6 @@ class ApiConstant {
       "${baseApiUrl}my-attempt-settings-single";
   static const String myAttemptSettingsUnt =
       "${baseApiUrl}my-attempt-settings-unt";
+  static const String getAiAnswer =
+      "${baseApiUrl}get-ai-answer/";
 }
