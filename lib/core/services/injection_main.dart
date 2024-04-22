@@ -26,6 +26,7 @@ Future<void> slInit() async {
   await _appealSLInit();
   await _accountSlInit();
   await _questionSlInit();
+  await _attemptSettingsSLInit();
 }
 
 Future<void> _hiveSLInit() async {
@@ -91,7 +92,6 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
-  // sl.registerFactory(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
@@ -101,10 +101,16 @@ Future<void> _stepSLInit() async {
 }
 
 Future<void> _factSLInit() async {
-  // sl.registerFactory(() => FactBloc(stepUseCase: sl<StepUseCase>()));
   sl.registerLazySingleton(() => FactUseCase(sl()));
   sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
   sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
+}
+Future<void> _attemptSettingsSLInit() async {
+  sl.registerLazySingleton(() => CreateAttemptSettingUseCase(sl()));
+  sl.registerLazySingleton(() => MyAttemptSettingSingleUseCase(sl()));
+  sl.registerLazySingleton(() => MyAttemptSettingsUntUseCase(sl()));
+  sl.registerLazySingleton<AttemptSettingInterface>(() => AttemptSettingRepository(sl()));
+  sl.registerLazySingleton<AttemptSettingDatasourceInterface>(() => AttemptSettingDatasourceImpl());
 }
 
 Future<void> _appealSLInit() async {

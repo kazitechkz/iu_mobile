@@ -85,11 +85,8 @@ class SubjectModel extends SubjectEntity {
           image: map["image"] != null ? FileModel.fromJson(map["image"]) : null,
         );
 
-  static List<SubjectModel> fromJsonList(String jsonString) {
-    final parsed = jsonDecode(jsonString).cast<Map<String, dynamic>>();
-    return parsed
-        .map<SubjectModel>((json) => SubjectModel.fromJson(json))
-        .toList();
+  static List<SubjectModel> fromJsonList(List<DataMap> mapList) {
+    return mapList.map((e) => SubjectModel.fromJson(e)).toList();
   }
 
   static List<SubjectModel> fromMapList(List<Map<String, dynamic>> mapList) {

@@ -1,5 +1,5 @@
 class ApiConstant {
-  static const String baseApiUrl = "http://192.168.1.243:8000/api/";
+  static const String baseApiUrl = "http://192.168.0.123:8000/api/";
   // static const String baseApiUrl = "http://192.168.0.104/api/";
   static const String backApiLogin = "${baseApiUrl}auth/login";
   static const String backApiRegister = "${baseApiUrl}auth/register";
@@ -132,4 +132,10 @@ class ApiConstant {
   static const String getMySavedQuestions = "${baseApiUrl}my-saved-questions";
   static const String getSubCategoryQuestionCount =
       "${baseApiUrl}get-sub-category-question-count";
+  static const String createAttemptSettings =
+      "${baseApiUrl}create-attempt-settings";
+  static const String myAttemptSettingsSingle =
+      "${baseApiUrl}my-attempt-settings-single";
+  static const String myAttemptSettingsUnt =
+      "${baseApiUrl}my-attempt-settings-unt";
 }
