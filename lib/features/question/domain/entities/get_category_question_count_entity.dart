@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'get_category_question_count_model_options_entity.dart';
 
 class GetCategoryQuestionCountEntity extends Equatable {
-  final Map<int, GetCategoryQuestionCountModelOptionsEntity> items;
+  final Map<String, GetCategoryQuestionCountModelOptionsEntity> items;
 
   const GetCategoryQuestionCountEntity({required this.items});
 

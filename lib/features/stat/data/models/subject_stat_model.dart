@@ -14,7 +14,7 @@ class SubjectStatModel extends SubjectStatEntity {
   SubjectStatModel.fromMap(DataMap map)
       : this(
           right: map["right"],
-          notRight: map["notRight"],
+          notRight: map["not_right"],
           subCategory: map["sub_category"] != null
               ? SubCategoryModel.fromMap(map["sub_category"])
               : null,

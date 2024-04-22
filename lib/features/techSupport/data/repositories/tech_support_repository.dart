@@ -107,7 +107,7 @@ class TechSupportRepository implements TechSupportInterface {
   }
 
   @override
-  ResultFuture<List<GetTechSupportTicketDetailEntity>>
+  ResultFuture<GetTechSupportTicketDetailEntity>
       getTechSupportTicketDetail(
           GetTechSupportTicketDetailParameter parameter) async {
     try {

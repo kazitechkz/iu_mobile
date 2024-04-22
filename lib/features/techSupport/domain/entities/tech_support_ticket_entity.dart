@@ -10,9 +10,9 @@ class TechSupportTicketEntity extends Equatable {
   final int categoryId;
   final String title;
   final int userId;
-  final bool isClosed;
-  final bool isResolved;
-  final bool isAnswered;
+  final bool? isClosed;
+  final bool? isResolved;
+  final bool? isAnswered;
   final int? techSupportMessagesCount;
   final TechSupportCategoryEntity? techSupportCategory;
   final TechSupportTypeEntity? techSupportType;
@@ -26,9 +26,9 @@ class TechSupportTicketEntity extends Equatable {
       required this.categoryId,
       required this.title,
       required this.userId,
-      required this.isClosed,
-      required this.isResolved,
-      required this.isAnswered,
+      this.isClosed,
+      this.isResolved,
+      this.isAnswered,
       this.techSupportMessagesCount,
       this.techSupportCategory,
       this.techSupportType,

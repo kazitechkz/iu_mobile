@@ -89,7 +89,7 @@ class QuestionDataSourceImpl implements QuestionDataSourceInterface {
   Future<GetSubCategoryQuestionCountEntity> getSubCategoryQuestionCountDS(
       GetSubCategoryQuestionCountParameter parameter) async {
     try {
-      final response = await httpUtils.get(
+      final response = await httpUtils.post(
           ApiConstant.getSubCategoryQuestionCount,
           data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);

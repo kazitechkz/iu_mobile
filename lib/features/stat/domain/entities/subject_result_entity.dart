@@ -5,7 +5,7 @@ class SubjectResultEntity extends Equatable {
   final int right;
   final int notRight;
   final int total;
-  final int point;
+  final String point;
 
   const SubjectResultEntity(
       {required this.subjectId,

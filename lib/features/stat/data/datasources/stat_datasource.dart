@@ -43,7 +43,7 @@ class StatDataSourceImpl extends StatDataSourceInterface{
   @override
   Future<ResultByAttemptIdEntity> resultByAttemptId(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.resultByAttemptId + parameter.toString());
+      final response = await HttpUtil().get(ApiConstant.resultByAttemptId + 529.toString());
       final responseData = ResponseData.fromJson(response);
       final result = ResultByAttemptIdModel.fromMap(responseData.data);
       return result;

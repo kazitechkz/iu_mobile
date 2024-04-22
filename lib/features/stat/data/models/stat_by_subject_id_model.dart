@@ -11,7 +11,7 @@ class StatBySubjectIdModel extends StatBySubjectIdEntity {
   StatBySubjectIdModel.fromMap(DataMap map)
       : this(
           subject: SubjectModel.fromMap(map["subject"]),
-          statBySubject: StatBySubjectModel.fromMapList(map["stat_by_subject"]),
+          statBySubject: StatBySubjectModel.fromMapList(map["stat_by_subject"].cast<Map<String,dynamic>>()),
         );
 
   factory StatBySubjectIdModel.fromJson(Map<String, dynamic> json) {

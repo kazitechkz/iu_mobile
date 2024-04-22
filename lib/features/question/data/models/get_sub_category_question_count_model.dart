@@ -6,7 +6,7 @@ import 'get_sub_category_question_count_model_options_model.dart';
 class GetSubCategoryQuestionCountModel
     extends GetSubCategoryQuestionCountEntity {
   const GetSubCategoryQuestionCountModel(
-      {required Map<int, GetSubCategoryQuestionCountModelOptionsModel>
+      {required Map<String, GetSubCategoryQuestionCountModelOptionsModel>
           super.items});
 
   GetSubCategoryQuestionCountModel.fromMap(DataMap map)
@@ -23,10 +23,10 @@ class GetSubCategoryQuestionCountModel
         .toList();
   }
 
-  static Map<int, GetSubCategoryQuestionCountModelOptionsModel> handleData(
+  static Map<String, GetSubCategoryQuestionCountModelOptionsModel> handleData(
       DataMap map) {
-    final rawData = map.cast<int, dynamic>();
-    Map<int, GetSubCategoryQuestionCountModelOptionsModel> result = {};
+    final rawData = map.cast<String, dynamic>();
+    Map<String, GetSubCategoryQuestionCountModelOptionsModel> result = {};
     rawData.forEach((key, value) {
       result[key] = GetSubCategoryQuestionCountModelOptionsModel.fromMap(
           value.cast<String, dynamic>());

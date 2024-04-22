@@ -15,7 +15,7 @@ class SubjectResultModel extends SubjectResultEntity {
           right: map["right"],
           notRight: map["not_right"],
           total: map["total"],
-          point: map["point"],
+          point:map["point"].toString(),
         );
 
   factory SubjectResultModel.fromJson(Map<String, dynamic> json) {

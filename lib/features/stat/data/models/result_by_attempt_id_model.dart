@@ -15,10 +15,10 @@ class ResultByAttemptIdModel extends ResultByAttemptIdEntity {
       : this(
           attempt: AttemptModel.fromMap(map["attempt"]),
           subjects: map["subjects"] != null
-              ? SubjectModel.fromMapList(map["subjects"])
+              ? SubjectModel.fromMapList(map["subjects"].cast<Map<String,dynamic>>())
               : null,
           subjectResult: map["subject_result"] != null
-              ? SubjectResultModel.fromMapList(map["subject_result"])
+              ? SubjectResultModel.fromMapList(map["subject_result"].cast<Map<String,dynamic>>())
               : null,
         );
 

@@ -53,9 +53,9 @@ class CategoryModel extends CategoryEntity {
     title_kk: map['title_kk'] as String,
     title_ru: map['title_ru'] as String,
     subject_id: map['subject_id'] as int,
-    s_questions_count: map['s_questions_count'] as int,
-    c_questions_count: map['c_questions_count'] as int,
-    m_questions_count: map['m_questions_count'] as int
+    s_questions_count: map['s_questions_count'] != null ? map['s_questions_count'] as int : 0,
+    c_questions_count: map['c_questions_count'] != null ? map['c_questions_count'] as int : 0,
+    m_questions_count: map['m_questions_count'] != null ? map['m_questions_count'] as int : 0
   );
 
   DataMap toJson() {

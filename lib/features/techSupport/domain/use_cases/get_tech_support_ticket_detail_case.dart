@@ -4,11 +4,11 @@ import '../entities/get_tech_support_ticket_detail_entity.dart';
 import '../interface/tech_support_interface.dart';
 import '../parameters/get_tech_support_ticket_detail_parameter.dart';
 
-class GetTechSupportTicketDetailCase extends UseCaseWithParams<List<GetTechSupportTicketDetailEntity>,GetTechSupportTicketDetailParameter>{
+class GetTechSupportTicketDetailCase extends UseCaseWithParams<GetTechSupportTicketDetailEntity,GetTechSupportTicketDetailParameter>{
   final TechSupportInterface _techSupportInterface;
   const GetTechSupportTicketDetailCase(this._techSupportInterface);
   @override
-  ResultFuture<List<GetTechSupportTicketDetailEntity>> call(GetTechSupportTicketDetailParameter params) {
+  ResultFuture<GetTechSupportTicketDetailEntity> call(GetTechSupportTicketDetailParameter params) {
     return this._techSupportInterface.getTechSupportTicketDetail(params);
   }
 

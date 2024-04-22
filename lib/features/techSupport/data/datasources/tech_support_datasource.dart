@@ -28,7 +28,7 @@ abstract class TechSupportDataSourceInterface{
   Future<TechSupportTicketEntity> createTechSupportTicketDS(CreateTechSupportTicketParameter parameter);
   Future<PaginationData<List<TechSupportTicketEntity>>> getMyTechSupportTicketsDS(GetMyTechSupportTicketsParameter parameter);
   Future<List<TechSupportCategoryEntity>> getTechSupportCategoriesDS();
-  Future<List<GetTechSupportTicketDetailEntity>> getTechSupportTicketDetailDS(GetTechSupportTicketDetailParameter parameter);
+  Future<GetTechSupportTicketDetailModel> getTechSupportTicketDetailDS(GetTechSupportTicketDetailParameter parameter);
   Future<List<TechSupportTypeEntity>> getTechSupportTypesDS();
 }
 
@@ -83,7 +83,7 @@ class TechSupportDataSourceImpl extends TechSupportDataSourceInterface{
     try {
       final response = await HttpUtil().get(ApiConstant.getMyTechSupportTickets,data:parameter.toMap());
       final responseData = ResponseData.fromJson(response);
-      final paginationData = PaginationData.fromJson(response.data);
+      final paginationData = PaginationData.fromJson(responseData.data);
       List<TechSupportTicketModel> data = TechSupportTicketModel.fromMapList(paginationData.data.cast<Map<String, dynamic>>());
       final result = PaginationData.fromType(paginationData,data);
       return result;
@@ -98,7 +98,8 @@ class TechSupportDataSourceImpl extends TechSupportDataSourceInterface{
   Future<List<TechSupportCategoryEntity>> getTechSupportCategoriesDS() async {
     try {
       final response = await HttpUtil().get(ApiConstant.getTechSupportCategories);
-      List<TechSupportCategoryModel> result = TechSupportCategoryModel.fromMapList(response.data.cast<Map<String, dynamic>>());
+      final responseData = ResponseData.fromJson(response);
+      List<TechSupportCategoryModel> result = TechSupportCategoryModel.fromMapList(responseData.data.cast<Map<String, dynamic>>());
       return result;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
@@ -108,10 +109,11 @@ class TechSupportDataSourceImpl extends TechSupportDataSourceInterface{
   }
 
   @override
-  Future<List<GetTechSupportTicketDetailEntity>> getTechSupportTicketDetailDS(GetTechSupportTicketDetailParameter parameter) async {
+  Future<GetTechSupportTicketDetailModel> getTechSupportTicketDetailDS(GetTechSupportTicketDetailParameter parameter) async {
     try {
       final response = await HttpUtil().get(ApiConstant.getTechSupportTicketDetail + parameter.ticket_id.toString(), data:parameter.toMap());
-      List<GetTechSupportTicketDetailModel> result = GetTechSupportTicketDetailModel.fromMapList(response.data.cast<Map<String, dynamic>>());
+      final responseData =ResponseData.fromJson(response);
+      GetTechSupportTicketDetailModel result = GetTechSupportTicketDetailModel.fromMap(responseData.data);
       return result;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
@@ -124,7 +126,8 @@ class TechSupportDataSourceImpl extends TechSupportDataSourceInterface{
   Future<List<TechSupportTypeEntity>> getTechSupportTypesDS() async {
     try {
       final response = await HttpUtil().get(ApiConstant.getTechSupportTypes);
-      List<TechSupportTypeModel> result = TechSupportTypeModel.fromMapList(response.data.cast<Map<String, dynamic>>());
+      final responseData = ResponseData.fromJson(response);
+      List<TechSupportTypeModel> result = TechSupportTypeModel.fromMapList(responseData.data.cast<Map<String, dynamic>>());
       return result;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);

@@ -13,11 +13,13 @@ import '../../domain/parameters/all_news_parameter.dart';
 abstract class NewsDataSourceInterface {
   Future<PaginationData<List<NewsEntity>>> allNewsDS(
       AllNewsParameter parameter);
+
   Future<NewsEntity> getImportantNewsDS();
+
   Future<NewsEntity> getSingleNewsDS(String parameter);
 }
 
-class NewsDataSourceImpl extends NewsDataSourceInterface {
+class NewsDataSourceImpl implements NewsDataSourceInterface {
   final httpUtils = HttpUtil();
   final hiveUtils = HiveUtils();
 
@@ -58,7 +60,7 @@ class NewsDataSourceImpl extends NewsDataSourceInterface {
   Future<NewsEntity> getSingleNewsDS(String parameter) async {
     try {
       final response = await httpUtils
-          .post(ApiConstant.getSingleNews + parameter.toString());
+          .get(ApiConstant.getSingleNews + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       final result = NewsModel.fromMap(responseData.data);
       return result;

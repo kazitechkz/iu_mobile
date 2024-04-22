@@ -6,7 +6,7 @@ import 'get_category_question_count_model_options_model.dart';
 
 class GetCategoryQuestionCountModel extends GetCategoryQuestionCountEntity {
   GetCategoryQuestionCountModel(
-      {required Map<int, GetCategoryQuestionCountModelOptionsModel>
+      {required Map<String, GetCategoryQuestionCountModelOptionsModel>
           super.items});
 
   GetCategoryQuestionCountModel.fromMap(DataMap map)
@@ -23,10 +23,10 @@ class GetCategoryQuestionCountModel extends GetCategoryQuestionCountEntity {
         .toList();
   }
 
-  static Map<int, GetCategoryQuestionCountModelOptionsModel> handleData(
+  static Map<String, GetCategoryQuestionCountModelOptionsModel> handleData(
       DataMap map) {
-    final rawData = map.cast<int, dynamic>();
-    Map<int, GetCategoryQuestionCountModelOptionsModel> result = {};
+    final rawData = map.cast<String, dynamic>();
+    Map<String, GetCategoryQuestionCountModelOptionsModel> result = {};
     rawData.forEach((key, value) {
       result[key] = GetCategoryQuestionCountModelOptionsModel.fromMap(
           value.cast<String, dynamic>());

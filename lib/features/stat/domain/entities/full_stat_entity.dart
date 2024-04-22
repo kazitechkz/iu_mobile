@@ -1,16 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:iu/features/stat/domain/entities/subject_sub_category_entity.dart';
 
+import '../../data/models/subject_stat_model.dart';
+
 class FullStatEntity extends Equatable{
-  final List<SubjectSubCategoryEntity>? subjects;
+  final Map<String,Map<String, SubjectStatModel?>>? subjects;
   final int count;
-  final int? average;
+  final double? average;
   final int? min;
   final int? max;
   final int? questionQuantity;
 
   const FullStatEntity({
-    this.subjects, required this.count, this.average, this.min, this.max,
+    required this.subjects, required this.count, this.average, this.min, this.max,
     this.questionQuantity
 });
   @override

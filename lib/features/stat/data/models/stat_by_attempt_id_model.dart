@@ -13,8 +13,8 @@ class StatByAttemptIdModel extends StatByAttemptIdEntity {
   StatByAttemptIdModel.fromMap(DataMap map)
       : this(
           attempt: AttemptModel.fromMap(map["attempt"]),
-          subjects: SubjectModel.fromMapList(map["subjects"]),
-          statByAttempt: StatByAttemptModel.fromMapList(map["stat_by_attempt"]),
+          subjects: SubjectModel.fromMapList(map["subjects"].cast<Map<String,dynamic>>()),
+          statByAttempt: StatByAttemptModel.fromMapList(map["stat_by_attempt"].cast<Map<String,dynamic>>()),
         );
 
   factory StatByAttemptIdModel.fromJson(Map<String, dynamic> json) {

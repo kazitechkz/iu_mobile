@@ -17,6 +17,6 @@ abstract class TechSupportInterface{
   ResultFuture<TechSupportTicketEntity> createTechSupportTicket(CreateTechSupportTicketParameter parameter);
   ResultFuture<PaginationData<List<TechSupportTicketEntity>>> getMyTechSupportTickets(GetMyTechSupportTicketsParameter parameter);
   ResultFuture<List<TechSupportCategoryEntity>> getTechSupportCategories();
-  ResultFuture<List<GetTechSupportTicketDetailEntity>> getTechSupportTicketDetail(GetTechSupportTicketDetailParameter parameter);
+  ResultFuture<GetTechSupportTicketDetailEntity> getTechSupportTicketDetail(GetTechSupportTicketDetailParameter parameter);
   ResultFuture<List<TechSupportTypeEntity>> getTechSupportTypes();
 }
