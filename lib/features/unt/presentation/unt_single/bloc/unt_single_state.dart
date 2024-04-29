@@ -1,33 +1,36 @@
-part of 'unt_full_bloc.dart';
+import 'package:equatable/equatable.dart';
+import '../../../../../core/common/models/failure_data.dart';
+import '../../../../../core/common/models/subject.dart';
+import '../../../../attempt/domain/parameters/create_attempt_parameter.dart';
 
-abstract class UntFullState extends Equatable {
+abstract class UntSingleState extends Equatable {
   final CreateAttemptParameter? parameter;
-  const UntFullState({this.parameter = null});
+  const UntSingleState({this.parameter = null});
 }
 
-class UntFullInitialState extends UntFullState {
+class UntSingleInitialState extends UntSingleState {
   @override
   List<Object> get props => [];
 }
 
-class UntFullLoadingState extends UntFullState {
+class UntSingleLoadingState extends UntSingleState {
   @override
   List<Object> get props => [];
 }
 
-class UntFullSubjectLoadedState extends UntFullState {
+class UntSingleSubjectLoadedState extends UntSingleState {
   final List<SubjectEntity> subjects;
-  const UntFullSubjectLoadedState(this.subjects,
+  const UntSingleSubjectLoadedState(this.subjects,
       {super.parameter = const CreateAttemptParameter(
-          subjects: [], locale_id: 1, attempt_type_id: 1)});
+          subjects: [], locale_id: 1, attempt_type_id: 2)});
   // Updated copyWith method
-  UntFullSubjectLoadedState copyWith({
+  UntSingleSubjectLoadedState copyWith({
     List<SubjectEntity>? Subjects,
     List<int>? subjects,
     int? localeId,
     int? attemptTypeId,
   }) {
-    return UntFullSubjectLoadedState(
+    return UntSingleSubjectLoadedState(
       Subjects ??
           this.subjects, // Use the new subjects list if provided, otherwise use the current list
       parameter: parameter?.copyWith(
@@ -42,16 +45,16 @@ class UntFullSubjectLoadedState extends UntFullState {
   List<Object?> get props => [subjects, parameter];
 }
 
-class UntFullFailedState extends UntFullState {
+class UntSingleFailedState extends UntSingleState {
   final FailureData failureData;
-  const UntFullFailedState(this.failureData);
+  const UntSingleFailedState(this.failureData);
   @override
   List<Object?> get props => [failureData.message, failureData.statusCode];
 }
 
-class UntFullAttemptCreatedState extends UntFullState {
+class UntSingleAttemptCreatedState extends UntSingleState {
   final int attemptId;
-  const UntFullAttemptCreatedState(this.attemptId);
+  const UntSingleAttemptCreatedState(this.attemptId);
   @override
   List<Object?> get props => [attemptId];
 }

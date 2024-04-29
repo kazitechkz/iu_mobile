@@ -9,6 +9,7 @@ Future<void> slInit() async {
   await _authSLInit();
   await _stepSLInit();
   await _untSlInit();
+  await _singleUntSlInit();
   await _attemptSlInit();
   await _tournamentSlInit();
   await _battleSlInit();
@@ -44,6 +45,7 @@ Future<void> _dioSLInit() async {
       contentType: "application/json;charset=utf-8",
       responseType: ResponseType.json);
   final dio = Dio(options);
+  dio.options.responseType = ResponseType.json;
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
   // HiveUtils().loggedOutFromHive();
   dio.interceptors.add(BearerTokenInterceptor(token));
@@ -106,17 +108,22 @@ Future<void> _factSLInit() async {
   sl.registerLazySingleton<FactInterface>(() => FactRepository(sl()));
   sl.registerLazySingleton<FactDatasourceInterface>(() => FactDatasourceImpl());
 }
+
 Future<void> _openAiSLInit() async {
   sl.registerLazySingleton(() => OpenAiUseCase(sl()));
   sl.registerLazySingleton<OpenAiInterface>(() => OpenAiRepository(sl()));
-  sl.registerLazySingleton<OpenAiDatasourceInterface>(() => OpenAiDatasourceImpl());
+  sl.registerLazySingleton<OpenAiDatasourceInterface>(
+      () => OpenAiDatasourceImpl());
 }
+
 Future<void> _attemptSettingsSLInit() async {
   sl.registerLazySingleton(() => CreateAttemptSettingUseCase(sl()));
   sl.registerLazySingleton(() => MyAttemptSettingSingleUseCase(sl()));
   sl.registerLazySingleton(() => MyAttemptSettingsUntUseCase(sl()));
-  sl.registerLazySingleton<AttemptSettingInterface>(() => AttemptSettingRepository(sl()));
-  sl.registerLazySingleton<AttemptSettingDatasourceInterface>(() => AttemptSettingDatasourceImpl());
+  sl.registerLazySingleton<AttemptSettingInterface>(
+      () => AttemptSettingRepository(sl()));
+  sl.registerLazySingleton<AttemptSettingDatasourceInterface>(
+      () => AttemptSettingDatasourceImpl());
 }
 
 Future<void> _appealSLInit() async {
@@ -156,13 +163,16 @@ Future<void> _subCategorySLInit() async {
 }
 
 Future<void> _untSlInit() async {
-  sl.registerFactory(() => UntFullBloc(getSubjectsCase: sl<GetSubjectsCase>()));
+  sl.registerFactory(() => UntFullBloc(
+      getSubjectsCase: sl<GetSubjectsCase>(),
+      createAttemptCase: sl<CreateAttemptCase>()));
   sl.registerLazySingleton(() => GetSubjectsCase(sl()));
   sl.registerLazySingleton<UntInterface>(() => UntRepository(sl()));
   sl.registerLazySingleton<UntDataSourceInterface>(() => UntDataSourceImpl());
 }
 
 Future<void> _attemptSlInit() async {
+  sl.registerFactory(() => PassAttemptBloc(attemptCase: sl<GetAttemptCase>()));
   sl.registerLazySingleton(() => AllAttemptsCase(sl()));
   sl.registerLazySingleton(() => AllAttemptTypesCase(sl()));
   sl.registerLazySingleton(() => AnswerCase(sl()));
@@ -312,4 +322,10 @@ Future<void> _questionSlInit() async {
   sl.registerLazySingleton<QuestionInterface>(() => QuestionRepository(sl()));
   sl.registerLazySingleton<QuestionDataSourceInterface>(
       () => QuestionDataSourceImpl());
+}
+
+Future<void> _singleUntSlInit() async {
+  sl.registerFactory(() => UntSingleBloc(
+      getSubjectsCase: sl<GetSubjectsCase>(),
+      createAttemptCase: sl<CreateAttemptCase>()));
 }

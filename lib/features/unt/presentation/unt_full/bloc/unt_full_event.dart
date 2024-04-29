@@ -4,22 +4,28 @@ abstract class UntFullEvent extends Equatable {
   const UntFullEvent();
 }
 
-class UntFullGetSubjectsEvent extends UntFullEvent{
+class UntFullGetSubjectsEvent extends UntFullEvent {
   @override
   List<Object?> get props => [];
 }
 
-
-class UntFullAddSubjectsEvent extends UntFullEvent{
+class UntFullAddSubjectsEvent extends UntFullEvent {
   final List<int> subjectIDS;
   const UntFullAddSubjectsEvent(this.subjectIDS);
   @override
   List<Object?> get props => [];
 }
 
-class UntFullUpdateLocaleIdEvent extends UntFullEvent{
+class UntFullUpdateLocaleIdEvent extends UntFullEvent {
   final int localeId;
   const UntFullUpdateLocaleIdEvent(this.localeId);
+  @override
+  List<Object?> get props => [];
+}
+
+class UntFullCreateAttemptEvent extends UntFullEvent {
+  final CreateAttemptParameter parameter;
+  const UntFullCreateAttemptEvent(this.parameter);
   @override
   List<Object?> get props => [];
 }

@@ -27,20 +27,19 @@ import 'package:iu/features/attempt/domain/parameters/save_question_parameter.da
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
-  // BaseOptions options = BaseOptions(
-  //     connectTimeout: const Duration(seconds: 5),
-  //     receiveTimeout: const Duration(seconds: 5),
-  //     headers: {'Accept': "application/json;"},
-  //     contentType: "application/json;charset=utf-8",
-  //     responseType: ResponseType.json);
-  // final dio = Dio(options);
-  // dio.interceptors.add(BearerTokenInterceptor(
-  //     "715|NEXf8pSGQ6B8tQ9WLRPYb2gJQQTIiLi9xTJ1Ljpe9d9dbde1"));
-  // sl.registerLazySingleton<Dio>(() => dio);
-  // SaveQuestionParameter saveQuestionParameter =
-  //     new SaveQuestionParameter(23363);
-  // final response = await HttpUtil().get(
-  //     ApiConstant.saveQuestion + saveQuestionParameter.questionId.toString());
-  // final result = ResponseData<bool>.fromJson(response);
-  // print(result.data);
+  BaseOptions options = BaseOptions(
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+      headers: {'Accept': "application/json;"},
+      contentType: "application/json;charset=utf-8",
+      responseType: ResponseType.json);
+  final dio = Dio(options);
+  dio.interceptors.add(BearerTokenInterceptor(
+      "1544|m0AS6Nq3oX2sv5xCP9kyBJ5xq0yZAlVz47GgY4wh6fe182df"));
+  sl.registerLazySingleton<Dio>(() => dio);
+  final response =
+      await HttpUtil().get(ApiConstant.getAttemptById + 842.toString());
+  final data = ResponseData.fromJson(response);
+  final result = AttemptCommonModel.fromJson(data.data);
+  print(result);
 }

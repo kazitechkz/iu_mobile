@@ -13,43 +13,45 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/services/image_service.dart';
 
-import 'bloc/unt_full_bloc.dart';
+import 'bloc/unt_Single_bloc.dart';
+import 'bloc/unt_single_event.dart';
+import 'bloc/unt_single_state.dart';
 
-class UntFullScreen extends StatefulWidget {
-  const UntFullScreen({super.key});
+class UntSingleScreen extends StatefulWidget {
+  const UntSingleScreen({super.key});
 
   @override
-  State<UntFullScreen> createState() => _UntFullScreenState();
+  State<UntSingleScreen> createState() => _UntSingleScreenState();
 }
 
-class _UntFullScreenState extends State<UntFullScreen> {
+class _UntSingleScreenState extends State<UntSingleScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<UntFullBloc>().add(UntFullGetSubjectsEvent());
+    context.read<UntSingleBloc>().add(UntSingleGetSubjectsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocConsumer<UntFullBloc, UntFullState>(
+        body: BlocConsumer<UntSingleBloc, UntSingleState>(
           listener: (context, state) {
-            if (state is UntFullFailedState) {
+            if (state is UntSingleFailedState) {
               AppToaster.showError(state.failureData.message ?? "Error");
             }
-            if (state is UntFullAttemptCreatedState) {
+            if (state is UntSingleAttemptCreatedState) {
               AppToaster.showSuccess("Тест успешно создан");
               context
                   .go('/${RouteConstant.passAttemptById}/${state.attemptId}');
             }
           },
           builder: (context, state) {
-            if (state is UntFullLoadingState) {
+            if (state is UntSingleLoadingState) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is UntFullSubjectLoadedState) {
+            if (state is UntSingleSubjectLoadedState) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
                 child: Column(
@@ -77,7 +79,7 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Сдать полный тест",
+                                      "Сдать тест по 1 предмету",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 24.sp,
@@ -103,7 +105,7 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                         ),
                                         Flexible(
                                           child: Text(
-                                            "3 основных дисциплины и 2 на выбор",
+                                            "1 предмет на выбор",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16.sp),
@@ -131,7 +133,7 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                         ),
                                         Flexible(
                                           child: Text(
-                                            "На выполнение дается 210 минут",
+                                            "На выполнение дается строго отведенное время",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16.sp),
@@ -187,8 +189,8 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                 colorOff: ColorConstant.lightViolet,
                                 textSize: 16.0,
                                 onChanged: (bool state) {
-                                  context.read<UntFullBloc>().add(
-                                      UntFullUpdateLocaleIdEvent(
+                                  context.read<UntSingleBloc>().add(
+                                      UntSingleUpdateLocaleIdEvent(
                                           state ? 1 : 2));
                                 },
                                 onTap: () {},
@@ -208,27 +210,20 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                   (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    if (state.subjects[index].is_compulsory !=
-                                        1) {
-                                      List<int> newValue = List<int>.from(
-                                          state.parameter?.subjects ?? []);
-                                      if (newValue
-                                          .contains(state.subjects[index].id)) {
-                                        newValue
-                                            .remove(state.subjects[index].id);
+                                    List<int> newValue = List<int>.from(
+                                        state.parameter?.subjects ?? []);
+                                    if (newValue
+                                        .contains(state.subjects[index].id)) {
+                                      newValue.remove(state.subjects[index].id);
+                                    } else {
+                                      if (newValue.length >= 1) {
+                                        newValue[0] = state.subjects[index].id;
                                       } else {
-                                        if (newValue.length >= 2) {
-                                          newValue[0] = newValue[1];
-                                          newValue[1] =
-                                              state.subjects[index].id;
-                                        } else {
-                                          newValue
-                                              .add(state.subjects[index].id);
-                                        }
+                                        newValue.add(state.subjects[index].id);
                                       }
-                                      context.read<UntFullBloc>().add(
-                                          UntFullAddSubjectsEvent(newValue));
                                     }
+                                    context.read<UntSingleBloc>().add(
+                                        UntSingleAddSubjectsEvent(newValue));
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -246,13 +241,10 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                           right: 10,
                                           top: 5,
                                           child: (state.parameter?.subjects
-                                                          .contains(state
-                                                              .subjects[index]
-                                                              .id) ==
-                                                      true ||
-                                                  state.subjects[index]
-                                                          .is_compulsory ==
-                                                      1
+                                                      .contains(state
+                                                          .subjects[index]
+                                                          .id) ==
+                                                  true
                                               ? const Icon(
                                                   FontAwesomeIcons.circleCheck,
                                                   color:
@@ -309,20 +301,20 @@ class _UntFullScreenState extends State<UntFullScreen> {
             return SizedBox();
           },
         ),
-        floatingActionButton: BlocBuilder<UntFullBloc, UntFullState>(
+        floatingActionButton: BlocBuilder<UntSingleBloc, UntSingleState>(
           builder: (context, state) {
-            if (state is UntFullSubjectLoadedState) {
-              if (state.parameter?.subjects.length == 2 &&
+            if (state is UntSingleSubjectLoadedState) {
+              if (state.parameter?.subjects.length == 1 &&
                   state.parameter?.locale_id != null &&
-                  state.parameter?.attempt_type_id == 1) {
+                  state.parameter?.attempt_type_id == 2) {
                 return FloatingActionButton.extended(
                   backgroundColor: ColorConstant.lightViolet,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0),
                   ),
                   onPressed: () {
-                    context.read<UntFullBloc>().add(UntFullCreateAttemptEvent(
-                        CreateAttemptParameter(
+                    context.read<UntSingleBloc>().add(
+                        UntSingleCreateAttemptEvent(CreateAttemptParameter(
                             subjects: state.parameter!.subjects,
                             locale_id: state.parameter!.locale_id,
                             attempt_type_id:

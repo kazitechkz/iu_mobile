@@ -179,7 +179,10 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
       return AttemptCommonModel.fromJson(data.data);
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
-    } on Exception catch (e) {
+    } catch (e, stackTrace) {
+      print("EXCEPTION");
+      print(stackTrace);
+      print(e);
       throw ApiException(message: e.toString());
     }
   }
