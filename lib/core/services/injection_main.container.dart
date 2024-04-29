@@ -127,7 +127,6 @@ import 'package:iu/features/unt/data/datasources/unt_datasource.dart';
 import 'package:iu/features/unt/data/repositories/unt_repository.dart';
 import 'package:iu/features/unt/domain/interfaces/unt_interface.dart';
 import 'package:iu/features/unt/domain/use_cases/get_subjects_case.dart';
-import 'package:iu/features/unt/presentation/bloc/unt_bloc.dart';
 import 'package:iu/features/welcome/data/datasources/welcome_datasource.dart';
 import 'package:iu/features/welcome/data/repositories/welcome_repository.dart';
 import 'package:iu/features/welcome/domain/interfaces/welcome_interface.dart';
@@ -182,6 +181,7 @@ import '../../features/tournament/domain/use_cases/get_tournament_awards_case.da
 import '../../features/tournament/domain/use_cases/get_tournament_detail_case.dart';
 import '../../features/tournament/domain/use_cases/on_participate_tournament_case.dart';
 import '../../features/tournament/domain/use_cases/on_pay_tournament_case.dart';
+import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
 import '../../features/user/data/datasources/user_datasource.dart';
 import '../../features/user/data/repositories/user_repository.dart';
 import '../../features/user/domain/interface/user_interface.dart';

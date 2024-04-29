@@ -156,7 +156,7 @@ Future<void> _subCategorySLInit() async {
 }
 
 Future<void> _untSlInit() async {
-  sl.registerFactory(() => UntBloc(getSubjectsCase: sl<GetSubjectsCase>()));
+  sl.registerFactory(() => UntFullBloc(getSubjectsCase: sl<GetSubjectsCase>()));
   sl.registerLazySingleton(() => GetSubjectsCase(sl()));
   sl.registerLazySingleton<UntInterface>(() => UntRepository(sl()));
   sl.registerLazySingleton<UntDataSourceInterface>(() => UntDataSourceImpl());

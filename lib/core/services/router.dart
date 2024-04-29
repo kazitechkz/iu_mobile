@@ -11,11 +11,11 @@ import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/screens/step_screen.dart';
-import 'package:iu/features/unt/presentation/bloc/unt_bloc.dart';
-import 'package:iu/features/unt/presentation/screens/unt_full_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
+import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
+import '../../features/unt/presentation/unt_full/unt_full_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
 import 'injection_main.container.dart';
@@ -163,7 +163,7 @@ class RouteNavigation {
             name: RouteConstant.untFullScreenName,
             builder: (context, state) {
               return BlocProvider(
-                create: (_) => sl<UntBloc>(),
+                create: (_) => sl<UntFullBloc>(),
                 child: const UntFullScreen(),
               );
             },

@@ -62,6 +62,9 @@ dependencies:
   cached_network_image: ^3.3.1
   transformable_list_view: ^0.5.0
   carousel_slider: ^4.2.1
+  animated_toggle_switch: ^0.8.2
+  lite_rolling_switch: ^1.0.1
+  country_flags: ^2.2.0
 
 dev_dependencies:
   flutter_test:

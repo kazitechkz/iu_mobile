@@ -18,6 +18,8 @@ class ColorConstant {
   static const Color orangeColorMedium = Color(0xFFFFA042);
   static const Color orangeColorLight = Color(0xFFFEF6CC);
   static const Color lightBlue = Color(0xFF33B6FF);
+  static const Color lightViolet = Color(0xFF7D9EF8);
+  static const Color lightPink = Color(0xFFDB88F7);
   static const Color lightRatingBlue = Color(0xFFDEEFF9);
   static const Color grayDarkColor = Color(0xFF808080);
   static const Color mainTextColor = Color(0xFFBEBEBE);
