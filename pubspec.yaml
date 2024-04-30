@@ -65,6 +65,9 @@ dependencies:
   animated_toggle_switch: ^0.8.2
   lite_rolling_switch: ^1.0.1
   country_flags: ^2.2.0
+  flutter_timer_countdown: ^1.0.7
+  dropdown_button2: ^2.3.9
+  flutter_tex: ^4.0.6
 
 dev_dependencies:
   flutter_test:

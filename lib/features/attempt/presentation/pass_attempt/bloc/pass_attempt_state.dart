@@ -16,7 +16,8 @@ final class PassAttemptLoadingState extends PassAttemptState {
 
 final class PassAttemptSuccessState extends PassAttemptState {
   final AttemptCommonEntity attempt;
-  PassAttemptSuccessState(this.attempt);
+  final int? subjectId;
+  PassAttemptSuccessState(this.attempt,{this.subjectId = 0});
   @override
   List<Object?> get props => [attempt];
 }
