@@ -24,11 +24,12 @@ class HttpUtil {
   Future get(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
     try {
-      var response =
-          await dio.get(path, data: data, queryParameters: queryParameters); // to avoid utf-8 errors
+      var response = await dio.get(path,
+          data: data,
+          queryParameters: queryParameters); // to avoid utf-8 errors
       return response.data;
     } on DioException catch (e) {
-      print(e);
+      print(e.error);
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
       throw ApiException(message: e.toString());

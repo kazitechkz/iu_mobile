@@ -33,12 +33,13 @@ class PassUntScreen extends StatefulWidget {
 
 class _PassUntScreenState extends State<PassUntScreen> {
   CarouselController attemptCarouselController = CarouselController();
-  void initState(){
+  void initState() {
     super.initState();
     context
         .read<PassAttemptBloc>()
         .add(PassAttemptGetByAttemptIdEvent(widget.attemptId));
   }
+
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
     context
@@ -52,7 +53,10 @@ class _PassUntScreenState extends State<PassUntScreen> {
         body: BlocConsumer<PassAttemptBloc, PassAttemptState>(
       listener: (context, state) {
         if (state is PassAttemptSuccessState) {
-
+          if (state.answeredResult == null) {
+            this.checkAnsweredResult(context, state);
+            print(state.answeredResult);
+          }
         }
       },
       builder: (context, state) {
@@ -60,7 +64,6 @@ class _PassUntScreenState extends State<PassUntScreen> {
           AppToaster.showError(state.failureData.message ?? "Error");
         }
         if (state is PassAttemptSuccessState) {
-          checkAnsweredResult(context,state);
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 15.w),
@@ -160,9 +163,8 @@ class _PassUntScreenState extends State<PassUntScreen> {
                         onChanged: (int? value) {
                           context
                               .read<PassAttemptBloc>()
-                              .add(PassAttemptChangeSubjectEvent(value??0));
+                              .add(PassAttemptChangeSubjectEvent(value ?? 0));
                           attemptCarouselController.jumpToPage(0);
-
                         },
                         buttonStyleData: ButtonStyleData(
                           height: 40.h,
@@ -247,227 +249,350 @@ class _PassUntScreenState extends State<PassUntScreen> {
                       height: 20.h,
                     ),
                     ExpandableCarousel.builder(
-                        options: CarouselOptions(
-                        controller: attemptCarouselController,
-                        viewportFraction: 1.0, showIndicator: false),
-                        itemCount: state.attempt.subjectQuestions[state.subjectId ?? 0].question.length,
-                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
-                          final activeQuestion = state.attempt.subjectQuestions[state.subjectId ?? 0].question[itemIndex];
-                          return Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        stops: [0.1, 0.9],
-                                        colors:
-                                        ColorConstant.violetToPinkGradient),
-                                    borderRadius: BorderRadius.circular(10.w)),
-                                child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      minHeight: 200
-                                          .h, // Установка минимальной высоты в 200 пикселей
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.h, horizontal: 10.w),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "Вопрос ${pageViewIndex + 1}/${state.attempt.subjectQuestions[state.subjectId??0].question.length}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontSize: 18.sp
-                                            ),
-                                            textAlign: TextAlign.right,
-
-                                          ),
-                                          SizedBox(height: 20.h,),
-                                          TeXView(
-                                            renderingEngine:
-                                            TeXViewRenderingEngine.mathjax(),
-                                            child: TeXViewDocument(
-                                                MathJaxHelper.toMathJax(activeQuestion.text)),
-                                            style: TeXViewStyle(
-                                                contentColor: Colors.white,
-                                                fontStyle: TeXViewFontStyle(
-                                                    fontWeight: TeXViewFontWeight.bold
-                                                )
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          (activeQuestion.context != null
-                                              ? TeXView(
-                                            renderingEngine:
-                                            const TeXViewRenderingEngine
-                                                .mathjax(),
-                                            child: TeXViewDocument(
-                                                MathJaxHelper.toMathJax(
-                                                   activeQuestion.context?.context ??
-                                                        "")),
-                                            style: const TeXViewStyle(
-                                                contentColor: Colors.white),
-                                          )
-                                              : SizedBox()),
-                                          SizedBox(height: 10.h,),
-                                          const Divider(
-                                              color: Colors.white
-                                          ),
-                                          SizedBox(height: 10.h,),
-                                          GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"a",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerA,
-                                                isChecked:isChecked(state,"a",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"a",activeQuestion.id,activeQuestion.typeId),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"b",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerB,
-                                                isChecked:isChecked(state,"b",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"b",activeQuestion.id,activeQuestion.typeId),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"c",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerC,
-                                                isChecked:isChecked(state,"c",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"c",activeQuestion.id,activeQuestion.typeId),
-                                            ),
-                                          ),
-                                          (activeQuestion.answerD != null ? GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"d",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerD,
-                                                isChecked:isChecked(state,"d",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"d",activeQuestion.id,activeQuestion.typeId)
-                                            ),
-                                          ) : const SizedBox()),
-                                          (activeQuestion.answerE != null ? GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"e",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerE,
-                                                isChecked:isChecked(state,"e",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"e",activeQuestion.id,activeQuestion.typeId)
-
-                                            ),
-                                          ) :const SizedBox()),
-                                          (activeQuestion.answerF != null ? GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"f",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerF,
-                                                isChecked:isChecked(state,"f",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"f",activeQuestion.id,activeQuestion.typeId)
-
-                                            ),
-                                          ) : const SizedBox()),
-                                          (activeQuestion.answerG != null ? GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"g",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerG,
-                                                isChecked:isChecked(state,"g",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"g",activeQuestion.id,activeQuestion.typeId)
-                                            ),
-                                          ) :const SizedBox()),
-                                          (activeQuestion.answerH != null ? GestureDetector(
-                                            onTap: (){
-                                              checkAnswered(context,"h",activeQuestion.id,activeQuestion.typeId);
-                                            },
-                                            child: AnswerButton(
-                                                answer: activeQuestion.answerH,
-                                                isChecked:isChecked(state,"h",activeQuestion.id),
-                                                onSelected: (answer)=>checkAnswered(context,"h",activeQuestion.id,activeQuestion.typeId)
-                                            ),
-                                          ) :const SizedBox()),
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                              SizedBox(height: 20.h,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedGradientButton(
-                                    onPressed: (){
-                                      attemptCarouselController.previousPage();
-                                    },
-                                    gradient: const LinearGradient(
-                                      colors: ColorConstant.violetToPinkGradient,
-                                    ),
-                                    width: 80.w,
-                                    height: 40.h,
-                                    borderRadius: 20.0,
-                                    child: Icon(FontAwesomeIcons.chevronLeft,color: Colors.white,),
+                      options: CarouselOptions(
+                          controller: attemptCarouselController,
+                          viewportFraction: 1.0,
+                          showIndicator: false),
+                      itemCount: state
+                          .attempt
+                          .subjectQuestions[state.subjectId ?? 0]
+                          .question
+                          .length,
+                      itemBuilder: (BuildContext context, int itemIndex,
+                          int pageViewIndex) {
+                        final activeQuestion = state
+                            .attempt
+                            .subjectQuestions[state.subjectId ?? 0]
+                            .question[itemIndex];
+                        return Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      stops: [0.1, 0.9],
+                                      colors:
+                                          ColorConstant.violetToPinkGradient),
+                                  borderRadius: BorderRadius.circular(10.w)),
+                              child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minHeight: 200
+                                        .h, // Установка минимальной высоты в 200 пикселей
                                   ),
-                                  (isReadyToAnswer(state,activeQuestion.id) ?
-                                  ElevatedGradientButton(
-                                    onPressed: (){
-                                      AnswerParameter parameter = AnswerParameter(
-                                          attempt_id: state.attempt.attemptId,
-                                          answers:state.answeredQuestions[activeQuestion.id]?.join(",")??"",
-                                          attempt_subject_id: state.attempt.subjectQuestions[state.subjectId??0].attemptSubjectId,
-                                          question_id: activeQuestion.id,
-                                          attempt_type_id: state.attempt.typeId,
-                                      );
-                                      context.read<PassAttemptBloc>().add(PassAttemptAnswerEvent(parameter));
-                                      attemptCarouselController.nextPage();
-                                    },
-                                    gradient: const LinearGradient(
-                                      colors: ColorConstant.violetToPinkGradient,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.h, horizontal: 10.w),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Вопрос ${pageViewIndex + 1}/${state.attempt.subjectQuestions[state.subjectId ?? 0].question.length}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              fontSize: 18.sp),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        SizedBox(
+                                          height: 20.h,
+                                        ),
+                                        TeXView(
+                                          renderingEngine:
+                                              TeXViewRenderingEngine.mathjax(),
+                                          child: TeXViewDocument(
+                                              MathJaxHelper.toMathJax(
+                                                  activeQuestion.text)),
+                                          style: TeXViewStyle(
+                                              contentColor: Colors.white,
+                                              fontStyle: TeXViewFontStyle(
+                                                  fontWeight:
+                                                      TeXViewFontWeight.bold)),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        (activeQuestion.context != null
+                                            ? TeXView(
+                                                renderingEngine:
+                                                    const TeXViewRenderingEngine
+                                                        .mathjax(),
+                                                child: TeXViewDocument(
+                                                    MathJaxHelper.toMathJax(
+                                                        activeQuestion.context
+                                                                ?.context ??
+                                                            "")),
+                                                style: const TeXViewStyle(
+                                                    contentColor: Colors.white),
+                                              )
+                                            : SizedBox()),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        const Divider(color: Colors.white),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            checkAnswered(
+                                                context,
+                                                "a",
+                                                activeQuestion.id,
+                                                activeQuestion.typeId);
+                                          },
+                                          child: AnswerButton(
+                                            answer: activeQuestion.answerA,
+                                            isChecked: isChecked(
+                                                state, "a", activeQuestion.id),
+                                            onSelected: (answer) =>
+                                                checkAnswered(
+                                                    context,
+                                                    "a",
+                                                    activeQuestion.id,
+                                                    activeQuestion.typeId),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            checkAnswered(
+                                                context,
+                                                "b",
+                                                activeQuestion.id,
+                                                activeQuestion.typeId);
+                                          },
+                                          child: AnswerButton(
+                                            answer: activeQuestion.answerB,
+                                            isChecked: isChecked(
+                                                state, "b", activeQuestion.id),
+                                            onSelected: (answer) =>
+                                                checkAnswered(
+                                                    context,
+                                                    "b",
+                                                    activeQuestion.id,
+                                                    activeQuestion.typeId),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            checkAnswered(
+                                                context,
+                                                "c",
+                                                activeQuestion.id,
+                                                activeQuestion.typeId);
+                                          },
+                                          child: AnswerButton(
+                                            answer: activeQuestion.answerC,
+                                            isChecked: isChecked(
+                                                state, "c", activeQuestion.id),
+                                            onSelected: (answer) =>
+                                                checkAnswered(
+                                                    context,
+                                                    "c",
+                                                    activeQuestion.id,
+                                                    activeQuestion.typeId),
+                                          ),
+                                        ),
+                                        (activeQuestion.answerD != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  checkAnswered(
+                                                      context,
+                                                      "d",
+                                                      activeQuestion.id,
+                                                      activeQuestion.typeId);
+                                                },
+                                                child: AnswerButton(
+                                                    answer:
+                                                        activeQuestion.answerD,
+                                                    isChecked: isChecked(state,
+                                                        "d", activeQuestion.id),
+                                                    onSelected: (answer) =>
+                                                        checkAnswered(
+                                                            context,
+                                                            "d",
+                                                            activeQuestion.id,
+                                                            activeQuestion
+                                                                .typeId)),
+                                              )
+                                            : const SizedBox()),
+                                        (activeQuestion.answerE != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  checkAnswered(
+                                                      context,
+                                                      "e",
+                                                      activeQuestion.id,
+                                                      activeQuestion.typeId);
+                                                },
+                                                child: AnswerButton(
+                                                    answer:
+                                                        activeQuestion.answerE,
+                                                    isChecked: isChecked(state,
+                                                        "e", activeQuestion.id),
+                                                    onSelected: (answer) =>
+                                                        checkAnswered(
+                                                            context,
+                                                            "e",
+                                                            activeQuestion.id,
+                                                            activeQuestion
+                                                                .typeId)),
+                                              )
+                                            : const SizedBox()),
+                                        (activeQuestion.answerF != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  checkAnswered(
+                                                      context,
+                                                      "f",
+                                                      activeQuestion.id,
+                                                      activeQuestion.typeId);
+                                                },
+                                                child: AnswerButton(
+                                                    answer:
+                                                        activeQuestion.answerF,
+                                                    isChecked: isChecked(state,
+                                                        "f", activeQuestion.id),
+                                                    onSelected: (answer) =>
+                                                        checkAnswered(
+                                                            context,
+                                                            "f",
+                                                            activeQuestion.id,
+                                                            activeQuestion
+                                                                .typeId)),
+                                              )
+                                            : const SizedBox()),
+                                        (activeQuestion.answerG != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  checkAnswered(
+                                                      context,
+                                                      "g",
+                                                      activeQuestion.id,
+                                                      activeQuestion.typeId);
+                                                },
+                                                child: AnswerButton(
+                                                    answer:
+                                                        activeQuestion.answerG,
+                                                    isChecked: isChecked(state,
+                                                        "g", activeQuestion.id),
+                                                    onSelected: (answer) =>
+                                                        checkAnswered(
+                                                            context,
+                                                            "g",
+                                                            activeQuestion.id,
+                                                            activeQuestion
+                                                                .typeId)),
+                                              )
+                                            : const SizedBox()),
+                                        (activeQuestion.answerH != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  checkAnswered(
+                                                      context,
+                                                      "h",
+                                                      activeQuestion.id,
+                                                      activeQuestion.typeId);
+                                                },
+                                                child: AnswerButton(
+                                                    answer:
+                                                        activeQuestion.answerH,
+                                                    isChecked: isChecked(state,
+                                                        "h", activeQuestion.id),
+                                                    onSelected: (answer) =>
+                                                        checkAnswered(
+                                                            context,
+                                                            "h",
+                                                            activeQuestion.id,
+                                                            activeQuestion
+                                                                .typeId)),
+                                              )
+                                            : const SizedBox()),
+                                      ],
                                     ),
-                                    width: 120.w,
-                                    height: 40.h,
-                                    borderRadius: 20.0,
-                                    child: Text(
-                                      "Ответить",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 16.sp
-                                      ),
-                                      textAlign: TextAlign.right,
-
-                                    ),
-                                  ) : SizedBox()),
-                                  ElevatedGradientButton(
-                                    onPressed: (){
-                                      attemptCarouselController.nextPage();
-                                    },
-                                    gradient: const LinearGradient(
-                                      colors: ColorConstant.violetToPinkGradient,
-                                    ),
-                                    width: 80.w,
-                                    height: 40.h,
-                                    borderRadius: 20.0,
-                                    child: Icon(FontAwesomeIcons.chevronRight,color: Colors.white,),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ElevatedGradientButton(
+                                  onPressed: () {
+                                    attemptCarouselController.previousPage();
+                                  },
+                                  gradient: const LinearGradient(
+                                    colors: ColorConstant.violetToPinkGradient,
                                   ),
-                                ],
-                              )
-                            ],
-                          );
-                        },
+                                  width: 80.w,
+                                  height: 40.h,
+                                  borderRadius: 20.0,
+                                  child: Icon(
+                                    FontAwesomeIcons.chevronLeft,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                (isReadyToAnswer(state, activeQuestion.id)
+                                    ? ElevatedGradientButton(
+                                        onPressed: () {
+                                          AnswerParameter parameter =
+                                              AnswerParameter(
+                                            attempt_id: state.attempt.attemptId,
+                                            answers: state.answeredQuestions[
+                                                        activeQuestion.id]
+                                                    ?.join(",") ??
+                                                "",
+                                            attempt_subject_id: state
+                                                .attempt
+                                                .subjectQuestions[
+                                                    state.subjectId ?? 0]
+                                                .attemptSubjectId,
+                                            question_id: activeQuestion.id,
+                                            attempt_type_id:
+                                                state.attempt.typeId,
+                                          );
+                                          context.read<PassAttemptBloc>().add(
+                                              PassAttemptAnswerEvent(
+                                                  parameter));
+                                          attemptCarouselController.nextPage();
+                                        },
+                                        gradient: const LinearGradient(
+                                          colors: ColorConstant
+                                              .violetToPinkGradient,
+                                        ),
+                                        width: 120.w,
+                                        height: 40.h,
+                                        borderRadius: 20.0,
+                                        child: Text(
+                                          "Ответить",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              fontSize: 16.sp),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      )
+                                    : SizedBox()),
+                                ElevatedGradientButton(
+                                  onPressed: () {
+                                    attemptCarouselController.nextPage();
+                                  },
+                                  gradient: const LinearGradient(
+                                    colors: ColorConstant.violetToPinkGradient,
+                                  ),
+                                  width: 80.w,
+                                  height: 40.h,
+                                  borderRadius: 20.0,
+                                  child: Icon(
+                                    FontAwesomeIcons.chevronRight,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      },
                     ),
-
                   ],
                 ),
               ),
@@ -482,31 +607,40 @@ class _PassUntScreenState extends State<PassUntScreen> {
     ));
   }
 
+  void checkAnswered(
+      BuildContext context, String answer, int questionId, int typeId) {
+    context
+        .read<PassAttemptBloc>()
+        .add(PassAttemptAnswerQuestionEvent(answer, questionId, typeId));
+  }
 
-  void checkAnswered(BuildContext context,String answer, int questionId, int typeId){
-      context.read<PassAttemptBloc>().add(PassAttemptAnswerQuestionEvent(answer, questionId, typeId));
+  void checkAnsweredResult(
+      BuildContext context, PassAttemptSuccessState state) {
+    context.read<PassAttemptBloc>().add(PassAttemptGetAnsweredEvent(
+        state.attempt.subjectQuestions[state.subjectId ?? 0].attemptSubjectId));
   }
-  void checkAnsweredResult(BuildContext context,PassAttemptSuccessState state){
-    context.read<PassAttemptBloc>().add(PassAttemptGetAnsweredEvent(state.attempt.subjectQuestions[state.subjectId??0].attemptSubjectId));
-  }
-  bool isChecked(PassAttemptSuccessState state,String answer, int questionId){
-    if(state.answeredQuestions.containsKey(questionId)){
-      if(state.answeredQuestions[questionId]!.contains(answer)){
+
+  bool isChecked(PassAttemptSuccessState state, String answer, int questionId) {
+    if (state.answeredQuestions.containsKey(questionId)) {
+      if (state.answeredQuestions[questionId]!.contains(answer)) {
         return true;
       }
     }
     return false;
   }
 
-  bool isReadyToAnswer(PassAttemptSuccessState state, int questionId){
-    if(state.answeredQuestions.containsKey(questionId)){
-      if(state.answeredQuestions[questionId]!.length >= 1 && !state.answeredQuestionsID.contains(questionId)){
+  bool isReadyToAnswer(PassAttemptSuccessState state, int questionId) {
+    if (state.answeredResult != null) {
+      if (state.answeredResult!.data.containsKey(questionId)) {
+        return false;
+      }
+    }
+    if (state.answeredQuestions.containsKey(questionId)) {
+      if (state.answeredQuestions[questionId]!.length >= 1 &&
+          !state.answeredQuestionsID.contains(questionId)) {
         return true;
       }
     }
     return false;
   }
-
-
-
 }

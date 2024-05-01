@@ -41,10 +41,11 @@ Future<void> _dioSLInit() async {
   BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
-      headers: {'Accept': "application/json"},
+      // headers: {'Accept': "application/json"},
       // contentType: "application/json;charset=utf-8",
       responseType: ResponseType.json);
   final dio = Dio(options);
+  dio.options.headers['Accept'] = 'application/json, text/plain, */*';
   dio.options.responseType = ResponseType.json;
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
   // HiveUtils().loggedOutFromHive();
@@ -172,7 +173,11 @@ Future<void> _untSlInit() async {
 }
 
 Future<void> _attemptSlInit() async {
-  sl.registerFactory(() => PassAttemptBloc(attemptCase: sl<GetAttemptCase>(), answerCase: sl<AnswerCase>(), answerResultCase: sl<AnswerResultCase>(),));
+  sl.registerFactory(() => PassAttemptBloc(
+        attemptCase: sl<GetAttemptCase>(),
+        answerCase: sl<AnswerCase>(),
+        answerResultCase: sl<AnswerResultCase>(),
+      ));
   sl.registerLazySingleton(() => AllAttemptsCase(sl()));
   sl.registerLazySingleton(() => AllAttemptTypesCase(sl()));
   sl.registerLazySingleton(() => AnswerCase(sl()));
