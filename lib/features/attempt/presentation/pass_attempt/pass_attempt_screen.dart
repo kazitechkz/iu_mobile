@@ -1,20 +1,24 @@
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:convert';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/helpers/mathjax_helper.dart';
+import 'package:iu/core/widgets/elevated_gradient_button.dart';
 import 'package:iu/core/widgets/header_title.dart';
+import 'package:iu/features/attempt/domain/parameters/answer_parameter.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_state.dart';
-import 'package:iu/features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
-
+import 'package:iu/features/attempt/presentation/pass_attempt/widget/answer_button_widget.dart';
 import '../../../../core/utils/toasters.dart';
 import '../../domain/entities/attempt_common_entity.dart';
-import '../../domain/entities/question_entity.dart';
 import 'bloc/pass_attempt_bloc.dart';
 import 'bloc/pass_attempt_event.dart';
 
@@ -28,8 +32,15 @@ class PassUntScreen extends StatefulWidget {
 }
 
 class _PassUntScreenState extends State<PassUntScreen> {
-  void initState() {
+  CarouselController attemptCarouselController = CarouselController();
+  void initState(){
     super.initState();
+    context
+        .read<PassAttemptBloc>()
+        .add(PassAttemptGetByAttemptIdEvent(widget.attemptId));
+  }
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
     context
         .read<PassAttemptBloc>()
         .add(PassAttemptGetByAttemptIdEvent(widget.attemptId));
@@ -40,13 +51,16 @@ class _PassUntScreenState extends State<PassUntScreen> {
     return Scaffold(
         body: BlocConsumer<PassAttemptBloc, PassAttemptState>(
       listener: (context, state) {
-        if (state is PassAttemptSuccessState) {}
+        if (state is PassAttemptSuccessState) {
+
+        }
       },
       builder: (context, state) {
         if (state is PassAttemptFailedState) {
           AppToaster.showError(state.failureData.message ?? "Error");
         }
         if (state is PassAttemptSuccessState) {
+          checkAnsweredResult(context,state);
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 15.w),
@@ -57,7 +71,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                       height: 120.h,
                       width: 320.w,
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               stops: [0.1, 0.9],
                               colors: ColorConstant.violetToPinkGradient),
@@ -69,7 +83,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                               title: "Полная сдача ЕНТ",
                               fontSize: 22.sp,
                               color: Colors.white),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TimerCountdown(
@@ -144,7 +158,11 @@ class _PassUntScreenState extends State<PassUntScreen> {
                         }).toList(),
                         value: state.subjectId ?? 0,
                         onChanged: (int? value) {
-                          print(value);
+                          context
+                              .read<PassAttemptBloc>()
+                              .add(PassAttemptChangeSubjectEvent(value??0));
+                          attemptCarouselController.jumpToPage(0);
+
                         },
                         buttonStyleData: ButtonStyleData(
                           height: 40.h,
@@ -228,39 +246,228 @@ class _PassUntScreenState extends State<PassUntScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        height: 500.h,
-                        enableInfiniteScroll: false,
-                      ),
-                      items: state.attempt
-                          .subjectQuestions[state.subjectId ?? 0].question
-                          .map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(color: Colors.amber),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: TeXView(
-                                          renderingEngine: TeXViewRenderingEngine.mathjax(),
-                                          child: TeXViewDocument(
-                                              i.text.replaceAll("<pre>", r"$$")
+                    ExpandableCarousel.builder(
+                        options: CarouselOptions(
+                        controller: attemptCarouselController,
+                        viewportFraction: 1.0, showIndicator: false),
+                        itemCount: state.attempt.subjectQuestions[state.subjectId ?? 0].question.length,
+                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
+                          final activeQuestion = state.attempt.subjectQuestions[state.subjectId ?? 0].question[itemIndex];
+                          return Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        stops: [0.1, 0.9],
+                                        colors:
+                                        ColorConstant.violetToPinkGradient),
+                                    borderRadius: BorderRadius.circular(10.w)),
+                                child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      minHeight: 200
+                                          .h, // Установка минимальной высоты в 200 пикселей
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10.h, horizontal: 10.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "Вопрос ${pageViewIndex + 1}/${state.attempt.subjectQuestions[state.subjectId??0].question.length}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 18.sp
+                                            ),
+                                            textAlign: TextAlign.right,
+
                                           ),
-                                        style: TeXViewStyle(
-                                          contentColor: Colors.black
-                                        ),
-                                      )
-                                    )
-                                  ],
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    )
+                                          SizedBox(height: 20.h,),
+                                          TeXView(
+                                            renderingEngine:
+                                            TeXViewRenderingEngine.mathjax(),
+                                            child: TeXViewDocument(
+                                                MathJaxHelper.toMathJax(activeQuestion.text)),
+                                            style: TeXViewStyle(
+                                                contentColor: Colors.white,
+                                                fontStyle: TeXViewFontStyle(
+                                                    fontWeight: TeXViewFontWeight.bold
+                                                )
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          (activeQuestion.context != null
+                                              ? TeXView(
+                                            renderingEngine:
+                                            const TeXViewRenderingEngine
+                                                .mathjax(),
+                                            child: TeXViewDocument(
+                                                MathJaxHelper.toMathJax(
+                                                   activeQuestion.context?.context ??
+                                                        "")),
+                                            style: const TeXViewStyle(
+                                                contentColor: Colors.white),
+                                          )
+                                              : SizedBox()),
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                              color: Colors.white
+                                          ),
+                                          SizedBox(height: 10.h,),
+                                          GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"a",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerA,
+                                                isChecked:isChecked(state,"a",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"a",activeQuestion.id,activeQuestion.typeId),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"b",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerB,
+                                                isChecked:isChecked(state,"b",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"b",activeQuestion.id,activeQuestion.typeId),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"c",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerC,
+                                                isChecked:isChecked(state,"c",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"c",activeQuestion.id,activeQuestion.typeId),
+                                            ),
+                                          ),
+                                          (activeQuestion.answerD != null ? GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"d",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerD,
+                                                isChecked:isChecked(state,"d",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"d",activeQuestion.id,activeQuestion.typeId)
+                                            ),
+                                          ) : const SizedBox()),
+                                          (activeQuestion.answerE != null ? GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"e",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerE,
+                                                isChecked:isChecked(state,"e",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"e",activeQuestion.id,activeQuestion.typeId)
+
+                                            ),
+                                          ) :const SizedBox()),
+                                          (activeQuestion.answerF != null ? GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"f",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerF,
+                                                isChecked:isChecked(state,"f",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"f",activeQuestion.id,activeQuestion.typeId)
+
+                                            ),
+                                          ) : const SizedBox()),
+                                          (activeQuestion.answerG != null ? GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"g",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerG,
+                                                isChecked:isChecked(state,"g",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"g",activeQuestion.id,activeQuestion.typeId)
+                                            ),
+                                          ) :const SizedBox()),
+                                          (activeQuestion.answerH != null ? GestureDetector(
+                                            onTap: (){
+                                              checkAnswered(context,"h",activeQuestion.id,activeQuestion.typeId);
+                                            },
+                                            child: AnswerButton(
+                                                answer: activeQuestion.answerH,
+                                                isChecked:isChecked(state,"h",activeQuestion.id),
+                                                onSelected: (answer)=>checkAnswered(context,"h",activeQuestion.id,activeQuestion.typeId)
+                                            ),
+                                          ) :const SizedBox()),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                              SizedBox(height: 20.h,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedGradientButton(
+                                    onPressed: (){
+                                      attemptCarouselController.previousPage();
+                                    },
+                                    gradient: const LinearGradient(
+                                      colors: ColorConstant.violetToPinkGradient,
+                                    ),
+                                    width: 80.w,
+                                    height: 40.h,
+                                    borderRadius: 20.0,
+                                    child: Icon(FontAwesomeIcons.chevronLeft,color: Colors.white,),
+                                  ),
+                                  (isReadyToAnswer(state,activeQuestion.id) ?
+                                  ElevatedGradientButton(
+                                    onPressed: (){
+                                      AnswerParameter parameter = AnswerParameter(
+                                          attempt_id: state.attempt.attemptId,
+                                          answers:state.answeredQuestions[activeQuestion.id]?.join(",")??"",
+                                          attempt_subject_id: state.attempt.subjectQuestions[state.subjectId??0].attemptSubjectId,
+                                          question_id: activeQuestion.id,
+                                          attempt_type_id: state.attempt.typeId,
+                                      );
+                                      context.read<PassAttemptBloc>().add(PassAttemptAnswerEvent(parameter));
+                                      attemptCarouselController.nextPage();
+                                    },
+                                    gradient: const LinearGradient(
+                                      colors: ColorConstant.violetToPinkGradient,
+                                    ),
+                                    width: 120.w,
+                                    height: 40.h,
+                                    borderRadius: 20.0,
+                                    child: Text(
+                                      "Ответить",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 16.sp
+                                      ),
+                                      textAlign: TextAlign.right,
+
+                                    ),
+                                  ) : SizedBox()),
+                                  ElevatedGradientButton(
+                                    onPressed: (){
+                                      attemptCarouselController.nextPage();
+                                    },
+                                    gradient: const LinearGradient(
+                                      colors: ColorConstant.violetToPinkGradient,
+                                    ),
+                                    width: 80.w,
+                                    height: 40.h,
+                                    borderRadius: 20.0,
+                                    child: Icon(FontAwesomeIcons.chevronRight,color: Colors.white,),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        },
+                    ),
+
                   ],
                 ),
               ),
@@ -274,4 +481,32 @@ class _PassUntScreenState extends State<PassUntScreen> {
       },
     ));
   }
+
+
+  void checkAnswered(BuildContext context,String answer, int questionId, int typeId){
+      context.read<PassAttemptBloc>().add(PassAttemptAnswerQuestionEvent(answer, questionId, typeId));
+  }
+  void checkAnsweredResult(BuildContext context,PassAttemptSuccessState state){
+    context.read<PassAttemptBloc>().add(PassAttemptGetAnsweredEvent(state.attempt.subjectQuestions[state.subjectId??0].attemptSubjectId));
+  }
+  bool isChecked(PassAttemptSuccessState state,String answer, int questionId){
+    if(state.answeredQuestions.containsKey(questionId)){
+      if(state.answeredQuestions[questionId]!.contains(answer)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool isReadyToAnswer(PassAttemptSuccessState state, int questionId){
+    if(state.answeredQuestions.containsKey(questionId)){
+      if(state.answeredQuestions[questionId]!.length >= 1 && !state.answeredQuestionsID.contains(questionId)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+
 }

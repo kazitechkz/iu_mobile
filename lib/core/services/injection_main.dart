@@ -39,8 +39,8 @@ Future<void> _hiveSLInit() async {
 
 Future<void> _dioSLInit() async {
   BaseOptions options = BaseOptions(
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
       headers: {'Accept': "application/json"},
       // contentType: "application/json;charset=utf-8",
       responseType: ResponseType.json);
@@ -172,7 +172,7 @@ Future<void> _untSlInit() async {
 }
 
 Future<void> _attemptSlInit() async {
-  sl.registerFactory(() => PassAttemptBloc(attemptCase: sl<GetAttemptCase>()));
+  sl.registerFactory(() => PassAttemptBloc(attemptCase: sl<GetAttemptCase>(), answerCase: sl<AnswerCase>(), answerResultCase: sl<AnswerResultCase>(),));
   sl.registerLazySingleton(() => AllAttemptsCase(sl()));
   sl.registerLazySingleton(() => AllAttemptTypesCase(sl()));
   sl.registerLazySingleton(() => AnswerCase(sl()));
