@@ -6,8 +6,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iu/core/common/widgets/app_bar.dart';
 import 'package:transformable_list_view/transformable_list_view.dart';
+import '../../../../../core/app_constants/route_constant.dart';
 import '../bloc/step_bloc.dart' as Step;
 import '../widgets/step_widgets.dart';
 
@@ -38,7 +40,14 @@ class _StepScreenState extends State<StepScreen> {
             ),);
           }
           if (state is Step.StepErrorState) {
-            return const Center(child:  Text('TEST'));
+            return Center(
+                child: TextButton(
+                  onPressed: () async {
+                    context.read<Step.StepBloc>().add(const Step.StepInEvent());
+                  },
+                  child: const Text('Refresh', style: TextStyle(fontWeight: FontWeight.bold),),
+                )
+            );
           }
           if (state is Step.StepInState) {
             return RefreshIndicator(
@@ -51,7 +60,11 @@ class _StepScreenState extends State<StepScreen> {
                     itemCount: (state).stepEntities.length,
                     getTransformMatrix: TransformMatrices.rotate,
                     itemBuilder: (context, index) {
-                      return courseGrid((state).stepEntities[index]);
+                      final stepId = (state).stepEntities[index].id;
+                      return GestureDetector(
+                          onTap: () => context.goNamed(RouteConstant.stepDetailScreenName, pathParameters: {'stepID': stepId.toString()}),
+                          child: courseGrid((state).stepEntities[index])
+                      );
                     },
                   ),
                 ],

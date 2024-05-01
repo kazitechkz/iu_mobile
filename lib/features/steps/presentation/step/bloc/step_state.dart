@@ -22,8 +22,8 @@ class StepInState extends StepState {
 }
 
 class StepErrorState extends StepState {
-  FailureData failureData;
-  StepErrorState(this.failureData);
+  final FailureData failureData;
+  const StepErrorState(this.failureData);
   @override
   List<Object> get props => [failureData];
 }

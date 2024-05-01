@@ -77,7 +77,7 @@ class SubjectModel extends SubjectEntity {
           is_compulsory: map['is_compulsory'] as int,
           max_questions_quantity: map['max_questions_quantity'] as int,
           questions_step: map['questions_step'] as int,
-          image_url: map['image_url'] as int,
+          image_url: map['image_url'] != null ? map['image_url'] as int : null,
           created_at:
               map['created_at'] != null ? map['created_at'] as String : null,
           updated_at:

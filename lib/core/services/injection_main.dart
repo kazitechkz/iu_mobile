@@ -90,6 +90,7 @@ Future<void> _authSLInit() async {
 
 Future<void> _stepSLInit() async {
   sl.registerFactory(() => StepBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerFactory(() => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
   sl.registerLazySingleton(() => StepUseCase(sl()));
   sl.registerLazySingleton(() => StepDetailUseCase(sl()));
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));

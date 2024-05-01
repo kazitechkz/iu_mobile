@@ -6,7 +6,6 @@ import 'package:iu/core/common/models/failure_data.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
 import 'package:iu/features/steps/domain/usecases/step_usecase.dart';
 
-import '../../../../core/common/models/subject.dart';
 
 part 'step_event.dart';
 

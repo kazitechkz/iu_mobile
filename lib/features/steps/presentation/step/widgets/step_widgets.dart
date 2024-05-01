@@ -4,15 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
-import 'package:getwidget/components/card/gf_card.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
-import 'package:getwidget/position/gf_position.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
-
-import '../../../../core/common/models/subject.dart';
-import '../../../../core/services/image_service.dart';
+import '../../../../../core/services/image_service.dart';
 
 AppBar buildAppBar(String imageURl) {
   return AppBar(
@@ -220,71 +216,4 @@ Widget courseGrid(MainStepEntity stepEntity) {
         ),
     ),
   );
-  // return Container(
-  //   padding: EdgeInsets.only(bottom: 10.h),
-  //   decoration: const BoxDecoration(
-  //      //Border.all
-  //     borderRadius: BorderRadius.only(
-  //       topLeft: Radius.circular(10.0),
-  //       topRight: Radius.circular(10.0),
-  //       bottomLeft: Radius.circular(10.0),
-  //       bottomRight: Radius.circular(10.0),
-  //     ),
-  //     boxShadow: [
-  //       BoxShadow(
-  //         color: Colors.greenAccent,
-  //         offset: Offset(
-  //           5.0,
-  //           5.0,
-  //         ),
-  //         blurRadius: 10.0,
-  //         spreadRadius: 2.0,
-  //       ), //BoxShadow
-  //       BoxShadow(
-  //         color: Colors.white,
-  //         offset: Offset(0.0, 0.0),
-  //         blurRadius: 0.0,
-  //         spreadRadius: 0.0,
-  //       ), //BoxShadow
-  //     ],
-  //   ),
-  //   child: Column(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       Container(
-  //         height: 80.h,
-  //         decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(15.w),
-  //             image: DecorationImage(
-  //                 fit: BoxFit.cover,
-  //                 image: getImageProviderFromServer(stepEntity.image?.url)
-  //             )
-  //         )
-  //       ),
-  //       _reUsableMenuText(stepEntity.title_ru, bgColor: Colors.transparent, textColor: Colors.black),
-  //       Container(
-  //         padding: EdgeInsets.symmetric(horizontal: 5.w),
-  //         child: const Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text('Hello'),
-  //             Text('TIMA')
-  //           ],
-  //         ),
-  //       ),
-  //       GFProgressBar(
-  //         percentage: stepEntity.progress/100,
-  //         lineHeight: 14,
-  //         alignment: MainAxisAlignment.spaceBetween,
-  //         // leading  : const Icon( Icons.sentiment_dissatisfied, color: GFColors.DANGER),
-  //         // trailing: const Icon( Icons.sentiment_satisfied, color: GFColors.SUCCESS),
-  //         backgroundColor: Colors.black26,
-  //         progressBarColor: GFColors.INFO,
-  //         child: Text('${stepEntity.progress}%', textAlign: TextAlign.end,
-  //           style: const TextStyle(fontSize: 10, color: Colors.white),
-  //         ),
-  //       )
-  //     ],
-  //   ),
-  // );
 }

@@ -10,8 +10,10 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
-import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
-import 'package:iu/features/steps/presentation/screens/step_screen.dart';
+import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart';
+import 'package:iu/features/steps/presentation/detail/screens/step_detail_screen.dart';
+import 'package:iu/features/steps/presentation/step/bloc/step_bloc.dart';
+import 'package:iu/features/steps/presentation/step/screens/step_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import 'package:iu/features/unt/presentation/unt_single/bloc/unt_Single_bloc.dart';
 import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
@@ -137,10 +139,26 @@ class RouteNavigation {
                           child: const StepScreen(),
                         );
                       },
-                      redirect:
-                          (BuildContext context, GoRouterState state) async {
-                        return await RouterMiddleWare()
-                            .authMiddleWare(context, state);
+                      redirect: (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare().authMiddleWare(context, state);
+                      }),
+                ],
+              ),
+              StatefulShellBranch(
+                initialLocation: '/${RouteConstant.stepDetailScreenName}',
+                routes: <RouteBase>[
+                  GoRoute(
+                      path: "/:stepID",
+                      name: RouteConstant.stepDetailScreenName,
+                      builder: (context, state) {
+                        String stepID = state.pathParameters['stepID']!;
+                        return BlocProvider(
+                          create: (_) => sl<StepDetailBloc>(),
+                          child: StepDetailScreen(stepID: stepID),
+                        );
+                      },
+                      redirect: (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare().authMiddleWare(context, state);
                       }),
                 ],
               ),
