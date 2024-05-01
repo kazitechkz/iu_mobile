@@ -42,7 +42,7 @@ Future<void> _dioSLInit() async {
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
       headers: {'Accept': "application/json"},
-      contentType: "application/json;charset=utf-8",
+      // contentType: "application/json;charset=utf-8",
       responseType: ResponseType.json);
   final dio = Dio(options);
   dio.options.responseType = ResponseType.json;

@@ -10,7 +10,7 @@ class QuestionEntity extends Equatable{
   final String answerA;
   final String answerB;
   final String answerC;
-  final String answerD;
+  final String? answerD;
   final String? answerE;
   final String? answerF;
   final String? answerG;
@@ -38,7 +38,7 @@ class QuestionEntity extends Equatable{
       required this.answerA,
       required this.answerB,
       required this.answerC,
-      required this.answerD,
+      this.answerD,
       this.answerE,
       this.answerF,
       this.answerG,
