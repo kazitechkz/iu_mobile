@@ -1,15 +1,16 @@
-import 'dart:convert';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/helpers/mathjax_helper.dart';
 import 'package:iu/core/widgets/elevated_gradient_button.dart';
@@ -17,6 +18,7 @@ import 'package:iu/core/widgets/header_title.dart';
 import 'package:iu/features/attempt/domain/parameters/answer_parameter.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_state.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/widget/answer_button_widget.dart';
+import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/utils/toasters.dart';
 import '../../domain/entities/attempt_common_entity.dart';
 import 'bloc/pass_attempt_bloc.dart';
@@ -33,6 +35,8 @@ class PassUntScreen extends StatefulWidget {
 
 class _PassUntScreenState extends State<PassUntScreen> {
   CarouselController attemptCarouselController = CarouselController();
+  CarouselController paginationCarouselController = CarouselController();
+
   void initState() {
     super.initState();
     context
@@ -55,8 +59,10 @@ class _PassUntScreenState extends State<PassUntScreen> {
         if (state is PassAttemptSuccessState) {
           if (state.answeredResult == null) {
             this.checkAnsweredResult(context, state);
-            print(state.answeredResult);
           }
+        }
+        if (state is PassAttemptFinishedState) {
+          context.go("/${RouteConstant.dashboardScreenName}");
         }
       },
       builder: (context, state) {
@@ -101,10 +107,12 @@ class _PassUntScreenState extends State<PassUntScreen> {
                             secondsDescription: "Секунд",
                             format: CountDownTimerFormat.hoursMinutesSeconds,
                             endTime: DateTime.now().add(
-                              Duration(milliseconds: state.attempt.timeLeft),
+                              Duration(milliseconds: state.timeLeftMS),
                             ),
                             onEnd: () {
-                              print("Timer finished");
+                              context
+                                  .read<PassAttemptBloc>()
+                                  .add(PassAttemptFinishAttemptEvent(widget.attemptId));
                             },
                           ),
                         ],
@@ -164,6 +172,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                           context
                               .read<PassAttemptBloc>()
                               .add(PassAttemptChangeSubjectEvent(value ?? 0));
+                          checkAnsweredResult(context, state);
                           attemptCarouselController.jumpToPage(0);
                         },
                         buttonStyleData: ButtonStyleData(
@@ -212,31 +221,54 @@ class _PassUntScreenState extends State<PassUntScreen> {
                       height: 20.h,
                     ),
                     Container(
-                      height: 40.h,
+                      height: 60,
                       width: 320.w,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount:
-                            state.attempt.subjectQuestions[0].question.length ??
-                                1,
-                        itemBuilder: (BuildContext context, int index) {
+                      child: ExpandableCarousel.builder(
+                        options: CarouselOptions(
+                            enlargeCenterPage: true,
+                            disableCenter: true,
+                            controller: paginationCarouselController,
+                            viewportFraction: 0.15,
+                            showIndicator: false,
+                            onPageChanged:
+                                (int index, CarouselPageChangedReason reason) {
+                              this.attemptCarouselController.jumpToPage(index);
+                            }),
+                        itemCount: state
+                            .attempt
+                            .subjectQuestions[state.subjectId ?? 0]
+                            .question
+                            .length,
+                        itemBuilder: (BuildContext context, int itemIndex,
+                            int pageViewIndex) {
                           return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: SizedBox(
-                              height: 40.h,
-                              width: 40.h,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: ColorConstant.lightPink,
-                                    borderRadius: BorderRadius.circular(30.w)),
-                                child: Center(
-                                  child: Text(
-                                    (index + 1).toString(),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold),
+                            child: InkWell(
+                              onTap: () {
+                                this
+                                    .attemptCarouselController
+                                    .jumpToPage(pageViewIndex);
+                              },
+                              child: SizedBox(
+                                height: 40.0,
+                                width: 40.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: paginationBgColor(
+                                          state, pageViewIndex),
+                                      border: Border.all(
+                                          color: paginationOtherColor(
+                                              state, pageViewIndex)),
+                                      borderRadius: BorderRadius.circular(40)),
+                                  child: Center(
+                                    child: Text(
+                                      (pageViewIndex + 1).toString(),
+                                      style: TextStyle(
+                                          color: paginationTextColor(
+                                              state, pageViewIndex),
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -252,7 +284,13 @@ class _PassUntScreenState extends State<PassUntScreen> {
                       options: CarouselOptions(
                           controller: attemptCarouselController,
                           viewportFraction: 1.0,
-                          showIndicator: false),
+                          showIndicator: false,
+                          onPageChanged:
+                              (int index, CarouselPageChangedReason reason) {
+                            context.read<PassAttemptBloc>().add(
+                                PassAttemptCarouselSliderChangeEvent(index));
+                            this.paginationCarouselController.jumpToPage(index);
+                          }),
                       itemCount: state
                           .attempt
                           .subjectQuestions[state.subjectId ?? 0]
@@ -295,33 +333,44 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                         SizedBox(
                                           height: 20.h,
                                         ),
-                                        TeXView(
-                                          renderingEngine:
-                                              TeXViewRenderingEngine.mathjax(),
-                                          child: TeXViewDocument(
-                                              MathJaxHelper.toMathJax(
-                                                  activeQuestion.text)),
-                                          style: TeXViewStyle(
-                                              contentColor: Colors.white,
-                                              fontStyle: TeXViewFontStyle(
-                                                  fontWeight:
-                                                      TeXViewFontWeight.bold)),
+                                        Html(
+                                          data: MathJaxHelper.clearText(
+                                              activeQuestion.text),
+                                          extensions: [
+                                            TagExtension(
+                                              tagsToExtend: {"pre"},
+                                              builder: (extensionContext) =>
+                                                  Math.tex(extensionContext
+                                                      .innerHtml),
+                                            )
+                                          ],
+                                          style: {
+                                            'pre': Style(color: Colors.white),
+                                          },
                                         ),
                                         SizedBox(
                                           height: 10.h,
                                         ),
                                         (activeQuestion.context != null
-                                            ? TeXView(
-                                                renderingEngine:
-                                                    const TeXViewRenderingEngine
-                                                        .mathjax(),
-                                                child: TeXViewDocument(
-                                                    MathJaxHelper.toMathJax(
-                                                        activeQuestion.context
-                                                                ?.context ??
-                                                            "")),
-                                                style: const TeXViewStyle(
-                                                    contentColor: Colors.white),
+                                            ? Html(
+                                                data: MathJaxHelper.clearText(
+                                                    activeQuestion
+                                                            .context?.context ??
+                                                        ""),
+                                                style: {
+                                                  'pre': Style(
+                                                      color: Colors.white),
+                                                },
+                                                extensions: [
+                                                  TagExtension(
+                                                    tagsToExtend: {"pre"},
+                                                    builder:
+                                                        (extensionContext) =>
+                                                            Math.tex(
+                                                                extensionContext
+                                                                    .innerHtml),
+                                                  )
+                                                ],
                                               )
                                             : SizedBox()),
                                         SizedBox(
@@ -331,179 +380,128 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                         SizedBox(
                                           height: 10.h,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            checkAnswered(
-                                                context,
-                                                "a",
-                                                activeQuestion.id,
-                                                activeQuestion.typeId);
-                                          },
-                                          child: AnswerButton(
-                                            answer: activeQuestion.answerA,
-                                            isChecked: isChecked(
-                                                state, "a", activeQuestion.id),
-                                            onSelected: (answer) =>
-                                                checkAnswered(
-                                                    context,
-                                                    "a",
-                                                    activeQuestion.id,
-                                                    activeQuestion.typeId),
-                                          ),
+                                        AnswerButton(
+                                          answer: activeQuestion.answerA,
+                                          isAlreadyAnswered: isAlreadyAnswered(
+                                              state, "a", activeQuestion.id),
+                                          isChecked: isChecked(
+                                              state, "a", activeQuestion.id),
+                                          onSelected: (answer) => checkAnswered(
+                                              context,
+                                              "a",
+                                              activeQuestion.id,
+                                              activeQuestion.typeId),
+                                          answerType: 'a',
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            checkAnswered(
-                                                context,
-                                                "b",
-                                                activeQuestion.id,
-                                                activeQuestion.typeId);
-                                          },
-                                          child: AnswerButton(
-                                            answer: activeQuestion.answerB,
-                                            isChecked: isChecked(
-                                                state, "b", activeQuestion.id),
-                                            onSelected: (answer) =>
-                                                checkAnswered(
-                                                    context,
-                                                    "b",
-                                                    activeQuestion.id,
-                                                    activeQuestion.typeId),
-                                          ),
+                                        AnswerButton(
+                                          answer: activeQuestion.answerB,
+                                          isAlreadyAnswered: isAlreadyAnswered(
+                                              state, "b", activeQuestion.id),
+                                          isChecked: isChecked(
+                                              state, "b", activeQuestion.id),
+                                          onSelected: (answer) => checkAnswered(
+                                              context,
+                                              "b",
+                                              activeQuestion.id,
+                                              activeQuestion.typeId),
+                                          answerType: 'b',
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            checkAnswered(
-                                                context,
-                                                "c",
-                                                activeQuestion.id,
-                                                activeQuestion.typeId);
-                                          },
-                                          child: AnswerButton(
-                                            answer: activeQuestion.answerC,
-                                            isChecked: isChecked(
-                                                state, "c", activeQuestion.id),
-                                            onSelected: (answer) =>
-                                                checkAnswered(
-                                                    context,
-                                                    "c",
-                                                    activeQuestion.id,
-                                                    activeQuestion.typeId),
-                                          ),
+                                        AnswerButton(
+                                          answer: activeQuestion.answerC,
+                                          isAlreadyAnswered: isAlreadyAnswered(
+                                              state, "c", activeQuestion.id),
+                                          isChecked: isChecked(
+                                              state, "c", activeQuestion.id),
+                                          onSelected: (answer) => checkAnswered(
+                                              context,
+                                              "c",
+                                              activeQuestion.id,
+                                              activeQuestion.typeId),
+                                          answerType: 'c',
                                         ),
                                         (activeQuestion.answerD != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  checkAnswered(
-                                                      context,
-                                                      "d",
-                                                      activeQuestion.id,
-                                                      activeQuestion.typeId);
-                                                },
-                                                child: AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerD,
-                                                    isChecked: isChecked(state,
+                                            ? AnswerButton(
+                                                answer: activeQuestion.answerD,
+                                                isAlreadyAnswered:
+                                                    isAlreadyAnswered(state,
                                                         "d", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "d",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId)),
+                                                isChecked: isChecked(state, "d",
+                                                    activeQuestion.id),
+                                                onSelected: (answer) =>
+                                                    checkAnswered(
+                                                        context,
+                                                        "d",
+                                                        activeQuestion.id,
+                                                        activeQuestion.typeId),
+                                                answerType: 'd',
                                               )
                                             : const SizedBox()),
                                         (activeQuestion.answerE != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  checkAnswered(
-                                                      context,
-                                                      "e",
-                                                      activeQuestion.id,
-                                                      activeQuestion.typeId);
-                                                },
-                                                child: AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerE,
-                                                    isChecked: isChecked(state,
+                                            ? AnswerButton(
+                                                answer: activeQuestion.answerE,
+                                                isAlreadyAnswered:
+                                                    isAlreadyAnswered(state,
                                                         "e", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "e",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId)),
+                                                isChecked: isChecked(state, "e",
+                                                    activeQuestion.id),
+                                                onSelected: (answer) =>
+                                                    checkAnswered(
+                                                        context,
+                                                        "e",
+                                                        activeQuestion.id,
+                                                        activeQuestion.typeId),
+                                                answerType: 'e',
                                               )
                                             : const SizedBox()),
                                         (activeQuestion.answerF != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  checkAnswered(
-                                                      context,
-                                                      "f",
-                                                      activeQuestion.id,
-                                                      activeQuestion.typeId);
-                                                },
-                                                child: AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerF,
-                                                    isChecked: isChecked(state,
+                                            ? AnswerButton(
+                                                answer: activeQuestion.answerF,
+                                                isAlreadyAnswered:
+                                                    isAlreadyAnswered(state,
                                                         "f", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "f",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId)),
+                                                isChecked: isChecked(state, "f",
+                                                    activeQuestion.id),
+                                                onSelected: (answer) =>
+                                                    checkAnswered(
+                                                        context,
+                                                        "f",
+                                                        activeQuestion.id,
+                                                        activeQuestion.typeId),
+                                                answerType: 'f',
                                               )
                                             : const SizedBox()),
                                         (activeQuestion.answerG != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  checkAnswered(
-                                                      context,
-                                                      "g",
-                                                      activeQuestion.id,
-                                                      activeQuestion.typeId);
-                                                },
-                                                child: AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerG,
-                                                    isChecked: isChecked(state,
+                                            ? AnswerButton(
+                                                answer: activeQuestion.answerG,
+                                                isAlreadyAnswered:
+                                                    isAlreadyAnswered(state,
                                                         "g", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "g",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId)),
+                                                isChecked: isChecked(state, "g",
+                                                    activeQuestion.id),
+                                                onSelected: (answer) =>
+                                                    checkAnswered(
+                                                        context,
+                                                        "g",
+                                                        activeQuestion.id,
+                                                        activeQuestion.typeId),
+                                                answerType: 'g',
                                               )
                                             : const SizedBox()),
                                         (activeQuestion.answerH != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  checkAnswered(
-                                                      context,
-                                                      "h",
-                                                      activeQuestion.id,
-                                                      activeQuestion.typeId);
-                                                },
-                                                child: AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerH,
-                                                    isChecked: isChecked(state,
+                                            ? AnswerButton(
+                                                answer: activeQuestion.answerH,
+                                                isAlreadyAnswered:
+                                                    isAlreadyAnswered(state,
                                                         "h", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "h",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId)),
+                                                isChecked: isChecked(state, "h",
+                                                    activeQuestion.id),
+                                                onSelected: (answer) =>
+                                                    checkAnswered(
+                                                        context,
+                                                        "h",
+                                                        activeQuestion.id,
+                                                        activeQuestion.typeId),
+                                                answerType: 'h',
                                               )
                                             : const SizedBox()),
                                       ],
@@ -514,23 +512,30 @@ class _PassUntScreenState extends State<PassUntScreen> {
                               height: 20.h,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ElevatedGradientButton(
-                                  onPressed: () {
-                                    attemptCarouselController.previousPage();
-                                  },
-                                  gradient: const LinearGradient(
-                                    colors: ColorConstant.violetToPinkGradient,
-                                  ),
-                                  width: 80.w,
-                                  height: 40.h,
-                                  borderRadius: 20.0,
-                                  child: Icon(
-                                    FontAwesomeIcons.chevronLeft,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                (pageViewIndex > 0
+                                    ? ElevatedGradientButton(
+                                        onPressed: () {
+                                          paginationCarouselController
+                                              .jumpToPage(pageViewIndex - 1);
+                                        },
+                                        gradient: const LinearGradient(
+                                          colors: ColorConstant
+                                              .violetToPinkGradient,
+                                        ),
+                                        width: 80.w,
+                                        height: 40.h,
+                                        borderRadius: 20.0,
+                                        child: const Icon(
+                                          FontAwesomeIcons.chevronLeft,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width: 80.w,
+                                        height: 40.h,
+                                      )),
                                 (isReadyToAnswer(state, activeQuestion.id)
                                     ? ElevatedGradientButton(
                                         onPressed: () {
@@ -550,10 +555,19 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                             attempt_type_id:
                                                 state.attempt.typeId,
                                           );
+                                          if (pageViewIndex + 1 <
+                                              (state
+                                                  .attempt
+                                                  .subjectQuestions[
+                                              state.subjectId ?? 0]
+                                                  .question
+                                                  .length)) {
+                                            paginationCarouselController
+                                                .jumpToPage(pageViewIndex + 1);
+                                          }
                                           context.read<PassAttemptBloc>().add(
                                               PassAttemptAnswerEvent(
                                                   parameter));
-                                          attemptCarouselController.nextPage();
                                         },
                                         gradient: const LinearGradient(
                                           colors: ColorConstant
@@ -571,22 +585,38 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                           textAlign: TextAlign.right,
                                         ),
                                       )
-                                    : SizedBox()),
-                                ElevatedGradientButton(
-                                  onPressed: () {
-                                    attemptCarouselController.nextPage();
-                                  },
-                                  gradient: const LinearGradient(
-                                    colors: ColorConstant.violetToPinkGradient,
-                                  ),
-                                  width: 80.w,
-                                  height: 40.h,
-                                  borderRadius: 20.0,
-                                  child: Icon(
-                                    FontAwesomeIcons.chevronRight,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                    : SizedBox(
+                                        width: 120.w,
+                                        height: 40.h,
+                                      )),
+                                (pageViewIndex + 1 <
+                                        (state
+                                            .attempt
+                                            .subjectQuestions[
+                                                state.subjectId ?? 0]
+                                            .question
+                                            .length)
+                                    ? ElevatedGradientButton(
+                                        onPressed: () {
+                                          paginationCarouselController
+                                              .jumpToPage(pageViewIndex + 1);
+                                        },
+                                        gradient: const LinearGradient(
+                                          colors: ColorConstant
+                                              .violetToPinkGradient,
+                                        ),
+                                        width: 80.w,
+                                        height: 40.h,
+                                        borderRadius: 20.0,
+                                        child: Icon(
+                                          FontAwesomeIcons.chevronRight,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width: 80.w,
+                                        height: 40.h,
+                                      )),
                               ],
                             )
                           ],
@@ -629,6 +659,78 @@ class _PassUntScreenState extends State<PassUntScreen> {
     return false;
   }
 
+  bool? isAlreadyAnswered(
+      PassAttemptSuccessState state, String answer, int questionId) {
+    if (state.answeredResult?.data != null) {
+      if (state.answeredResult!.data.containsKey(questionId)) {
+        if (state.answeredResult!.data[questionId]!.contains(answer)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    if (state.answeredQuestionsID.containsKey(questionId)) {
+      if (state.answeredQuestionsID[questionId]!.contains(answer)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return null;
+  }
+
+  Color paginationBgColor(PassAttemptSuccessState state, int index) {
+    if (state.activeSlider == index) {
+      return ColorConstant.lightPink;
+    }
+    if (state.answeredResult != null) {
+      if (state.answeredResult!.data.containsKey(state
+          .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+        return ColorConstant.lightViolet;
+      }
+    }
+    if (state.answeredQuestionsID.containsKey(state
+        .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+      return ColorConstant.lightViolet;
+    }
+    return Colors.white;
+  }
+
+  Color paginationOtherColor(PassAttemptSuccessState state, int index) {
+    if (state.activeSlider == index) {
+      return Colors.white;
+    }
+    if (state.answeredQuestionsID.containsKey(state
+        .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+      return ColorConstant.lightViolet;
+    }
+    if (state.answeredResult != null) {
+      if (state.answeredResult!.data.containsKey(state
+          .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+        return ColorConstant.lightViolet;
+      }
+    }
+    return ColorConstant.lightPink;
+  }
+
+  Color paginationTextColor(PassAttemptSuccessState state, int index) {
+    if (state.answeredQuestionsID.containsKey(state
+        .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+      return Colors.white;
+    }
+    if (state.answeredResult != null) {
+      if (state.answeredResult!.data.containsKey(state
+          .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
+        return Colors.white;
+      }
+    }
+    if (state.activeSlider != index) {
+      return ColorConstant.lightPink;
+    }
+    return Colors.white;
+  }
+
   bool isReadyToAnswer(PassAttemptSuccessState state, int questionId) {
     if (state.answeredResult != null) {
       if (state.answeredResult!.data.containsKey(questionId)) {
@@ -637,7 +739,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
     }
     if (state.answeredQuestions.containsKey(questionId)) {
       if (state.answeredQuestions[questionId]!.length >= 1 &&
-          !state.answeredQuestionsID.contains(questionId)) {
+          !state.answeredQuestionsID.containsKey(questionId)) {
         return true;
       }
     }
