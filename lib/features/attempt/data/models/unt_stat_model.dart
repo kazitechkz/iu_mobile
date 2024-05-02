@@ -17,7 +17,8 @@ class UntStatModel extends UntStatEntity {
           attemptCountUnfinished: map["attempt_count_unfinished"],
           attemptQuestionCount: map["attempt_question_count"],
           average: map["average"],
-          statByWeek: StatByWeekModel.fromMap(map["stat_by_week"]),
+          statByWeek: StatByWeekModel.fromMap(
+              map["stat_by_week"] is List<dynamic> ? {} : map["stat_by_week"]),
         );
   factory UntStatModel.fromJson(Map<String, dynamic> json) {
     return UntStatModel.fromMap(json);

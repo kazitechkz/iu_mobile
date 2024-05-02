@@ -10,6 +10,9 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
+import 'package:iu/features/stat/presentation/stat_main/stat_main_screen.dart';
 import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/screens/step_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
@@ -129,6 +132,21 @@ class RouteNavigation {
               StatefulShellBranch(
                 routes: <RouteBase>[
                   GoRoute(
+                      path: "/${RouteConstant.servicesScreenName}",
+                      name: RouteConstant.servicesScreenName,
+                      builder: (context, state) {
+                        return const MainServicesScreen();
+                      },
+                      redirect:
+                          (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare()
+                            .authMiddleWare(context, state);
+                      }),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
                       path: "/${RouteConstant.stepsScreenName}",
                       name: RouteConstant.stepsScreenName,
                       builder: (context, state) {
@@ -197,6 +215,18 @@ class RouteNavigation {
                 child: PassUntScreen(
                   attemptId: attemptId,
                 ),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.statMainName}",
+            name: RouteConstant.statMainName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<StatMainBloc>(),
+                child: StatMainScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

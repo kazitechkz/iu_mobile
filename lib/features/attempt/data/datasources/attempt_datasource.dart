@@ -116,11 +116,10 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
       final response = await HttpUtil().get(ApiConstant.answerResult +
           answeredParameter.attempt_subject_id.toString());
       final data = ResponseData.fromJson(response);
-      if(data.data is List<dynamic>){
+      if (data.data is List<dynamic>) {
         final result = AnsweredResultModel.fromMap({});
         return result;
-      }
-      else{
+      } else {
         final result = AnsweredResultModel.fromMap(data.data);
         return result;
       }

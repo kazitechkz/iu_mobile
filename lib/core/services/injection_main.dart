@@ -188,11 +188,11 @@ Future<void> _attemptSlInit() async {
   sl.registerLazySingleton<AttemptDataSourceInterface>(
       () => AttemptDataSourceImpl());
   sl.registerFactory(() => PassAttemptBloc(
-    attemptCase: sl<GetAttemptCase>(),
-    answerCase: sl<AnswerCase>(),
-    answerResultCase: sl<AnswerResultCase>(),
-    finishAttemptCase: sl<FinishAttemptCase>(),
-  ));
+        attemptCase: sl<GetAttemptCase>(),
+        answerCase: sl<AnswerCase>(),
+        answerResultCase: sl<AnswerResultCase>(),
+        finishAttemptCase: sl<FinishAttemptCase>(),
+      ));
 }
 
 Future<void> _tournamentSlInit() async {
@@ -296,6 +296,9 @@ Future<void> _statSlInit() async {
   sl.registerLazySingleton(() => StatBySubjectIdCase(sl()));
   sl.registerLazySingleton<StatInterface>(() => StatRepository(sl()));
   sl.registerLazySingleton<StatDataSourceInterface>(() => StatDataSourceImpl());
+  sl.registerFactory(() => StatMainBloc(
+      getUntStatCase: sl<GetUntStatCase>(),
+      allAttemptsCase: sl<AllAttemptsCase>()));
 }
 
 Future<void> _techSupportSlInit() async {
