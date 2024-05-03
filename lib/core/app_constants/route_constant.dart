@@ -13,4 +13,5 @@ class RouteConstant {
   static const String untSingleScreenName = "unt-single";
   static const String passAttemptById = "pass-attempt-by";
   static const String statMainName = "stat-main";
+  static const String attemptResultByAttemptIdName = "attempt-result-by-id";
 }

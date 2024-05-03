@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/common/widgets/scaffold_with_navigation.dart';
 import 'package:iu/core/services/router_middleware.dart';
+import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
 import 'package:iu/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
@@ -18,6 +19,7 @@ import 'package:iu/features/steps/presentation/screens/step_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import 'package:iu/features/unt/presentation/unt_single/bloc/unt_Single_bloc.dart';
 import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
+import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
@@ -227,6 +229,19 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<StatMainBloc>(),
                 child: StatMainScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.attemptResultByAttemptIdName}/:attemptId",
+            name: RouteConstant.attemptResultByAttemptIdName,
+            builder: (context, state) {
+              int attemptId = int.parse(state.pathParameters['attemptId']!);
+              return BlocProvider(
+                create: (_) => sl<AttemptResultBloc>(),
+                child: AttemptResultScreen(attemptId: attemptId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

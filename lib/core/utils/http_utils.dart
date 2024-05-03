@@ -13,7 +13,8 @@ class HttpUtil {
     try {
       var response =
           await dio.post(path, data: data, queryParameters: queryParameters);
-      return response.data;
+      var dataReady = jsonDecode(response.data);
+      return dataReady;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {

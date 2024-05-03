@@ -36,11 +36,11 @@ class StatMainBloc extends Bloc<StatMainEvent, StatMainState> {
         (l) => emit(StatMainFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
         (r) => emit(StatMainSuccessState(untStatEntity: r)));
+     add(StatMainAllAttemptsEvent(parameter: AllAttemptsParameter()));
   }
 
   Future<void> _StatMainAllAttemptsHandler(
       StatMainAllAttemptsEvent event, Emitter<StatMainState> emit) async {
-    emit(StatMainLoadingState());
     if (state is StatMainSuccessState) {
       final currentState = state as StatMainSuccessState;
       final result = await _allAttemptsCase(event.parameter);

@@ -299,6 +299,8 @@ Future<void> _statSlInit() async {
   sl.registerFactory(() => StatMainBloc(
       getUntStatCase: sl<GetUntStatCase>(),
       allAttemptsCase: sl<AllAttemptsCase>()));
+  sl.registerFactory(
+      () => AttemptResultBloc(statByAttemptIdCase: sl<StatByAttemptIdCase>()));
 }
 
 Future<void> _techSupportSlInit() async {
