@@ -15,12 +15,17 @@ class AnswerButton extends StatelessWidget {
   final Function(String) onSelected;
   final String answerType;
   const AnswerButton(
-      {super.key, required this.answer, required this.isChecked,required this.onSelected, required this.answerType, this.isAlreadyAnswered});
+      {super.key,
+      required this.answer,
+      required this.isChecked,
+      required this.onSelected,
+      required this.answerType,
+      this.isAlreadyAnswered});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> isAlreadyAnswered == null ? onSelected(answerType) : (),
+      onTap: () => isAlreadyAnswered == null ? onSelected(answerType) : (),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.center,
@@ -28,22 +33,21 @@ class AnswerButton extends StatelessWidget {
         decoration: BoxDecoration(
             color: getColorStyle(),
             borderRadius: BorderRadius.circular(10.w),
-            border: getBorderStyle()
-        ),
+            border: getBorderStyle()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Html(
-              data: MathJaxHelper.toMathJax(answer??""),
+              data: MathJaxHelper.toMathJax(answer ?? ""),
               extensions: [
                 TagExtension(
                   tagsToExtend: {"pre"},
-                  builder: (extensionContext) => Math.tex(extensionContext.innerHtml),
+                  builder: (extensionContext) =>
+                      Math.tex(extensionContext.innerHtml),
                 )
               ],
               style: {
-                'pre': Style(
-                    color: Colors.white),
+                'pre': Style(color: Colors.white),
               },
             ),
           ],
@@ -52,21 +56,21 @@ class AnswerButton extends StatelessWidget {
     );
   }
 
-  Border getBorderStyle(){
-    if(this.isAlreadyAnswered == true){
+  Border getBorderStyle() {
+    if (this.isAlreadyAnswered == true) {
       return Border.all(color: ColorConstant.lightViolet, width: 2);
     }
-    if(this.isChecked){
+    if (this.isChecked) {
       return Border.all(color: ColorConstant.orangeColorDark, width: 2);
     }
     return Border.all(color: Colors.white, width: 2);
   }
 
-  Color getColorStyle(){
-    if(this.isAlreadyAnswered == true){
+  Color getColorStyle() {
+    if (this.isAlreadyAnswered == true) {
       return ColorConstant.lightViolet;
     }
-    if(this.isChecked){
+    if (this.isChecked) {
       return ColorConstant.orangeColorDark;
     }
     return Colors.transparent;

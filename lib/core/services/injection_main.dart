@@ -39,11 +39,12 @@ Future<void> _hiveSLInit() async {
 
 Future<void> _dioSLInit() async {
   BaseOptions options = BaseOptions(
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      // headers: {'Accept': "application/json"},
-      // contentType: "application/json;charset=utf-8",
-      responseType: ResponseType.json);
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
+    headers: {'Accept': "application/json"},
+    contentType: "application/json;charset=utf-8",
+    responseType: ResponseType.json,
+  );
   final dio = Dio(options);
   dio.options.headers['Accept'] = 'application/json, text/plain, */*';
   dio.options.responseType = ResponseType.json;
@@ -299,8 +300,10 @@ Future<void> _statSlInit() async {
   sl.registerFactory(() => StatMainBloc(
       getUntStatCase: sl<GetUntStatCase>(),
       allAttemptsCase: sl<AllAttemptsCase>()));
+  sl.registerFactory(() =>
+      AttemptResultBloc(resultByAttemptIdCase: sl<ResultByAttemptIdCase>()));
   sl.registerFactory(
-      () => AttemptResultBloc(statByAttemptIdCase: sl<StatByAttemptIdCase>()));
+      () => StatAttemptBloc(statByAttemptIdCase: sl<StatByAttemptIdCase>()));
 }
 
 Future<void> _techSupportSlInit() async {

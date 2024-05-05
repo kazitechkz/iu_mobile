@@ -12,6 +12,8 @@ import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
+import 'package:iu/features/stat/presentation/stat_attempt/stat_attempt_screen.dart';
 import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
 import 'package:iu/features/stat/presentation/stat_main/stat_main_screen.dart';
 import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
@@ -242,6 +244,19 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<AttemptResultBloc>(),
                 child: AttemptResultScreen(attemptId: attemptId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.statByAttemptIdName}/:attemptId",
+            name: RouteConstant.statByAttemptIdName,
+            builder: (context, state) {
+              int attemptId = int.parse(state.pathParameters['attemptId']!);
+              return BlocProvider(
+                create: (_) => sl<StatAttemptBloc>(),
+                child: StatAttemptScreen(attemptId: attemptId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

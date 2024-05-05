@@ -110,9 +110,9 @@ class _PassUntScreenState extends State<PassUntScreen> {
                               Duration(milliseconds: state.timeLeftMS),
                             ),
                             onEnd: () {
-                              context
-                                  .read<PassAttemptBloc>()
-                                  .add(PassAttemptFinishAttemptEvent(widget.attemptId));
+                              context.read<PassAttemptBloc>().add(
+                                  PassAttemptFinishAttemptEvent(
+                                      widget.attemptId));
                             },
                           ),
                         ],
@@ -559,7 +559,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                               (state
                                                   .attempt
                                                   .subjectQuestions[
-                                              state.subjectId ?? 0]
+                                                      state.subjectId ?? 0]
                                                   .question
                                                   .length)) {
                                             paginationCarouselController

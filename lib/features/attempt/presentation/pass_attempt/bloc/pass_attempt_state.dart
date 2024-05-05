@@ -20,23 +20,39 @@ class PassAttemptSuccessState extends PassAttemptState {
   final AttemptCommonEntity attempt;
   final int? subjectId;
   final int activeSlider;
-  final Map<int,List<String>> answeredQuestions;
+  final Map<int, List<String>> answeredQuestions;
   final AnswerResultEntity? answerResult;
   final AnsweredResultEntity? answeredResult;
   final int timeLeftMS;
-  final Map<int,List<String>> answeredQuestionsID;
-  PassAttemptSuccessState(this.attempt,{required this.timeLeftMS,this.subjectId = 0,this.answeredQuestions = const {},this.answerResult,this.activeSlider = 0,this.answeredQuestionsID = const{},this.answeredResult});
+  final Map<int, List<String>> answeredQuestionsID;
+  PassAttemptSuccessState(this.attempt,
+      {required this.timeLeftMS,
+      this.subjectId = 0,
+      this.answeredQuestions = const {},
+      this.answerResult,
+      this.activeSlider = 0,
+      this.answeredQuestionsID = const {},
+      this.answeredResult});
 
   @override
-  List<Object?> get props => [attempt, subjectId,activeSlider,answeredQuestions,answerResult,answeredQuestionsID,answeredResult,timeLeftMS];
+  List<Object?> get props => [
+        attempt,
+        subjectId,
+        activeSlider,
+        answeredQuestions.hashCode,
+        answerResult,
+        answeredQuestionsID,
+        answeredResult,
+        timeLeftMS
+      ];
 
   PassAttemptSuccessState copyWith({
     AttemptCommonEntity? attempt,
     int? timeLeft,
     int? subjectId,
-    Map<int,List<String>>? answeredQuestions,
+    Map<int, List<String>>? answeredQuestions,
     AnswerResultEntity? answerResult,
-    Map<int,List<String>>? answeredQuestionsID,
+    Map<int, List<String>>? answeredQuestionsID,
     AnsweredResultEntity? answeredResult,
     int? activeSlider,
   }) {
@@ -60,8 +76,7 @@ final class PassAttemptFailedState extends PassAttemptState {
   List<Object?> get props => [failureData.message, failureData.statusCode];
 }
 
-final class PassAttemptFinishedState extends PassAttemptState{
+final class PassAttemptFinishedState extends PassAttemptState {
   @override
   List<Object?> get props => [];
-
 }

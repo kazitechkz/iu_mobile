@@ -19,7 +19,7 @@ class _MainMenuScreenState extends State<MainServicesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.w),
+        padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 10.h),
         child: Column(
           children: [
             Expanded(
@@ -40,9 +40,11 @@ class _MainMenuScreenState extends State<MainServicesScreen> {
                             context.goNamed(serviceItems[index].routeName);
                           },
                           child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 2.h, horizontal: 2.w),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.white,
+                              color: ColorConstant.lightViolet,
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.grey,
@@ -59,7 +61,7 @@ class _MainMenuScreenState extends State<MainServicesScreen> {
                                 children: [
                                   Icon(
                                     serviceItems[index].icon,
-                                    color: ColorConstant.violetFirst,
+                                    color: Colors.white,
                                   ),
                                   SizedBox(
                                     height: 5.h,
@@ -68,6 +70,7 @@ class _MainMenuScreenState extends State<MainServicesScreen> {
                                     serviceItems[index].name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.bold),
                                   )

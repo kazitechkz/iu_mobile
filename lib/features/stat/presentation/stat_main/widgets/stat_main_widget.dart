@@ -16,32 +16,41 @@ class StatMainStatCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.w),
-          color: ColorConstant.lightBlue,
+        borderRadius: BorderRadius.circular(20.w),
+        color: ColorConstant.lightBlue,
       ),
-      height: 100.h,
+      constraints: BoxConstraints(minHeight: 120.h),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(this.icon,color: Colors.white,size: 22.sp,),
-            SizedBox(height: 4.h,),
-            Text(this.name + ":",style: TextStyle(
+            Icon(
+              this.icon,
               color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.sp
-            ),),
-            SizedBox(height: 2.h,),
-            Text(StrHelper.beautifulInteger(stat),
+              size: 22.sp,
+            ),
+            SizedBox(
+              height: 4.h,
+            ),
+            Text(
+              this.name + ":",
               style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 22.sp
-            ),)
-
-
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Text(
+              StrHelper.beautifulInteger(stat),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22.sp),
+            )
           ],
         ),
       ),

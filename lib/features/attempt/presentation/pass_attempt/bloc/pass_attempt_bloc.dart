@@ -15,9 +15,8 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
     required AnswerCase answerCase,
     required AnswerResultCase answerResultCase,
     required FinishAttemptCase finishAttemptCase,
-  })
-      : _attemptCase = attemptCase,
-       _answerCase = answerCase,
+  })  : _attemptCase = attemptCase,
+        _answerCase = answerCase,
         _answerResultCase = answerResultCase,
         _finishAttemptCase = finishAttemptCase,
         super(PassAttemptInitialState()) {
@@ -26,7 +25,8 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
     on<PassAttemptChangeSubjectEvent>(_handlePassAttemptChangeSubjectEvent);
     on<PassAttemptAnswerQuestionEvent>(_handlePassAttemptAnswerQuestionEvent);
     on<PassAttemptAnswerEvent>(_handlePassAttemptAnswerEvent);
-    on<PassAttemptCarouselSliderChangeEvent>(_handlePassAttemptCarouselSliderChangeEvent);
+    on<PassAttemptCarouselSliderChangeEvent>(
+        _handlePassAttemptCarouselSliderChangeEvent);
     on<PassAttemptFinishAttemptEvent>(_handlePassAttemptFinishAttemptEvent);
   }
   final GetAttemptCase _attemptCase;
@@ -42,21 +42,26 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
     result.fold(
         (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-        (r) => emit(PassAttemptSuccessState(r,timeLeftMS: r.timeLeft)));
+        (r) => emit(PassAttemptSuccessState(r, timeLeftMS: r.timeLeft)));
   }
 
   Future<void> _handlePassAttemptAnswerEvent(
-      PassAttemptAnswerEvent event,
-      Emitter<PassAttemptState> emit) async {
+      PassAttemptAnswerEvent event, Emitter<PassAttemptState> emit) async {
     final currentState = state as PassAttemptSuccessState;
-    final answeredQuestionsIDNEW = Map<int,List<String>>.from(currentState.answeredQuestionsID);
-    answeredQuestionsIDNEW[event.parameter.question_id] = event.parameter.answers.split(",");
+    final answeredQuestionsIDNEW =
+        Map<int, List<String>>.from(currentState.answeredQuestionsID);
+    answeredQuestionsIDNEW[event.parameter.question_id] =
+        event.parameter.answers.split(",");
     final result = await _answerCase(event.parameter);
     result.fold(
-            (l) => emit(PassAttemptFailedState(FailureData(
+        (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-            (r) => r.isFinished ? emit(PassAttemptFinishedState()) : emit(currentState.copyWith(answerResult: r,answeredQuestionsID: answeredQuestionsIDNEW,timeLeft: r.timeLeft)));
-
+        (r) => r.isFinished
+            ? emit(PassAttemptFinishedState())
+            : emit(currentState.copyWith(
+                answerResult: r,
+                answeredQuestionsID: answeredQuestionsIDNEW,
+                timeLeft: r.timeLeft)));
   }
 
   Future<void> _handlePassAttemptFinishAttemptEvent(
@@ -64,37 +69,33 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
       Emitter<PassAttemptState> emit) async {
     final result = await _finishAttemptCase(event.attemptId);
     result.fold(
-            (l) => emit(PassAttemptFailedState(FailureData(
+        (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-            (r) => emit(PassAttemptFinishedState()));
-
+        (r) => emit(PassAttemptFinishedState()));
   }
 
   Future<void> _handlePassAttemptGetAnsweredEvent(
-      PassAttemptGetAnsweredEvent event,
-      Emitter<PassAttemptState> emit) async {
+      PassAttemptGetAnsweredEvent event, Emitter<PassAttemptState> emit) async {
     final currentState = state as PassAttemptSuccessState;
-    final result = await _answerResultCase(AnsweredResultParameter(attempt_subject_id: event.attemptSubjectId));
+    final result = await _answerResultCase(
+        AnsweredResultParameter(attempt_subject_id: event.attemptSubjectId));
     result.fold(
-            (l) => emit(PassAttemptFailedState(FailureData(
+        (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-            (r) => emit(currentState.copyWith(answeredResult: r)));
-
+        (r) => emit(currentState.copyWith(answeredResult: r)));
   }
 
   void _handlePassAttemptChangeSubjectEvent(
-      PassAttemptChangeSubjectEvent event,
-      Emitter<PassAttemptState> emit){
-      if(state is PassAttemptSuccessState){
-        final currentState = state as PassAttemptSuccessState;
-        emit(currentState.copyWith(subjectId: event.subjectId));
-      }
+      PassAttemptChangeSubjectEvent event, Emitter<PassAttemptState> emit) {
+    if (state is PassAttemptSuccessState) {
+      final currentState = state as PassAttemptSuccessState;
+      emit(currentState.copyWith(subjectId: event.subjectId));
+    }
   }
 
   void _handlePassAttemptCarouselSliderChangeEvent(
       PassAttemptCarouselSliderChangeEvent event,
-      Emitter<PassAttemptState> emit
-      ) {
+      Emitter<PassAttemptState> emit) {
     if (state is PassAttemptSuccessState) {
       final currentState = state as PassAttemptSuccessState;
       emit(currentState.copyWith(activeSlider: event.activeSliderId));
@@ -102,33 +103,29 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
   }
 
   void _handlePassAttemptAnswerQuestionEvent(
-      PassAttemptAnswerQuestionEvent event,
-      Emitter<PassAttemptState> emit){
-    if(state is PassAttemptSuccessState){
+      PassAttemptAnswerQuestionEvent event, Emitter<PassAttemptState> emit) {
+    if (state is PassAttemptSuccessState) {
       final currentState = state as PassAttemptSuccessState;
-      final newQuestionAnswers = Map<int, List<String>>.from(currentState.answeredQuestions);
-      if(newQuestionAnswers.containsKey(event.questionId)){
-        if(event.typeId == 3){
-          if(newQuestionAnswers[event.questionId]!.contains(event.answer)){
+      final newQuestionAnswers =
+          Map<int, List<String>>.from(currentState.answeredQuestions);
+      if (newQuestionAnswers.containsKey(event.questionId)) {
+        if (event.typeId == 3) {
+          if (newQuestionAnswers[event.questionId]!.contains(event.answer)) {
             newQuestionAnswers[event.questionId]!.remove(event.answer);
-          }
-          else{
+          } else {
             newQuestionAnswers[event.questionId]!.add(event.answer);
           }
-        }
-        else{
-          if(newQuestionAnswers[event.questionId]!.contains(event.answer)){
+        } else {
+          if (newQuestionAnswers[event.questionId]!.contains(event.answer)) {
             newQuestionAnswers[event.questionId]!.remove(event.answer);
-          }
-          else{
+          } else {
             newQuestionAnswers[event.questionId] = [event.answer];
           }
         }
-      }
-      else{
+      } else {
         newQuestionAnswers[event.questionId] = [event.answer];
       }
-      emit(currentState.copyWith(answeredQuestions:newQuestionAnswers));
+      emit(currentState.copyWith(answeredQuestions: newQuestionAnswers));
     }
   }
 }

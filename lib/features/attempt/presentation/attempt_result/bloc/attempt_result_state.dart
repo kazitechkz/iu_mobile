@@ -12,7 +12,6 @@ class AttemptResultLoadingState extends AttemptResultState {
   List<Object?> get props => [];
 }
 
-
 class AttemptResultFailedState extends AttemptResultState {
   final FailureData failureData;
   AttemptResultFailedState(this.failureData);
@@ -21,7 +20,7 @@ class AttemptResultFailedState extends AttemptResultState {
 }
 
 final class AttemptResultSuccessState extends AttemptResultState {
-  final StatByAttemptIdEntity stats;
+  final ResultByAttemptIdEntity stats;
   AttemptResultSuccessState({required this.stats});
   @override
   List<Object?> get props => [stats];
