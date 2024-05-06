@@ -98,6 +98,7 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
+  sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));

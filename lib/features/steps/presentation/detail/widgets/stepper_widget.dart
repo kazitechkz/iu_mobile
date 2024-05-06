@@ -1,6 +1,7 @@
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/components/border/gf_border.dart';
@@ -8,6 +9,10 @@ import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:getwidget/types/gf_border_type.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
 import 'package:collection/collection.dart';
+
+import '../../../../../core/services/injection_main.container.dart';
+import '../../../../sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
+import '../../../../sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
 Widget easyStepper(List<StepEntity> steps, {int activeStep = 0}) {
   return EasyStepper(
       titlesAreLargerThanSteps: true,
@@ -42,7 +47,7 @@ Widget easyStepper(List<StepEntity> steps, {int activeStep = 0}) {
 
 
 
-Widget ownStepper(List<StepEntity> steps, {int activeStep = 0}) {
+Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep = 0}) {
   activeStep = steps.length;
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30, bottom: 40),
@@ -53,7 +58,21 @@ Widget ownStepper(List<StepEntity> steps, {int activeStep = 0}) {
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Container(
                 alignment: index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
-                child: _buildStep(step)
+                child: GestureDetector(
+                  onTap: () => {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return BlocProvider(
+                          create: (context) => sl<SubStepBloc>(),
+                          child: SubStepScreen(stepID: step.id.toString()),
+                        );
+                      },
+                    )
+                  },
+                    child: _buildStep(step)
+                )
             ),
           )).toList(),
     ),

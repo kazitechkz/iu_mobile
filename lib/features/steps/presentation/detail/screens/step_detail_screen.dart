@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart';
 import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dart';
+import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
+import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
+
+import '../../../../../core/services/injection_main.container.dart';
 
 class StepDetailScreen extends StatefulWidget {
   final String stepID;
@@ -53,7 +58,7 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
           if (state is StepDetailLoaded) {
             return SingleChildScrollView(
               reverse: true,
-              child: ownStepper(state.stepEntities),
+              child: ownStepper(context, state.stepEntities),
             );
           }
           return Center(
@@ -70,7 +75,7 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
             context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
           }
         },
-      ),
+      )
     );
   }
 }
