@@ -14,7 +14,7 @@ import '../../domain/entities/stat_by_attempt_id_entity.dart';
 import '../../domain/entities/stat_by_subject_id_entity.dart';
 import '../../domain/parameters/full_stat_parameter.dart';
 
-abstract class StatDataSourceInterface{
+abstract class StatDataSourceInterface {
   Future<FullStatEntity> fullStat(FullStatParameter parameter);
   // Future<SubStepEntity> passSubStep(PassSubStepParameter parameter);
   Future<ResultByAttemptIdEntity> resultByAttemptId(int parameter);
@@ -22,14 +22,15 @@ abstract class StatDataSourceInterface{
   Future<StatBySubjectIdEntity> statBySubjectId(int parameter);
 }
 
-class StatDataSourceImpl extends StatDataSourceInterface{
+class StatDataSourceImpl extends StatDataSourceInterface {
   final httpUtils = HttpUtil();
   final hiveUtils = HiveUtils();
 
   @override
   Future<FullStatEntity> fullStat(FullStatParameter parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.fullStat, data: parameter.toMap());
+      final response =
+          await HttpUtil().get(ApiConstant.fullStat, data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final result = FullStatModel.fromMap(responseData.data);
       return result;
@@ -43,7 +44,8 @@ class StatDataSourceImpl extends StatDataSourceInterface{
   @override
   Future<ResultByAttemptIdEntity> resultByAttemptId(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.resultByAttemptId + 529.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.resultByAttemptId + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       final result = ResultByAttemptIdModel.fromMap(responseData.data);
       return result;
@@ -57,7 +59,8 @@ class StatDataSourceImpl extends StatDataSourceInterface{
   @override
   Future<StatByAttemptIdEntity> statByAttemptId(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.statByAttemptId + parameter.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.statByAttemptId + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       final result = StatByAttemptIdModel.fromMap(responseData.data);
       return result;
@@ -69,9 +72,10 @@ class StatDataSourceImpl extends StatDataSourceInterface{
   }
 
   @override
-  Future<StatBySubjectIdEntity> statBySubjectId(int parameter) async  {
+  Future<StatBySubjectIdEntity> statBySubjectId(int parameter) async {
     try {
-      final response = await HttpUtil().post(ApiConstant.statBySubjectId + parameter.toString());
+      final response = await HttpUtil()
+          .post(ApiConstant.statBySubjectId + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       final result = StatBySubjectIdModel.fromMap(responseData.data);
       return result;
@@ -81,5 +85,4 @@ class StatDataSourceImpl extends StatDataSourceInterface{
       throw ApiException(message: e.toString());
     }
   }
-
 }

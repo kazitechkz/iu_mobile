@@ -38,7 +38,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   get_it: ^7.6.7
   dartz: ^0.10.1
-  dio: ^5.4.2
+  dio: 5.4.0
   json_serializable: ^6.7.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -61,7 +61,6 @@ dependencies:
   animated_bottom_navigation_bar: ^1.3.3
   cached_network_image: ^3.3.1
   transformable_list_view: ^0.5.0
-  carousel_slider: ^4.2.1
   animated_toggle_switch: ^0.8.2
   lite_rolling_switch: ^1.0.1
   country_flags: ^2.2.0
@@ -69,6 +68,10 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   dropdown_button2: ^2.3.9
   flutter_tex: ^4.0.6
+  flutter_carousel_widget: ^2.2.0
+  flutter_math_fork: ^0.7.2
+  flutter_html: ^3.0.0-alpha.5
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

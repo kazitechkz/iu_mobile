@@ -48,7 +48,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          context.goNamed(RouteConstant.stepsScreenName);
+          context.goNamed(RouteConstant.servicesScreenName);
         },
         //params
       ),

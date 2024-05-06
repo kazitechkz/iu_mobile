@@ -39,12 +39,14 @@ Future<void> _hiveSLInit() async {
 
 Future<void> _dioSLInit() async {
   BaseOptions options = BaseOptions(
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
-      headers: {'Accept': "application/json"},
-      // contentType: "application/json;charset=utf-8",
-      responseType: ResponseType.json);
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
+    headers: {'Accept': "application/json"},
+    contentType: "application/json;charset=utf-8",
+    responseType: ResponseType.json,
+  );
   final dio = Dio(options);
+  dio.options.headers['Accept'] = 'application/json, text/plain, */*';
   dio.options.responseType = ResponseType.json;
   final token = await HiveUtils().getString(HiveConstant.tokenKey);
   // HiveUtils().loggedOutFromHive();
@@ -173,7 +175,6 @@ Future<void> _untSlInit() async {
 }
 
 Future<void> _attemptSlInit() async {
-  sl.registerFactory(() => PassAttemptBloc(attemptCase: sl<GetAttemptCase>()));
   sl.registerLazySingleton(() => AllAttemptsCase(sl()));
   sl.registerLazySingleton(() => AllAttemptTypesCase(sl()));
   sl.registerLazySingleton(() => AnswerCase(sl()));
@@ -188,6 +189,12 @@ Future<void> _attemptSlInit() async {
   sl.registerLazySingleton<AttemptInterface>(() => AttemptRepository(sl()));
   sl.registerLazySingleton<AttemptDataSourceInterface>(
       () => AttemptDataSourceImpl());
+  sl.registerFactory(() => PassAttemptBloc(
+        attemptCase: sl<GetAttemptCase>(),
+        answerCase: sl<AnswerCase>(),
+        answerResultCase: sl<AnswerResultCase>(),
+        finishAttemptCase: sl<FinishAttemptCase>(),
+      ));
 }
 
 Future<void> _tournamentSlInit() async {
@@ -291,6 +298,18 @@ Future<void> _statSlInit() async {
   sl.registerLazySingleton(() => StatBySubjectIdCase(sl()));
   sl.registerLazySingleton<StatInterface>(() => StatRepository(sl()));
   sl.registerLazySingleton<StatDataSourceInterface>(() => StatDataSourceImpl());
+  sl.registerFactory(() => StatMainBloc(
+      getUntStatCase: sl<GetUntStatCase>(),
+      allAttemptsCase: sl<AllAttemptsCase>()));
+  sl.registerFactory(() =>
+      AttemptResultBloc(resultByAttemptIdCase: sl<ResultByAttemptIdCase>()));
+  sl.registerFactory(
+      () => StatAttemptBloc(statByAttemptIdCase: sl<StatByAttemptIdCase>()));
+  sl.registerFactory(() => FullStatBloc(
+        fullStatCase: sl<FullStatCase>(),
+        subjectUseCase: sl<SubjectUseCase>(),
+        allAttemptTypesCase: sl<AllAttemptTypesCase>(),
+      ));
 }
 
 Future<void> _techSupportSlInit() async {

@@ -1,4 +1,4 @@
-class AllAttemptsParameter{
+class AllAttemptsParameter {
   final int? page;
-  const AllAttemptsParameter(this.page);
+  const AllAttemptsParameter({this.page = 1});
 }

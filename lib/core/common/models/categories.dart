@@ -16,32 +16,38 @@ class CategoryEntity extends Equatable {
   final int c_questions_count;
   final int m_questions_count;
 
-  const CategoryEntity({
-    required this.id,
-    required this.subject_id,
-    required this.title_kk,
-    required this.title_ru,
-    this.sub_categories,
-    required this.s_questions_count,
-    required this.c_questions_count,
-    required this.m_questions_count
-  });
+  const CategoryEntity(
+      {required this.id,
+      required this.subject_id,
+      required this.title_kk,
+      required this.title_ru,
+      this.sub_categories,
+      required this.s_questions_count,
+      required this.c_questions_count,
+      required this.m_questions_count});
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id, title_kk, title_ru, s_questions_count, c_questions_count, m_questions_count, sub_categories];
+  List<Object?> get props => [
+        id,
+        title_kk,
+        title_ru,
+        s_questions_count,
+        c_questions_count,
+        m_questions_count,
+        sub_categories
+      ];
 }
 
 class CategoryModel extends CategoryEntity {
-  const CategoryModel({
-    required super.id,
-    required super.subject_id,
-    required super.title_kk,
-    required super.title_ru,
-    required super.s_questions_count,
-    required super.c_questions_count,
-    required super.m_questions_count
-  });
+  const CategoryModel(
+      {required super.id,
+      required super.subject_id,
+      required super.title_kk,
+      required super.title_ru,
+      required super.s_questions_count,
+      required super.c_questions_count,
+      required super.m_questions_count});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel.fromMap(json);
@@ -49,14 +55,19 @@ class CategoryModel extends CategoryEntity {
 
   CategoryModel.fromMap(DataMap map)
       : this(
-    id: map['id'] as int,
-    title_kk: map['title_kk'] as String,
-    title_ru: map['title_ru'] as String,
-    subject_id: map['subject_id'] as int,
-    s_questions_count: map['s_questions_count'] != null ? map['s_questions_count'] as int : 0,
-    c_questions_count: map['c_questions_count'] != null ? map['c_questions_count'] as int : 0,
-    m_questions_count: map['m_questions_count'] != null ? map['m_questions_count'] as int : 0
-  );
+            id: map['id'] as int,
+            title_kk: map['title_kk'] as String,
+            title_ru: map['title_ru'] ?? "" as String,
+            subject_id: map['subject_id'] as int,
+            s_questions_count: map['s_questions_count'] != null
+                ? map['s_questions_count'] as int
+                : 0,
+            c_questions_count: map['c_questions_count'] != null
+                ? map['c_questions_count'] as int
+                : 0,
+            m_questions_count: map['m_questions_count'] != null
+                ? map['m_questions_count'] as int
+                : 0);
 
   DataMap toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

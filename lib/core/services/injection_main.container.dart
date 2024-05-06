@@ -25,6 +25,7 @@ import 'package:iu/features/attempt/domain/use_cases/get_attempt_case.dart';
 import 'package:iu/features/attempt/domain/use_cases/get_attempt_stat_case.dart';
 import 'package:iu/features/attempt/domain/use_cases/get_unt_stat_case.dart';
 import 'package:iu/features/attempt/domain/use_cases/save_question_case.dart';
+import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
 import 'package:iu/features/attempt_setting/data/datasources/attempt_setting_datasource.dart';
 import 'package:iu/features/attempt_setting/data/repositories/attempt_setting_repository.dart';
@@ -102,6 +103,9 @@ import 'package:iu/features/question/domain/use_cases/get_sub_category_question_
 import 'package:iu/features/stat/data/datasources/stat_datasource.dart';
 import 'package:iu/features/stat/data/repositories/stat_repository.dart';
 import 'package:iu/features/stat/domain/interface/stat_interface.dart';
+import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
+import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
+import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
 import 'package:iu/features/steps/data/datasources/step_datasource.dart';
 import 'package:iu/features/steps/data/repositories/step_repository.dart';
 import 'package:iu/features/steps/domain/interface/step_interface.dart';
@@ -133,6 +137,7 @@ import 'package:iu/features/welcome/domain/usecases/cache_visited.dart';
 
 import '../../features/attempt/data/datasources/attempt_datasource.dart';
 import '../../features/attempt/domain/interface/attempt_interface.dart';
+import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/battle/domain/use_cases/answer_battle_question_case.dart';
 import '../../features/battle/domain/use_cases/create_battle_case.dart';
 import '../../features/battle/domain/use_cases/create_battle_step_case.dart';

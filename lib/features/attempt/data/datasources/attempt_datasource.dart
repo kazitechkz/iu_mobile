@@ -116,9 +116,13 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
       final response = await HttpUtil().get(ApiConstant.answerResult +
           answeredParameter.attempt_subject_id.toString());
       final data = ResponseData.fromJson(response);
-      print(data.data);
-      final result = AnsweredResultModel.fromMap(data.data);
-      return result;
+      if (data.data is List<dynamic>) {
+        final result = AnsweredResultModel.fromMap({});
+        return result;
+      } else {
+        final result = AnsweredResultModel.fromMap(data.data);
+        return result;
+      }
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
@@ -180,9 +184,6 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } catch (e, stackTrace) {
-      print("EXCEPTION");
-      print(stackTrace);
-      print(e);
       throw ApiException(message: e.toString());
     }
   }
