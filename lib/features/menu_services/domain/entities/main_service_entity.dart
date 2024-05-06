@@ -62,7 +62,7 @@ class MainServiceEntity extends Equatable {
       const MainServiceEntity(
         icon: FontAwesomeIcons.trophy,
         name: 'Турниры',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.listTournamentName,
       ),
       const MainServiceEntity(
         icon: FontAwesomeIcons.chess,

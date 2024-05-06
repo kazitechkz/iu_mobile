@@ -39,5 +39,5 @@ final class FullStatSuccessState extends FullStatState {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [stat,subjects,attemptTypes];
 }

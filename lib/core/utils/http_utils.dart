@@ -13,10 +13,7 @@ class HttpUtil {
     try {
       var response = await dio.post(path,
           data: data,
-          queryParameters: queryParameters,
-          options: Options(
-            headers: {"Content-Type": "application/json"},
-          ));
+          queryParameters: queryParameters);
       return response.data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
@@ -34,10 +31,8 @@ class HttpUtil {
           options: Options(contentType: Headers.jsonContentType));
       return response.data;
     } on DioException catch (e) {
-      print(e);
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
-      print(e);
       throw ApiException(message: e.toString());
     }
   }

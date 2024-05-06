@@ -4,7 +4,7 @@ import 'package:iu/features/stat/domain/entities/subject_sub_category_entity.dar
 import '../../data/models/subject_stat_model.dart';
 
 class FullStatEntity extends Equatable{
-  final Map<String,Map<String, SubjectStatModel?>>? subjects;
+  final Map<int,Map<String, SubjectStatModel?>>? subjects;
   final int count;
   final double? average;
   final int? min;

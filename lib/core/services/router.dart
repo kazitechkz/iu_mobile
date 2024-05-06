@@ -20,6 +20,8 @@ import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart
 import 'package:iu/features/stat/presentation/stat_main/stat_main_screen.dart';
 import 'package:iu/features/steps/presentation/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/screens/step_screen.dart';
+import 'package:iu/features/tournament/presentation/tournament_list/bloc/tournament_list_bloc.dart';
+import 'package:iu/features/tournament/presentation/tournament_list/tournament_list_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import 'package:iu/features/unt/presentation/unt_single/bloc/unt_Single_bloc.dart';
 import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
@@ -271,6 +273,18 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<FullStatBloc>(),
                 child: FullStatScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.listTournamentName}",
+            name: RouteConstant.listTournamentName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<TournamentListBloc>(),
+                child: TournamentListScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
