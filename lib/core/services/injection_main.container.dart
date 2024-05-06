@@ -127,6 +127,7 @@ import 'package:iu/features/tournament/data/datasources/tournament_datasource.da
 import 'package:iu/features/tournament/data/repositories/tournament_repository.dart';
 import 'package:iu/features/tournament/domain/interfaces/tournament_interface.dart';
 import 'package:iu/features/tournament/domain/use_cases/create_tournament_case.dart';
+import 'package:iu/features/tournament/presentation/tournament_list/bloc/tournament_list_bloc.dart';
 import 'package:iu/features/unt/data/datasources/unt_datasource.dart';
 import 'package:iu/features/unt/data/repositories/unt_repository.dart';
 import 'package:iu/features/unt/domain/interfaces/unt_interface.dart';

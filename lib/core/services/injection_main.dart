@@ -215,6 +215,9 @@ Future<void> _tournamentSlInit() async {
       () => TournamentRepository(sl()));
   sl.registerLazySingleton<TournamentDataSourceInterface>(
       () => TournamentDataSourceImpl());
+  sl.registerFactory(() => TournamentListBloc(
+      getAllTournamentCase: sl<GetAllTournamentCase>(),
+  ));
 }
 
 Future<void> _battleSlInit() async {

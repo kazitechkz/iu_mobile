@@ -45,9 +45,6 @@ class FullStatBloc extends Bloc<FullStatEvent, FullStatState> {
       result.fold(
           (l) => emit(FullStatFailedState(FailureData.fromApiFailure(l))),
           (r) => emit(currentState.copyWith(subjectsEntity: r)));
-
-      add(FullStatGetSubjectsEvent());
-      add(FullStatGetAttemptTypesEvent());
     }
   }
 

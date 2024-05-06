@@ -6,7 +6,7 @@ import '../../domain/entities/full_stat_entity.dart';
 
 class FullStatModel extends FullStatEntity {
   const FullStatModel(
-      {Map<String,Map<String, SubjectStatModel?>>? super.subjects,
+      {Map<int,Map<String, SubjectStatModel?>>? super.subjects,
       required super.count,
       super.average,
       super.min,
@@ -33,18 +33,18 @@ class FullStatModel extends FullStatEntity {
     return mapList.map((map) => FullStatModel.fromMap(map)).toList();
   }
 
-  static Map<String,Map<String, SubjectStatModel?>>? getSubjects(DataMap map){
+  static Map<int,Map<String, SubjectStatModel?>>? getSubjects(DataMap map){
     final rawData = map["subjects"];
-    final Map<String,Map<String, SubjectStatModel?>> result = {};
+    final Map<int,Map<String, SubjectStatModel?>> result = {};
     if(rawData != null){
       if(rawData.length > 0){
         rawData.forEach((mainCategoryKey, mainCategoryValue) {
-          result[mainCategoryKey] = {};
+          result[int.parse(mainCategoryKey)] = {};
           if(mainCategoryValue != null){
             Map<String, dynamic> subCategories = mainCategoryValue as Map<String, dynamic>;
             subCategories.forEach((subCategoryKey, subCategoryDetails) {
               if(subCategoryDetails['sub_category'] != null){
-                result[mainCategoryKey]?[subCategoryKey] =  SubjectStatModel.fromMap(subCategoryDetails);
+                result[int.parse(mainCategoryKey)]?[subCategoryKey] =  SubjectStatModel.fromMap(subCategoryDetails);
               }
             });
           }
