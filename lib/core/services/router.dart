@@ -12,6 +12,8 @@ import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
+import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/stat_attempt_screen.dart';
 import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
@@ -257,6 +259,18 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<StatAttemptBloc>(),
                 child: StatAttemptScreen(attemptId: attemptId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.fullStatName}",
+            name: RouteConstant.fullStatName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<FullStatBloc>(),
+                child: FullStatScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

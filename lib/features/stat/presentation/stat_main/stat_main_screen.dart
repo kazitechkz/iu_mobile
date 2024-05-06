@@ -8,8 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
-import 'package:iu/core/widgets/header_title.dart';
-import 'package:iu/features/attempt/domain/parameters/all_attempts_parameter.dart';
+
 import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
 import 'package:iu/features/stat/presentation/stat_main/widgets/stat_main_widget.dart';
 
@@ -49,7 +48,9 @@ class _StatMainScreenState extends State<StatMainScreen> {
                               padding: EdgeInsets.all(10.0),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(50.w),
-                                onTap: () {},
+                                onTap: () {
+                                  context.go("/${RouteConstant.fullStatName}");
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.w),

@@ -103,6 +103,7 @@ import 'package:iu/features/question/domain/use_cases/get_sub_category_question_
 import 'package:iu/features/stat/data/datasources/stat_datasource.dart';
 import 'package:iu/features/stat/data/repositories/stat_repository.dart';
 import 'package:iu/features/stat/domain/interface/stat_interface.dart';
+import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
 import 'package:iu/features/stat/presentation/stat_main/bloc/stat_main_bloc.dart';
 import 'package:iu/features/steps/data/datasources/step_datasource.dart';

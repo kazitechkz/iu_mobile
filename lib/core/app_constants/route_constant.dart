@@ -15,4 +15,5 @@ class RouteConstant {
   static const String statMainName = "stat-main";
   static const String attemptResultByAttemptIdName = "attempt-result-by-id";
   static const String statByAttemptIdName = "stat-by-attempt-id";
+  static const String fullStatName = "full-stat";
 }
