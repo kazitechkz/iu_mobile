@@ -17,24 +17,30 @@ import '../../domain/parameters/get_video_author_detail_parameter.dart';
 import '../../domain/parameters/get_video_detail_parameter.dart';
 import '../models/get_video_author_detail_model.dart';
 
-abstract class IUTubeDataSourceInterface{
-  Future<PaginationData<List<IUTubeVideoEntity>>> getAllVideosDS(GetAllVideosParameter parameter);
+abstract class IUTubeDataSourceInterface {
+  Future<PaginationData<List<IUTubeVideoEntity>>> getAllVideosDS(
+      GetAllVideosParameter parameter);
   Future<GetMainVideosEntity> getMainVideosDS();
-  Future<GetVideoAuthorDetailEntity> getVideoAuthorDS(GetVideoAuthorDetailParameter parameter);
-  Future<GetVideoDetailEntity> getVideoDetailDS(GetVideoDetailParameter parameter);
+  Future<GetVideoAuthorDetailEntity> getVideoAuthorDS(
+      GetVideoAuthorDetailParameter parameter);
+  Future<GetVideoDetailEntity> getVideoDetailDS(
+      GetVideoDetailParameter parameter);
 }
 
-class IUTubeDataSourceImpl extends IUTubeDataSourceInterface{
+class IUTubeDataSourceImpl extends IUTubeDataSourceInterface {
   final httpUtils = HttpUtil();
   final hiveUtils = HiveUtils();
 
   @override
-  Future<PaginationData<List<IUTubeVideoEntity>>> getAllVideosDS(GetAllVideosParameter parameter) async {
+  Future<PaginationData<List<IUTubeVideoEntity>>> getAllVideosDS(
+      GetAllVideosParameter parameter) async {
     try {
-      final response = await httpUtils.get(ApiConstant.getAllVideos,data: parameter.toMap());
+      final response = await httpUtils.get(ApiConstant.getAllVideos,
+          data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final paginationData = PaginationData.fromMap(responseData.data);
-      final data = IUTubeVideoModel.fromMapList(paginationData.data);
+      final data = IUTubeVideoModel.fromMapList(
+          paginationData.data.cast<Map<String, dynamic>>());
       final result = PaginationData.fromType(paginationData, data);
       return result;
     } on DioException catch (e) {
@@ -59,9 +65,12 @@ class IUTubeDataSourceImpl extends IUTubeDataSourceInterface{
   }
 
   @override
-  Future<GetVideoAuthorDetailEntity> getVideoAuthorDS(GetVideoAuthorDetailParameter parameter) async {
+  Future<GetVideoAuthorDetailEntity> getVideoAuthorDS(
+      GetVideoAuthorDetailParameter parameter) async {
     try {
-      final response = await httpUtils.get(ApiConstant.getVideoAuthor + parameter.id.toString(),data: parameter.toMap());
+      final response = await httpUtils.get(
+          ApiConstant.getVideoAuthor + parameter.id.toString(),
+          data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final result = GetVideoAuthorDetailModel.fromMap(responseData.data);
       return result;
@@ -73,9 +82,11 @@ class IUTubeDataSourceImpl extends IUTubeDataSourceInterface{
   }
 
   @override
-  Future<GetVideoDetailEntity> getVideoDetailDS(GetVideoDetailParameter parameter) async {
+  Future<GetVideoDetailEntity> getVideoDetailDS(
+      GetVideoDetailParameter parameter) async {
     try {
-      final response = await httpUtils.get(ApiConstant.getVideoDetail + parameter.alias.toString());
+      final response = await httpUtils
+          .get(ApiConstant.getVideoDetail + parameter.alias.toString());
       final responseData = ResponseData.fromJson(response);
       final result = GetVideoDetailModel.fromMap(responseData.data);
       return result;
@@ -85,5 +96,4 @@ class IUTubeDataSourceImpl extends IUTubeDataSourceInterface{
       throw ApiException(message: e.toString());
     }
   }
-  
 }

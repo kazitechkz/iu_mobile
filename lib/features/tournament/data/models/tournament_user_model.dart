@@ -9,7 +9,7 @@ class TournamentUserModel extends TournamentUserEntity {
       {required super.id,
       required super.username,
       required super.name,
-      required super.phone,
+      super.phone,
       required super.email,
       FileModel? super.file,
       GenderModel? super.gender,

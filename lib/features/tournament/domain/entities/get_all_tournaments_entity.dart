@@ -4,7 +4,7 @@ import 'package:iu/features/tournament/domain/entities/tournament_entity.dart';
 class GetAllTournamentEntity extends Equatable {
   final List<TournamentEntity> open;
   final List<TournamentEntity> participated;
-  final List<int> tournamentIds;
+  final Map<int, int> tournamentIds;
 
   const GetAllTournamentEntity(
       {required this.open,

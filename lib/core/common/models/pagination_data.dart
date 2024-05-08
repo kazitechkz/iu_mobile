@@ -33,7 +33,7 @@ class PaginationData<T> {
         data = json["data"],
         firstPageUrl = json["first_page_url"],
         from = json["from"] != null ? json["from"] as int : 0,
-        lastPage = json["last_pages"] != null ? json["last_pages"] as int : 0,
+        lastPage = json["last_page"] != null ? json["last_page"] as int : 0,
         lastPageUrl = json["last_page_url"] as String?,
         links = json["links"] != null
             ? PaginationLink.fromMapList(

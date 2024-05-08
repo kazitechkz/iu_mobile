@@ -6,7 +6,7 @@ class TournamentUserEntity extends Equatable {
   final int id;
   final String username;
   final String name;
-  final String phone;
+  final String? phone;
   final String email;
   final FileEntity? file;
   final GenderEntity? gender;

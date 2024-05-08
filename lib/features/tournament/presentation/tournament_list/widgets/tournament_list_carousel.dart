@@ -16,12 +16,15 @@ class _TournamentListCarouselState extends State<TournamentListCarousel> {
   Widget build(BuildContext context) {
     return FlutterCarousel(
         items: [
-          _getCarouselSlider("Ценные призы, главный приз до 1 млн тенге","assets/images/many-mode.webp"),
-          _getCarouselSlider("Турниры по 16 различным предметам ","assets/images/many-mode.webp"),
-          _getCarouselSlider("До 1000 активных участников","assets/images/many-mode.webp"),
+          _getCarouselSlider("Ценные призы, главный приз до 1 млн тенге",
+              "assets/images/many-mode.webp"),
+          _getCarouselSlider("Турниры по 16 различным предметам ",
+              "assets/images/many-mode.webp"),
+          _getCarouselSlider(
+              "До 1000 активных участников", "assets/images/many-mode.webp"),
         ],
         options: CarouselOptions(
-            height: 320.h,
+            height: 240.h,
             aspectRatio: 1.0,
             viewportFraction: 1,
             indicatorMargin: 15.0,
@@ -39,7 +42,11 @@ class _TournamentListCarouselState extends State<TournamentListCarousel> {
             image: AssetImage(imageAssets),
             fit: BoxFit.cover,
             opacity: 0.8,
-        ),
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(
+                  0.5), // Adjust the opacity to control the darkness
+              BlendMode.darken,
+            )),
         boxShadow: const [
           BoxShadow(
             color: Colors.black38,
@@ -62,9 +69,9 @@ class _TournamentListCarouselState extends State<TournamentListCarousel> {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 18.22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                fontSize: 18.22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             )),
             SizedBox(

@@ -9,7 +9,7 @@ class SubTournamentResultModel extends SubTournamentResultEntity {
     required super.id,
     required super.userId,
     required super.subTournamentId,
-    super.pointNumber,
+    super.point,
     super.time,
     required super.attemptId,
     SubTournamentModel? super.subTournament,
@@ -24,7 +24,7 @@ class SubTournamentResultModel extends SubTournamentResultEntity {
           id: map["id"],
           userId: map["user_id"],
           subTournamentId: map["sub_tournament_id"],
-          pointNumber: map["point_number"],
+          point: map["point"],
           time: map["time"],
           attemptId: map["attempt_id"],
           user: map["user"] != null
