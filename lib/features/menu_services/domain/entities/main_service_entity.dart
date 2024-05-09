@@ -92,7 +92,7 @@ class MainServiceEntity extends Equatable {
       const MainServiceEntity(
         icon: FontAwesomeIcons.newspaper,
         name: 'Новости',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.newsListName,
       ),
       const MainServiceEntity(
         icon: FontAwesomeIcons.comment,

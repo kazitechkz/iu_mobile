@@ -305,6 +305,9 @@ Future<void> _newsSlInit() async {
   sl.registerLazySingleton(() => GetSingleNewsCase(sl()));
   sl.registerLazySingleton<NewsInterface>(() => NewsRepository(sl()));
   sl.registerLazySingleton<NewsDataSourceInterface>(() => NewsDataSourceImpl());
+  sl.registerFactory(() =>
+      ImportantNewsBloc(getImportantNewsCase: sl<GetImportantNewsCase>()));
+  sl.registerFactory(() => NewsListBloc(allNewsCase: sl<AllNewsCase>()));
 }
 
 Future<void> _notificationSlInit() async {

@@ -18,6 +18,9 @@ import 'package:iu/features/iutube/presentation/iutube_list/iutube_list_screen.d
 import 'package:iu/features/iutube/presentation/iutube_main/bloc/iutube_main_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_main/iutube_main_screen.dart';
 import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
+import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
+import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
 import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
@@ -409,6 +412,22 @@ class RouteNavigation {
                 create: (_) => sl<IutubeAuthorBloc>(),
                 child: IutubeAuthorScreen(authorId: authorId),
               );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.newsListName}",
+            name: RouteConstant.newsListName,
+            builder: (context, state) {
+              return MultiBlocProvider(providers: [
+                BlocProvider(
+                  create: (_) => sl<NewsListBloc>(),
+                ),
+                BlocProvider(
+                  create: (_) => sl<ImportantNewsBloc>(),
+                ),
+              ], child: NewsListScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
