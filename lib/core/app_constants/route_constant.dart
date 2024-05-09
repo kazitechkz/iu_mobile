@@ -19,4 +19,10 @@ class RouteConstant {
   static const String statByAttemptIdName = "stat-by-attempt-id";
   static const String fullStatName = "full-stat";
   static const String listTournamentName = "list-tournaments";
+  static const String tournamentDetailName = "tournament-detail";
+  static const String iutubeMainName = "iutube-main";
+  static const String iutubeListName = "iutube-list";
+  static const String iutubeDetailName = "iutube-detail";
+  static const String iutubeAuthorVideoName = "iutube-author";
+  static const String newsListName = "news-list";
 }

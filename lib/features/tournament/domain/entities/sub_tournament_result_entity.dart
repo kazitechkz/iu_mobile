@@ -6,7 +6,7 @@ class SubTournamentResultEntity extends Equatable {
   final int id;
   final int userId;
   final int subTournamentId;
-  final int? pointNumber;
+  final int? point;
   final int? time;
   final int attemptId;
   final SubTournamentEntity? subTournament;
@@ -19,7 +19,7 @@ class SubTournamentResultEntity extends Equatable {
     required this.id,
     required this.userId,
     required this.subTournamentId,
-    this.pointNumber,
+    this.point,
     this.time,
     required this.attemptId,
     this.subTournament,

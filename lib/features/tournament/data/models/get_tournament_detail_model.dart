@@ -36,11 +36,11 @@ class GetTournamentDetailModel extends GetTournamentDetailEntity {
           steps: TournamentStepModel.fromMapList(
               map["steps"].cast<Map<String, dynamic>>()),
           isJoin: map["is_join"],
-          firstSubTournament: map["first_sub_tournament"] != null
-              ? SubTournamentModel.fromMap(map["first_sub_tournament"])
+          firstSubTournament: map["firstSubTournament"] != null
+              ? SubTournamentModel.fromMap(map["firstSubTournament"])
               : null,
-          currentSubTournament: map["current_sub_tournament"] != null
-              ? SubTournamentModel.fromMap(map["current_sub_tournament"])
+          currentSubTournament: map["currentSubTournament"] != null
+              ? SubTournamentModel.fromMap(map["currentSubTournament"])
               : null,
           checkAccess: map["check_access"],
           isReg: map["is_reg"],

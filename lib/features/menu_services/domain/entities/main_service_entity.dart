@@ -82,7 +82,7 @@ class MainServiceEntity extends Equatable {
       const MainServiceEntity(
         icon: FontAwesomeIcons.play,
         name: 'IUTube',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.iutubeMainName,
       ),
       const MainServiceEntity(
         icon: FontAwesomeIcons.message,
@@ -92,7 +92,7 @@ class MainServiceEntity extends Equatable {
       const MainServiceEntity(
         icon: FontAwesomeIcons.newspaper,
         name: 'Новости',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.newsListName,
       ),
       const MainServiceEntity(
         icon: FontAwesomeIcons.comment,

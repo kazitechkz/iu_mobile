@@ -24,7 +24,7 @@ class GetSubTournamentResultsModel extends GetSubTournamentResultsEntity {
 
   static PaginationData<List<SubTournamentResultModel>> _handleMap(
       DataMap map) {
-    PaginationData paginationData = PaginationData.fromMap(map["results"]);
+    PaginationData paginationData = PaginationData.fromMap(map);
     PaginationData<List<SubTournamentResultModel>> result =
         PaginationData.fromType(
             paginationData,

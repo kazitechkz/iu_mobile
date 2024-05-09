@@ -16,7 +16,7 @@ class GetAllTournamentModel extends GetAllTournamentEntity {
                 map["open"].cast<Map<String, dynamic>>()),
             participated: TournamentModel.fromMapList(
                 map["participated"].cast<Map<String, dynamic>>()),
-            tournamentIds: map["tournament_ids"].cast<int>());
+            tournamentIds: {}); //map["tournament_ids"];
 
   factory GetAllTournamentModel.fromJson(Map<String, dynamic> json) {
     return GetAllTournamentModel.fromMap(json);

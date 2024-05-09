@@ -11,7 +11,16 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/iutube/presentation/iutube_detail/bloc/iutube_detail_bloc.dart';
+import 'package:iu/features/iutube/presentation/iutube_detail/iutube_detail_screen.dart';
+import 'package:iu/features/iutube/presentation/iutube_list/bloc/iutube_list_bloc.dart';
+import 'package:iu/features/iutube/presentation/iutube_list/iutube_list_screen.dart';
+import 'package:iu/features/iutube/presentation/iutube_main/bloc/iutube_main_bloc.dart';
+import 'package:iu/features/iutube/presentation/iutube_main/iutube_main_screen.dart';
 import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
+import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
+import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
 import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
@@ -24,6 +33,7 @@ import 'package:iu/features/steps/presentation/step/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/step/screens/step_screen.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
+import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/bloc/tournament_list_bloc.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/tournament_list_screen.dart';
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
@@ -33,6 +43,14 @@ import '../../features/attempt/presentation/attempt_result/attempt_result_screen
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
+import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
+import '../../features/iutube/presentation/iutube_author/iutube_author_screen.dart';
+import '../../features/tournament/domain/parameters/get_tournament_awards_parameter.dart';
+import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_participants/sub_tournament_participants_bloc.dart';
+import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_results/sub_tournament_results_bloc.dart';
+import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_rivals/sub_tournament_rivals_bloc.dart';
+import '../../features/tournament/presentation/tournament_detail/bloc/tournament_awards/tournament_awards_bloc.dart';
+import '../../features/tournament/presentation/tournament_detail/bloc/tournament_detail_bloc.dart';
 import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
 import '../../features/unt/presentation/unt_full/unt_full_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
@@ -167,29 +185,33 @@ class RouteNavigation {
                           child: const StepScreen(),
                         );
                       },
-                      redirect: (BuildContext context, GoRouterState state) async {
-                        return await RouterMiddleWare().authMiddleWare(context, state);
+                      redirect:
+                          (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare()
+                            .authMiddleWare(context, state);
                       }),
                 ],
               ),
-              StatefulShellBranch(
-                initialLocation: '/${RouteConstant.stepDetailScreenName}',
-                routes: <RouteBase>[
-                  GoRoute(
-                      path: "/:stepID",
-                      name: RouteConstant.stepDetailScreenName,
-                      builder: (context, state) {
-                        String stepID = state.pathParameters['stepID']!;
-                        return BlocProvider(
-                          create: (_) => sl<StepDetailBloc>(),
-                          child: StepDetailScreen(stepID: stepID),
-                        );
-                      },
-                      redirect: (BuildContext context, GoRouterState state) async {
-                        return await RouterMiddleWare().authMiddleWare(context, state);
-                      }),
-                ],
-              ),
+              // StatefulShellBranch(
+              //   initialLocation: '/${RouteConstant.stepDetailScreenName}',
+              //   routes: <RouteBase>[
+              //     GoRoute(
+              //         path: "/${RouteConstant.stepDetailScreenName}/:stepID",
+              //         name: RouteConstant.stepDetailScreenName,
+              //         builder: (context, state) {
+              //           String stepID = state.pathParameters['stepID']!;
+              //           return BlocProvider(
+              //             create: (_) => sl<StepDetailBloc>(),
+              //             child: StepDetailScreen(stepID: stepID),
+              //           );
+              //         },
+              //         redirect:
+              //             (BuildContext context, GoRouterState state) async {
+              //           return await RouterMiddleWare()
+              //               .authMiddleWare(context, state);
+              //         }),
+              //   ],
+              // ),
               StatefulShellBranch(
                 routes: <RouteBase>[
                   GoRoute(
@@ -306,6 +328,106 @@ class RouteNavigation {
                 create: (_) => sl<TournamentListBloc>(),
                 child: TournamentListScreen(),
               );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.tournamentDetailName}/:tournamentId",
+            name: RouteConstant.tournamentDetailName,
+            builder: (context, state) {
+              int tounamentId =
+                  int.parse(state.pathParameters['tournamentId']!);
+
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (_) => sl<TournamentDetailBloc>()
+                      ..add(TournamentDetailGetActualEvent(tounamentId)),
+                  ),
+                  BlocProvider(
+                    create: (_) => sl<SubTournamentParticipantsBloc>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => sl<SubTournamentResultsBloc>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => sl<SubTournamentRivalsBloc>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => sl<TournamentAwardsBloc>()
+                      ..add(TournamentAwardByTournamentIdEvent(
+                          GetTournamentAwardsParameter(id: tounamentId))),
+                  ),
+                ],
+                child: TournamentDetailScreen(tournamentId: tounamentId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.iutubeMainName}",
+            name: RouteConstant.iutubeMainName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<IutubeMainBloc>(),
+                child: IutubeMainScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.iutubeListName}",
+            name: RouteConstant.iutubeListName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<IutubeListBloc>(),
+                child: IutubeListScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.iutubeDetailName}/:alias",
+            name: RouteConstant.iutubeDetailName,
+            builder: (context, state) {
+              String alias = state.pathParameters['alias'] ?? "";
+              return BlocProvider(
+                create: (_) => sl<IutubeDetailBloc>(),
+                child: IutubeDetailScreen(alias: alias),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.iutubeAuthorVideoName}/:authorId",
+            name: RouteConstant.iutubeAuthorVideoName,
+            builder: (context, state) {
+              int authorId = int.parse(state.pathParameters['authorId']!);
+              return BlocProvider(
+                create: (_) => sl<IutubeAuthorBloc>(),
+                child: IutubeAuthorScreen(authorId: authorId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.newsListName}",
+            name: RouteConstant.newsListName,
+            builder: (context, state) {
+              return MultiBlocProvider(providers: [
+                BlocProvider(
+                  create: (_) => sl<NewsListBloc>(),
+                ),
+                BlocProvider(
+                  create: (_) => sl<ImportantNewsBloc>(),
+                ),
+              ], child: NewsListScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

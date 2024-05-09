@@ -92,13 +92,15 @@ Future<void> _authSLInit() async {
 
 Future<void> _stepSLInit() async {
   sl.registerFactory(() => StepBloc(stepUseCase: sl<StepUseCase>()));
-  sl.registerFactory(() => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
+  sl.registerFactory(
+      () => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
   sl.registerLazySingleton(() => StepUseCase(sl()));
   sl.registerLazySingleton(() => StepDetailUseCase(sl()));
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
-  sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
+  sl.registerLazySingleton(
+      () => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
@@ -216,8 +218,22 @@ Future<void> _tournamentSlInit() async {
   sl.registerLazySingleton<TournamentDataSourceInterface>(
       () => TournamentDataSourceImpl());
   sl.registerFactory(() => TournamentListBloc(
-      getAllTournamentCase: sl<GetAllTournamentCase>(),
-  ));
+        getAllTournamentCase: sl<GetAllTournamentCase>(),
+      ));
+  sl.registerFactory(() => TournamentDetailBloc(
+        tournamentDetailCase: sl<GetTournamentDetailCase>(),
+      ));
+  sl.registerFactory(() => SubTournamentParticipantsBloc(
+        getSubTournamentParticipantsCase:
+            sl<GetSubTournamentParticipantsCase>(),
+      ));
+  sl.registerFactory(() => SubTournamentResultsBloc(
+        getSubTournamentResultsCase: sl<GetSubTournamentResultsCase>(),
+      ));
+  sl.registerFactory(() => SubTournamentRivalsBloc(
+      getSubTournamentRivalsCase: sl<GetSubTournamentRivalsCase>()));
+  sl.registerFactory(() => TournamentAwardsBloc(
+      getTournamentAwardsCase: sl<GetTournamentAwardsCase>()));
 }
 
 Future<void> _battleSlInit() async {
@@ -261,6 +277,14 @@ Future<void> _iutubeSlInit() async {
   sl.registerLazySingleton<IUTubeInterface>(() => IUTubeRepository(sl()));
   sl.registerLazySingleton<IUTubeDataSourceInterface>(
       () => IUTubeDataSourceImpl());
+  sl.registerFactory(
+      () => IutubeMainBloc(getMainVideosCase: sl<GetMainVideosCase>()));
+  sl.registerFactory(
+      () => IutubeListBloc(getAllVideosCase: sl<GetAllVideosCase>()));
+  sl.registerFactory(
+      () => IutubeDetailBloc(getVideoDetailCase: sl<GetVideoDetailCase>()));
+  sl.registerFactory(
+      () => IutubeAuthorBloc(getVideoAuthorCase: sl<GetVideoAuthorCase>()));
 }
 
 Future<void> _forumSlInit() async {
@@ -281,6 +305,9 @@ Future<void> _newsSlInit() async {
   sl.registerLazySingleton(() => GetSingleNewsCase(sl()));
   sl.registerLazySingleton<NewsInterface>(() => NewsRepository(sl()));
   sl.registerLazySingleton<NewsDataSourceInterface>(() => NewsDataSourceImpl());
+  sl.registerFactory(() =>
+      ImportantNewsBloc(getImportantNewsCase: sl<GetImportantNewsCase>()));
+  sl.registerFactory(() => NewsListBloc(allNewsCase: sl<AllNewsCase>()));
 }
 
 Future<void> _notificationSlInit() async {
