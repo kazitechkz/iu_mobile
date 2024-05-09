@@ -5,7 +5,6 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart';
 import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dart';
-import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
 
 import '../../../../../core/services/injection_main.container.dart';
@@ -16,6 +15,7 @@ class StepDetailScreen extends StatefulWidget {
 
   @override
   State<StepDetailScreen> createState() => _StepDetailScreenState();
+
 }
 
 class _StepDetailScreenState extends State<StepDetailScreen> {
@@ -32,6 +32,12 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
     if (widget.stepID != oldWidget.stepID) {
       context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    context.read<StepDetailBloc>().close();
   }
 
   @override

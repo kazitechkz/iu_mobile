@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,9 +12,23 @@ part 'sub_step_state.dart';
 
 class SubStepBloc extends Bloc<SubStepEvent, SubStepState> {
   final SubStepUseCase _subStepUseCase;
+  bool _isClosed = false;
+
+  @override
+  Future<void> close() {
+    _isClosed = true;
+    return super.close();
+  }
+
+  void addEvent(SubStepEvent event) {
+    if (!_isClosed) {
+      add(event);
+    }
+  }
   SubStepBloc({required SubStepUseCase subStepUseCase}) :
         _subStepUseCase = subStepUseCase, super(SubStepInitial()) {
     on<GetSubStepsEvent>(_handleGetSubSteps);
+
   }
 
   Future<void> _handleGetSubSteps(GetSubStepsEvent event, Emitter<SubStepState> emit) async {
@@ -23,4 +39,5 @@ class SubStepBloc extends Bloc<SubStepEvent, SubStepState> {
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
             (r) => emit(SubStepLoaded(r)));
   }
+
 }

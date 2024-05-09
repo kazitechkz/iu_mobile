@@ -1,4 +1,3 @@
-import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,43 +8,9 @@ import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:getwidget/types/gf_border_type.dart';
 import 'package:iu/features/steps/domain/entities/step_entity.dart';
 import 'package:collection/collection.dart';
-
 import '../../../../../core/services/injection_main.container.dart';
 import '../../../../sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import '../../../../sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
-Widget easyStepper(List<StepEntity> steps, {int activeStep = 0}) {
-  return EasyStepper(
-      titlesAreLargerThanSteps: true,
-      direction: Axis.vertical,
-      activeStep: steps.length,
-      stepRadius: 50,
-      internalPadding: 100,
-      steps: steps.map((step) =>
-          EasyStep(
-            customStep: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Opacity(
-                opacity: 1,
-                child: Image.asset('assets/images/thinking.webp'),
-              ),
-            ),
-            customTitle: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                step.title_ru,
-                style: const TextStyle(
-                  fontSize: 10
-                ),
-                textAlign: TextAlign.center,
-              ),
-            )
-          )
-      ).toList()
-  );
-}
-
-
-
 
 Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep = 0}) {
   activeStep = steps.length;
@@ -59,18 +24,22 @@ Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep 
             child: Container(
                 alignment: index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () => {
+                  onTap: () {
                     showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        return BlocProvider(
-                          create: (context) => sl<SubStepBloc>(),
-                          child: SubStepScreen(stepID: step.id.toString()),
-                        );
-                      },
-                    )
-                  },
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return FractionallySizedBox(
+                                    heightFactor: 0.8,
+                                    widthFactor: 1,
+                                    child: BlocProvider.value(
+                                      value: sl<SubStepBloc>(),
+                                      child: SubStepScreen(stepID: step.id.toString()),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                     child: _buildStep(step)
                 )
             ),
