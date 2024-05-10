@@ -20,7 +20,15 @@ class _SubStepScreenState extends State<SubStepScreen> {
   @override
   void initState() {
     super.initState();
-    sl<SubStepBloc>().add(GetSubStepsEvent(widget.stepID));
+    sl<SubStepBloc>().addEvent(GetSubStepsEvent(widget.stepID));
+  }
+
+  @override
+  void didUpdateWidget(covariant SubStepScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.stepID != oldWidget.stepID) {
+      sl<SubStepBloc>().addEvent(GetSubStepsEvent(widget.stepID));
+    }
   }
 
   @override
@@ -42,7 +50,7 @@ class _SubStepScreenState extends State<SubStepScreen> {
       },
       listener: (BuildContext context, SubStepState state) {
         if (state is SubStepErrorState) {
-          sl<SubStepBloc>().add(GetSubStepsEvent(widget.stepID));
+          sl<SubStepBloc>().addEvent(GetSubStepsEvent(widget.stepID));
         }
       },
     );

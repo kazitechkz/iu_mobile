@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:getwidget/components/appbar/gf_appbar.dart';
+import 'package:getwidget/components/button/gf_icon_button.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_button_type.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart';
 import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dart';
-import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
 
 import '../../../../../core/services/injection_main.container.dart';
 
@@ -35,14 +39,22 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    context.read<StepDetailBloc>().close();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: GFAppBar(
+        leading:  GFIconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            GoRouter.of(context).goNamed(RouteConstant.stepsScreenName);
+          },
+          type: GFButtonType.transparent,
+        ),
+        title: const Text("Learning"),
+        centerTitle: true,
+      ),
       backgroundColor: const Color(0xffc9ecff),
       body: BlocConsumer<StepDetailBloc, StepDetailState>(
         builder: (context, state) {

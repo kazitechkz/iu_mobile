@@ -82,7 +82,7 @@ Widget _buildStep(StepEntity step) {
       ),
       SizedBox(
         width: 150.w,
-        child: Text(step.title_ru, style: const TextStyle(fontSize: 12), textAlign: TextAlign.center,)
+        child: Text(step.title_kk, style: const TextStyle(fontSize: 12), textAlign: TextAlign.center,)
       ),
       const SizedBox(height: 10,),
       SizedBox(
