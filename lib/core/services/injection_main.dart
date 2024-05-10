@@ -308,6 +308,7 @@ Future<void> _newsSlInit() async {
   sl.registerFactory(() =>
       ImportantNewsBloc(getImportantNewsCase: sl<GetImportantNewsCase>()));
   sl.registerFactory(() => NewsListBloc(allNewsCase: sl<AllNewsCase>()));
+  sl.registerFactory(() => NewsDetailBloc(getSingleNewsCase: sl<GetSingleNewsCase>()));
 }
 
 Future<void> _notificationSlInit() async {

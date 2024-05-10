@@ -25,4 +25,5 @@ class RouteConstant {
   static const String iutubeDetailName = "iutube-detail";
   static const String iutubeAuthorVideoName = "iutube-author";
   static const String newsListName = "news-list";
+  static const String newsDetailName = "news-detail";
 }

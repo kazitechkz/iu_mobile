@@ -18,6 +18,8 @@ import 'package:iu/features/iutube/presentation/iutube_list/iutube_list_screen.d
 import 'package:iu/features/iutube/presentation/iutube_main/bloc/iutube_main_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_main/iutube_main_screen.dart';
 import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
+import 'package:iu/features/news/presentation/news_detail/bloc/news_detail_bloc.dart';
+import 'package:iu/features/news/presentation/news_detail/news_detail_screen.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
@@ -428,6 +430,19 @@ class RouteNavigation {
                   create: (_) => sl<ImportantNewsBloc>(),
                 ),
               ], child: NewsListScreen());
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.newsDetailName}/:alias",
+            name: RouteConstant.newsDetailName,
+            builder: (context, state) {
+              String alias = state.pathParameters['alias']??"";
+              return BlocProvider(
+                create: (_) => sl<NewsDetailBloc>(),
+                child: NewsDetailScreen(alias: alias),
+              );
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

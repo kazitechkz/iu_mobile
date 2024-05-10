@@ -83,6 +83,7 @@ import 'package:iu/features/news/domain/interface/news_interface.dart';
 import 'package:iu/features/news/domain/use_cases/all_news_case.dart';
 import 'package:iu/features/news/domain/use_cases/get_important_news_case.dart';
 import 'package:iu/features/news/domain/use_cases/get_single_news_case.dart';
+import 'package:iu/features/news/presentation/news_detail/bloc/news_detail_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
 import 'package:iu/features/notification/data/datasources/notification_datasource.dart';
 import 'package:iu/features/notification/data/repositories/notification_repository.dart';
