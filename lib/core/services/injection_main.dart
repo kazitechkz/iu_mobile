@@ -92,15 +92,14 @@ Future<void> _authSLInit() async {
 
 Future<void> _stepSLInit() async {
   sl.registerFactory(() => StepBloc(stepUseCase: sl<StepUseCase>()));
-  sl.registerFactory(
-      () => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
+  sl.registerFactory(() => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
   sl.registerLazySingleton(() => StepUseCase(sl()));
   sl.registerLazySingleton(() => StepDetailUseCase(sl()));
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
-  sl.registerLazySingleton(
-      () => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
+  sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
+  sl.registerLazySingleton(() => SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));

@@ -187,7 +187,7 @@ Widget courseGrid(MainStepEntity stepEntity) {
         avatar: GFAvatar(
           backgroundImage: getImageProviderFromServer(stepEntity.image?.url),
         ),
-        titleText: stepEntity.title_ru,
+        titleText: stepEntity.title_kk,
         subTitle: Padding(
           padding: EdgeInsets.symmetric(vertical: 5.w),
           child: Row(
