@@ -11,6 +11,8 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
+import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/bloc/iutube_detail_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/iutube_detail_screen.dart';
 import 'package:iu/features/iutube/presentation/iutube_list/bloc/iutube_list_bloc.dart';
@@ -37,6 +39,8 @@ import 'package:iu/features/sub_steps/presentation/detail/bloc/sub_step_detail_b
 import 'package:iu/features/sub_steps/presentation/detail/screen/sub_step_detail_screen.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
+import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
+import 'package:iu/features/techSupport/presentation/my_tech_support_list/my_tech_support_list_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/bloc/tournament_list_bloc.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/tournament_list_screen.dart';
@@ -225,10 +229,8 @@ class RouteNavigation {
                 child: StepDetailScreen(stepID: stepID),
               );
             },
-            redirect:
-                (BuildContext context, GoRouterState state) async {
-              return await RouterMiddleWare()
-                  .authMiddleWare(context, state);
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
             path: "/${RouteConstant.subStepDetailScreenName}/:subStepID",
@@ -240,10 +242,8 @@ class RouteNavigation {
                 child: SubStepDetailScreen(subStepID: subStepID),
               );
             },
-            redirect:
-                (BuildContext context, GoRouterState state) async {
-              return await RouterMiddleWare()
-                  .authMiddleWare(context, state);
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
             path: "/${RouteConstant.untFullScreenName}",
@@ -450,10 +450,34 @@ class RouteNavigation {
             path: "/${RouteConstant.newsDetailName}/:alias",
             name: RouteConstant.newsDetailName,
             builder: (context, state) {
-              String alias = state.pathParameters['alias']??"";
+              String alias = state.pathParameters['alias'] ?? "";
               return BlocProvider(
                 create: (_) => sl<NewsDetailBloc>(),
                 child: NewsDetailScreen(alias: alias),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.forumListName}",
+            name: RouteConstant.forumListName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<AllForumBloc>(),
+                child: AllForumScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.techSupportListName}",
+            name: RouteConstant.techSupportListName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<MyTechSupportTicketsBloc>(),
+                child: MyTechSupportListScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

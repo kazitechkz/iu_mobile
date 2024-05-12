@@ -9,6 +9,7 @@ class ForumEntity extends Equatable {
   final String text;
   final String attachment;
   final int? discussRatingSumRating;
+  final int? discussesCount;
   final SubjectEntity? subject;
   final OrdinaryUserEntity? user;
   final String? createdAt;
@@ -21,6 +22,7 @@ class ForumEntity extends Equatable {
       required this.text,
       required this.attachment,
       this.discussRatingSumRating,
+      this.discussesCount,
       this.subject,
       this.user,
       this.createdAt,

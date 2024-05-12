@@ -92,14 +92,17 @@ Future<void> _authSLInit() async {
 
 Future<void> _stepSLInit() async {
   sl.registerFactory(() => StepBloc(stepUseCase: sl<StepUseCase>()));
-  sl.registerFactory(() => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
+  sl.registerFactory(
+      () => StepDetailBloc(stepDetailUseCase: sl<StepDetailUseCase>()));
   sl.registerLazySingleton(() => StepUseCase(sl()));
   sl.registerLazySingleton(() => StepDetailUseCase(sl()));
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
-  sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
-  sl.registerLazySingleton(() => SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
+  sl.registerLazySingleton(
+      () => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
+  sl.registerLazySingleton(() =>
+      SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
@@ -296,6 +299,7 @@ Future<void> _forumSlInit() async {
   sl.registerLazySingleton<ForumInterface>(() => ForumRepository(sl()));
   sl.registerLazySingleton<ForumDataSourceInterface>(
       () => ForumDataSourceImpl());
+  sl.registerFactory(() => AllForumBloc(allForumCase: sl<AllForumCase>()));
 }
 
 Future<void> _newsSlInit() async {
@@ -307,7 +311,8 @@ Future<void> _newsSlInit() async {
   sl.registerFactory(() =>
       ImportantNewsBloc(getImportantNewsCase: sl<GetImportantNewsCase>()));
   sl.registerFactory(() => NewsListBloc(allNewsCase: sl<AllNewsCase>()));
-  sl.registerFactory(() => NewsDetailBloc(getSingleNewsCase: sl<GetSingleNewsCase>()));
+  sl.registerFactory(
+      () => NewsDetailBloc(getSingleNewsCase: sl<GetSingleNewsCase>()));
 }
 
 Future<void> _notificationSlInit() async {
@@ -355,6 +360,8 @@ Future<void> _techSupportSlInit() async {
       () => TechSupportRepository(sl()));
   sl.registerLazySingleton<TechSupportDataSourceInterface>(
       () => TechSupportDataSourceImpl());
+  sl.registerFactory(() => MyTechSupportTicketsBloc(
+      getMyTechSupportTicketsCase: sl<GetMyTechSupportTicketsCase>()));
 }
 
 Future<void> _accountSlInit() async {

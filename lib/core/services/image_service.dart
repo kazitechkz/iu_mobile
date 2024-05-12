@@ -18,8 +18,8 @@ Widget getImageFromServer(String? pathImg) {
   if (pathImg != null) {
     return CachedNetworkImage(
       imageUrl: "https://iunion.s3.ap-south-1.amazonaws.com/$pathImg",
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: CircularProgressIndicator(value: downloadProgress.progress)),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );
     // return NetworkImage('https://iunion.s3.ap-south-1.amazonaws.com/$pathImg');

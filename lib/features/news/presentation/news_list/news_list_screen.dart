@@ -26,7 +26,9 @@ class _NewsListScreenState extends State<NewsListScreen> {
   void initState() {
     super.initState();
     context.read<ImportantNewsBloc>().add(ImportantNewsGetEvent());
-    context.read<NewsListBloc>().add((NewsListGetEvent(AllNewsParameter(page: 1))));
+    context
+        .read<NewsListBloc>()
+        .add((NewsListGetEvent(AllNewsParameter(page: 1))));
   }
 
   @override
@@ -34,11 +36,13 @@ class _NewsListScreenState extends State<NewsListScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 5.w),
+          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
           child: Column(
             children: [
               _getImportantNews(),
-              SizedBox(height: 20.h,),
+              SizedBox(
+                height: 20.h,
+              ),
               _getAllNews(),
             ],
           ),
@@ -58,14 +62,16 @@ class _NewsListScreenState extends State<NewsListScreen> {
           }
           if (state is ImportantNewsSuccessState) {
             return InkWell(
-              onTap: (){
-                context.go("/${RouteConstant.newsDetailName}/${state.importantNews.id.toString()}");
+              onTap: () {
+                context.go(
+                    "/${RouteConstant.newsDetailName}/${state.importantNews.id.toString()}");
               },
               child: Card(
                 elevation: 5.0,
-                color: Colors.white,
+                surfaceTintColor: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,14 +80,15 @@ class _NewsListScreenState extends State<NewsListScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.w),
                           image: DecorationImage(
-                            image: NetworkImage(
-                                getImageFromString(state.importantNews.image?.url)),
+                            image: NetworkImage(getImageFromString(
+                                state.importantNews.image?.url)),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 10.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 10.h),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -89,20 +96,23 @@ class _NewsListScreenState extends State<NewsListScreen> {
                               state.importantNews.title,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22.sp),
+                                  color: Colors.black, fontSize: 22.sp),
                             ),
-                            SizedBox(height: 5.h,),
+                            SizedBox(
+                              height: 5.h,
+                            ),
                             Text(
                               state.importantNews.subtitle,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.sp),
+                                  color: Colors.grey, fontSize: 14.sp),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 15.h),
-                              child: Divider(height: 2.h, color: Colors.grey,),
+                              child: Divider(
+                                height: 2.h,
+                                color: Colors.grey,
+                              ),
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -114,14 +124,19 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                       const WidgetSpan(
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 5.0),
-                                          child: Icon(FontAwesomeIcons.user, size: 14,color: Colors.grey,
+                                          child: Icon(
+                                            FontAwesomeIcons.user,
+                                            size: 14,
+                                            color: Colors.grey,
                                           ),
                                         ),
                                       ),
                                       TextSpan(
-                                        text: "${state.importantNews.user?.name}",
-                                        style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                                      ),
+                                          text:
+                                              "${state.importantNews.user?.name}",
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.grey)),
                                     ],
                                   ),
                                 ),
@@ -130,15 +145,21 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                     children: [
                                       WidgetSpan(
                                         child: Padding(
-                                          padding: EdgeInsets.only(right: 5.0.w),
-                                          child: const Icon(FontAwesomeIcons.clock, size: 14,color: Colors.grey,
+                                          padding:
+                                              EdgeInsets.only(right: 5.0.w),
+                                          child: const Icon(
+                                            FontAwesomeIcons.clock,
+                                            size: 14,
+                                            color: Colors.grey,
                                           ),
                                         ),
                                       ),
                                       TextSpan(
-                                        text: "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(state.importantNews.createdAt ?? DateTime.now().toString()))}",
-                                        style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                                      ),
+                                          text:
+                                              "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(state.importantNews.createdAt ?? DateTime.now().toString()))}",
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.grey)),
                                     ],
                                   ),
                                 ),
@@ -170,67 +191,87 @@ class _NewsListScreenState extends State<NewsListScreen> {
         if (state is NewsListSuccessState) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: state.news.map(
-                    (newsItem) => InkWell(
-                      onTap: (){
-                        context.go("/${RouteConstant.newsDetailName}/${newsItem.id.toString()}");
+            children: state.news
+                .map((newsItem) => InkWell(
+                      onTap: () {
+                        context.go(
+                            "/${RouteConstant.newsDetailName}/${newsItem.id.toString()}");
                       },
                       child: Card(
+                        surfaceTintColor: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 15.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 15.h),
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     flex: 2,
-                                      child:   Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            newsItem.title,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14.sp),
-                                          ),
-                                          SizedBox(height: 5.h,),
-                                        ],
-                                      ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          newsItem.title,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14.sp),
+                                        ),
+                                        SizedBox(
+                                          height: 5.h,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  SizedBox(width: 20.w,),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
                                   Expanded(
                                     flex: 1,
-                                    child:  ClipRRect(
-                                        borderRadius : BorderRadius.circular(15.0),
-                                        child: getImageFromServer(newsItem.image?.url)),
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        child: getImageFromServer(
+                                            newsItem.image?.url)),
                                   ),
                                 ],
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10.h),
-                                child: Divider(height: 2.h, color: Colors.grey,),
+                                child: Divider(
+                                  height: 2.h,
+                                  color: Colors.grey,
+                                ),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   RichText(
                                     text: TextSpan(
                                       children: [
                                         const WidgetSpan(
                                           child: Padding(
-                                            padding: EdgeInsets.only(right: 5.0),
-                                            child: Icon(FontAwesomeIcons.user, size: 14,color: Colors.grey,
+                                            padding:
+                                                EdgeInsets.only(right: 5.0),
+                                            child: Icon(
+                                              FontAwesomeIcons.user,
+                                              size: 14,
+                                              color: Colors.grey,
                                             ),
                                           ),
                                         ),
                                         TextSpan(
                                             text: "${newsItem.user?.name}",
-                                            style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                                        ),
+                                            style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.grey)),
                                       ],
                                     ),
                                   ),
@@ -239,15 +280,21 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                       children: [
                                         WidgetSpan(
                                           child: Padding(
-                                            padding: EdgeInsets.only(right: 5.0.w),
-                                            child: const Icon(FontAwesomeIcons.clock, size: 14,color: Colors.grey,
+                                            padding:
+                                                EdgeInsets.only(right: 5.0.w),
+                                            child: const Icon(
+                                              FontAwesomeIcons.clock,
+                                              size: 14,
+                                              color: Colors.grey,
                                             ),
                                           ),
                                         ),
                                         TextSpan(
-                                            text: "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(newsItem.createdAt ?? DateTime.now().toString()))}",
-                                            style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                                        ),
+                                            text:
+                                                "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(newsItem.createdAt ?? DateTime.now().toString()))}",
+                                            style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.grey)),
                                       ],
                                     ),
                                   ),
@@ -257,8 +304,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
                           ),
                         ),
                       ),
-                    )
-            ).toList(),
+                    ))
+                .toList(),
           );
         }
         return SizedBox();
