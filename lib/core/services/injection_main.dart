@@ -3,6 +3,7 @@ part of 'injection_main.container.dart';
 final sl = GetIt.instance;
 
 Future<void> slInit() async {
+  await _talkerSLInit();
   await _hiveSLInit();
   await _dioSLInit();
   await _welcomeSLInit();
@@ -30,7 +31,10 @@ Future<void> slInit() async {
   await _attemptSettingsSLInit();
   await _openAiSLInit();
 }
-
+Future<void> _talkerSLInit() async {
+  final talker = TalkerFlutter.init();
+  sl.registerSingleton(talker);
+}
 Future<void> _hiveSLInit() async {
   await Hive.initFlutter();
   Hive.registerAdapter(AuthUserHiveAdapter());
@@ -100,7 +104,12 @@ Future<void> _stepSLInit() async {
 
   sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
   sl.registerLazySingleton(() => SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
+  sl.registerLazySingleton(() => CheckSubStepExamResultBloc(checkExamResultUseCase: sl<CheckExamResultUseCase>()));
+  sl.registerLazySingleton(() => SubStepExamBloc(useCase: sl<GetSubStepExamUseCase>()));
+  sl.registerLazySingleton(() => ExamRadioBloc(useCase: sl<PassSubStepExamUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
+  sl.registerLazySingleton(() => GetSubStepExamUseCase(sl()));
+  sl.registerLazySingleton(() => CheckExamResultUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
   sl.registerLazySingleton(() => PassSubStepExamUseCase(sl()));
   sl.registerLazySingleton<SubStepInterface>(() => SubStepRepository(sl()));

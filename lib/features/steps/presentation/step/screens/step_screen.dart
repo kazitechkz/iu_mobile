@@ -62,7 +62,7 @@ class _StepScreenState extends State<StepScreen> {
                     itemBuilder: (context, index) {
                       final stepId = (state).stepEntities[index].id;
                       return GestureDetector(
-                          onTap: () => context.goNamed(RouteConstant.stepDetailScreenName, pathParameters: {'stepID': stepId.toString()}),
+                          onTap: () => context.goNamed(RouteConstant.stepDetailScreenName, pathParameters: {'subjectID': stepId.toString()}),
                           child: courseGrid((state).stepEntities[index])
                       );
                     },

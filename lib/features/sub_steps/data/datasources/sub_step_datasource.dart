@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:iu/core/utils/typedef.dart';
 import 'package:iu/features/sub_steps/data/models/sub_step_exam_model.dart';
@@ -17,6 +19,7 @@ abstract class SubStepDataSourceInterface {
   Future<SubStepEntity> getSubStepDetail(String subStepID);
   Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
   Future<int> passSubStepExam(List<PassSubStepExamParams> params);
+  Future<bool> checkExamResult(SubStepExamParameters params);
 }
 
 class SubStepDataSourceImpl extends SubStepDataSourceInterface {
@@ -54,7 +57,7 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   @override
   Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params) async {
     try {
-      final response = await httpUtils.get('${ApiConstant.getSubStepExams}${params.sub_step_id}/${params.locale_id}');
+      final response = await httpUtils.get('${ApiConstant.getSubStepExams}${params.subStepId}/${params.localeId}');
       final responseData = ResponseData.fromJson(response);
       List<SubStepExamEntity> data = SubStepExamModel.fromMapList(responseData.data.cast<DataMap>());
       return data;
@@ -68,10 +71,24 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   @override
   Future<int> passSubStepExam(List<PassSubStepExamParams> params) async {
     try {
-      List<DataMap> paramsJson = params.map((e) => e.toJson()).toList();
+      String paramsJson = jsonEncode(params.map((e) => e.toJson()).toList());
       final response = await httpUtils.post(ApiConstant.passSubStepExam, data: paramsJson);
       final responseData = ResponseData.fromJson(response);
       int data = responseData.data;
+      return data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<bool> checkExamResult(SubStepExamParameters params) async {
+    try {
+      final response = await httpUtils.post(ApiConstant.checkSubStepExamResult, data: params);
+      final responseData = ResponseData.fromJson(response);
+      bool data = responseData.data;
       return data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);

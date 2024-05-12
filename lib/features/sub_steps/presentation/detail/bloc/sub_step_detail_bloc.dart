@@ -22,6 +22,7 @@ class SubStepDetailBloc extends Bloc<SubStepDetailEvent, SubStepDetailState> {
       add(event);
     }
   }
+
   final SubStepDetailUseCase _subStepDetailUseCase;
   SubStepDetailBloc({required SubStepDetailUseCase subStepDetailUseCase}) : _subStepDetailUseCase = subStepDetailUseCase, super(SubStepDetailInitial()) {
     on<GetSubStepDetailEvent>(_handleGetSubStepDetail);

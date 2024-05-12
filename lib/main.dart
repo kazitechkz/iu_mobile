@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:iu/core/app_constants/font_constants.dart';
+import 'package:talker/talker.dart';
 import 'core/interceptors/error_interceptor.dart';
 import 'core/providers/user_provider.dart';
 import 'core/services/injection_main.container.dart';
@@ -11,10 +14,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  await slInit();
-  runApp(MyApp(navigatorKey: navigatorKey));
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+    await slInit();
+    runApp(MyApp(navigatorKey: navigatorKey));
+  }, (error, stack) {
+    sl<Talker>().handle(error, stack);
+  });
 }
 
 class MyApp extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../errors/exception.dart';
 import '../services/injection_main.container.dart';
@@ -15,9 +16,11 @@ class HttpUtil {
           data: data,
           queryParameters: queryParameters);
       return response.data;
-    } on DioException catch (e) {
+    } on DioException catch (e, st) {
+      sl<Talker>().handle(e, st);
       throw ApiException.fromDioError(e);
-    } on Exception catch (e) {
+    } on Exception catch (e, st) {
+      sl<Talker>().handle(e, st);
       throw ApiException(message: e.toString());
     }
   }
@@ -30,9 +33,11 @@ class HttpUtil {
           queryParameters: queryParameters,
           options: Options(contentType: Headers.jsonContentType));
       return response.data;
-    } on DioException catch (e) {
+    } on DioException catch (e, st) {
+      sl<Talker>().handle(e, st);
       throw ApiException.fromDioError(e);
-    } on Exception catch (e) {
+    } on Exception catch (e, st) {
+      sl<Talker>().handle(e, st);
       throw ApiException(message: e.toString());
     }
   }

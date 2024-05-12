@@ -72,4 +72,19 @@ class SubStepRepository extends SubStepInterface {
       return Left(failure);
     }
   }
+
+  @override
+  ResultFuture<bool> checkExamResult(SubStepExamParameters params) async {
+    try {
+      final result = await stepDataSourceInterface.checkExamResult(params);
+      return Right(result);
+    } on ApiException catch (e) {
+      ApiFailure failure = ApiFailure.fromException(e);
+      return Left(failure);
+    } on Exception catch (e) {
+      var exception = ApiException(message: e.toString());
+      ApiFailure failure = ApiFailure.fromException(exception);
+      return Left(failure);
+    }
+  }
 }

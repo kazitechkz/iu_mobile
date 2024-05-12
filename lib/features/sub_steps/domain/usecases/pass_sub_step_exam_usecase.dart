@@ -8,7 +8,7 @@ class PassSubStepExamUseCase extends UseCaseWithParams<int, List<PassSubStepExam
   const PassSubStepExamUseCase(this._subStepDetailInterface);
 
   @override
-  ResultFuture<int> call(List<PassSubStepExamParams> params) {
-    return _subStepDetailInterface.passSubStepExam(params);
+  ResultFuture<int> call(List<PassSubStepExamParams> params) async {
+    return await _subStepDetailInterface.passSubStepExam(params);
   }
 }

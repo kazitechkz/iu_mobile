@@ -14,86 +14,90 @@ import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dar
 import '../../../../../core/services/injection_main.container.dart';
 
 class StepDetailScreen extends StatefulWidget {
-  final String stepID;
-  const StepDetailScreen({super.key, required this.stepID});
+  final String subjectID;
+
+  const StepDetailScreen({super.key, required this.subjectID});
 
   @override
   State<StepDetailScreen> createState() => _StepDetailScreenState();
-
 }
 
 class _StepDetailScreenState extends State<StepDetailScreen> {
-
   @override
   void initState() {
     super.initState();
-    context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
+    context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.subjectID));
   }
 
   @override
   void didUpdateWidget(covariant StepDetailScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.stepID != oldWidget.stepID) {
-      context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
+    if (widget.subjectID != oldWidget.subjectID) {
+      context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.subjectID));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: GFAppBar(
-        leading:  GFIconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            GoRouter.of(context).goNamed(RouteConstant.stepsScreenName);
-          },
-          type: GFButtonType.transparent,
-        ),
-        title: const Text("Learning"),
-        centerTitle: true,
-      ),
-      backgroundColor: const Color(0xffc9ecff),
-      body: BlocConsumer<StepDetailBloc, StepDetailState>(
-        builder: (context, state) {
-          if (state is StepDetailLoading) {
-            return const Center(child:  GFLoader(
-                type:GFLoaderType.ios
-            ),);
-          }
-          if (state is StepDetailErrorState) {
-            return Center(
-                child: TextButton(
-                  onPressed: () async {
-                    context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
-                  },
-                  child: const Text('Refresh', style: TextStyle(fontWeight: FontWeight.bold),),
-                )
-            );
-          }
-          if (state is StepDetailLoaded) {
-            return SingleChildScrollView(
-              reverse: true,
-              child: ownStepper(context, state.stepEntities),
-            );
-          }
+    return BlocConsumer<StepDetailBloc, StepDetailState>(
+      listener: (context, state) {
+        if (state is StepDetailErrorState) {
+          context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.subjectID));
+        }
+      },
+      builder: (context, state) {
+        if (state is StepDetailLoading) {
+          return const Center(
+            child: GFLoader(type: GFLoaderType.ios),
+          );
+        }
+        if (state is StepDetailErrorState) {
           return Center(
               child: TextButton(
-                onPressed: () async {
-                  context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
-                },
-                child: const Text('Refresh', style: TextStyle(fontWeight: FontWeight.bold),),
-              )
-          );
-        },
-        listener: (BuildContext context, StepDetailState state) {
-          if (state is StepDetailErrorState) {
-            context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.stepID));
-          }
-        },
-      )
+            onPressed: () async {
+              context.read<StepDetailBloc>().add(GetStepDetailEvent(widget.subjectID));
+            },
+            child: const Text(
+              'Refresh',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ));
+        }
+        if (state is StepDetailLoaded) {
+          return Scaffold(
+              appBar: GFAppBar(
+                leading: GFIconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    GoRouter.of(context).goNamed(RouteConstant.stepsScreenName);
+                  },
+                  type: GFButtonType.transparent,
+                ),
+                title: Text(state.stepEntities[0].subject!.title_kk),
+                centerTitle: true,
+              ),
+              backgroundColor: const Color(0xffc9ecff),
+              body: SingleChildScrollView(
+                reverse: true,
+                child: ownStepper(context, state.stepEntities),
+              ));
+        }
+        return Center(
+            child: TextButton(
+          onPressed: () async {
+            context
+                .read<StepDetailBloc>()
+                .add(GetStepDetailEvent(widget.subjectID));
+          },
+          child: const Text(
+            'Refresh',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ));
+      },
     );
   }
 }

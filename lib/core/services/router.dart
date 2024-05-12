@@ -33,8 +33,13 @@ import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart
 import 'package:iu/features/steps/presentation/detail/screens/step_detail_screen.dart';
 import 'package:iu/features/steps/presentation/step/bloc/step_bloc.dart';
 import 'package:iu/features/steps/presentation/step/screens/step_screen.dart';
+import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
+import 'package:iu/features/sub_steps/presentation/detail/bloc/check_sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/detail/bloc/sub_step_detail_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/detail/screen/sub_step_detail_screen.dart';
+import 'package:iu/features/sub_steps/presentation/exam/bloc/radio_bloc/exam_radio_bloc.dart';
+import 'package:iu/features/sub_steps/presentation/exam/bloc/sub_step_exam_bloc.dart';
+import 'package:iu/features/sub_steps/presentation/exam/screen/sub_step_exam_screen.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
@@ -216,13 +221,13 @@ class RouteNavigation {
               ),
             ]),
         GoRoute(
-            path: "/${RouteConstant.stepDetailScreenName}/:stepID",
+            path: "/${RouteConstant.stepDetailScreenName}/:subjectID",
             name: RouteConstant.stepDetailScreenName,
             builder: (context, state) {
-              String stepID = state.pathParameters['stepID']!;
+              String subjectID = state.pathParameters['subjectID']!;
               return BlocProvider(
                 create: (_) => sl<StepDetailBloc>(),
-                child: StepDetailScreen(stepID: stepID),
+                child: StepDetailScreen(subjectID: subjectID)
               );
             },
             redirect:
@@ -235,15 +240,40 @@ class RouteNavigation {
             name: RouteConstant.subStepDetailScreenName,
             builder: (context, state) {
               String subStepID = state.pathParameters['subStepID']!;
-              return BlocProvider(
-                create: (_) => sl<SubStepDetailBloc>(),
-                child: SubStepDetailScreen(subStepID: subStepID),
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                        value: sl<SubStepDetailBloc>()
+                    ),
+                    BlocProvider.value(value: sl<CheckSubStepExamResultBloc>())
+                  ],
+                  child: SubStepDetailScreen(subStepID: subStepID)
               );
             },
             redirect:
                 (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare()
                   .authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.subStepExamScreenName}/:subStepID/:localeID",
+            name: RouteConstant.subStepExamScreenName,
+            builder: (context, state) {
+              String subStepID = state.pathParameters['subStepID']!;
+              String localeID = state.pathParameters['localeID']!;
+              final params = SubStepExamParameters(subStepId: subStepID, localeId: localeID);
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                        value: sl<SubStepExamBloc>()
+                    ),
+                    BlocProvider(create: (_) => sl<ExamRadioBloc>())
+                  ],
+                  child: SubStepExamScreen(params: params)
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
             path: "/${RouteConstant.untFullScreenName}",
