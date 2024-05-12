@@ -97,12 +97,12 @@ class MainServiceEntity extends Equatable {
       const MainServiceEntity(
         icon: FontAwesomeIcons.comment,
         name: 'Форум',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.forumListName,
       ),
       const MainServiceEntity(
         icon: FontAwesomeIcons.headset,
         name: 'Служба поддержки',
-        routeName: RouteConstant.untModeScreenName,
+        routeName: RouteConstant.techSupportListName,
       ),
     ];
   }

@@ -45,10 +45,10 @@ class ForumDataSourceImpl extends ForumDataSourceInterface {
   Future<PaginationData<List<ForumEntity>>> allForumDS(
       AllForumParameter parameter) async {
     try {
-      final response = await httpUtils.get(ApiConstant.allAttemptTypes,
-          data: parameter.toMap());
+      final response =
+          await httpUtils.get(ApiConstant.allForum, data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
-      final paginationData = PaginationData.fromMap(responseData.data);
+      PaginationData paginationData = PaginationData.fromMap(responseData.data);
       List<ForumEntity> data = ForumModel.fromMapList(
           paginationData.data.cast<Map<String, dynamic>>());
       final result = PaginationData.fromType(paginationData, data);
