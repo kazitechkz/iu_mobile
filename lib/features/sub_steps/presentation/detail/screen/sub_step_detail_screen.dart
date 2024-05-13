@@ -18,6 +18,7 @@ import 'package:iu/core/helpers/mathjax_helper.dart';
 import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
 import 'package:iu/features/sub_steps/presentation/detail/bloc/check_sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/detail/bloc/sub_step_detail_bloc.dart';
+import 'package:iu/features/sub_steps/presentation/detail/widgets/get_sub_step_content.dart';
 import '../../../../../core/app_constants/route_constant.dart';
 import '../../../../../core/services/injection_main.container.dart';
 
@@ -80,70 +81,7 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
               title: Text(state.entity.titleKk),
               centerTitle: true,
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 7, right: 7, top: 5, bottom: 20),
-                child: Column(
-                  children: [
-                    Html(
-                      data: MathJaxHelper.clearText(
-                          state.entity.subStepContentEntity!.text_kk),
-                      extensions: [
-                        TagExtension(
-                          tagsToExtend: {"pre"},
-                          builder: (extensionContext) =>
-                              Math.tex(extensionContext
-                                  .innerHtml),
-                        )
-                      ],
-                      style: {
-                        'pre': Style(color: Colors.white),
-                        'img': Style(width: Width(0.9.sw))
-                      },
-                    ),
-                    SizedBox(height: 10.h,),
-                    BlocBuilder<CheckSubStepExamResultBloc, CheckSubStepExamResultState>(
-                      builder: (context, checkState) {
-                        if (checkState is CheckResultLoaded) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              if (checkState.result)
-                                GFButton(
-                                  onPressed: () {},
-                                  text: "primary",
-                                  shape: GFButtonShape.pills,
-                                  size: GFSize.LARGE,
-                                ),
-                              SizedBox(width: 5.w,),
-                              checkState.result ? GFButton(
-                                onPressed: () {},
-                                text: "Пройти снова",
-                                shape: GFButtonShape.pills,
-                                color: GFColors.SUCCESS,
-                                size: GFSize.LARGE,
-                              ) : GFButton(
-                                onPressed: () {
-                                  context.goNamed(RouteConstant.subStepExamScreenName, pathParameters: {'subStepID': state.entity.id.toString(), 'localeID': '1'});
-                                },
-                                text: "Начать тест",
-                                shape: GFButtonShape.pills,
-                                color: GFColors.SUCCESS,
-                                size: GFSize.LARGE,
-                              ),
-                            ],
-                          );
-                        }
-                        return const Center(child:  GFLoader(
-                            type:GFLoaderType.ios
-                        ));
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
+            body: getSubStepContent(state),
           );
         } else if (state is SubStepDetailErrorState) {
           return Text('Ошибка: ${state.failureData.message}');
