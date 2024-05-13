@@ -1,3 +1,3 @@
 class FontConstant{
-  static String oswald = "Oswald";
+  static String SFPro = "SFPro";
 }

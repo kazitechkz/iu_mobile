@@ -83,7 +83,7 @@ class UntModeScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.sp,
-                                                fontFamily: FontConstant.oswald,
+                                                fontFamily: FontConstant.SFPro,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                           WidgetSpan(
@@ -122,7 +122,7 @@ class UntModeScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.sp,
-                                                fontFamily: FontConstant.oswald,
+                                                fontFamily: FontConstant.SFPro,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ],
@@ -240,7 +240,7 @@ class UntModeScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.sp,
-                                                fontFamily: FontConstant.oswald,
+                                                fontFamily: FontConstant.SFPro,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ],
@@ -270,7 +270,7 @@ class UntModeScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.sp,
-                                                fontFamily: FontConstant.oswald,
+                                                fontFamily: FontConstant.SFPro,
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ],
