@@ -10,5 +10,6 @@ abstract class SubStepInterface {
   ResultFuture<SubStepEntity> getSubStepDetail(String subStepID);
   ResultFuture<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
   ResultFuture<int> passSubStepExam(List<PassSubStepExamParams> params);
+  ResultFuture<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params);
   ResultFuture<bool> checkExamResult(SubStepExamParameters params);
 }

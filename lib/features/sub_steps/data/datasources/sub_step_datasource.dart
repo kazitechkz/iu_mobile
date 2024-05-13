@@ -20,6 +20,7 @@ abstract class SubStepDataSourceInterface {
   Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
   Future<int> passSubStepExam(List<PassSubStepExamParams> params);
   Future<bool> checkExamResult(SubStepExamParameters params);
+  Future<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params);
 }
 
 class SubStepDataSourceImpl extends SubStepDataSourceInterface {
@@ -89,6 +90,20 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
       final response = await httpUtils.post(ApiConstant.checkSubStepExamResult, data: params);
       final responseData = ResponseData.fromJson(response);
       bool data = responseData.data;
+      return data;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params) async {
+    try {
+      final response = await httpUtils.post(ApiConstant.getSubStepExamResult, data: params);
+      final responseData = ResponseData.fromJson(response);
+      List<SubStepExamEntity> data = responseData.data;
       return data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
