@@ -10,6 +10,7 @@ import 'package:iu/core/app_constants/route_constant.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({required this.navigationShell, super.key});
+
   final StatefulNavigationShell navigationShell;
 
   @override
@@ -30,45 +31,60 @@ class _BottomNavBarState extends State<BottomNavBar>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBottomNavigationBar.builder(
-      height: 60.w,
-      tabBuilder: (int index, bool isActive) {
-        return GestureDetector(
-          onTap: () {
-            _onTap(context, index);
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                iconList[index],
-                size: 20,
-                color: isActive
-                    ? ColorConstant.violetFirst
-                    : ColorConstant.borderGrayColor,
-              ),
-              Text(
-                iconLabel[index],
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: isActive
-                      ? ColorConstant.violetFirst
-                      : ColorConstant.borderGrayColor,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: AnimatedBottomNavigationBar.builder(
+          height: 70,
+          backgroundColor: ColorConstant.appBarColor,
+          tabBuilder: (int index, bool isActive) {
+            return Center(
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color:
+                      isActive ? ColorConstant.orangeColor : Colors.transparent,
                 ),
-              )
-            ],
-          ),
-        );
-      },
-      elevation: 12,
-      activeIndex: widget.navigationShell.currentIndex,
-      gapLocation: GapLocation.center,
-      notchSmoothness: NotchSmoothness.verySmoothEdge,
-      leftCornerRadius: 24,
-      rightCornerRadius: 24,
-      onTap: (index) => {},
-      itemCount: iconList.length,
-      //other params
+                child: GestureDetector(
+                  onTap: () {
+                    _onTap(context, index);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        iconList[index],
+                        size: 20,
+                        color:
+                            isActive ? Colors.white : ColorConstant.grayColor,
+                      ),
+                      Text(
+                        iconLabel[index],
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color:
+                              isActive ? Colors.white : ColorConstant.grayColor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          elevation: 4,
+          activeIndex: widget.navigationShell.currentIndex,
+          gapLocation: GapLocation.none,
+          notchSmoothness: NotchSmoothness.verySmoothEdge,
+          onTap: (index) => {},
+          itemCount: iconList.length,
+          splashColor: ColorConstant.orangeColor,
+          //other params
+        ),
+      ),
     );
   }
 

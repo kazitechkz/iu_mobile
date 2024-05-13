@@ -20,7 +20,8 @@ abstract class SubStepDataSourceInterface {
   Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
   Future<int> passSubStepExam(List<PassSubStepExamParams> params);
   Future<bool> checkExamResult(SubStepExamParameters params);
-  Future<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params);
+  Future<List<SubStepExamEntity>> getSubStepExamResult(
+      SubStepExamParameters params);
 }
 
 class SubStepDataSourceImpl extends SubStepDataSourceInterface {
@@ -44,7 +45,8 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   @override
   Future<SubStepEntity> getSubStepDetail(String subStepID) async {
     try {
-      final response = await httpUtils.get(ApiConstant.getSubStepDetail + subStepID);
+      final response =
+          await httpUtils.get(ApiConstant.getSubStepDetail + subStepID);
       final responseData = ResponseData.fromJson(response);
       SubStepEntity data = SubStepModel.fromJson(responseData.data);
       return data;
@@ -56,11 +58,14 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   }
 
   @override
-  Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params) async {
+  Future<List<SubStepExamEntity>> getSubStepExams(
+      SubStepExamParameters params) async {
     try {
-      final response = await httpUtils.get('${ApiConstant.getSubStepExams}${params.subStepId}/${params.localeId}');
+      final response = await httpUtils.get(
+          '${ApiConstant.getSubStepExams}${params.subStepId}/${params.localeId}');
       final responseData = ResponseData.fromJson(response);
-      List<SubStepExamEntity> data = SubStepExamModel.fromMapList(responseData.data.cast<DataMap>());
+      List<SubStepExamEntity> data =
+          SubStepExamModel.fromMapList(responseData.data.cast<DataMap>());
       return data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
@@ -73,7 +78,8 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   Future<int> passSubStepExam(List<PassSubStepExamParams> params) async {
     try {
       String paramsJson = jsonEncode(params.map((e) => e.toJson()).toList());
-      final response = await httpUtils.post(ApiConstant.passSubStepExam, data: paramsJson);
+      final response =
+          await httpUtils.post(ApiConstant.passSubStepExam, data: paramsJson);
       final responseData = ResponseData.fromJson(response);
       int data = responseData.data;
       return data;
@@ -87,7 +93,8 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   @override
   Future<bool> checkExamResult(SubStepExamParameters params) async {
     try {
-      final response = await httpUtils.post(ApiConstant.checkSubStepExamResult, data: params);
+      final response = await httpUtils.post(ApiConstant.checkSubStepExamResult,
+          data: params);
       final responseData = ResponseData.fromJson(response);
       bool data = responseData.data;
       return data;
@@ -99,9 +106,12 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   }
 
   @override
-  Future<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params) async {
+  Future<List<SubStepExamEntity>> getSubStepExamResult(
+      SubStepExamParameters params) async {
     try {
-      final response = await httpUtils.post(ApiConstant.getSubStepExamResult, data: params);
+      //not to send
+      final response =
+          await httpUtils.post(ApiConstant.getSubStepDetail, data: params);
       final responseData = ResponseData.fromJson(response);
       List<SubStepExamEntity> data = responseData.data;
       return data;

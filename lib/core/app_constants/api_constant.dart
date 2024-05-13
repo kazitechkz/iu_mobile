@@ -1,5 +1,5 @@
 class ApiConstant {
-  static const String baseApiUrl = "http://192.168.0.127/api/";
+  static const String baseApiUrl = "http://192.168.0.104/api/";
   static const String backApiLogin = "${baseApiUrl}auth/login";
   static const String backApiRegister = "${baseApiUrl}auth/register";
   static const String backVerifyEmail = "${baseApiUrl}auth/verify-email";
@@ -11,7 +11,8 @@ class ApiConstant {
   static const String getSubStepDetail = "${baseApiUrl}sub-step/";
   static const String getSubStepExams = "${baseApiUrl}get-step-tests/";
   static const String passSubStepExam = "${baseApiUrl}pass-step-test";
-  static const String checkSubStepExamResult = "${baseApiUrl}check-sub-step-result";
+  static const String checkSubStepExamResult =
+      "${baseApiUrl}check-sub-step-result";
   static const String getFact = "${baseApiUrl}facts/";
   static const String getSubjects = "${baseApiUrl}subjects";
   static const String getMySubjects = "${baseApiUrl}get-my-subjects";

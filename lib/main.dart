@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/app_constants/font_constants.dart';
 import 'package:talker/talker.dart';
 import 'core/interceptors/error_interceptor.dart';
@@ -68,8 +69,7 @@ class _MyAppState extends State<MyApp> {
             //fontFamily: MyFonts.SofiaSans,
             appBarTheme: const AppBarTheme(color: Colors.transparent),
             useMaterial3: true,
-            scaffoldBackgroundColor: Color(0xFF1F1E2B),
-            backgroundColor: Color(0xFF1F1E2B),
+            scaffoldBackgroundColor: ColorConstant.backgroundColor,
           ),
           routerConfig: widget.route.appRouterConfig,
         ),

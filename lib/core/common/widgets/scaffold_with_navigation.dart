@@ -20,39 +20,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      floatingActionButton: FloatingActionButton(
-        elevation: 10,
-        backgroundColor: navigationShell.currentIndex == 1
-            ? ColorConstant.violetFirst
-            : Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              FontAwesomeIcons.layerGroup,
-              size: 20,
-              color: navigationShell.currentIndex == 1
-                  ? Colors.white
-                  : ColorConstant.borderGrayColor,
-            ),
-            Text(
-              "Сервисы",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: navigationShell.currentIndex == 1
-                    ? Colors.white
-                    : ColorConstant.borderGrayColor,
-              ),
-            )
-          ],
-        ),
-        onPressed: () {
-          context.goNamed(RouteConstant.servicesScreenName);
-        },
-        //params
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavBar(navigationShell: navigationShell),
     );
   }
