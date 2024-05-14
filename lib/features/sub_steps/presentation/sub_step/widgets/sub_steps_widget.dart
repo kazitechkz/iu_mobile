@@ -58,8 +58,8 @@ Widget subSteps(BuildContext context, List<SubStepEntity> subSteps) {
                     trailing: GestureDetector(
                         onTap: () {
                           if (step.isFree) {
-                            print(step.progressKk);
-                            // context.goNamed(RouteConstant.subStepDetailScreenName, pathParameters: {'subStepID': step.id.toString()});
+                            context.goNamed(RouteConstant.subStepDetailScreenName,
+                                pathParameters: {'subStepID': step.id.toString()});
                           } else {
                             showDialog(
                                 context: context,

@@ -12,6 +12,8 @@ import '../../../../core/app_constants/api_constant.dart';
 import '../../../../core/common/models/response_data.dart';
 import '../../../../core/errors/exception.dart';
 import '../../../../core/utils/http_utils.dart';
+import '../../domain/entities/sub_step_result_exam_entity.dart';
+import '../models/sub_step_exam_result_model.dart';
 import '../models/sub_step_model.dart';
 
 abstract class SubStepDataSourceInterface {
@@ -20,7 +22,7 @@ abstract class SubStepDataSourceInterface {
   Future<List<SubStepExamEntity>> getSubStepExams(SubStepExamParameters params);
   Future<int> passSubStepExam(List<PassSubStepExamParams> params);
   Future<bool> checkExamResult(SubStepExamParameters params);
-  Future<List<SubStepExamEntity>> getSubStepExamResult(
+  Future<SubStepExamResultEntity> getSubStepExamResult(
       SubStepExamParameters params);
 }
 
@@ -106,14 +108,12 @@ class SubStepDataSourceImpl extends SubStepDataSourceInterface {
   }
 
   @override
-  Future<List<SubStepExamEntity>> getSubStepExamResult(
+  Future<SubStepExamResultEntity> getSubStepExamResult(
       SubStepExamParameters params) async {
     try {
-      //not to send
-      final response =
-          await httpUtils.post(ApiConstant.getSubStepDetail, data: params);
+      final response = await httpUtils.get('${ApiConstant.getSubStepExamResult}/${params.subStepId}/${params.localeId}');
       final responseData = ResponseData.fromJson(response);
-      List<SubStepExamEntity> data = responseData.data;
+      SubStepExamResultEntity data = SubStepExamResultModel.fromJson(responseData.data);
       return data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);

@@ -184,6 +184,8 @@ import '../../features/sub_category/data/repositories/sub_category_repository.da
 import '../../features/sub_category/domain/interface/sub_category_interface.dart';
 import '../../features/sub_category/domain/use_cases/sub_category_usecase.dart';
 import '../../features/sub_steps/domain/usecases/check_exam_result_usecase.dart';
+import '../../features/sub_steps/domain/usecases/get_sub_step_exam_result_usecase.dart';
+import '../../features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
 import '../../features/techSupport/data/datasources/tech_support_datasource.dart';
 import '../../features/techSupport/data/repositories/tech_support_repository.dart';
 import '../../features/techSupport/domain/interface/tech_support_interface.dart';

@@ -9,6 +9,7 @@ class RouteConstant {
   static const String stepDetailScreenName = "step-detail";
   static const String subStepDetailScreenName = "sub-step-detail";
   static const String subStepExamScreenName = "sub-step-exam";
+  static const String subStepExamResultScreenName = "sub-step-exam-result";
   static const String dashboardScreenName = "dashboard";
   static const String servicesScreenName = "services";
   static const String untModeScreenName = "unt-mode";

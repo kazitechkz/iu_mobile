@@ -13,7 +13,7 @@ class SubStepExamModel extends SubStepExamEntity {
         sub_step_id: json['sub_step_id'] as int,
         question: SubStepExamQuestionModel.fromJson(json['question']),
         question_id: json['question_id'] as int,
-        result: json['result'] != null ? SubStepExamResultModel.fromJson(json['result']) : null
+        result: json['result'] != null ? SubStepExamResultAnsweredModel.fromJson(json['result']) : null
     );
   }
 

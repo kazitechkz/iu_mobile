@@ -16,7 +16,7 @@ final class SubStepExamResultLoading extends SubStepExamResultState {
 }
 
 final class SubStepExamResultLoaded extends SubStepExamResultState {
-  final List<SubStepExamEntity> subStepExamResults;
+  final SubStepExamResultEntity subStepExamResults;
   const SubStepExamResultLoaded(this.subStepExamResults);
   @override
   // TODO: implement props

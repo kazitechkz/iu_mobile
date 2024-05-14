@@ -55,7 +55,9 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SubStepDetailBloc, SubStepDetailState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is SubStepDetailErrorState) {
+          sl<SubStepDetailBloc>().addEvent(GetSubStepDetailEvent(widget.subStepID));
+        }
       },
       builder: (context, state) {
         if (state is SubStepDetailLoading) {
@@ -64,6 +66,7 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
           );
         } else if (state is SubStepDetailLoaded) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: GFAppBar(
               leading: GFIconButton(
                 icon: const Icon(
@@ -81,7 +84,7 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
               title: Text(state.entity.titleKk),
               centerTitle: true,
             ),
-            body: getSubStepContent(state),
+            body: getSubStepContent(state, context),
           );
         } else if (state is SubStepDetailErrorState) {
           return Text('Ошибка: ${state.failureData.message}');

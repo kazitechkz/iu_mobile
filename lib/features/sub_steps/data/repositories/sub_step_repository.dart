@@ -9,6 +9,7 @@ import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters
 
 import '../../../../core/errors/exception.dart';
 import '../../../../core/errors/failure.dart';
+import '../../domain/entities/sub_step_result_exam_entity.dart';
 
 class SubStepRepository extends SubStepInterface {
   final SubStepDataSourceInterface stepDataSourceInterface;
@@ -89,7 +90,7 @@ class SubStepRepository extends SubStepInterface {
   }
 
   @override
-  ResultFuture<List<SubStepExamEntity>> getSubStepExamResult(SubStepExamParameters params) async {
+  ResultFuture<SubStepExamResultEntity> getSubStepExamResult(SubStepExamParameters params) async {
     try {
       final result = await stepDataSourceInterface.getSubStepExamResult(params);
       return Right(result);

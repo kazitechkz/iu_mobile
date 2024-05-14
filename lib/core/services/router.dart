@@ -42,8 +42,8 @@ import 'package:iu/features/sub_steps/presentation/detail/screen/sub_step_detail
 import 'package:iu/features/sub_steps/presentation/exam/bloc/radio_bloc/exam_radio_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/exam/bloc/sub_step_exam_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/exam/screen/sub_step_exam_screen.dart';
-import 'package:iu/features/sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
-import 'package:iu/features/sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
+import 'package:iu/features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
+import 'package:iu/features/sub_steps/presentation/result/screen/sub_step_exam_result_screen.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/my_tech_support_list_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
@@ -270,6 +270,26 @@ class RouteNavigation {
                     BlocProvider(create: (_) => sl<ExamRadioBloc>())
                   ],
                   child: SubStepExamScreen(params: params)
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.subStepExamResultScreenName}/:subStepID/:localeID",
+            name: RouteConstant.subStepExamResultScreenName,
+            builder: (context, state) {
+              String subStepID = state.pathParameters['subStepID']!;
+              String localeID = state.pathParameters['localeID']!;
+              final params = SubStepExamParameters(subStepId: subStepID, localeId: localeID);
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                        value: sl<SubStepExamResultBloc>()
+                    ),
+                    // BlocProvider(create: (_) => sl<ExamRadioBloc>())
+                  ],
+                  child: SubStepExamResultScreen(params: params)
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

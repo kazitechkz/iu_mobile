@@ -3,13 +3,14 @@ import 'package:iu/core/utils/typedef.dart';
 import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
 
 import '../entities/sub_step_exam_entity.dart';
+import '../entities/sub_step_result_exam_entity.dart';
 import '../interface/sub_step_interface.dart';
 
-class GetSubStepExamResults extends UseCaseWithParams<List<SubStepExamEntity>, SubStepExamParameters> {
+class GetSubStepExamResultsUseCase extends UseCaseWithParams<SubStepExamResultEntity, SubStepExamParameters> {
   final SubStepInterface _subStepDetailInterface;
-  const GetSubStepExamResults(this._subStepDetailInterface);
+  const GetSubStepExamResultsUseCase(this._subStepDetailInterface);
   @override
-  ResultFuture<List<SubStepExamEntity>> call(SubStepExamParameters params) async {
+  ResultFuture<SubStepExamResultEntity> call(SubStepExamParameters params) async {
     return _subStepDetailInterface.getSubStepExamResult(params);
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/colors/gf_color.dart';
@@ -17,7 +19,7 @@ import '../../../../../core/helpers/mathjax_helper.dart';
 import '../bloc/check_sub_step_exam_result_bloc.dart';
 import '../bloc/sub_step_detail_bloc.dart';
 
-Widget getSubStepContent(SubStepDetailLoaded state) {
+Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
   return SingleChildScrollView(
     child: Padding(
       padding: const EdgeInsets.only(
@@ -30,14 +32,35 @@ Widget getSubStepContent(SubStepDetailLoaded state) {
             extensions: [
               TagExtension(
                 tagsToExtend: {"pre"},
-                builder: (extensionContext) =>
-                    Math.tex(extensionContext
-                        .innerHtml),
-              )
+                builder: (extensionContext) => SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    color: Colors.black12,
+                    child: Math.tex(
+                      extensionContext.innerHtml,
+                      textStyle: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+              TagWrapExtension(
+                  tagsToWrap: {"table"},
+                  builder: (child) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: child,
+                    );
+                  }),
             ],
             style: {
               'pre': Style(color: Colors.white),
-              'img': Style(width: Width(0.9.sw))
+              'img': Style(width: Width(0.9.sw)),
+              'p': Style(width: Width(0.9.sw)),
+              "table": Style(
+                backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                width: Width(0.9.sw)
+              ),
             },
           ),
           SizedBox(height: 10.h,),
@@ -49,7 +72,9 @@ Widget getSubStepContent(SubStepDetailLoaded state) {
                   children: [
                     if (checkState.result)
                       GFButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.goNamed(RouteConstant.subStepExamResultScreenName, pathParameters: {'subStepID': state.entity.id.toString(), 'localeID': '1'});
+                          },
                         text: "Просмотреть результат",
                         shape: GFButtonShape.pills,
                         size: GFSize.LARGE,

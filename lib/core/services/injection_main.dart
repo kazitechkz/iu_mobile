@@ -107,8 +107,10 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton(() => SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
   sl.registerLazySingleton(() => CheckSubStepExamResultBloc(checkExamResultUseCase: sl<CheckExamResultUseCase>()));
   sl.registerLazySingleton(() => SubStepExamBloc(useCase: sl<GetSubStepExamUseCase>()));
+  sl.registerLazySingleton(() => SubStepExamResultBloc(useCase: sl<GetSubStepExamResultsUseCase>()));
   sl.registerLazySingleton(() => ExamRadioBloc(useCase: sl<PassSubStepExamUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
+  sl.registerLazySingleton(() => GetSubStepExamResultsUseCase(sl()));
   sl.registerLazySingleton(() => GetSubStepExamUseCase(sl()));
   sl.registerLazySingleton(() => CheckExamResultUseCase(sl()));
   sl.registerLazySingleton(() => SubStepDetailUseCase(sl()));
