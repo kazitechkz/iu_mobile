@@ -1,9 +1,10 @@
+import 'package:html/dom.dart' as dom;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html_table/flutter_html_table.dart';
+import 'package:html/parser.dart' show parseFragment;
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/colors/gf_color.dart';
@@ -20,6 +21,7 @@ import '../bloc/check_sub_step_exam_result_bloc.dart';
 import '../bloc/sub_step_detail_bloc.dart';
 
 Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
+  String cleanedHtml = fixHtml(state.entity.subStepContentEntity!.text_kk);
   return SingleChildScrollView(
     child: Padding(
       padding: const EdgeInsets.only(
@@ -28,21 +30,23 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
         children: [
           Html(
             data: MathJaxHelper.clearText(
-                state.entity.subStepContentEntity!.text_kk),
+                cleanedHtml),
+            shrinkWrap: true,
             extensions: [
               TagExtension(
                 tagsToExtend: {"pre"},
-                builder: (extensionContext) => SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    color: Colors.black12,
-                    child: Math.tex(
-                      extensionContext.innerHtml,
-                      textStyle: const TextStyle(fontSize: 16),
+                builder: (extensionContext) =>
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        color: Colors.black12,
+                        child: Math.tex(
+                          extensionContext.innerHtml,
+                          textStyle: const TextStyle(fontSize: 16),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               ),
               TagWrapExtension(
                   tagsToWrap: {"table"},
@@ -53,13 +57,51 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                     );
                   }),
             ],
+            onLinkTap: (url, _, __) {
+              debugPrint("Opening $url...");
+            },
+            onCssParseError: (css, messages) {
+              debugPrint("css that errored: $css");
+              debugPrint("error messages:");
+              for (var element in messages) {
+                debugPrint(element.toString());
+              }
+              return '';
+            },
             style: {
               'pre': Style(color: Colors.white),
               'img': Style(width: Width(0.9.sw)),
               'p': Style(width: Width(0.9.sw)),
               "table": Style(
-                backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
-                width: Width(0.9.sw)
+                height: Height.auto(),
+                width: Width.auto(),
+              ),
+              "tr": Style(
+                height: Height.auto(),
+                width: Width.auto(),
+              ),
+              "th": Style(
+                padding: HtmlPaddings.all(6),
+                height: Height.auto(),
+                border: const Border(
+                  left: BorderSide(color: Colors.black, width: 0.5),
+                  bottom: BorderSide(color: Colors.black, width: 0.5),
+                  top: BorderSide(color: Colors.black, width: 0.5),
+                ),
+              ),
+              "td": Style(
+                padding: HtmlPaddings.all(6),
+                height: Height.auto(),
+                border: const Border(
+                  left: BorderSide(color: Colors.black, width: 0.5),
+                  bottom: BorderSide(color: Colors.black, width: 0.5),
+                  top: BorderSide(color: Colors.black, width: 0.5),
+                  right: BorderSide(color: Colors.black, width: 0.5),
+                ),
+              ),
+              "col": Style(
+                height: Height.auto(),
+                width: Width.auto(),
               ),
             },
           ),
@@ -73,8 +115,12 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                     if (checkState.result)
                       GFButton(
                         onPressed: () {
-                          context.goNamed(RouteConstant.subStepExamResultScreenName, pathParameters: {'subStepID': state.entity.id.toString(), 'localeID': '1'});
-                          },
+                          context.goNamed(RouteConstant
+                              .subStepExamResultScreenName, pathParameters: {
+                            'subStepID': state.entity.id.toString(),
+                            'localeID': '1'
+                          });
+                        },
                         text: "Просмотреть результат",
                         shape: GFButtonShape.pills,
                         size: GFSize.LARGE,
@@ -82,15 +128,23 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                     SizedBox(width: 5.w,),
                     checkState.result ? GFButton(
                       onPressed: () {
-                        context.goNamed(RouteConstant.subStepExamScreenName, pathParameters: {'subStepID': state.entity.id.toString(), 'localeID': '1'});
-                        },
+                        context.goNamed(RouteConstant.subStepExamScreenName,
+                            pathParameters: {
+                              'subStepID': state.entity.id.toString(),
+                              'localeID': '1'
+                            });
+                      },
                       text: "Пройти снова",
                       shape: GFButtonShape.pills,
                       color: GFColors.SUCCESS,
                       size: GFSize.LARGE,
                     ) : GFButton(
                       onPressed: () {
-                        context.goNamed(RouteConstant.subStepExamScreenName, pathParameters: {'subStepID': state.entity.id.toString(), 'localeID': '1'});
+                        context.goNamed(RouteConstant.subStepExamScreenName,
+                            pathParameters: {
+                              'subStepID': state.entity.id.toString(),
+                              'localeID': '1'
+                            });
                       },
                       text: "Начать тест",
                       shape: GFButtonShape.pills,
@@ -100,8 +154,8 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                   ],
                 );
               }
-              return const Center(child:  GFLoader(
-                  type:GFLoaderType.ios
+              return const Center(child: GFLoader(
+                  type: GFLoaderType.ios
               ));
             },
           )
@@ -109,4 +163,31 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
       ),
     ),
   );
+}
+
+String fixHtml(String html) {
+  var inputHtml = parseFragment(html);
+
+  // Заменяем все <p> внутри <th> и <td> на <span>
+  inputHtml.querySelectorAll("th p, td p").forEach((element) {
+    element.replaceWith(replaceElementWithTag(element, "span"));
+  });
+
+  // Перемещаем все <li> внутри <th> и <td> в <span>
+  inputHtml.querySelectorAll("th > ul > li, th > ol > li, td > ul > li, td > ol > li").forEach((element) {
+    element.replaceWith(replaceElementWithTag(element, "span"));
+  });
+
+  // Перемещаем все <ul> и <ol> внутри <th> и <td> в <span>
+  inputHtml.querySelectorAll("th > ul, th > ol, td > ul, td > ol").forEach((element) {
+    element.replaceWith(replaceElementWithTag(element, "span"));
+  });
+
+  return inputHtml.outerHtml;
+}
+
+dom.Element replaceElementWithTag(dom.Element element, String replacement) {
+  var newElement = dom.Element.tag(replacement);
+  newElement.innerHtml = element.innerHtml;
+  return newElement;
 }

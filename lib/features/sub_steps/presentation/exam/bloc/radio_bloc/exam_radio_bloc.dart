@@ -46,7 +46,7 @@ class ExamRadioBloc extends Bloc<ExamRadioEvent, ExamRadioInitial> {
           .toList();
 
       final result = await _passSubStepExamUseCase(filteredAnswers);
-      result.fold((l) => null, (r) => print(r));
+      result.fold((l) => null, (r) => null);
     } catch (e, st) {
       sl<Talker>().handle(e, st);
     }

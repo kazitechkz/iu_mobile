@@ -7,7 +7,6 @@ import 'package:getwidget/types/gf_button_type.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
-import 'package:iu/features/sub_steps/presentation/exam/bloc/sub_step_exam_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/result/widgets/getSubStepExamResultContent.dart';
 

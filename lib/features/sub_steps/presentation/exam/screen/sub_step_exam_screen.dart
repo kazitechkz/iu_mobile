@@ -62,9 +62,9 @@ class _SubStepExamScreenState extends State<SubStepExamScreen> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 context.read<ExamRadioBloc>().add(SubmitAnswers());
-                context.goNamed(RouteConstant.subStepDetailScreenName,
+                context.goNamed(RouteConstant.subStepExamResultScreenName,
                     pathParameters: {'subStepID': state.subStepExams[0].sub_step_id
-                        .toString()});
+                        .toString(), 'localeID': '1'});
               },
               child: const Icon(Icons.send),
             ),
