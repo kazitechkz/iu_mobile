@@ -104,7 +104,7 @@ class MainServiceEntity extends Equatable {
       ],
       [
         const MainServiceEntity(
-          image: "assets/images/icons/forum.webp",
+          image: "assets/images/icons/forum_bear.webp",
           name: 'Форум',
           routeName: RouteConstant.forumListName,
         ),
