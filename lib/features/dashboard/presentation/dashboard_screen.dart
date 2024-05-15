@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/providers/user_provider.dart';
 
@@ -163,16 +164,21 @@ class DashBoardScreen extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                    image: AssetImage(
-                                                      serviceItem.image,
-                                                    ),
-                                                    fit: BoxFit.contain,
-                                                  )),
+                                                InkWell(
+                                                  onTap:(){
+                                                    context.go('/${serviceItem.routeName}');
+                                                  },
+                                                  child: Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                      image: AssetImage(
+                                                        serviceItem.image,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    )),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   height: 10,
