@@ -25,6 +25,7 @@ import 'package:iu/features/news/presentation/news_detail/news_detail_screen.dar
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
+import 'package:iu/features/profile/profile_main_screen.dart';
 import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
@@ -175,21 +176,6 @@ class RouteNavigation {
               StatefulShellBranch(
                 routes: <RouteBase>[
                   GoRoute(
-                      path: "/${RouteConstant.servicesScreenName}",
-                      name: RouteConstant.servicesScreenName,
-                      builder: (context, state) {
-                        return const MainServicesScreen();
-                      },
-                      redirect:
-                          (BuildContext context, GoRouterState state) async {
-                        return await RouterMiddleWare()
-                            .authMiddleWare(context, state);
-                      }),
-                ],
-              ),
-              StatefulShellBranch(
-                routes: <RouteBase>[
-                  GoRoute(
                       path: "/${RouteConstant.stepsScreenName}",
                       name: RouteConstant.stepsScreenName,
                       builder: (context, state) {
@@ -208,13 +194,10 @@ class RouteNavigation {
               StatefulShellBranch(
                 routes: <RouteBase>[
                   GoRoute(
-                      path: "/${RouteConstant.untModeScreenName}",
-                      name: RouteConstant.untModeScreenName,
+                      path: "/${RouteConstant.servicesScreenName}",
+                      name: RouteConstant.servicesScreenName,
                       builder: (context, state) {
-                        return BlocProvider(
-                          create: (_) => sl<StepBloc>(),
-                          child: UntModeScreen(),
-                        );
+                        return const MainServicesScreen();
                       },
                       redirect:
                           (BuildContext context, GoRouterState state) async {
@@ -223,7 +206,34 @@ class RouteNavigation {
                       }),
                 ],
               ),
+              StatefulShellBranch(
+                routes: <RouteBase>[
+                  GoRoute(
+                      path: "/${RouteConstant.profileScreenName}",
+                      name: RouteConstant.profileScreenName,
+                      builder: (context, state) {
+                        return const ProfileMainScreen();
+                      },
+                      redirect: (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare().authMiddleWare(context, state);
+                      }),
+                ],
+              ),
             ]),
+        GoRoute(
+            path: "/${RouteConstant.untModeScreenName}",
+            name: RouteConstant.untModeScreenName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<StepBloc>(),
+                child: const UntModeScreen(),
+              );
+            },
+            redirect:
+                (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare()
+                  .authMiddleWare(context, state);
+            }),
         GoRoute(
             path: "/${RouteConstant.stepDetailScreenName}/:subjectID",
             name: RouteConstant.stepDetailScreenName,
