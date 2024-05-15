@@ -78,6 +78,7 @@ dependencies:
   youtube: ^0.0.1
   auto_size_text: ^3.0.0
   talker_flutter: ^4.2.0
+  flutter_widget_from_html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

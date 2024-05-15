@@ -1,3 +1,4 @@
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,81 +29,13 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
           left: 7, right: 7, top: 5, bottom: 20),
       child: Column(
         children: [
-          Html(
-            data: MathJaxHelper.clearText(
-                cleanedHtml),
-            shrinkWrap: true,
-            extensions: [
-              TagExtension(
-                tagsToExtend: {"pre"},
-                builder: (extensionContext) =>
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        color: Colors.black12,
-                        child: Math.tex(
-                          extensionContext.innerHtml,
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-              ),
-              TagWrapExtension(
-                  tagsToWrap: {"table"},
-                  builder: (child) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: child,
-                    );
-                  }),
-            ],
-            onLinkTap: (url, _, __) {
-              debugPrint("Opening $url...");
-            },
-            onCssParseError: (css, messages) {
-              debugPrint("css that errored: $css");
-              debugPrint("error messages:");
-              for (var element in messages) {
-                debugPrint(element.toString());
+          HtmlWidget(
+              MathJaxHelper.clearText(cleanedHtml),
+            customWidgetBuilder: (element) {
+              if (element.localName == 'math' || element.localName == 'pre') {
+                return Math.tex(element.text);
               }
-              return '';
-            },
-            style: {
-              'pre': Style(color: Colors.white),
-              'img': Style(width: Width(0.9.sw)),
-              'p': Style(width: Width(0.9.sw)),
-              "table": Style(
-                height: Height.auto(),
-                width: Width.auto(),
-              ),
-              "tr": Style(
-                height: Height.auto(),
-                width: Width.auto(),
-              ),
-              "th": Style(
-                padding: HtmlPaddings.all(6),
-                height: Height.auto(),
-                border: const Border(
-                  left: BorderSide(color: Colors.black, width: 0.5),
-                  bottom: BorderSide(color: Colors.black, width: 0.5),
-                  top: BorderSide(color: Colors.black, width: 0.5),
-                ),
-              ),
-              "td": Style(
-                padding: HtmlPaddings.all(6),
-                height: Height.auto(),
-                border: const Border(
-                  left: BorderSide(color: Colors.black, width: 0.5),
-                  bottom: BorderSide(color: Colors.black, width: 0.5),
-                  top: BorderSide(color: Colors.black, width: 0.5),
-                  right: BorderSide(color: Colors.black, width: 0.5),
-                ),
-              ),
-              "col": Style(
-                height: Height.auto(),
-                width: Width.auto(),
-              ),
+              return null;
             },
           ),
           SizedBox(height: 10.h,),
