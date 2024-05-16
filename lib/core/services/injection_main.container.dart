@@ -143,6 +143,8 @@ import 'package:iu/features/unt/data/datasources/unt_datasource.dart';
 import 'package:iu/features/unt/data/repositories/unt_repository.dart';
 import 'package:iu/features/unt/domain/interfaces/unt_interface.dart';
 import 'package:iu/features/unt/domain/use_cases/get_subjects_case.dart';
+import 'package:iu/features/user/presentation/bloc/change/change_user_info_bloc.dart';
+import 'package:iu/features/user/presentation/bloc/user_info_bloc.dart';
 import 'package:iu/features/welcome/data/datasources/welcome_datasource.dart';
 import 'package:iu/features/welcome/data/repositories/welcome_repository.dart';
 import 'package:iu/features/welcome/domain/interfaces/welcome_interface.dart';

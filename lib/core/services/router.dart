@@ -67,6 +67,8 @@ import '../../features/tournament/presentation/tournament_detail/bloc/tournament
 import '../../features/tournament/presentation/tournament_detail/bloc/tournament_detail_bloc.dart';
 import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
 import '../../features/unt/presentation/unt_full/unt_full_screen.dart';
+import '../../features/user/presentation/bloc/change/change_user_info_bloc.dart';
+import '../../features/user/presentation/bloc/user_info_bloc.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
 import 'injection_main.container.dart';
@@ -220,6 +222,39 @@ class RouteNavigation {
                 ],
               ),
             ]),
+        GoRoute(
+            path: "/${RouteConstant.userInfoScreenName}",
+            name: RouteConstant.userInfoScreenName,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: sl<UserInfoBloc>(),
+                    ),
+                    BlocProvider(create: (_) => sl<ChangeUserInfoBloc>())
+                  ],
+                  child: const UserInfoScreen()
+              );
+            },
+            redirect:
+                (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare()
+                  .authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.untModeScreenName}",
+            name: RouteConstant.untModeScreenName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<StepBloc>(),
+                child: const UntModeScreen(),
+              );
+            },
+            redirect:
+                (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare()
+                  .authMiddleWare(context, state);
+            }),
         GoRoute(
             path: "/${RouteConstant.stepDetailScreenName}/:subjectID",
             name: RouteConstant.stepDetailScreenName,

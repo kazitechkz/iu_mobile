@@ -6,7 +6,7 @@ class MeEntity extends Equatable {
   final int id;
   final String name;
   final String email;
-  final String phone;
+  final String? phone;
   final String role;
   final int balance;
   final FileEntity? file;

@@ -6,6 +6,7 @@ class RouteConstant {
   static const String resetScreenName = "reset";
   static const String verifyScreenName = "verify";
   static const String profileScreenName = "profile";
+  static const String userInfoScreenName = "user-info";
   static const String stepsScreenName = "steps";
   static const String stepDetailScreenName = "step-detail";
   static const String subStepDetailScreenName = "sub-step-detail";
