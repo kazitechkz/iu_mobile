@@ -57,10 +57,9 @@ class _SubTournamentResultWidgetState extends State<SubTournamentResultWidget> {
   ) {
     return Card(
       elevation: 2.0,
-      color:
-          isWinner ? ColorConstant.violetFirst : ColorConstant.orangeColorDark,
+      color: isWinner ? ColorConstant.violetColor : ColorConstant.grayColor,
       shadowColor:
-          isWinner ? ColorConstant.violetFirst : ColorConstant.orangeColorDark,
+          isWinner ? ColorConstant.violetColor : ColorConstant.grayColor,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.h),
         child: ListTile(
@@ -75,15 +74,15 @@ class _SubTournamentResultWidgetState extends State<SubTournamentResultWidget> {
               child: isWinner
                   ? Icon(
                       FontAwesomeIcons.award,
-                      color: ColorConstant.violetFirst,
+                      color: ColorConstant.violetColor,
                       size: 18.sp,
                     )
                   : Text(
                       order.toString(),
                       style: TextStyle(
                           color: isWinner
-                              ? ColorConstant.violetFirst
-                              : ColorConstant.orangeColorDark,
+                              ? ColorConstant.violetColor
+                              : ColorConstant.grayColor,
                           fontSize: 18.sp),
                     ),
             ),
@@ -108,8 +107,8 @@ class _SubTournamentResultWidgetState extends State<SubTournamentResultWidget> {
                 point.toString(),
                 style: TextStyle(
                     color: isWinner
-                        ? ColorConstant.violetFirst
-                        : ColorConstant.orangeColorDark,
+                        ? ColorConstant.violetColor
+                        : ColorConstant.grayColor,
                     fontSize: 18.sp),
               ),
             ),

@@ -52,8 +52,8 @@ class _TournamentParticipantsWidgetState
   ) {
     return Card(
       elevation: 2.0,
-      color: ColorConstant.violetFirst,
-      shadowColor: ColorConstant.lightViolet,
+      color: ColorConstant.orangeColor,
+      shadowColor: ColorConstant.orangeColor,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.h),
         child: ListTile(
@@ -68,7 +68,7 @@ class _TournamentParticipantsWidgetState
               child: Text(
                 order.toString(),
                 style: TextStyle(
-                    color: ColorConstant.violetFirst, fontSize: 18.sp),
+                    color: ColorConstant.orangeColor, fontSize: 18.sp),
               ),
             ),
           ),

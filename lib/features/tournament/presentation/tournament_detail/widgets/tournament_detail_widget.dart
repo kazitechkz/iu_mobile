@@ -100,8 +100,8 @@ class _TournamentDetailWidgetState extends State<TournamentDetailWidget> {
   Widget _getCard(IconData icon, String title, String subtitle) {
     return Card(
       elevation: 2.0,
-      color: ColorConstant.violetFirst,
-      shadowColor: ColorConstant.lightViolet,
+      color: ColorConstant.orangeColor,
+      shadowColor: ColorConstant.orangeColor,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.h),
         child: ListTile(
@@ -115,7 +115,7 @@ class _TournamentDetailWidgetState extends State<TournamentDetailWidget> {
             child: Center(
               child: Icon(
                 icon,
-                color: ColorConstant.violetFirst,
+                color: ColorConstant.orangeColor,
                 size: 18.sp,
               ),
             ),

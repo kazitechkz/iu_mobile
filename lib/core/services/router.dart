@@ -69,6 +69,7 @@ import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
 import '../../features/unt/presentation/unt_full/unt_full_screen.dart';
 import '../../features/user/presentation/bloc/change/change_user_info_bloc.dart';
 import '../../features/user/presentation/bloc/user_info_bloc.dart';
+import '../../features/user/presentation/screen/user_info_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
 import 'injection_main.container.dart';
@@ -216,8 +217,10 @@ class RouteNavigation {
                       builder: (context, state) {
                         return const ProfileMainScreen();
                       },
-                      redirect: (BuildContext context, GoRouterState state) async {
-                        return await RouterMiddleWare().authMiddleWare(context, state);
+                      redirect:
+                          (BuildContext context, GoRouterState state) async {
+                        return await RouterMiddleWare()
+                            .authMiddleWare(context, state);
                       }),
                 ],
               ),
@@ -226,34 +229,15 @@ class RouteNavigation {
             path: "/${RouteConstant.userInfoScreenName}",
             name: RouteConstant.userInfoScreenName,
             builder: (context, state) {
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(
-                      value: sl<UserInfoBloc>(),
-                    ),
-                    BlocProvider(create: (_) => sl<ChangeUserInfoBloc>())
-                  ],
-                  child: const UserInfoScreen()
-              );
+              return MultiBlocProvider(providers: [
+                BlocProvider.value(
+                  value: sl<UserInfoBloc>(),
+                ),
+                BlocProvider(create: (_) => sl<ChangeUserInfoBloc>())
+              ], child: const UserInfoScreen());
             },
-            redirect:
-                (BuildContext context, GoRouterState state) async {
-              return await RouterMiddleWare()
-                  .authMiddleWare(context, state);
-            }),
-        GoRoute(
-            path: "/${RouteConstant.untModeScreenName}",
-            name: RouteConstant.untModeScreenName,
-            builder: (context, state) {
-              return BlocProvider(
-                create: (_) => sl<StepBloc>(),
-                child: const UntModeScreen(),
-              );
-            },
-            redirect:
-                (BuildContext context, GoRouterState state) async {
-              return await RouterMiddleWare()
-                  .authMiddleWare(context, state);
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
             path: "/${RouteConstant.stepDetailScreenName}/:subjectID",
@@ -261,9 +245,8 @@ class RouteNavigation {
             builder: (context, state) {
               String subjectID = state.pathParameters['subjectID']!;
               return BlocProvider(
-                create: (_) => sl<StepDetailBloc>(),
-                child: StepDetailScreen(subjectID: subjectID)
-              );
+                  create: (_) => sl<StepDetailBloc>(),
+                  child: StepDetailScreen(subjectID: subjectID));
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
@@ -273,55 +256,44 @@ class RouteNavigation {
             name: RouteConstant.subStepDetailScreenName,
             builder: (context, state) {
               String subStepID = state.pathParameters['subStepID']!;
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(
-                        value: sl<SubStepDetailBloc>()
-                    ),
-                    BlocProvider.value(value: sl<CheckSubStepExamResultBloc>())
-                  ],
-                  child: SubStepDetailScreen(subStepID: subStepID)
-              );
+              return MultiBlocProvider(providers: [
+                BlocProvider.value(value: sl<SubStepDetailBloc>()),
+                BlocProvider.value(value: sl<CheckSubStepExamResultBloc>())
+              ], child: SubStepDetailScreen(subStepID: subStepID));
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
-            path: "/${RouteConstant.subStepExamScreenName}/:subStepID/:localeID",
+            path:
+                "/${RouteConstant.subStepExamScreenName}/:subStepID/:localeID",
             name: RouteConstant.subStepExamScreenName,
             builder: (context, state) {
               String subStepID = state.pathParameters['subStepID']!;
               String localeID = state.pathParameters['localeID']!;
-              final params = SubStepExamParameters(subStepId: subStepID, localeId: localeID);
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(
-                        value: sl<SubStepExamBloc>()
-                    ),
-                    BlocProvider(create: (_) => sl<ExamRadioBloc>())
-                  ],
-                  child: SubStepExamScreen(params: params)
-              );
+              final params = SubStepExamParameters(
+                  subStepId: subStepID, localeId: localeID);
+              return MultiBlocProvider(providers: [
+                BlocProvider.value(value: sl<SubStepExamBloc>()),
+                BlocProvider(create: (_) => sl<ExamRadioBloc>())
+              ], child: SubStepExamScreen(params: params));
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
-            path: "/${RouteConstant.subStepExamResultScreenName}/:subStepID/:localeID",
+            path:
+                "/${RouteConstant.subStepExamResultScreenName}/:subStepID/:localeID",
             name: RouteConstant.subStepExamResultScreenName,
             builder: (context, state) {
               String subStepID = state.pathParameters['subStepID']!;
               String localeID = state.pathParameters['localeID']!;
-              final params = SubStepExamParameters(subStepId: subStepID, localeId: localeID);
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(
-                        value: sl<SubStepExamResultBloc>()
-                    ),
-                    // BlocProvider(create: (_) => sl<ExamRadioBloc>())
-                  ],
-                  child: SubStepExamResultScreen(params: params)
-              );
+              final params = SubStepExamParameters(
+                  subStepId: subStepID, localeId: localeID);
+              return MultiBlocProvider(providers: [
+                BlocProvider.value(value: sl<SubStepExamResultBloc>()),
+                // BlocProvider(create: (_) => sl<ExamRadioBloc>())
+              ], child: SubStepExamResultScreen(params: params));
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

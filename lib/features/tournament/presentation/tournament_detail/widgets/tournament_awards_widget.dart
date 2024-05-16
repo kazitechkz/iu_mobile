@@ -45,7 +45,7 @@ class _SubTournamentAwardsWidgetState extends State<TournamentAwardsWidget> {
   ) {
     return Card(
       elevation: 2.0,
-      color: ColorConstant.violetFirst,
+      color: ColorConstant.violetColor,
       shadowColor: ColorConstant.lightViolet,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -61,7 +61,7 @@ class _SubTournamentAwardsWidgetState extends State<TournamentAwardsWidget> {
               child: Text(
                 order.toString(),
                 style: TextStyle(
-                    color: ColorConstant.violetFirst, fontSize: 18.sp),
+                    color: ColorConstant.violetColor, fontSize: 18.sp),
               ),
             ),
           ),

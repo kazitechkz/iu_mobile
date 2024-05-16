@@ -23,7 +23,7 @@ class UntModeScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 2.w,vertical: 10.h),
+                margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 transform: Matrix4.translationValues(0.0, -20.h, 0.0),
                 constraints: BoxConstraints(minHeight: 240.h),
@@ -44,7 +44,7 @@ class UntModeScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             context.go("/${RouteConstant.untFullScreenName}");
                           },
                           child: Container(
@@ -76,139 +76,158 @@ class UntModeScreen extends StatelessWidget {
                     SizedBox(
                       height: 30.h,
                     ),
-                    Container(
-                      constraints: BoxConstraints(
-                        minHeight: 180.h,
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.w),
-                          gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                ColorConstant.darkOrangeColor,
-                                ColorConstant.appBarColor,
-                              ])),
+                    InkWell(
+                      onTap: () {
+                        context.go("/${RouteConstant.untFullScreenName}");
+                      },
                       child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.book,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Полный тест ЕНТ",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                      fontFamily: FontConstant.SFPro,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                                WidgetSpan(
-                                                  child: Text(
-                                                    "3 обязательных + 2 основных",
+                        constraints: BoxConstraints(
+                          minHeight: 180.h,
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.w),
+                            gradient: const LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  ColorConstant.darkOrangeColor,
+                                  ColorConstant.appBarColor,
+                                ])),
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(FontAwesomeIcons.book,
+                                                color: Colors.white,
+                                                size: 12.sp),
+                                          ),
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: "Полный тест ЕНТ",
                                                     style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                    ),
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                        fontFamily:
+                                                            FontConstant.SFPro,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
-                                                )
-                                              ],
+                                                  WidgetSpan(
+                                                    child: Text(
+                                                      "3 обязательных + 2 основных",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.language,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Казахский и Русский языки",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                      fontFamily: FontConstant.SFPro,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(
+                                                FontAwesomeIcons.language,
+                                                color: Colors.white,
+                                                size: 12.sp),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.boxesPacking,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Text(
-                                                    "Более 50 000 вопросов",
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        "Казахский и Русский языки",
                                                     style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                    ),
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                        fontFamily:
+                                                            FontConstant.SFPro,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
-                                                )
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(
+                                                FontAwesomeIcons.boxesPacking,
+                                                color: Colors.white,
+                                                size: 12.sp),
+                                          ),
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Text(
+                                                      "Более 50 000 вопросов",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                    child: Image.asset(
-                                      ImageConstant.AuthBear,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  )),
-                            ],
+                                Expanded(
+                                    flex: 2,
+                                    child: Center(
+                                      child: Image.asset(
+                                        ImageConstant.AuthBear,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -217,7 +236,7 @@ class UntModeScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 2.w,vertical: 10.h),
+                margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 transform: Matrix4.translationValues(0.0, -20.h, 0.0),
                 constraints: BoxConstraints(minHeight: 240.h),
@@ -237,158 +256,183 @@ class UntModeScreen extends StatelessWidget {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5.h, horizontal: 15.w),
-                            decoration: BoxDecoration(
-                                color: ColorConstant.backgroundColor,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: "Подробнее",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 12.sp),
-                                ),
-                                WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
-                                      FontAwesomeIcons.chevronRight,
-                                      color: Colors.white,
-                                      size: 12.sp,
-                                    ))
-                              ]),
-                            ))
+                        InkWell(
+                          onTap: () {
+                            context.go("/${RouteConstant.untSingleScreenName}");
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5.h, horizontal: 15.w),
+                              decoration: BoxDecoration(
+                                  color: ColorConstant.backgroundColor,
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "Подробнее",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12.sp),
+                                  ),
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                        FontAwesomeIcons.chevronRight,
+                                        color: Colors.white,
+                                        size: 12.sp,
+                                      ))
+                                ]),
+                              )),
+                        )
                       ],
                     ),
                     SizedBox(
                       height: 30.h,
                     ),
-                    Container(
-                      constraints: BoxConstraints(
-                        minHeight: 180.h,
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.w),
-                          gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                ColorConstant.orangeColor,
-                                ColorConstant.appBarColor,
-                              ])),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.book,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Полный тест по 1 дисциплине",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                      fontFamily: FontConstant.SFPro,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
+                    InkWell(
+                      onTap: () {
+                        context.go("/${RouteConstant.untSingleScreenName}");
+                      },
+                      child: Container(
+                        constraints: BoxConstraints(
+                          minHeight: 180.h,
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.w),
+                            gradient: const LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  ColorConstant.orangeColor,
+                                  ColorConstant.appBarColor,
+                                ])),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(FontAwesomeIcons.book,
+                                                color: Colors.white,
+                                                size: 12.sp),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.language,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Казахский и Русский языки",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                      fontFamily: FontConstant.SFPro,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          EdgeInsets.only(top: 5.h, right: 10.w),
-                                          child: Icon(FontAwesomeIcons.percent,
-                                              color: Colors.white, size: 12.sp),
-                                        ),
-                                        Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Text(
-                                                    "Полная статистика и работа над ошибками",
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        "Полный тест по 1 дисциплине",
                                                     style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                    ),
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                        fontFamily:
+                                                            FontConstant.SFPro,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
-                                                )
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(
+                                                FontAwesomeIcons.language,
+                                                color: Colors.white,
+                                                size: 12.sp),
+                                          ),
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        "Казахский и Русский языки",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                        fontFamily:
+                                                            FontConstant.SFPro,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5.h, right: 10.w),
+                                            child: Icon(
+                                                FontAwesomeIcons.percent,
+                                                color: Colors.white,
+                                                size: 12.sp),
+                                          ),
+                                          Expanded(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Text(
+                                                      "Полная статистика и работа над ошибками",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                    child: Image.asset(
-                                      ImageConstant.AuthBear,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  )),
-                            ],
+                                Expanded(
+                                    flex: 2,
+                                    child: Center(
+                                      child: Image.asset(
+                                        ImageConstant.AuthBear,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -396,7 +440,6 @@ class UntModeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

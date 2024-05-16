@@ -109,7 +109,7 @@ class _SubTournamentRivalWidgetState extends State<SubTournamentRivalWidget> {
     int rivalTwoTime,
   ) {
     return Card(
-      color: ColorConstant.violetFirst,
+      color: ColorConstant.violetColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -146,7 +146,7 @@ class _SubTournamentRivalWidgetState extends State<SubTournamentRivalWidget> {
                 child: Text(
                   "${rivalOnePoint} : ${rivalTwoPoint}",
                   style: TextStyle(
-                      color: ColorConstant.violetFirst,
+                      color: ColorConstant.violetColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp),
                   textAlign: TextAlign.center,
