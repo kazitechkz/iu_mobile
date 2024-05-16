@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iu/core/app_constants/route_constant.dart';
 
 class ProfileMainScreen extends StatefulWidget {
   const ProfileMainScreen({super.key});
@@ -73,7 +75,9 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                 buildMenuItem(
                   icon: Icons.person,
                   text: 'My Profile',
-                  onClicked: () {},
+                  onClicked: () {
+                    context.goNamed(RouteConstant.userInfoScreenName);
+                  },
                 ),
                 buildMenuItem(
                   icon: Icons.mail,

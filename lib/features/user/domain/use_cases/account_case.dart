@@ -9,7 +9,7 @@ class AccountCase extends UseCaseWithoutParams<MeEntity> {
   const AccountCase(this._userInterface);
 
   @override
-  ResultFuture<MeEntity> call() {
-    return this._userInterface.account();
+  ResultFuture<MeEntity> call() async {
+    return await _userInterface.account();
   }
 }

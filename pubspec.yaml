@@ -79,6 +79,7 @@ dependencies:
   auto_size_text: ^3.0.0
   talker_flutter: ^4.2.0
   flutter_widget_from_html: ^0.15.0
+  flutter_form_builder: ^9.2.1
 
 dev_dependencies:
   flutter_test:

@@ -53,6 +53,7 @@ import 'package:iu/features/tournament/presentation/tournament_list/tournament_l
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import 'package:iu/features/unt/presentation/unt_single/bloc/unt_Single_bloc.dart';
 import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
+import 'package:iu/features/user/presentation/screen/user_info_screen.dart';
 import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
@@ -67,6 +68,8 @@ import '../../features/tournament/presentation/tournament_detail/bloc/tournament
 import '../../features/tournament/presentation/tournament_detail/bloc/tournament_detail_bloc.dart';
 import '../../features/unt/presentation/unt_full/bloc/unt_full_bloc.dart';
 import '../../features/unt/presentation/unt_full/unt_full_screen.dart';
+import '../../features/user/presentation/bloc/change/change_user_info_bloc.dart';
+import '../../features/user/presentation/bloc/user_info_bloc.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
 import 'injection_main.container.dart';
@@ -220,6 +223,25 @@ class RouteNavigation {
                 ],
               ),
             ]),
+        GoRoute(
+            path: "/${RouteConstant.userInfoScreenName}",
+            name: RouteConstant.userInfoScreenName,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: sl<UserInfoBloc>(),
+                    ),
+                    BlocProvider(create: (_) => sl<ChangeUserInfoBloc>())
+                  ],
+                  child: const UserInfoScreen()
+              );
+            },
+            redirect:
+                (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare()
+                  .authMiddleWare(context, state);
+            }),
         GoRoute(
             path: "/${RouteConstant.untModeScreenName}",
             name: RouteConstant.untModeScreenName,
