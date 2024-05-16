@@ -58,20 +58,20 @@ class AnswerButton extends StatelessWidget {
 
   Border getBorderStyle() {
     if (this.isAlreadyAnswered == true) {
-      return Border.all(color: ColorConstant.lightViolet, width: 2);
+      return Border.all(color: ColorConstant.violetColor, width: 2);
     }
     if (this.isChecked) {
-      return Border.all(color: ColorConstant.orangeColorDark, width: 2);
+      return Border.all(color: ColorConstant.darkOrangeColor, width: 2);
     }
     return Border.all(color: Colors.white, width: 2);
   }
 
   Color getColorStyle() {
     if (this.isAlreadyAnswered == true) {
-      return ColorConstant.lightViolet;
+      return ColorConstant.violetColor;
     }
     if (this.isChecked) {
-      return ColorConstant.orangeColorDark;
+      return ColorConstant.darkOrangeColor;
     }
     return Colors.transparent;
   }

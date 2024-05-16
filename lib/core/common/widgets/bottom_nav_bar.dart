@@ -98,10 +98,10 @@ class _BottomNavBarState extends State<BottomNavBar>
   List<IconData> iconList = [
     FontAwesomeIcons.house,
     FontAwesomeIcons.book,
-    FontAwesomeIcons.wandSparkles,
+    FontAwesomeIcons.dumbbell,
     FontAwesomeIcons.user,
   ];
-  List<String> iconLabel = ["Главная", "Обучение", "Battle", "Профиль"];
+  List<String> iconLabel = ["Главная", "Обучение", "Тренажер", "Профиль"];
   List<String> routingName = [
     RouteConstant.dashboardScreenName,
     RouteConstant.stepsScreenName,

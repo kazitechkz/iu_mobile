@@ -20,6 +20,7 @@ import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_
 import 'package:iu/features/attempt/presentation/pass_attempt/widget/answer_button_widget.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/utils/toasters.dart';
+import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../domain/entities/attempt_common_entity.dart';
 import 'bloc/pass_attempt_bloc.dart';
 import 'bloc/pass_attempt_event.dart';
@@ -54,6 +55,11 @@ class _PassUntScreenState extends State<PassUntScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:const CommonAppBarWidget(
+      text: "Тренажер ЕНТ",
+      imageUrl:  "assets/images/icons/training.webp",
+      routeLink: RouteConstant.untModeScreenName,
+    ),
         body: BlocConsumer<PassAttemptBloc, PassAttemptState>(
       listener: (context, state) {
         if (state is PassAttemptSuccessState) {
@@ -83,7 +89,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                           gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               stops: [0.1, 0.9],
-                              colors: ColorConstant.violetToPinkGradient),
+                              colors: [ColorConstant.darkOrangeColor, ColorConstant.orangeColor]),
                           borderRadius: BorderRadius.circular(10.w)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +135,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                             Icon(
                               Icons.list,
                               size: 16,
-                              color: ColorConstant.linkColor,
+                              color:ColorConstant.darkOrangeColor,
                             ),
                             SizedBox(
                               width: 4,
@@ -140,7 +146,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: ColorConstant.linkColor,
+                                  color: ColorConstant.darkOrangeColor,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -160,8 +166,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Colors
-                                    .deepPurple, // Assume ColorConstant.lightViolet is similar
+                                color: ColorConstant.darkOrangeColor, // Assume ColorConstant.lightViolet is similar
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -182,7 +187,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: ColorConstant.lightViolet,
+                                color: ColorConstant.darkOrangeColor
                             ),
                             color: Colors.white,
                           ),
@@ -193,8 +198,8 @@ class _PassUntScreenState extends State<PassUntScreen> {
                             Icons.arrow_forward_ios_outlined,
                           ),
                           iconSize: 14,
-                          iconEnabledColor: ColorConstant.orangeColorLight,
-                          iconDisabledColor: ColorConstant.lightViolet,
+                          iconEnabledColor: ColorConstant.darkOrangeColor,
+                          iconDisabledColor: ColorConstant.orangeColor,
                         ),
                         dropdownStyleData: DropdownStyleData(
                           maxHeight: 200,
@@ -309,8 +314,11 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                   gradient: const LinearGradient(
                                       begin: Alignment.topLeft,
                                       stops: [0.1, 0.9],
-                                      colors:
-                                          ColorConstant.violetToPinkGradient),
+                                      colors:[
+                                        ColorConstant.darkOrangeColor,
+                                        ColorConstant.orangeColor,
+                                      ]
+                                          ),
                                   borderRadius: BorderRadius.circular(10.w)),
                               child: ConstrainedBox(
                                   constraints: BoxConstraints(
@@ -682,17 +690,17 @@ class _PassUntScreenState extends State<PassUntScreen> {
 
   Color paginationBgColor(PassAttemptSuccessState state, int index) {
     if (state.activeSlider == index) {
-      return ColorConstant.lightPink;
+      return ColorConstant.orangeColor;
     }
     if (state.answeredResult != null) {
       if (state.answeredResult!.data.containsKey(state
           .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
-        return ColorConstant.lightViolet;
+        return ColorConstant.violetColor;
       }
     }
     if (state.answeredQuestionsID.containsKey(state
         .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
-      return ColorConstant.lightViolet;
+      return ColorConstant.violetColor;
     }
     return Colors.white;
   }
@@ -703,15 +711,15 @@ class _PassUntScreenState extends State<PassUntScreen> {
     }
     if (state.answeredQuestionsID.containsKey(state
         .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
-      return ColorConstant.lightViolet;
+      return ColorConstant.darkOrangeColor;
     }
     if (state.answeredResult != null) {
       if (state.answeredResult!.data.containsKey(state
           .attempt.subjectQuestions[state.subjectId ?? 0].question[index].id)) {
-        return ColorConstant.lightViolet;
+        return ColorConstant.darkOrangeColor;
       }
     }
-    return ColorConstant.lightPink;
+    return ColorConstant.darkOrangeColor;
   }
 
   Color paginationTextColor(PassAttemptSuccessState state, int index) {
@@ -726,7 +734,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
       }
     }
     if (state.activeSlider != index) {
-      return ColorConstant.lightPink;
+      return ColorConstant.orangeColor;
     }
     return Colors.white;
   }
