@@ -18,7 +18,7 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState> {
   Future<void> _handleGetInfo(GetInfoEvent event, Emitter<UserInfoState> emit) async {
     emit(GetInfoLoading());
     final result = await _accountCase();
-    result.fold((l) => emit(GetInfoError(FailureData(
-        statusCode: l.statusCode, message: l.message, errors: l.errors))), (r) => emit(GetInfoLoaded(r)));
+    result.fold((l) =>emit(GetInfoError(
+        FailureData.fromApiFailure(l))), (r) => emit(GetInfoLoaded(r)));
   }
 }

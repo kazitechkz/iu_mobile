@@ -25,6 +25,7 @@ class Errors {
     json.forEach((key, value) {
       errorsMap[key] = List<String>.from(value);
     });
+
     return Errors(errors: errorsMap);
   }
 }

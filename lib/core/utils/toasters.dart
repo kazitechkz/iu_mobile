@@ -5,7 +5,7 @@ class AppToaster {
   static void showError(
     String message, {
     Toast? toastLength = Toast.LENGTH_LONG,
-    ToastGravity? gravity = ToastGravity.CENTER,
+    ToastGravity? gravity = ToastGravity.BOTTOM,
   }) {
     Fluttertoast.showToast(
         msg: message,

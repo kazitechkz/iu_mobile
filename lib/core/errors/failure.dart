@@ -12,13 +12,13 @@ abstract class Failure extends Equatable{
 }
 
 class ApiFailure extends Failure{
-  ApiFailure({super.message, super.statusCode,super.errors});
+  const ApiFailure({super.message, super.statusCode,super.errors});
 
   ApiFailure.fromException(ApiException exception)
       : this(message: exception.message,statusCode: exception.statusCode, errors: exception.errors);
 
   @override
-  List<dynamic> get props => [message,statusCode];
+  List<dynamic> get props => [message,statusCode,errors];
 }
 
 class CacheFailure extends Failure {

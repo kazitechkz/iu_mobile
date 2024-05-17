@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import '../../../../core/app_constants/api_constant.dart';
 import '../../../../core/common/models/ordinary_user.dart';
 import '../../../../core/common/models/response_data.dart';
 import '../../../../core/errors/exception.dart';
+import '../../../../core/services/injection_main.container.dart';
 import '../../../../core/utils/hive_utils.dart';
 import '../../../../core/utils/http_utils.dart';
 import '../../domain/entities/me_entity.dart';
@@ -44,7 +46,8 @@ class UserDataSourceImpl implements UserDataSourceInterface{
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
-      throw ApiException(message: e.toString());
+      sl<Talker>().debug(e);
+      throw Exception(e.toString());
     }
   }
 

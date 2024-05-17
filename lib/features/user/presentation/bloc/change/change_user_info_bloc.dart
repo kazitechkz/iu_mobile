@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../../core/common/models/failure_data.dart';
+import '../../../../../core/services/injection_main.container.dart';
 import '../../../domain/parameters/change_profile_parameters.dart';
 import '../../../domain/use_cases/account_change_case.dart';
 
@@ -17,7 +19,10 @@ class ChangeUserInfoBloc extends Bloc<ChangeUserInfoEvent, ChangeUserInfoState> 
   Future<void> _handleChangeEvent(ChangeEvent event, Emitter<ChangeUserInfoState> emit) async {
     emit(ChangeUserInfoLoading());
     final result = await _accountChangeCase(event.params);
-    result.fold((l) => emit(ChangeUserInfoError(FailureData(
-        statusCode: l.statusCode, message: l.message, errors: l.errors))), (r) => emit(ChangeUserInfoLoaded(r)));
+    result.fold((l) {
+        final failureData = FailureData.fromApiFailure(l);
+        print(failureData.errors?.errors);
+    emit(ChangeUserInfoError(failureData));},
+            (r) => emit(ChangeUserInfoLoaded(r)));
   }
 }

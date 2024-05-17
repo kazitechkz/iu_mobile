@@ -8,6 +8,7 @@ class BearerTokenInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if(token != null){
+      print(token);
       options.headers['Authorization'] = 'Bearer $token';
     }
     super.onRequest(options, handler);

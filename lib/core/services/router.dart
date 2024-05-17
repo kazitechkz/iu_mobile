@@ -233,7 +233,7 @@ class RouteNavigation {
                 BlocProvider.value(
                   value: sl<UserInfoBloc>(),
                 ),
-                BlocProvider(create: (_) => sl<ChangeUserInfoBloc>())
+                BlocProvider.value(value: sl<ChangeUserInfoBloc>())
               ], child: const UserInfoScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {

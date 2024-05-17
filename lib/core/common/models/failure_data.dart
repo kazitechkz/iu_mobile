@@ -1,15 +1,23 @@
+import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/response_data.dart';
 import 'package:iu/core/errors/failure.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
-class FailureData{
-  int? statusCode;
-  String? message;
-  Errors? errors;
-  FailureData({this.statusCode, this.message, this.errors,});
+import '../../services/injection_main.container.dart';
 
-  factory FailureData.fromApiFailure(Failure e){
+class FailureData extends Equatable {
+  final int? statusCode;
+  final String? message;
+  final Errors? errors;
 
-    return FailureData(statusCode: e.statusCode,message:e.message,errors: e.errors);
+  const FailureData({this.statusCode, this.message, this.errors});
+
+  factory FailureData.fromApiFailure(Failure e) {
+    return FailureData(
+        statusCode: e.statusCode, message: e.message, errors: e.errors);
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [statusCode, message, errors];
 }

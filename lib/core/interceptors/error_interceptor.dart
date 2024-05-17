@@ -1,12 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/utils/hive_utils.dart';
 import 'package:iu/core/utils/toasters.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/user_provider.dart';
 
 class ServerErrorInterceptor extends Interceptor {
   final GoRouter goRouter;

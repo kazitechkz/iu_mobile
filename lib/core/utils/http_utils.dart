@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:iu/core/utils/toasters.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../errors/exception.dart';
@@ -11,51 +12,29 @@ class HttpUtil {
 
   Future post(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    try {
-      var response = await dio.post(path,
-          data: data,
-          queryParameters: queryParameters);
-      return response.data;
-    } on DioException catch (e, st) {
-      sl<Talker>().handle(e, st);
-      throw ApiException.fromDioError(e);
-    } on Exception catch (e, st) {
-      sl<Talker>().handle(e, st);
-      throw ApiException(message: e.toString());
-    }
+    var response = await dio.post(path,
+        data: data,
+        queryParameters: queryParameters);
+    return response.data;
   }
 
   Future get(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    try {
-      var response = await dio.get(path,
-          data: data,
-          queryParameters: queryParameters,
-          options: Options(contentType: Headers.jsonContentType));
-      return response.data;
-    } on DioException catch (e, st) {
-      sl<Talker>().handle(e, st);
-      throw ApiException.fromDioError(e);
-    } on Exception catch (e, st) {
-      sl<Talker>().handle(e, st);
-      throw ApiException(message: e.toString());
-    }
+    var response = await dio.get(path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(contentType: Headers.jsonContentType));
+    return response.data;
   }
 
   Future update(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    try {
-      var response = await dio.put(path,
-          data: data,
-          queryParameters: queryParameters,
-          options: Options(
-            headers: {"Content-Type": "application/json"},
-          ));
-      return response.data;
-    } on DioException catch (e) {
-      throw ApiException.fromDioError(e);
-    } on Exception catch (e) {
-      throw ApiException(message: e.toString());
-    }
+    var response = await dio.put(path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(
+          headers: {"Content-Type": "application/json"},
+        ));
+    return response.data;
   }
 }
