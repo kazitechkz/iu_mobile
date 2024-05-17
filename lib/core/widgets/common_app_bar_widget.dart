@@ -29,12 +29,13 @@ class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
         child: Icon(FontAwesomeIcons.chevronLeft,color: ColorConstant.grayColor,),
       ),
       backgroundColor: ColorConstant.appBarColor,
+      centerTitle: true,
       title:   Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 50,
-            width: 50,
+            height: 30,
+            width: 30,
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
@@ -55,7 +56,7 @@ class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
           )
         ],
       ),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(10),
         ),

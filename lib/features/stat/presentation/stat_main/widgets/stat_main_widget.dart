@@ -14,10 +14,17 @@ class StatMainStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.w),
-        color: ColorConstant.lightBlue,
+        gradient: const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            ColorConstant.appBarColor,
+            ColorConstant.darkOrangeColor,
+          ]
+        )
       ),
       constraints: BoxConstraints(minHeight: 120.h),
       child: Padding(
@@ -36,6 +43,7 @@ class StatMainStatCard extends StatelessWidget {
             ),
             Text(
               this.name + ":",
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -46,6 +54,7 @@ class StatMainStatCard extends StatelessWidget {
             ),
             Text(
               StrHelper.beautifulInteger(stat),
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
