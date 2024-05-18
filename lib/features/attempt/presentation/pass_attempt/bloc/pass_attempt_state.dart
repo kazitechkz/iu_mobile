@@ -77,6 +77,8 @@ final class PassAttemptFailedState extends PassAttemptState {
 }
 
 final class PassAttemptFinishedState extends PassAttemptState {
+  final int attemptId;
+  PassAttemptFinishedState(this.attemptId);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [attemptId];
 }

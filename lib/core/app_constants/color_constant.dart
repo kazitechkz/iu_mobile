@@ -42,4 +42,37 @@ class ColorConstant {
   static const Color redOrangeColor = Color(0xFFf64d0b);
   static const Color peachColor = Color(0xFFf59b78);
   static const Color blackColor = Color(0xFF100f14);
+  //SubjectColors
+  static const Color mathGramOne = Color(0xFFb7649d);
+  static const Color mathGramTwo = Color(0xFFcb8abe);
+  static const Color kazHistoryOne = Color(0xFFa674e2);
+  static const Color kazHistoryTwo = Color(0xFFbd9df2);
+  static const Color gramReadingOne = Color(0xFFbf5d55);
+  static const Color gramReadingTwo = Color(0xFFd68989);
+  static const Color mathOne = Color(0xFF6f9246);
+  static const Color mathTwo = Color(0xFF9fb477);
+  static const Color physicsOne = Color(0xFF814fe9);
+  static const Color physicsTwo = Color(0xFF9658fd);
+  static const Color chemistryOne = Color(0xFF509651);
+  static const Color chemistryTwo = Color(0xFF91bf8b);
+  static const Color biologyOne = Color(0xFF3e83c7);
+  static const Color biologyTwo = Color(0xFF6aaed9);
+  static const Color geographyOne = Color(0xFFa8a73a);
+  static const Color geographyTwo = Color(0xFFc0bd63);
+  static const Color historyOne = Color(0xFFe68a2e);
+  static const Color historyTwo = Color(0xFFeb9a51);
+  static const Color pravoOne = Color(0xFFbda01f);
+  static const Color pravoTwo = Color(0xFFd7b956);
+  static const Color englishOne = Color(0xFF617ce0);
+  static const Color englishTwo = Color(0xFF86a8ed);
+  static const Color kazakhOne = Color(0xFF756df1);
+  static const Color kazakhTwo = Color(0xFF9198fd);
+  static const Color kazakhLitOne = Color(0xFF7f7d35);
+  static const Color kazakhLitTwo = Color(0xFFa29e69);
+  static const Color russianOne = Color(0xFFb7656f);
+  static const Color russianTwo = Color(0xFFce8a9a);
+  static const Color russianLitOne = Color(0xFFdd8e24);
+  static const Color russianLitTwo = Color(0xFFe69c3e);
+  static const Color informaticsOne = Color(0xFF53bbbe);
+  static const Color informaticsTwo = Color(0xFF66c6c7);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/bloc/tournament_detail_bloc.dart';
@@ -37,36 +38,49 @@ class _TournamentDetailScreenState extends State<TournamentDetailScreen> {
           TournamentAwardsWidget(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: ColorConstant.darkOrangeColor,
-        currentIndex: index,
-        onTap: (int newindex) {
-          setState(() {
-            index = newindex;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.circleInfo),
-            label: "О турнире",
-            backgroundColor: ColorConstant.darkOrangeColor,
+      bottomNavigationBar: Container(
+        clipBehavior: Clip.hardEdge,
+        constraints: BoxConstraints(minHeight: 80.h),
+        decoration: BoxDecoration(
+          color: ColorConstant.appBarColor.withOpacity(0.5),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(24),
+            topLeft: Radius.circular(24),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.play),
-            label: "Участвовать",
-            backgroundColor: ColorConstant.darkOrangeColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.timeline),
-            label: "Этапы",
-            backgroundColor: ColorConstant.darkOrangeColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.award),
-            label: "Призы",
-            backgroundColor: ColorConstant.darkOrangeColor,
-          ),
-        ],
+        ),
+        child: BottomNavigationBar(
+          selectedItemColor: ColorConstant.orangeColor,
+          unselectedItemColor: ColorConstant.grayColor,
+          currentIndex: index,
+          onTap: (int newindex) {
+            setState(() {
+              index = newindex;
+            });
+          },
+          backgroundColor: Colors.transparent,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.circleInfo),
+              label: "О турнире",
+              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.play),
+              label: "Участвовать",
+              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.timeline),
+              label: "Этапы",
+              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.award),
+              label: "Призы",
+              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+            ),
+          ],
+        ),
       ),
     );
   }

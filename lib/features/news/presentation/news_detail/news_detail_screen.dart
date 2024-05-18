@@ -7,7 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:iu/features/news/presentation/news_detail/bloc/news_detail_bloc.dart';
 
+import '../../../../core/app_constants/color_constant.dart';
+import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/services/image_service.dart';
+import '../../../../core/widgets/common_app_bar_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   const NewsDetailScreen({super.key, required this.alias});
@@ -22,23 +25,38 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     super.initState();
     context.read<NewsDetailBloc>().add(NewsDetailByAliasEvent(widget.alias));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonAppBarWidget(
+        text: "Новости",
+        imageUrl: "assets/images/icons/news.webp",
+        routeLink: RouteConstant.newsListName,
+      ),
       body: BlocConsumer<NewsDetailBloc, NewsDetailState>(
-        listener: (context,state){
-
-        },
-        builder: (context,state){
-          if(state is NewsDetailLoadingState){
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is NewsDetailLoadingState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if(state is NewsDetailSuccessState){
+          if (state is NewsDetailSuccessState) {
             return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+              child: Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        ColorConstant.violetColor,
+                        ColorConstant.appBarColor
+                      ]),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: Column(
                   children: [
                     Container(
@@ -47,35 +65,41 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           borderRadius: BorderRadius.circular(20.w),
                           image: DecorationImage(
                             image: CachedNetworkImageProvider(
-                                getImageFromString(state.newsEntity.image?.url)),
+                                getImageFromString(
+                                    state.newsEntity.image?.url)),
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
-                              Colors.black
-                                  .withOpacity(0.6), // Adjust the opacity to control the darkness
+                              Colors.black.withOpacity(
+                                  0.6), // Adjust the opacity to control the darkness
                               BlendMode.darken,
                             ),
                           ),
-                        )
+                        )),
+                    SizedBox(
+                      height: 10.h,
                     ),
-                    SizedBox(height: 10.h,),
                     Text(
                       state.newsEntity.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                           fontSize: 22.sp),
                     ),
-                    SizedBox(height: 10.h,),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     Text(
                       state.newsEntity.subtitle,
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 18.sp),
+                      style: TextStyle(color: Colors.white, fontSize: 18.sp),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h),
-                      child: Divider(height: 2.h, color: Colors.grey,),
+                      child: Divider(
+                        height: 2.h,
+                        color: Colors.white,
+                      ),
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,14 +111,17 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                               const WidgetSpan(
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5.0),
-                                  child: Icon(FontAwesomeIcons.user, size: 14,color: Colors.grey,
+                                  child: Icon(
+                                    FontAwesomeIcons.user,
+                                    size: 14,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                               TextSpan(
                                   text: "${state.newsEntity.user?.name}",
-                                  style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                              ),
+                                  style: TextStyle(
+                                      fontSize: 12.sp, color: Colors.white)),
                             ],
                           ),
                         ),
@@ -104,14 +131,18 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                               WidgetSpan(
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5.0.w),
-                                  child: const Icon(FontAwesomeIcons.clock, size: 14,color: Colors.grey,
+                                  child: const Icon(
+                                    FontAwesomeIcons.clock,
+                                    size: 14,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                               TextSpan(
-                                  text: "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(state.newsEntity.createdAt ?? DateTime.now().toString()))}",
-                                  style: TextStyle(fontSize: 12.sp,color: Colors.grey)
-                              ),
+                                  text:
+                                      "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(state.newsEntity.createdAt ?? DateTime.now().toString()))}",
+                                  style: TextStyle(
+                                      fontSize: 12.sp, color: Colors.white)),
                             ],
                           ),
                         ),
@@ -119,7 +150,10 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h),
-                      child: Divider(height: 2.h, color: Colors.grey,),
+                      child: Divider(
+                        height: 2.h,
+                        color: Colors.white,
+                      ),
                     ),
                     Html(data: state.newsEntity.description)
                   ],
@@ -127,8 +161,6 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ),
             );
           }
-
-
 
           return SizedBox();
         },

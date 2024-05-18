@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,10 +8,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/helpers/str_helper.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
 
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/services/image_service.dart';
+import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../domain/parameters/all_news_parameter.dart';
 import 'bloc/important_news/important_news_bloc.dart';
 
@@ -34,6 +37,11 @@ class _NewsListScreenState extends State<NewsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonAppBarWidget(
+        text: "Новости",
+        imageUrl: "assets/images/icons/news.webp",
+        routeLink: RouteConstant.dashboardScreenName,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
@@ -66,9 +74,18 @@ class _NewsListScreenState extends State<NewsListScreen> {
                 context.go(
                     "/${RouteConstant.newsDetailName}/${state.importantNews.id.toString()}");
               },
-              child: Card(
-                elevation: 5.0,
-                surfaceTintColor: Colors.white,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 5.w),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        ColorConstant.violetColor,
+                        ColorConstant.appBarColor
+                      ]),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
@@ -96,22 +113,24 @@ class _NewsListScreenState extends State<NewsListScreen> {
                               state.importantNews.title,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 22.sp),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 22.sp),
                             ),
                             SizedBox(
-                              height: 5.h,
+                              height: 10.h,
                             ),
                             Text(
                               state.importantNews.subtitle,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                  color: Colors.grey, fontSize: 14.sp),
+                                  color: Colors.white, fontSize: 14.sp),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 15.h),
                               child: Divider(
                                 height: 2.h,
-                                color: Colors.grey,
+                                color: Colors.white,
                               ),
                             ),
                             Row(
@@ -127,7 +146,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                           child: Icon(
                                             FontAwesomeIcons.user,
                                             size: 14,
-                                            color: Colors.grey,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
@@ -136,7 +155,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                               "${state.importantNews.user?.name}",
                                           style: TextStyle(
                                               fontSize: 12.sp,
-                                              color: Colors.grey)),
+                                              color: Colors.white)),
                                     ],
                                   ),
                                 ),
@@ -150,7 +169,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                           child: const Icon(
                                             FontAwesomeIcons.clock,
                                             size: 14,
-                                            color: Colors.grey,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
@@ -159,7 +178,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                               "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(state.importantNews.createdAt ?? DateTime.now().toString()))}",
                                           style: TextStyle(
                                               fontSize: 12.sp,
-                                              color: Colors.grey)),
+                                              color: Colors.white)),
                                     ],
                                   ),
                                 ),
@@ -197,8 +216,18 @@ class _NewsListScreenState extends State<NewsListScreen> {
                         context.go(
                             "/${RouteConstant.newsDetailName}/${newsItem.id.toString()}");
                       },
-                      child: Card(
-                        surfaceTintColor: Colors.white,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5.w),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                ColorConstant.violetColor,
+                                ColorConstant.appBarColor
+                              ]),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 15.h),
@@ -215,11 +244,14 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          newsItem.title,
+                                        AutoSizeText(
+                                          maxLines: 3,
+                                          StrHelper.truncateWithEllipsis(
+                                              100, newsItem.title),
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                              color: Colors.black,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 14.sp),
                                         ),
                                         SizedBox(
@@ -245,7 +277,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                 padding: EdgeInsets.symmetric(vertical: 10.h),
                                 child: Divider(
                                   height: 2.h,
-                                  color: Colors.grey,
+                                  color: Colors.white,
                                 ),
                               ),
                               Row(
@@ -263,7 +295,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                             child: Icon(
                                               FontAwesomeIcons.user,
                                               size: 14,
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
@@ -271,7 +303,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                             text: "${newsItem.user?.name}",
                                             style: TextStyle(
                                                 fontSize: 12.sp,
-                                                color: Colors.grey)),
+                                                color: Colors.white)),
                                       ],
                                     ),
                                   ),
@@ -285,7 +317,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                             child: const Icon(
                                               FontAwesomeIcons.clock,
                                               size: 14,
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
@@ -294,7 +326,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
                                                 "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(newsItem.createdAt ?? DateTime.now().toString()))}",
                                             style: TextStyle(
                                                 fontSize: 12.sp,
-                                                color: Colors.grey)),
+                                                color: Colors.white)),
                                       ],
                                     ),
                                   ),

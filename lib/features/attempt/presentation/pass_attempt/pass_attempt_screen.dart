@@ -68,7 +68,8 @@ class _PassUntScreenState extends State<PassUntScreen> {
               }
             }
             if (state is PassAttemptFinishedState) {
-              context.go("/${RouteConstant.dashboardScreenName}");
+              context.go(
+                  "/${RouteConstant.attemptResultByAttemptIdName}/${state.attemptId}");
             }
           },
           builder: (context, state) {

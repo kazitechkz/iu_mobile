@@ -57,7 +57,7 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
         (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
         (r) => r.isFinished
-            ? emit(PassAttemptFinishedState())
+            ? emit(PassAttemptFinishedState(currentState.attempt.attemptId))
             : emit(currentState.copyWith(
                 answerResult: r,
                 answeredQuestionsID: answeredQuestionsIDNEW,
@@ -71,7 +71,7 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
     result.fold(
         (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-        (r) => emit(PassAttemptFinishedState()));
+        (r) => emit(PassAttemptFinishedState(event.attemptId)));
   }
 
   Future<void> _handlePassAttemptGetAnsweredEvent(

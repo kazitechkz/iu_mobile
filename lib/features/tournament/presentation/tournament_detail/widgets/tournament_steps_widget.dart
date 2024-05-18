@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/bloc/sub_tournament_participants/sub_tournament_participants_bloc.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/bloc/sub_tournament_results/sub_tournament_results_bloc.dart';
@@ -44,7 +45,7 @@ class _TournamentStepsWidgetState extends State<TournamentStepsWidget>
             child: TabBar(
               labelColor: ColorConstant.orangeColor,
               unselectedLabelColor: ColorConstant.grayColor,
-              dividerColor: ColorConstant.grayColor,
+              dividerColor: Colors.transparent,
               indicatorColor: ColorConstant.orangeColor,
               padding: EdgeInsets.all(0),
               controller: tabController,
@@ -52,7 +53,9 @@ class _TournamentStepsWidgetState extends State<TournamentStepsWidget>
               tabAlignment: TabAlignment.start,
               tabs: [
                 Tab(
-                  child: Text("Участники"),
+                  child: Text(
+                    "Участники",
+                  ),
                 ),
                 Tab(
                   child: Text("Плейофф"),

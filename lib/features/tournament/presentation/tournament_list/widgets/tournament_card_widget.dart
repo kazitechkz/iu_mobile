@@ -1,163 +1,150 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:iu/core/services/image_service.dart';
+import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/app_constants/route_constant.dart';
+import 'package:iu/features/tournament/domain/entities/tournament_entity.dart';
 
-import '../../../../../core/app_constants/color_constant.dart';
-import '../../../../../core/app_constants/route_constant.dart';
-import '../../../domain/entities/tournament_entity.dart';
+import '../../../../../core/services/image_service.dart';
 
-class TournamentListCardWidget extends StatefulWidget {
-  const TournamentListCardWidget({super.key, required this.tournamentEntity});
+class TournamentCardWidget extends StatelessWidget {
+  const TournamentCardWidget({super.key, required this.tournamentEntity});
 
   final TournamentEntity tournamentEntity;
 
   @override
-  State<TournamentListCardWidget> createState() =>
-      _TournamentListCardWidgetState();
-}
-
-class _TournamentListCardWidgetState extends State<TournamentListCardWidget> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 320.h,
-      margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.w),
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(
-              getImageFromString(widget.tournamentEntity.file?.url)),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black
-                .withOpacity(0.6), // Adjust the opacity to control the darkness
-            BlendMode.darken,
+    return InkWell(
+      onTap: () {
+        context.go(
+            "/${RouteConstant.tournamentDetailName}/${tournamentEntity.id}");
+      },
+      child: Container(
+          height: 320.h,
+          margin: EdgeInsets.symmetric(vertical: 15.h),
+          constraints: BoxConstraints(
+            minHeight: 320.h,
           ),
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Flexible(
-                child: Text(
-              widget.tournamentEntity.titleRu,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.sp),
-            )),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Icon(
-                  FontAwesomeIcons.clock,
-                  color: Colors.white,
-                  size: 14.sp,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Flexible(
-                  child: Text(
-                    "${DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(widget.tournamentEntity.startAt))} - ${DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(widget.tournamentEntity.endAt))}",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Icon(
-                  FontAwesomeIcons.moneyBills,
-                  color: Colors.white,
-                  size: 14.sp,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Flexible(
-                  child: Text(
-                    "${widget.tournamentEntity.price} KZT",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                const Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(50.w),
-                    onTap: () {
-                      context.go(
-                          "/${RouteConstant.tournamentDetailName}/${widget.tournamentEntity.id}");
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.w),
+              image: DecorationImage(
+                  image: getImageProviderFromServer(tournamentEntity.file?.url),
+                  fit: BoxFit.cover)),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.w),
-                        color: ColorConstant.linkColor,
+                        color: ColorConstant.appBarColor.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(20.w),
                       ),
-                      height: 60.h,
+                      constraints: BoxConstraints(
+                        minHeight: 80.h,
+                      ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Подробнее",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Icon(
-                            FontAwesomeIcons.chevronRight,
-                            size: 20.sp,
-                            color: Colors.white,
+                          Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: Container(
+                                  height: 80.h,
+                                  width: 80.h,
+                                  margin: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.w),
+                                      image: DecorationImage(
+                                          image: getImageProviderFromServer(
+                                              tournamentEntity
+                                                  .subject?.image?.url),
+                                          fit: BoxFit.cover)),
+                                ),
+                              )),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  AutoSizeText(
+                                    tournamentEntity.titleRu,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 5.w),
+                                        child: Icon(
+                                          FontAwesomeIcons.calendar,
+                                          color: Colors.white,
+                                          size: 14.sp,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: AutoSizeText(
+                                            "${DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(tournamentEntity.startAt))} - ${DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(tournamentEntity.endAt))}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 8.sp)),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 5.w),
+                                        child: Icon(
+                                          FontAwesomeIcons.moneyCheckDollar,
+                                          color: Colors.white,
+                                          size: 14.sp,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: AutoSizeText(
+                                            "${tournamentEntity.price} KZT",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 8.sp)),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-          ],
-        ),
-      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
