@@ -21,7 +21,6 @@ class CommonAppBarWidget extends StatefulWidget  implements PreferredSizeWidget 
 class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
   @override
   Widget build(BuildContext context) {
-    print(widget.imageUrl);
     return AppBar(
       leading: InkWell(
         onTap: (){

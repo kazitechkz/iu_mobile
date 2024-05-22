@@ -20,7 +20,7 @@ class AppTextFormField extends StatelessWidget {
     this.hintStyle,
     required this.enabled,
     required this.countText,
-    this.serverErrorText = null,
+    this.serverErrorText,
   });
 
   final TextEditingController controller;
@@ -78,18 +78,18 @@ class AppTextFormField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: ColorConstant.borderGrayColor, width: 1),
+              const BorderSide(color: ColorConstant.borderGrayColor, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: ColorConstant.violetFirst, width: 1),
+          borderSide: const BorderSide(color: ColorConstant.violetFirst, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 1),
+          borderSide: const BorderSide(color: Colors.redAccent, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         hintStyle: hintStyle ?? defaultHintStyle,
         labelStyle: style ?? defaultLabelStyle,
         errorStyle: defaultErrorTextStyle,

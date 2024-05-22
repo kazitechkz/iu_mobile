@@ -12,7 +12,7 @@ class SignInForm extends StatelessWidget {
       required this.keyForm,
       required this.emailController,
       required this.passwordController,
-      this.errors = null});
+      this.errors});
   final GlobalKey<FormState> keyForm;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -27,14 +27,13 @@ class SignInForm extends StatelessWidget {
           AppTextFormField(
             controller: emailController,
             type: TextInputType.emailAddress,
-            suffixIcon: Icon(Icons.email),
+            suffixIcon: const Icon(Icons.email),
             obscureText: false,
             countText: false,
             labelText: AppLocalizations.of(context)!.email,
             enabled: true,
-            serverErrorText: errors?.errors["email"] != null
-                ? errors?.errors["email"]?.join()
-                : null,
+            style: const TextStyle(color: Colors.white),
+            serverErrorText: errors?.errors["email"]?.join(),
             validator: (value) {
               RegExp emailExp = RegExp(ValidatorConstant.emailPatterns);
               if (value == null || value.isEmpty) {
@@ -42,7 +41,6 @@ class SignInForm extends StatelessWidget {
               } else if (value.isNotEmpty && !emailExp.hasMatch(value)) {
                 return AppLocalizations.of(context)!.incorrect_email;
               }
-
               return null;
             },
           ),
@@ -50,14 +48,13 @@ class SignInForm extends StatelessWidget {
           AppTextFormField(
             controller: passwordController,
             type: TextInputType.text,
-            suffixIcon: Icon(Icons.password),
+            suffixIcon: const Icon(Icons.password),
             obscureText: true,
             countText: false,
+            style: const TextStyle(color: Colors.white),
             labelText: AppLocalizations.of(context)!.password,
             enabled: true,
-            serverErrorText: errors?.errors["password"] != null
-                ? errors?.errors["password"]?.join()
-                : null,
+            serverErrorText: errors?.errors["password"]?.join(),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.incorrect_password;

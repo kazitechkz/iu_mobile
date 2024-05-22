@@ -10,6 +10,7 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/services/image_service.dart';
 import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
 
+import '../../core/utils/hive_utils.dart';
 import '../user/presentation/bloc/user_info_bloc.dart';
 
 class ProfileMainScreen extends StatefulWidget {
@@ -167,6 +168,16 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   icon: Icons.settings,
                   text: 'Настройки',
                   onClicked: () {},
+                ),
+                buildMenuItem(
+                  icon: Icons.logout,
+                  text: 'Выход',
+                  onClicked: () {
+                    HiveUtils().loggedOutFromHive().then((_) {
+                      // Перенаправление пользователя на экран входа
+                      GoRouter.of(context).goNamed(RouteConstant.authScreenName);
+                    });
+                  },
                 ),
               ],
             ),
