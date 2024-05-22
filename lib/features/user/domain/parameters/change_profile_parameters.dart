@@ -24,3 +24,8 @@ class ChangeProfileParameter {
     };
   }
 }
+
+class ChangeAvatarParameter {
+  final String path;
+  ChangeAvatarParameter(this.path);
+}

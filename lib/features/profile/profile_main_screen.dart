@@ -1,7 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
+import 'package:iu/core/services/image_service.dart';
+import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
+
+import '../user/presentation/bloc/user_info_bloc.dart';
 
 class ProfileMainScreen extends StatefulWidget {
   const ProfileMainScreen({super.key});
@@ -11,8 +20,23 @@ class ProfileMainScreen extends StatefulWidget {
 }
 
 class _ProfileMainScreenState extends State<ProfileMainScreen> {
+  final ImagePicker _picker = ImagePicker();
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserInfoBloc>().add(const GetInfoEvent());
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null && mounted) {
+      context.read<ChangeAvaBloc>().add(AvaUploadEvent(pickedFile.path, context));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Column(
         children: [
@@ -33,37 +57,73 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 80.h,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50.r,
-                        child: Image.asset('assets/images/standard_bear.png'), // Замените на ваш путь к аватару
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        'Naila Stefenson',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+              BlocConsumer<UserInfoBloc, UserInfoState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  if (state is GetInfoLoaded) {
+                    return Positioned(
+                      top: 80.h,
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          children: [
+                            BlocBuilder<ChangeAvaBloc, ChangeAvaState>(
+                              builder: (context, avaState) {
+                                if (avaState is AvaUploading) {
+                                  return const Center(child: GFLoader(type: GFLoaderType.ios));
+                                }
+                                return GestureDetector(
+                                  onTap: _pickImage,
+                                  child: Container(
+                                    width: 100.r, // Диаметр аватара
+                                    height: 100.r, // Диаметр аватара
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 2.0),
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: state.meInfo.file != null
+                                            ? getImageProviderFromServer(
+                                                state.meInfo.file!.url)
+                                            : const AssetImage(
+                                                'assets/images/standard_bear.png'),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(height: 10.h),
+                            Text(
+                              state.meInfo.name,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              'Ученик',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        'UX/UI Designer',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                  if (state is GetInfoError) {
+                    print(state.failureData);
+                  }
+                  return const Center(child: GFLoader(type: GFLoaderType.ios));
+                },
               ),
             ],
           ),
@@ -74,14 +134,14 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
               children: [
                 buildMenuItem(
                   icon: Icons.person,
-                  text: 'My Profile',
+                  text: 'Изменить профиль',
                   onClicked: () {
                     context.goNamed(RouteConstant.userInfoScreenName);
                   },
                 ),
                 buildMenuItem(
                   icon: Icons.mail,
-                  text: 'Messages',
+                  text: 'Уведомление',
                   onClicked: () {},
                   trailing: Container(
                     padding: EdgeInsets.all(6.w),
@@ -100,17 +160,12 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                 ),
                 buildMenuItem(
                   icon: Icons.favorite,
-                  text: 'Favourites',
-                  onClicked: () {},
-                ),
-                buildMenuItem(
-                  icon: Icons.location_on,
-                  text: 'Location',
+                  text: 'Мои вопросы',
                   onClicked: () {},
                 ),
                 buildMenuItem(
                   icon: Icons.settings,
-                  text: 'Settings',
+                  text: 'Настройки',
                   onClicked: () {},
                 ),
               ],

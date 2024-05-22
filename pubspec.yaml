@@ -84,6 +84,7 @@ dependencies:
   flutter_masked_text2: ^0.9.1
   dotted_line: ^3.2.2
   dotted_dashed_line: ^0.0.3
+  image_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:

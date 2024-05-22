@@ -16,6 +16,7 @@ abstract class UserDataSourceInterface{
   Future<MeEntity> accountDS();
   Future<bool> accountChangeDS(ChangeProfileParameter parameter);
   Future<OrdinaryUserEntity> findUserByEmailDS(FindUserByEmailParameter parameter);
+  Future<bool> changeAva(ChangeAvatarParameter parameter);
 }
 
 class UserDataSourceImpl implements UserDataSourceInterface{
@@ -58,6 +59,23 @@ class UserDataSourceImpl implements UserDataSourceInterface{
       final responseData = ResponseData.fromJson(response);
       final result = OrdinaryUserModel.fromMap(responseData.data);
       return result;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<bool> changeAva(ChangeAvatarParameter parameter) async {
+    try {
+      FormData formData = FormData.fromMap({
+        "file": await MultipartFile.fromFile(parameter.path),
+      });
+      final response = await HttpUtil().post(ApiConstant.changeAva, data: formData);
+      final responseData = ResponseData.fromJson(response);
+      sl<Talker>().debug(formData);
+      return responseData.data;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {

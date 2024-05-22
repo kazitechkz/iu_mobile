@@ -376,7 +376,9 @@ Future<void> _techSupportSlInit() async {
 Future<void> _accountSlInit() async {
   sl.registerLazySingleton(() => UserInfoBloc(accountCase: sl<AccountCase>()));
   sl.registerLazySingleton(() => ChangeUserInfoBloc(accountChangeCase: sl<AccountChangeCase>()));
+  sl.registerLazySingleton(() => ChangeAvaBloc(useCase: sl<ChangeAvaCase>()));
   sl.registerLazySingleton(() => AccountCase(sl()));
+  sl.registerLazySingleton(() => ChangeAvaCase(sl()));
   sl.registerLazySingleton(() => AccountChangeCase(sl()));
   sl.registerLazySingleton(() => FindUserByEmailCase(sl()));
   sl.registerLazySingleton<UserInterface>(() => UserRepository(sl()));

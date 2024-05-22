@@ -8,6 +8,7 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/common/widgets/app_bar.dart';
+import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:transformable_list_view/transformable_list_view.dart';
 import '../../../../../core/app_constants/route_constant.dart';
 import '../bloc/step_bloc.dart' as Step;
@@ -31,7 +32,7 @@ class _StepScreenState extends State<StepScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(context, titleText: 'Steps'),
+      appBar: const CommonAppBarWidget(text: 'Обучение', imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.dashboardScreenName),
       body: BlocConsumer<Step.StepBloc, Step.StepState>(
         builder: (context, state) {
           if (state is Step.StepLoadingState) {

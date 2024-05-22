@@ -60,4 +60,18 @@ class UserRepository implements UserInterface{
     }
   }
 
+  @override
+  ResultFuture<bool> changeAvatar(ChangeAvatarParameter parameter) async {
+    try {
+      final result = await _userDataSourceInterface.changeAva(parameter);
+      return Right(result);
+    } on ApiException catch (e) {
+      ApiFailure failure = ApiFailure.fromException(e);
+      return Left(failure);
+    } on Exception catch (e) {
+      var exception = ApiException(message: e.toString());
+      ApiFailure failure = ApiFailure.fromException(exception);
+      return Left(failure);
+    }
+  }
 }

@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import '../app_constants/color_constant.dart';
 
 class CommonAppBarWidget extends StatefulWidget  implements PreferredSizeWidget {
-  const CommonAppBarWidget({super.key,required this.routeLink, required this.imageUrl,required this.text});
+  const CommonAppBarWidget({super.key,required this.routeLink, this.imageUrl,required this.text});
   final String routeLink;
-  final String imageUrl;
+  final String? imageUrl;
   final String text;
   @override
   State<CommonAppBarWidget> createState() => _CommonAppBarWidgetState();
@@ -21,29 +21,30 @@ class CommonAppBarWidget extends StatefulWidget  implements PreferredSizeWidget 
 class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
   @override
   Widget build(BuildContext context) {
+    print(widget.imageUrl);
     return AppBar(
       leading: InkWell(
         onTap: (){
           context.go("/${widget.routeLink}");
         },
-        child: Icon(FontAwesomeIcons.chevronLeft,color: ColorConstant.grayColor,),
+        child: const Icon(FontAwesomeIcons.chevronLeft,color: ColorConstant.grayColor,),
       ),
       backgroundColor: ColorConstant.appBarColor,
       centerTitle: true,
       title:   Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          widget.imageUrl != null ? Container(
             height: 30,
             width: 30,
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    widget.imageUrl
+                      widget.imageUrl!
                   ),
                   fit: BoxFit.contain,
                 )),
-          ),
+          ) : const SizedBox(),
           SizedBox(
             width: 5.w,
           ),

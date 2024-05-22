@@ -53,6 +53,7 @@ import 'package:iu/features/tournament/presentation/tournament_list/tournament_l
 import 'package:iu/features/unt/presentation/screens/unt_mode_screen.dart';
 import 'package:iu/features/unt/presentation/unt_single/bloc/unt_Single_bloc.dart';
 import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
+import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
 import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
@@ -215,7 +216,13 @@ class RouteNavigation {
                       path: "/${RouteConstant.profileScreenName}",
                       name: RouteConstant.profileScreenName,
                       builder: (context, state) {
-                        return const ProfileMainScreen();
+                        return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: sl<UserInfoBloc>()),
+                              BlocProvider.value(value: sl<ChangeAvaBloc>())
+                            ],
+                            child: const ProfileMainScreen()
+                        );
                       },
                       redirect:
                           (BuildContext context, GoRouterState state) async {

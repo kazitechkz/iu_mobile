@@ -8,4 +8,5 @@ abstract class UserInterface{
   ResultFuture<MeEntity> account();
   ResultFuture<bool> accountChange(ChangeProfileParameter parameter);
   ResultFuture<OrdinaryUserEntity> findUserByEmail(FindUserByEmailParameter parameter);
+  ResultFuture<bool> changeAvatar(ChangeAvatarParameter parameter);
 }

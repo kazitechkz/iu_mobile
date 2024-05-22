@@ -10,7 +10,7 @@ class AccountChangeCase
   const AccountChangeCase(this._userInterface);
 
   @override
-  ResultFuture<bool> call(ChangeProfileParameter params) {
-    return this._userInterface.accountChange(params);
+  ResultFuture<bool> call(ChangeProfileParameter params) async {
+    return await _userInterface.accountChange(params);
   }
 }
