@@ -1,14 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:iu/core/utils/google_api.dart';
+import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
+import 'package:iu/features/auth/presentation/bloc/kundelik/kundelik_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
+import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/link.dart';
 import '../../../../core/app_constants/color_constant.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/common/models/response_data.dart';
 import '../../../../core/services/injection_main.container.dart';
+import '../../../../core/utils/kundelik_api.dart';
 import '../../../../core/utils/toasters.dart';
 import '../../../../core/widgets/elevated_gradient_button.dart';
 import '../../domain/parameters/sign_in_parameter.dart';
@@ -27,27 +33,60 @@ class _AuthScreenState extends State<AuthScreen> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   Errors? errors;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId: '63949755595-icoul3dst1q7mg35q55iko1h3a7798na.apps.googleusercontent.com',
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  StreamSubscription? _sub;
 
-  Future<void> _handleSignIn() async {
+  @override
+  void initState() {
+    super.initState();
+    _initUniLinks();
+  }
+
+  Future<void> _initUniLinks() async {
+    _sub = uriLinkStream.listen((Uri? uri) {
+      sl<Talker>().debug('Received uri: $uri');
+      if (uri != null) {
+        _handleIncomingUri(uri);
+      }
+    }, onError: (Object err) {
+      sl<Talker>().debug('Received err: $err');
+    });
+  }
+
+  void _handleIncomingUri(Uri uri) {
+    sl<Talker>().debug('Received token: $uri');
+    final token = uri.queryParameters['access_token'];
+    if (token != null) {
+      sl<Talker>().debug('Received token: $token');
+    }
+  }
+
+  Future<void> _googleSignIn() async {
     try {
-      sl<Talker>().debug('google');
-      // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      // if (googleUser != null) {
-      //   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      //   print('Access Token: ${googleAuth.accessToken}');
-      //   print('ID Token: ${googleAuth.idToken}');
-      //   print('User: ${googleUser.displayName}');
-      //   // Handle the sign-in logic, e.g., save tokens, navigate to another page, etc.
-      // }
+      context.read<GoogleBloc>().add(GoogleLoadingEvent());
+      final user = await GoogleSignInApi.login();
+      if (user != null && mounted) {
+        GoogleSignInParameter params = GoogleSignInParameter(name: user.displayName!, email: user.email);
+        context.read<GoogleBloc>().add(GoogleSignInEvent(params));
+      } else {
+        if (mounted) {
+          context.read<GoogleBloc>().add(GoogleLoadingCanceledEvent());
+        }
+      }
     } catch (error) {
       sl<Talker>().debug(error);
+    }
+  }
+
+  Future<void> _kundelikSignIn() async {
+    try {
+      context.read<KundelikBloc>().add(KundelikLoadingEvent());
+      final user = await KundelikApi.login();
+      sl<Talker>().debug('kun');
+    } catch (error) {
+      if (mounted) {
+        sl<Talker>().debug(error);
+        context.read<KundelikBloc>().add(KundelikLoadingCanceledEvent());
+      }
     }
   }
 
@@ -55,6 +94,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    _sub?.cancel();
     super.dispose();
   }
 
@@ -131,33 +171,101 @@ class _AuthScreenState extends State<AuthScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          width: 70.r,
-                          height: 70.r,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.white, width: 2.0),
-                              shape: BoxShape.circle
-                          ),
-                          child: IconButton(
-                            icon: Image.asset('assets/images/google_icon.webp'),
-                            iconSize: 50,
-                            onPressed: _handleSignIn,
-                          ),
+                        BlocConsumer<GoogleBloc, GoogleState>(
+                            builder: (context, googleState) {
+                              if (googleState is GoogleLoading) {
+                                return const Center(child: CircularProgressIndicator(color: Colors.white,));
+                              }
+                              if (googleState is GoogleLoadingCanceled) {
+                                return Container(
+                                  width: 70.r,
+                                  height: 70.r,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 2.0),
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: IconButton(
+                                    icon: Image.asset(
+                                        'assets/images/google_icon.webp'),
+                                    iconSize: 50,
+                                    onPressed: _googleSignIn,
+                                  ),
+                                );
+                              }
+                              return Container(
+                                width: 70.r,
+                                height: 70.r,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 2.0),
+                                    shape: BoxShape.circle
+                                ),
+                                child: IconButton(
+                                  icon: Image.asset(
+                                      'assets/images/google_icon.webp'),
+                                  iconSize: 50,
+                                  onPressed: _googleSignIn,
+                                ),
+                              );
+                            },
+                            listener: (context, googleState) {
+                              if (googleState is GoogleLoaded) {
+                                AppToaster.showSuccess("Добро пожаловать!");
+                                context.pushReplacementNamed(RouteConstant.dashboardScreenName);
+                              }
+                              if (googleState is GoogleError) {
+                                AppToaster.showError(googleState.failureData.message ?? "");
+                              }
+                            }
                         ),
-                        Container(
-                          width: 70.r,
-                          height: 70.r,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.white, width: 2.0),
-                              shape: BoxShape.circle
-                          ),
-                          child: IconButton(
-                            icon: Image.asset('assets/images/kundelik_icon.png'),
-                            iconSize: 50,
-                            onPressed: () {},
-                          ),
+                        BlocConsumer<KundelikBloc, KundelikState>(
+                            builder: (context, kundelikState) {
+                              if (kundelikState is KundelikLoading) {
+                                return const Center(child: CircularProgressIndicator(color: Colors.white,));
+                              }
+                              if (kundelikState is KundelikLoadingCanceled) {
+                                return Container(
+                                  width: 70.r,
+                                  height: 70.r,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 2.0),
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: IconButton(
+                                    icon: Image.asset(
+                                        'assets/images/kundelik_icon.png'),
+                                    iconSize: 50,
+                                    onPressed: _kundelikSignIn,
+                                  ),
+                                );
+                              }
+                              return Container(
+                                width: 70.r,
+                                height: 70.r,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 2.0),
+                                    shape: BoxShape.circle
+                                ),
+                                child: IconButton(
+                                  icon: Image.asset(
+                                      'assets/images/kundelik_icon.png'),
+                                  iconSize: 50,
+                                  onPressed: _kundelikSignIn,
+                                ),
+                              );
+                            },
+                            listener: (context, kundelikState) {
+                              if (kundelikState is KundelikLoaded) {
+                                AppToaster.showSuccess("Добро пожаловать!");
+                                context.pushReplacementNamed(RouteConstant.dashboardScreenName);
+                              }
+                              if (kundelikState is KundelikError) {
+                                AppToaster.showError(kundelikState.failureData.message ?? "");
+                              }
+                            }
                         ),
                       ],
                     ),

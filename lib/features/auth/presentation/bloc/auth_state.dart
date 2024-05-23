@@ -50,8 +50,8 @@ class AuthForgetState extends AuthState {
 }
 
 class AuthErrorState extends AuthState {
-  FailureData failureData;
-  AuthErrorState(this.failureData);
+  final FailureData failureData;
+  const AuthErrorState(this.failureData);
   @override
   List<Object> get props => [];
 }

@@ -7,6 +7,8 @@ import 'package:iu/core/services/router_middleware.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
 import 'package:iu/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
+import 'package:iu/features/auth/presentation/bloc/kundelik/kundelik_bloc.dart';
 import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
@@ -100,9 +102,13 @@ class RouteNavigation {
             path: "/${RouteConstant.authScreenName}",
             name: RouteConstant.authScreenName,
             builder: (context, state) {
-              return BlocProvider(
-                create: (_) => sl<AuthBloc>(),
-                child: const AuthScreen(),
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: sl<AuthBloc>()),
+                    BlocProvider.value(value: sl<GoogleBloc>()),
+                    BlocProvider.value(value: sl<KundelikBloc>()),
+                  ],
+                  child: const AuthScreen()
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

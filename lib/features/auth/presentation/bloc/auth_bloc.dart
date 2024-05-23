@@ -12,7 +12,9 @@ import 'package:iu/features/auth/domain/usecases/forget_case.dart';
 import 'package:iu/features/auth/domain/usecases/send_reset_token_case.dart';
 import 'package:iu/features/auth/domain/usecases/sign_in_case.dart';
 import 'package:iu/features/auth/domain/usecases/verify_case.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
+import '../../../../core/services/injection_main.container.dart';
 import '../../domain/parameters/sign_up_parameter.dart';
 import '../../domain/usecases/sign_up_case.dart';
 

@@ -89,4 +89,34 @@ class AuthRepository implements AuthInterface {
       return Left(failure);
     }
   }
+
+  @override
+  ResultFuture<AuthUserEntity> googleSignIn(GoogleSignInParameter params) async {
+    try {
+      final result = await authDataSourceInterface.googleSignIn(params);
+      return Right(result);
+    } on ApiException catch (e) {
+      ApiFailure failure = ApiFailure.fromException(e);
+      return Left(failure);
+    } on Exception catch (e) {
+      var exception = ApiException(message: e.toString());
+      ApiFailure failure = ApiFailure.fromException(exception);
+      return Left(failure);
+    }
+  }
+
+  @override
+  ResultFuture<AuthUserEntity> kundelikSignIn(KundelikSignInParameter params) async {
+    try {
+      final result = await authDataSourceInterface.kundelikSignIn(params);
+      return Right(result);
+    } on ApiException catch (e) {
+      ApiFailure failure = ApiFailure.fromException(e);
+      return Left(failure);
+    } on Exception catch (e) {
+      var exception = ApiException(message: e.toString());
+      ApiFailure failure = ApiFailure.fromException(exception);
+      return Left(failure);
+    }
+  }
 }

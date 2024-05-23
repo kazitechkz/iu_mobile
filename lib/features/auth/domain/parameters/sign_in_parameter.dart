@@ -12,3 +12,27 @@ class SignInParameter{
     };
   }
 }
+
+class GoogleSignInParameter {
+  final String name;
+  final String email;
+  GoogleSignInParameter({required this.name, required this.email});
+
+  DataMap toMap() {
+    return {
+      "name": name,
+      "email": email
+    };
+  }
+}
+
+class KundelikSignInParameter {
+  final String token;
+  KundelikSignInParameter({required this.token});
+
+  DataMap toMap() {
+    return {
+      "token": token
+    };
+  }
+}

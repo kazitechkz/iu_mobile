@@ -13,4 +13,6 @@ abstract class AuthInterface {
   ResultFuture<bool> forget(ForgetParameter parameter);
   ResultFuture<bool> verify(VerifyParameter parameter);
   ResultFuture<bool> sendResetToken(SendResetTokenParameter parameter);
+  ResultFuture<AuthUserEntity> googleSignIn(GoogleSignInParameter params);
+  ResultFuture<AuthUserEntity> kundelikSignIn(KundelikSignInParameter params);
 }

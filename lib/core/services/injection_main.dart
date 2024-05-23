@@ -83,6 +83,10 @@ Future<void> _authSLInit() async {
         sendResetTokenCase: sl<SendResetTokenCase>(),
       ));
   //Cases
+  sl.registerLazySingleton(() => GoogleBloc(useCase: sl<GoogleSignInCase>()));
+  sl.registerLazySingleton(() => KundelikBloc(useCase: sl<KundelikSignInCase>()));
+  sl.registerLazySingleton(() => GoogleSignInCase(sl()));
+  sl.registerLazySingleton(() => KundelikSignInCase(sl()));
   sl.registerLazySingleton(() => ForgetCase(sl()));
   sl.registerLazySingleton(() => SignInCase(sl()));
   sl.registerLazySingleton(() => SignUpCase(sl()));

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/services/image_service.dart';
+import 'package:iu/core/utils/google_api.dart';
 import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
 
 import '../../core/utils/hive_utils.dart';
@@ -22,6 +23,7 @@ class ProfileMainScreen extends StatefulWidget {
 
 class _ProfileMainScreenState extends State<ProfileMainScreen> {
   final ImagePicker _picker = ImagePicker();
+
   @override
   void initState() {
     super.initState();
@@ -31,13 +33,13 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null && mounted) {
-      context.read<ChangeAvaBloc>().add(AvaUploadEvent(pickedFile.path, context));
+      context.read<ChangeAvaBloc>().add(
+          AvaUploadEvent(pickedFile.path, context));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         children: [
@@ -75,7 +77,8 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                             BlocBuilder<ChangeAvaBloc, ChangeAvaState>(
                               builder: (context, avaState) {
                                 if (avaState is AvaUploading) {
-                                  return const Center(child: GFLoader(type: GFLoaderType.ios));
+                                  return const Center(
+                                      child: GFLoader(type: GFLoaderType.ios));
                                 }
                                 return GestureDetector(
                                   onTap: _pickImage,
@@ -89,9 +92,9 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                                       image: DecorationImage(
                                         image: state.meInfo.file != null
                                             ? getImageProviderFromServer(
-                                                state.meInfo.file!.url)
+                                            state.meInfo.file!.url)
                                             : const AssetImage(
-                                                'assets/images/standard_bear.png'),
+                                            'assets/images/standard_bear.png'),
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -169,14 +172,35 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   text: 'Настройки',
                   onClicked: () {},
                 ),
-                buildMenuItem(
-                  icon: Icons.logout,
-                  text: 'Выход',
-                  onClicked: () {
-                    HiveUtils().loggedOutFromHive().then((_) {
-                      // Перенаправление пользователя на экран входа
-                      GoRouter.of(context).goNamed(RouteConstant.authScreenName);
-                    });
+                BlocBuilder<UserInfoBloc, UserInfoState>(
+                  builder: (context, state) {
+                    if (state is GetInfoLoaded) {
+                      return buildMenuItem(
+                        icon: Icons.logout,
+                        text: 'Выход',
+                        onClicked: () {
+                          if (state.meInfo.isGoogle) {
+                            GoogleSignInApi.logout();
+                          }
+                          HiveUtils().loggedOutFromHive().then((_) {
+                            // Перенаправление пользователя на экран входа
+                            GoRouter.of(context).goNamed(
+                                RouteConstant.authScreenName);
+                          });
+                        },
+                      );
+                    }
+                    return buildMenuItem(
+                      icon: Icons.logout,
+                      text: 'Выход',
+                      onClicked: () {
+                        HiveUtils().loggedOutFromHive().then((_) {
+                          // Перенаправление пользователя на экран входа
+                          GoRouter.of(context).goNamed(
+                              RouteConstant.authScreenName);
+                        });
+                      },
+                    );
                   },
                 ),
               ],

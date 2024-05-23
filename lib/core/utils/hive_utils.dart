@@ -33,44 +33,38 @@ class HiveUtils {
     myBox.delete(key);
   }
 
-  Future<void> setLocalUser(AuthUserEntity userEntity) async{
+  Future<void> setLocalUser(AuthUserEntity userEntity) async {
     final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
     final localUser = AuthUserHive(
-        id:userEntity.id,
+        id: userEntity.id,
         username: userEntity.username,
-        name:userEntity.name,
-        email:userEntity.email,
+        name: userEntity.name,
+        email: userEntity.email,
         phone: userEntity.phone,
         balance: userEntity.balance,
         role: userEntity.role,
         isKundelik: userEntity.isKundelik,
         parentName: userEntity.parentName,
-        parentPhone: userEntity.parentPhone
-    );
+        parentPhone: userEntity.parentPhone);
     await userBox.clear();
     await userBox.add(localUser);
   }
 
-  Future<AuthUserHive?> getLocalUser() async{
+  Future<AuthUserHive?> getLocalUser() async {
     final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
-    if(userBox.isNotEmpty){
+    if (userBox.isNotEmpty) {
       return userBox.getAt(0);
     }
-
+    return null;
   }
 
-  Future<void> clearLocalUser() async{
+  Future<void> clearLocalUser() async {
     final userBox = await Hive.openBox<AuthUserHive>(HiveConstant.localUser);
     await userBox.clear();
   }
 
-  Future<void> loggedOutFromHive() async{
-    print("DELETING....");
+  Future<void> loggedOutFromHive() async {
     await clearLocalUser();
     await clearByKey(HiveConstant.tokenKey);
-    print("DELETED");
   }
-
-
-
 }

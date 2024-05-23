@@ -9,6 +9,7 @@ import 'package:iu/features/auth/domain/parameters/reset_parameter.dart';
 
 import '../../../../core/interceptors/bearer_interceptor.dart';
 import '../../../../core/services/injection_main.container.dart';
+import '../../../../core/utils/google_api.dart';
 import '../../domain/entities/auth_user_entity.dart';
 import '../../domain/parameters/forget_parameter.dart';
 import '../../domain/parameters/sign_in_parameter.dart';
@@ -22,6 +23,8 @@ abstract class AuthDataSourceInterface {
   Future<bool> forgetDS(ForgetParameter parameter);
   Future<bool> verifyDS(VerifyParameter parameter);
   Future<bool> sendResetTokenDS(SendResetTokenParameter parameter);
+  Future<AuthUserEntity> googleSignIn(GoogleSignInParameter parameter);
+  Future<AuthUserEntity> kundelikSignIn(KundelikSignInParameter parameter);
 }
 
 class AuthDataSourceImpl extends AuthDataSourceInterface {
@@ -94,6 +97,40 @@ class AuthDataSourceImpl extends AuthDataSourceInterface {
           queryParameters: parameter.toMap());
       ResponseData<bool> data = ResponseData<bool>.fromJson(result);
       return data.data ?? false;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthUserEntity> googleSignIn(GoogleSignInParameter parameter) async {
+    try {
+      final result = await httpUtils.post(ApiConstant.backApiGoogleLogin,
+          queryParameters: parameter.toMap());
+      final data = AuthInfoModel.fromMap(result["data"]);
+      sl<Dio>().interceptors.add(BearerTokenInterceptor(data.token));
+      await hiveUtils.setString(HiveConstant.tokenKey, data.token);
+      await hiveUtils.setLocalUser(data.user);
+      return data.user;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    } on Exception catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthUserEntity> kundelikSignIn(KundelikSignInParameter parameter) async {
+    try {
+      final result = await httpUtils.post(ApiConstant.backApiKundelikLogin,
+          queryParameters: parameter.toMap());
+      final data = AuthInfoModel.fromMap(result["data"]);
+      sl<Dio>().interceptors.add(BearerTokenInterceptor(data.token));
+      await hiveUtils.setString(HiveConstant.tokenKey, data.token);
+      await hiveUtils.setLocalUser(data.user);
+      return data.user;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } on Exception catch (e) {
