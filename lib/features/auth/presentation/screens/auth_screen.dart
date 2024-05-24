@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/utils/google_api.dart';
 import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
@@ -33,31 +35,10 @@ class _AuthScreenState extends State<AuthScreen> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   Errors? errors;
-  StreamSubscription? _sub;
 
   @override
   void initState() {
     super.initState();
-    _initUniLinks();
-  }
-
-  Future<void> _initUniLinks() async {
-    _sub = uriLinkStream.listen((Uri? uri) {
-      sl<Talker>().debug('Received uri: $uri');
-      if (uri != null) {
-        _handleIncomingUri(uri);
-      }
-    }, onError: (Object err) {
-      sl<Talker>().debug('Received err: $err');
-    });
-  }
-
-  void _handleIncomingUri(Uri uri) {
-    sl<Talker>().debug('Received token: $uri');
-    final token = uri.queryParameters['access_token'];
-    if (token != null) {
-      sl<Talker>().debug('Received token: $token');
-    }
   }
 
   Future<void> _googleSignIn() async {
@@ -80,8 +61,8 @@ class _AuthScreenState extends State<AuthScreen> {
   Future<void> _kundelikSignIn() async {
     try {
       context.read<KundelikBloc>().add(KundelikLoadingEvent());
-      final user = await KundelikApi.login();
-      sl<Talker>().debug('kun');
+      final token = await KundelikApi.login();
+      sl<Talker>().debug('Token is: $token');
     } catch (error) {
       if (mounted) {
         sl<Talker>().debug(error);
@@ -94,7 +75,6 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    _sub?.cancel();
     super.dispose();
   }
 
