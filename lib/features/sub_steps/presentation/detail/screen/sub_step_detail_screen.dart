@@ -21,6 +21,7 @@ import 'package:iu/features/sub_steps/presentation/detail/bloc/sub_step_detail_b
 import 'package:iu/features/sub_steps/presentation/detail/widgets/get_sub_step_content.dart';
 import '../../../../../core/app_constants/route_constant.dart';
 import '../../../../../core/services/injection_main.container.dart';
+import '../../../../../core/widgets/common_app_bar_widget.dart';
 
 class SubStepDetailScreen extends StatefulWidget {
   final String subStepID;
@@ -67,23 +68,8 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
         } else if (state is SubStepDetailLoaded) {
           return Scaffold(
             backgroundColor: Colors.white,
-            appBar: GFAppBar(
-              leading: GFIconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // context.goNamed(RouteConstant.stepsScreenName);
-                  context.goNamed(RouteConstant.stepDetailScreenName,
-                      pathParameters: {'subjectID': state.entity.step.subject_id
-                          .toString()});
-                },
-                type: GFButtonType.transparent,
-              ),
-              title: Text(state.entity.titleKk),
-              centerTitle: true,
-            ),
+            appBar: CommonAppBarWidget(text: state.entity.titleKk, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepDetailScreenName, pathParams: {'subjectID': state.entity.step.subject_id
+                .toString()}),
             body: getSubStepContent(state, context),
           );
         } else if (state is SubStepDetailErrorState) {

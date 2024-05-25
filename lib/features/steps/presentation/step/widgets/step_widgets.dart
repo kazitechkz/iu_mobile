@@ -185,7 +185,8 @@ Widget courseGrid(MainStepEntity stepEntity) {
     child: GFListTile(
       padding: EdgeInsets.all(10.h),
         avatar: GFAvatar(
-          backgroundImage: getImageProviderFromServer(stepEntity.image?.url),
+          backgroundImage: AssetImage(getSubjectImagePath(stepEntity.id)),
+          // backgroundImage: getImageProviderFromServer(stepEntity.image?.url),
         ),
         titleText: stepEntity.title_kk,
         subTitle: Padding(

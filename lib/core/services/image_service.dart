@@ -35,3 +35,58 @@ String getImageFromString(String? pathImg) {
     return "https://cdn.vectorstock.com/i/500p/82/99/no-image-available-like-missing-picture-vector-43938299.jpg";
   }
 }
+
+String getSubjectImagePath(int subjectId) {
+  String path = 'assets/images/standard_bear.png';
+  switch (subjectId) {
+    case 1:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 2:
+      path = 'assets/images/subjects/history.webp';
+      break;
+    case 3:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 4:
+      path = 'assets/images/subjects/math.webp';
+      break;
+    case 5:
+      path = 'assets/images/subjects/phys.webp';
+      break;
+    case 6:
+      path = 'assets/images/subjects/chem.webp';
+      break;
+    case 7:
+      path = 'assets/images/subjects/biol.webp';
+      break;
+    case 8:
+      path = 'assets/images/subjects/geog.webp';
+      break;
+    case 9:
+      path = 'assets/images/subjects/allHistory.webp';
+      break;
+    case 10:
+      path = 'assets/images/subjects/osnov.webp';
+      break;
+    case 11:
+      path = 'assets/images/subjects/english.webp';
+      break;
+    case 12:
+      path = 'assets/images/subjects/kazakh.webp';
+      break;
+    case 13:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 14:
+      path = 'assets/images/subjects/russian.webp';
+      break;
+    case 15:
+      path = 'assets/images/subjects/information.webp';
+      break;
+    default:
+      path = 'assets/images/standard_bear.png';
+      break;
+  }
+  return path;
+}

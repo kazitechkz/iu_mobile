@@ -12,6 +12,7 @@ import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart
 import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dart';
 
 import '../../../../../core/services/injection_main.container.dart';
+import '../../../../../core/widgets/common_app_bar_widget.dart';
 
 class StepDetailScreen extends StatefulWidget {
   final String subjectID;
@@ -65,20 +66,7 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
         }
         if (state is StepDetailLoaded) {
           return Scaffold(
-              appBar: GFAppBar(
-                leading: GFIconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    GoRouter.of(context).goNamed(RouteConstant.stepsScreenName);
-                  },
-                  type: GFButtonType.transparent,
-                ),
-                title: Text(state.stepEntities[0].subject!.title_kk),
-                centerTitle: true,
-              ),
+              appBar: CommonAppBarWidget(text: state.stepEntities[0].subject!.title_kk, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepsScreenName),
               backgroundColor: const Color(0xffc9ecff),
               body: SingleChildScrollView(
                 reverse: true,

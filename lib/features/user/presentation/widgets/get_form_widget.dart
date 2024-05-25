@@ -16,9 +16,11 @@ import '../../domain/parameters/change_profile_parameters.dart';
 import '../bloc/change/change_user_info_bloc.dart';
 
 Widget getUserForm(BuildContext context, GetInfoLoaded state) {
-  final _phoneController = MaskedTextController(mask: '+7 (000) 000-0000');
+  final phoneController = MaskedTextController(mask: '+7 (000) 000-0000');
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  _phoneController.text = _formatPhoneNumber(state.meInfo.phone??'');
+  if (state.meInfo.phone != null) {
+    phoneController.text = _formatPhoneNumber(state.meInfo.phone!);
+  }
   return Padding(
     padding: const EdgeInsets.all(20.0),
     child: FormBuilder(
@@ -40,7 +42,7 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
               height: 10.h,
             ),
             FormBuilderTextField(
-              controller: _phoneController,
+              controller: phoneController,
               name: 'phone',
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
@@ -132,7 +134,6 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
                     birthDate: formData['date'].toString(),
                     phone: formData['phone'] as String,
                   );
-                  print(parameter.birthDate);
                   context
                       .read<ChangeUserInfoBloc>()
                       .add(ChangeEvent(parameter));

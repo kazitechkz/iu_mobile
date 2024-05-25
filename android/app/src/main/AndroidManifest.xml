@@ -38,7 +38,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
+        <meta-data
+                android:name="com.google.android.gms.appstate.APP_ID"
+                android:value="@integer/google_app_id"/>
+        <meta-data
+                android:name="com.google.android.gms.appstate.API_KEY"
+                android:value="@string/google_api_key"/>
+        <meta-data
+                android:name="com.google.android.gms.wallet.api.enabled"
+                android:value="true"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and
