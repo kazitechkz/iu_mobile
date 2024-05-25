@@ -7,20 +7,11 @@ import '../services/injection_main.container.dart';
 
 class KundelikApi {
   static Future<String?> login() async {
-    const url = 'https://login.kundelik.kz/oauth2?response_type=token&client_id=4111dfa786614bc29f01d27017a31a13&scope=CommonInfo,ContactInfo,EducationalInfo,FriendsAndRelatives&redirect_uri=https://iutest.kz';
-    final Uri toLaunch =
-    Uri(
-        scheme: 'https',
-        host: 'login.kundelik.kz',
-        path: 'oauth2',
-        queryParameters: {"response_type": "token", "client_id": "4111dfa786614bc29f01d27017a31a13", "scope": "CommonInfo,ContactInfo,EducationalInfo,FriendsAndRelatives"}
-    );
+    const url = 'https://login.kundelik.kz/oauth2?response_type=token&client_id=4111dfa786614bc29f01d27017a31a13&scope=CommonInfo,ContactInfo,EducationalInfo,FriendsAndRelatives&redirect_uri=iutest://callback';
     final result = await FlutterWebAuth2.authenticate(
-      url: url, callbackUrlScheme: 'https',
+      url: url, callbackUrlScheme: 'iutest',
     );
-    sl<Talker>().debug('Auth Result: $result');
     final token = _extractToken(result);
-    sl<Talker>().debug('Extracted Token: $token');
     return token;
   }
 

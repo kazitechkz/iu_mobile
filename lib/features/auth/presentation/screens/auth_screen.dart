@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
@@ -62,7 +63,11 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       context.read<KundelikBloc>().add(KundelikLoadingEvent());
       final token = await KundelikApi.login();
-      sl<Talker>().debug('Token is: $token');
+      if (token != null && mounted) {
+        sl<Talker>().debug(token);
+        KundelikSignInParameter params = KundelikSignInParameter(token: token);
+        context.read<KundelikBloc>().add(KundelikAuthEvent(params));
+      }
     } catch (error) {
       if (mounted) {
         sl<Talker>().debug(error);

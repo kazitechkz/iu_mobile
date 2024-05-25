@@ -10,7 +10,9 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/services/image_service.dart';
 import 'package:iu/core/utils/google_api.dart';
 import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
+import '../../core/services/injection_main.container.dart';
 import '../../core/utils/hive_utils.dart';
 import '../user/presentation/bloc/user_info_bloc.dart';
 
@@ -149,7 +151,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   onClicked: () {},
                   trailing: Container(
                     padding: EdgeInsets.all(6.w),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.purple,
                       shape: BoxShape.circle,
                     ),
