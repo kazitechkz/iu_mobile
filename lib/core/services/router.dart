@@ -47,6 +47,8 @@ import 'package:iu/features/sub_steps/presentation/exam/bloc/sub_step_exam_bloc.
 import 'package:iu/features/sub_steps/presentation/exam/screen/sub_step_exam_screen.dart';
 import 'package:iu/features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/result/screen/sub_step_exam_result_screen.dart';
+import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
+import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/my_tech_support_list_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
@@ -62,6 +64,7 @@ import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
 import '../../features/iutube/presentation/iutube_author/iutube_author_screen.dart';
+import '../../features/subscription/presentation/screen/subscription_screen.dart';
 import '../../features/tournament/domain/parameters/get_tournament_awards_parameter.dart';
 import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_participants/sub_tournament_participants_bloc.dart';
 import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_results/sub_tournament_results_bloc.dart';
@@ -356,7 +359,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<StatMainBloc>(),
-                child: StatMainScreen(),
+                child: const StatMainScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -394,7 +397,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<FullStatBloc>(),
-                child: FullStatScreen(),
+                child: const FullStatScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -406,7 +409,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<TournamentListBloc>(),
-                child: TournamentListScreen(),
+                child: const TournamentListScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -416,14 +419,14 @@ class RouteNavigation {
             path: "/${RouteConstant.tournamentDetailName}/:tournamentId",
             name: RouteConstant.tournamentDetailName,
             builder: (context, state) {
-              int tounamentId =
+              int tournamentId =
                   int.parse(state.pathParameters['tournamentId']!);
 
               return MultiBlocProvider(
                 providers: [
                   BlocProvider(
                     create: (_) => sl<TournamentDetailBloc>()
-                      ..add(TournamentDetailGetActualEvent(tounamentId)),
+                      ..add(TournamentDetailGetActualEvent(tournamentId)),
                   ),
                   BlocProvider(
                     create: (_) => sl<SubTournamentParticipantsBloc>(),
@@ -437,10 +440,10 @@ class RouteNavigation {
                   BlocProvider(
                     create: (_) => sl<TournamentAwardsBloc>()
                       ..add(TournamentAwardByTournamentIdEvent(
-                          GetTournamentAwardsParameter(id: tounamentId))),
+                          GetTournamentAwardsParameter(id: tournamentId))),
                   ),
                 ],
-                child: TournamentDetailScreen(tournamentId: tounamentId),
+                child: TournamentDetailScreen(tournamentId: tournamentId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -452,7 +455,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<IutubeMainBloc>(),
-                child: IutubeMainScreen(),
+                child: const IutubeMainScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -464,7 +467,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<IutubeListBloc>(),
-                child: IutubeListScreen(),
+                child: const IutubeListScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -507,7 +510,7 @@ class RouteNavigation {
                 BlocProvider(
                   create: (_) => sl<ImportantNewsBloc>(),
                 ),
-              ], child: NewsListScreen());
+              ], child: const NewsListScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
@@ -531,7 +534,7 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<AllForumBloc>(),
-                child: AllForumScreen(),
+                child: const AllForumScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -543,8 +546,24 @@ class RouteNavigation {
             builder: (context, state) {
               return BlocProvider(
                 create: (_) => sl<MyTechSupportTicketsBloc>(),
-                child: MyTechSupportListScreen(),
+                child: const MyTechSupportListScreen(),
               );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.subscriptionName}",
+            name: RouteConstant.subscriptionName,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: sl<SubscriptionBloc>()),
+                    BlocProvider.value(value: sl<LocalSubjectBloc>()),
+                  ],
+                  child: const SubscriptionScreen(),
+              );
+
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

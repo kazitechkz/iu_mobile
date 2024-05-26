@@ -30,6 +30,7 @@ Future<void> slInit() async {
   await _questionSlInit();
   await _attemptSettingsSLInit();
   await _openAiSLInit();
+  await _singleSubscriptionSlInit();
 }
 Future<void> _talkerSLInit() async {
   final talker = TalkerFlutter.init();
@@ -404,3 +405,10 @@ Future<void> _singleUntSlInit() async {
       getSubjectsCase: sl<GetSubjectsCase>(),
       createAttemptCase: sl<CreateAttemptCase>()));
 }
+
+Future<void> _singleSubscriptionSlInit() async {
+  sl.registerLazySingleton(() => SubscriptionBloc());
+  sl.registerLazySingleton(() => LocalSubjectBloc());
+}
+
+

@@ -109,3 +109,26 @@ class SubjectModel extends SubjectEntity {
     return data;
   }
 }
+
+class LocalSubjectEntity extends Equatable {
+  final int id;
+  final String titleKk;
+  final String titleRu;
+  final String imageUrl;
+  final bool isSelected;
+  const LocalSubjectEntity(this.id, this.titleKk, this.titleRu, this.imageUrl, this.isSelected);
+
+  // Метод для копирования объекта с изменением поля isSelected
+  LocalSubjectEntity copyWith({bool? isSelected}) {
+    return LocalSubjectEntity(
+      id,
+      titleKk,
+      titleRu,
+      imageUrl,
+      isSelected ?? this.isSelected,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, titleKk, titleRu, imageUrl, isSelected];
+}

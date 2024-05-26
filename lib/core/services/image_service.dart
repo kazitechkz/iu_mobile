@@ -90,3 +90,58 @@ String getSubjectImagePath(int subjectId) {
   }
   return path;
 }
+
+String getSubjectIconPath(int subjectId) {
+  String path = 'assets/images/standard_bear.png';
+  switch (subjectId) {
+    case 1:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 2:
+      path = 'assets/images/subjects/icons/history.webp';
+      break;
+    case 3:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 4:
+      path = 'assets/images/subjects/icons/math.webp';
+      break;
+    case 5:
+      path = 'assets/images/subjects/icons/phys.webp';
+      break;
+    case 6:
+      path = 'assets/images/subjects/icons/chem.webp';
+      break;
+    case 7:
+      path = 'assets/images/subjects/icons/biol.webp';
+      break;
+    case 8:
+      path = 'assets/images/subjects/icons/geog.webp';
+      break;
+    case 9:
+      path = 'assets/images/subjects/icons/allHistory.webp';
+      break;
+    case 10:
+      path = 'assets/images/subjects/icons/osnov.webp';
+      break;
+    case 11:
+      path = 'assets/images/subjects/icons/english.webp';
+      break;
+    case 12:
+      path = 'assets/images/subjects/icons/kazakh.webp';
+      break;
+    case 13:
+      path = 'assets/images/standard_bear.png';
+      break;
+    case 14:
+      path = 'assets/images/subjects/icons/russian.webp';
+      break;
+    case 15:
+      path = 'assets/images/subjects/icons/infor.webp';
+      break;
+    default:
+      path = 'assets/images/standard_bear.png';
+      break;
+  }
+  return path;
+}

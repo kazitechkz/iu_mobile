@@ -32,4 +32,5 @@ class RouteConstant {
   static const String newsDetailName = "news-detail";
   static const String forumListName = "forum-list";
   static const String techSupportListName = "tech-support-list";
+  static const String subscriptionName = "subscription";
 }

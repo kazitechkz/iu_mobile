@@ -1,5 +1,4 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,11 +21,6 @@ class _BottomNavBarState extends State<BottomNavBar>
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -106,6 +100,6 @@ class _BottomNavBarState extends State<BottomNavBar>
     RouteConstant.dashboardScreenName,
     RouteConstant.stepsScreenName,
     RouteConstant.authScreenName,
-    "Профиль"
+    RouteConstant.profileScreenName
   ];
 }

@@ -24,7 +24,7 @@ class DashBoardScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 660.h,
               child: Stack(
                 children: [
@@ -100,7 +100,7 @@ class DashBoardScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                           child: Padding(
-                                        padding: EdgeInsets.only(left: 10),
+                                        padding: const EdgeInsets.only(left: 10),
                                         child: AutoSizeText(
                                           i == 1
                                               ? "Готовься к ЕНТ Вместе с iU-test, более 50 тысяч вопросов по 16 предметам"
@@ -111,7 +111,7 @@ class DashBoardScreen extends StatelessWidget {
                                               fontSize: 18.sp),
                                         ),
                                       )),
-                                      Expanded(child: SizedBox()),
+                                      const Expanded(child: SizedBox()),
                                     ],
                                   ),
                                 );
@@ -180,7 +180,7 @@ class DashBoardScreen extends StatelessWidget {
                                                     )),
                                                   ),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(

@@ -23,7 +23,7 @@ class MainServiceEntity extends Equatable {
         const MainServiceEntity(
           image: "assets/images/icons/subscription.webp",
           name: 'Подписки',
-          routeName: RouteConstant.dashboardScreenName,
+          routeName: RouteConstant.subscriptionName,
         ),
         const MainServiceEntity(
           image: "assets/images/icons/rating.webp",

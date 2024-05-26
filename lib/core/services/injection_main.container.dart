@@ -136,6 +136,8 @@ import 'package:iu/features/subject/data/datasources/subject_datasource.dart';
 import 'package:iu/features/subject/data/repositories/subject_repository.dart';
 import 'package:iu/features/subject/domain/interface/subject_interface.dart';
 import 'package:iu/features/subject/domain/use_cases/subject_usecase.dart';
+import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
+import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
 import 'package:iu/features/tournament/data/datasources/tournament_datasource.dart';
 import 'package:iu/features/tournament/data/repositories/tournament_repository.dart';

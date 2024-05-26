@@ -116,6 +116,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/subjects/
+    - assets/images/subjects/icons/
     - assets/images/icons/
     - assets/icons/
   #   - images/a_dot_ham.jpeg
