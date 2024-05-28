@@ -110,6 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderRadius: 40.sp,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
+                              print("object");
                               context.read<AuthBloc>().add(SignInEvent(
                                   SignInParameter(
                                       email: emailController.text.trim(),
