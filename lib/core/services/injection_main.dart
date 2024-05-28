@@ -409,6 +409,11 @@ Future<void> _singleUntSlInit() async {
 Future<void> _singleSubscriptionSlInit() async {
   sl.registerLazySingleton(() => SubscriptionBloc());
   sl.registerLazySingleton(() => LocalSubjectBloc());
+  sl.registerLazySingleton(() => InitPayBloc(useCase: sl<PayBoxUseCase>()));
+  sl.registerLazySingleton(() => PayBoxUseCase(sl()));
+  sl.registerLazySingleton<PayBoxInterface>(() => PayBoxRepository(sl()));
+  sl.registerLazySingleton<PayBoxDatasourceInterface>(
+          () => PayBoxDatasourceImpl());
 }
 
 

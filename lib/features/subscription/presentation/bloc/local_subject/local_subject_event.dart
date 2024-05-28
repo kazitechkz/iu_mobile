@@ -11,9 +11,10 @@ class GetLocalSubjectsEvent extends LocalSubjectEvent {
 }
 
 class GetSelectedLocalSubjectsEvent extends LocalSubjectEvent {
+  final int period;
   final List<LocalSubjectEntity> subjects;
   final int id;
-  const GetSelectedLocalSubjectsEvent(this.subjects, this.id);
+  const GetSelectedLocalSubjectsEvent(this.period, this.subjects, this.id);
   @override
   // TODO: implement props
   List<Object?> get props => [subjects, id];

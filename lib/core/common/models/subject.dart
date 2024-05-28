@@ -116,19 +116,21 @@ class LocalSubjectEntity extends Equatable {
   final String titleRu;
   final String imageUrl;
   final bool isSelected;
-  const LocalSubjectEntity(this.id, this.titleKk, this.titleRu, this.imageUrl, this.isSelected);
+  final int period;
+  const LocalSubjectEntity(this.id, this.titleKk, this.titleRu, this.imageUrl, this.isSelected, this.period);
 
   // Метод для копирования объекта с изменением поля isSelected
-  LocalSubjectEntity copyWith({bool? isSelected}) {
+  LocalSubjectEntity copyWith({bool? isSelected, required int period}) {
     return LocalSubjectEntity(
       id,
       titleKk,
       titleRu,
       imageUrl,
       isSelected ?? this.isSelected,
+      period
     );
   }
 
   @override
-  List<Object?> get props => [id, titleKk, titleRu, imageUrl, isSelected];
+  List<Object?> get props => [id, titleKk, titleRu, imageUrl, isSelected, period];
 }

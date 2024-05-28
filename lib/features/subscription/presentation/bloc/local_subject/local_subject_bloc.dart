@@ -30,11 +30,10 @@ class LocalSubjectBloc extends Bloc<LocalSubjectEvent, LocalSubjectState> {
     List<LocalSubjectEntity> selectedSubjects =
         subjects.where((subject) => subject.isSelected).toList();
     if (selectedSubjects.length < 2 ||
-        subjects
-            .any((subject) => subject.id == event.id && subject.isSelected)) {
+        subjects.any((subject) => subject.id == event.id && subject.isSelected)) {
       final updatedSubjects = subjects.map((subject) {
         if (subject.id == event.id) {
-          return subject.copyWith(isSelected: !subject.isSelected);
+          return subject.copyWith(isSelected: !subject.isSelected, period: event.period);
         }
         return subject;
       }).toList();

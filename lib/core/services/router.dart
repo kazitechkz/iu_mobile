@@ -47,6 +47,8 @@ import 'package:iu/features/sub_steps/presentation/exam/bloc/sub_step_exam_bloc.
 import 'package:iu/features/sub_steps/presentation/exam/screen/sub_step_exam_screen.dart';
 import 'package:iu/features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/result/screen/sub_step_exam_result_screen.dart';
+import 'package:iu/features/subscription/domain/use_cases/paybox_usecase.dart';
+import 'package:iu/features/subscription/presentation/bloc/init_pay/init_pay_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
@@ -558,8 +560,15 @@ class RouteNavigation {
             builder: (context, state) {
               return MultiBlocProvider(
                   providers: [
-                    BlocProvider.value(value: sl<SubscriptionBloc>()),
-                    BlocProvider.value(value: sl<LocalSubjectBloc>()),
+                    BlocProvider<SubscriptionBloc>(
+                      create: (context) => SubscriptionBloc()..add(GetSubscriptionsEvent()),
+                    ),
+                    BlocProvider<LocalSubjectBloc>(
+                      create: (context) => LocalSubjectBloc(),
+                    ),
+                    BlocProvider<InitPayBloc>(
+                      create: (context) => InitPayBloc(useCase: sl<PayBoxUseCase>()),
+                    ),
                   ],
                   child: const SubscriptionScreen(),
               );
