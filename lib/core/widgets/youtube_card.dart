@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/helpers/color_helper.dart';
 import 'package:iu/features/iutube/domain/entities/iutube_video_entity.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:youtube/youtube.dart';
@@ -27,17 +28,20 @@ class _YoutubeCardWidgetState extends State<YoutubeCardWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.h),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              context.go(
-                  "/${RouteConstant.iutubeDetailName}/${widget.video.alias}");
-            },
-            child: Container(
+      child: InkWell(
+        onTap: () {
+          context.go(
+              "/${RouteConstant.iutubeDetailName}/${widget.video.alias}");
+        },
+        child: Column(
+          children: [
+            Container(
               height: 240.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.w),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.w),
+                  topRight: Radius.circular(20.w),
+                ),
                 image: DecorationImage(
                   image: NetworkImage(
                       'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(widget.video.videoUrl)}/0.jpg'),
@@ -67,7 +71,7 @@ class _YoutubeCardWidgetState extends State<YoutubeCardWidget> {
                             child: Text(
                               "${widget.video.locale?.title}",
                               style:
-                                  TextStyle(color: ColorConstant.violetFirst),
+                                  const TextStyle(color: ColorConstant.violetColor,fontWeight: FontWeight.w700),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -76,7 +80,7 @@ class _YoutubeCardWidgetState extends State<YoutubeCardWidget> {
                         alignment: Alignment.center,
                         child: Icon(
                           FontAwesomeIcons.play,
-                          color: Colors.redAccent,
+                          color: ColorConstant.darkOrangeColor,
                           size: 64.sp,
                         )),
                     Align(
@@ -84,7 +88,7 @@ class _YoutubeCardWidgetState extends State<YoutubeCardWidget> {
                         child: widget.video.isRecommended
                             ? Icon(
                                 FontAwesomeIcons.fire,
-                                color: Colors.redAccent,
+                                color: ColorConstant.darkOrangeColor,
                                 size: 32.sp,
                               )
                             : SizedBox())
@@ -92,59 +96,76 @@ class _YoutubeCardWidgetState extends State<YoutubeCardWidget> {
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.go(
-                        "/${RouteConstant.iutubeAuthorVideoName}/${widget.video.authorId}");
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                        getImageFromString(
-                            widget.video.iutubeAuthor?.file?.url)),
-                  ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              decoration:  BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: [0.1,0.8],
+                  colors: [ColorConstant.bottomBarColor,ColorConstant.violetColor]
                 ),
-                SizedBox(
-                  width: 10.w,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20.w),
+                  bottomLeft: Radius.circular(20.w),
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        "${widget.video.title}",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.start,
+              ),
+              child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              context.go(
+                                  "/${RouteConstant.iutubeAuthorVideoName}/${widget.video.authorId}");
+                            },
+                            child: CircleAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  getImageFromString(
+                                      widget.video.iutubeAuthor?.file?.url)),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(
+                                  "${widget.video.title}",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                AutoSizeText(
+                                  "${widget.video.subject?.title_ru}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      AutoSizeText(
-                        "${widget.video.subject?.title_ru}",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.sp,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                    )
+                  ],
+              ),
             ),
-          )
-        ],
+
+          ],
+        ),
       ),
     );
   }

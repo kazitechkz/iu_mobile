@@ -8,6 +8,7 @@ import 'package:iu/features/iutube/presentation/iutube_main/bloc/iutube_main_blo
 
 import '../../../../core/app_constants/color_constant.dart';
 import '../../../../core/app_constants/route_constant.dart';
+import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../domain/entities/iutube_video_entity.dart';
 
 class IutubeMainScreen extends StatefulWidget {
@@ -28,6 +29,11 @@ class _IutubeMainScreenState extends State<IutubeMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonAppBarWidget(
+        text: "IUTube",
+        imageUrl: "assets/images/icons/iutube.webp",
+        routeLink: RouteConstant.dashboardScreenName,
+      ),
       body: BlocConsumer<IutubeMainBloc, IutubeMainState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -47,7 +53,7 @@ class _IutubeMainScreenState extends State<IutubeMainScreen> {
                       children: [
                         Icon(
                           FontAwesomeIcons.fire,
-                          color: Colors.redAccent,
+                          color: ColorConstant.darkOrangeColor,
                           size: 22.sp,
                         ),
                         SizedBox(
@@ -56,7 +62,7 @@ class _IutubeMainScreenState extends State<IutubeMainScreen> {
                         Text(
                           "Рекомендуем",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 22.sp,
                           ),
                         )
@@ -71,7 +77,7 @@ class _IutubeMainScreenState extends State<IutubeMainScreen> {
                       children: [
                         Icon(
                           FontAwesomeIcons.play,
-                          color: Colors.redAccent,
+                          color: ColorConstant.darkOrangeColor,
                           size: 22.sp,
                         ),
                         SizedBox(
@@ -80,7 +86,7 @@ class _IutubeMainScreenState extends State<IutubeMainScreen> {
                         Text(
                           "Вам также будет интересно",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 22.sp,
                           ),
                         )

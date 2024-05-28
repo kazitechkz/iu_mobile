@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/app_constants/color_constant.dart';
+import '../../../../core/app_constants/route_constant.dart';
+import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../../../core/widgets/youtube_card.dart';
 import '../../domain/entities/iutube_video_entity.dart';
 import '../../domain/parameters/get_all_videos_parameter.dart';
@@ -28,6 +31,11 @@ class _IutubeListScreenState extends State<IutubeListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonAppBarWidget(
+        text: "IUTube",
+        imageUrl: "assets/images/icons/iutube.webp",
+        routeLink: RouteConstant.dashboardScreenName,
+      ),
       body: BlocConsumer<IutubeListBloc, IutubeListState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -47,7 +55,7 @@ class _IutubeListScreenState extends State<IutubeListScreen> {
                       children: [
                         Icon(
                           FontAwesomeIcons.play,
-                          color: Colors.redAccent,
+                          color: ColorConstant.darkOrangeColor,
                           size: 22.sp,
                         ),
                         SizedBox(
@@ -56,7 +64,7 @@ class _IutubeListScreenState extends State<IutubeListScreen> {
                         Text(
                           "Вам также будет интересно",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 22.sp,
                           ),
                         )
