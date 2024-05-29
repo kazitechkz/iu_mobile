@@ -84,7 +84,7 @@ class MainServiceEntity extends Equatable {
         const MainServiceEntity(
           image: "assets/images/icons/career.webp",
           name: 'Профориентация',
-          routeName: RouteConstant.untModeScreenName,
+          routeName: RouteConstant.careerQuizzesListName,
         ),
         const MainServiceEntity(
           image: "assets/images/icons/iutube.webp",

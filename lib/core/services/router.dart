@@ -13,6 +13,8 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/career/presentation/career_quiz_detail/bloc/career_quiz_detail_bloc.dart';
+import 'package:iu/features/career/presentation/career_quiz_detail/career_quiz_detail_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/bloc/iutube_detail_bloc.dart';
@@ -63,6 +65,8 @@ import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
 import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
+import '../../features/career/presentation/career_quizzes/bloc/career_quizzes_bloc.dart';
+import '../../features/career/presentation/career_quizzes/career_quizzes_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
 import '../../features/iutube/presentation/iutube_author/iutube_author_screen.dart';
@@ -573,6 +577,31 @@ class RouteNavigation {
                   child: const SubscriptionScreen(),
               );
 
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.careerQuizzesListName}",
+            name: RouteConstant.careerQuizzesListName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<CareerQuizzesBloc>(),
+                child: const CareerQuizzesScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.careerQuizDetailName}/:quizId",
+            name: RouteConstant.careerQuizDetailName,
+            builder: (context, state) {
+              int quizId = int.parse(state.pathParameters['quizId'] ?? "0");
+              return BlocProvider(
+                create: (_) => sl<CareerQuizDetailBloc>(),
+                child: CareerQuizDetailScreen(quizId: quizId),
+              );
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

@@ -283,6 +283,10 @@ Future<void> _careerSlInit() async {
   sl.registerLazySingleton<CareerInterface>(() => CareerRepository(sl()));
   sl.registerLazySingleton<CareerDataSourceInterface>(
       () => CareerDataSourceImpl());
+  sl.registerFactory(
+          () => CareerQuizzesBloc( getCareerQuizzesCase: sl<GetCareerQuizzesCase>()));
+  sl.registerFactory(
+          () => CareerQuizDetailBloc(getCareerQuizCase: sl<GetCareerQuizCase>()));
 }
 
 Future<void> _iutubeSlInit() async {
