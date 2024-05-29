@@ -165,6 +165,11 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   ),
                 ),
                 buildMenuItem(
+                  icon: Icons.subscriptions_outlined,
+                  text: 'Мои подписки',
+                  onClicked: () => context.goNamed(RouteConstant.mySubscriptionsName),
+                ),
+                buildMenuItem(
                   icon: Icons.favorite,
                   text: 'Мои вопросы',
                   onClicked: () {},

@@ -1,6 +1,7 @@
 class RouteConstant {
   static const String authScreenName = "auth";
   static const String signInScreenName = "sign-in";
+  static const String kundelikScreenName = "kundelik";
   static const String signUpScreenName = "sign-up";
   static const String forgetScreenName = "forget";
   static const String resetScreenName = "reset";
@@ -35,4 +36,6 @@ class RouteConstant {
   static const String subscriptionName = "subscription";
   static const String careerQuizzesListName = "career-quizzes";
   static const String careerQuizDetailName = "career-quiz-detail";
+  static const String paymentName = "payment";
+  static const String mySubscriptionsName = "my-subscriptions";
 }
