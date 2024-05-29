@@ -13,6 +13,7 @@ import 'package:iu/features/auth/presentation/screens/auth_screen.dart';
 import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
+import 'package:iu/features/auth/presentation/widgets/kundelik_widget.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/bloc/iutube_detail_bloc.dart';
@@ -27,6 +28,8 @@ import 'package:iu/features/news/presentation/news_detail/news_detail_screen.dar
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
+import 'package:iu/features/payment/presentation/screens/payment_screen.dart';
+import 'package:iu/features/profile/my_subscription/presentation/screens/my_subscription_screen.dart';
 import 'package:iu/features/profile/profile_main_screen.dart';
 import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
@@ -115,6 +118,15 @@ class RouteNavigation {
                   ],
                   child: const AuthScreen()
               );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().guestMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.kundelikScreenName}",
+            name: RouteConstant.kundelikScreenName,
+            builder: (context, state) {
+              return const KundelikInitialScreen();
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().guestMiddleWare(context, state);
@@ -573,6 +585,25 @@ class RouteNavigation {
                   child: const SubscriptionScreen(),
               );
 
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.paymentName}/:redirectUrl",
+            name: RouteConstant.paymentName,
+            builder: (context, state) {
+              String redirectUrl = state.pathParameters['redirectUrl']!;
+              return PaymentScreen(redirectURL: redirectUrl);
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.mySubscriptionsName}",
+            name: RouteConstant.mySubscriptionsName,
+            builder: (context, state) {
+              return const MySubscriptionScreen();
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

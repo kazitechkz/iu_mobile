@@ -8,6 +8,7 @@ import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/utils/google_api.dart';
+import 'package:iu/core/utils/hive_utils.dart';
 import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
 import 'package:iu/features/auth/presentation/bloc/kundelik/kundelik_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -62,15 +63,17 @@ class _AuthScreenState extends State<AuthScreen> {
   Future<void> _kundelikSignIn() async {
     try {
       context.read<KundelikBloc>().add(KundelikLoadingEvent());
-      final token = await KundelikApi.login();
+      // Проверка, что виджет все еще смонтирован перед использованием контекста
+      if (!mounted) return;
+      context.goNamed(RouteConstant.kundelikScreenName);
+
+      String? token = await HiveUtils().getString('kundelikToken');
       if (token != null && mounted) {
-        sl<Talker>().debug(token);
         KundelikSignInParameter params = KundelikSignInParameter(token: token);
         context.read<KundelikBloc>().add(KundelikAuthEvent(params));
       }
     } catch (error) {
       if (mounted) {
-        sl<Talker>().debug(error);
         context.read<KundelikBloc>().add(KundelikLoadingCanceledEvent());
       }
     }
