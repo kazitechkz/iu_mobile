@@ -63,11 +63,11 @@ class _CareerQuizzesScreenState extends State<CareerQuizzesScreen> {
                                   gradient: const LinearGradient(
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
-                                    colors:[ColorConstant.appBarColor, ColorConstant.lightPinkColor],
+                                    colors:[ColorConstant.appBarColor, ColorConstant.peachColor],
                                   ),
                                   boxShadow: const [
                                     BoxShadow(
-                                      color: ColorConstant.violetColor,
+                                      color: ColorConstant.darkOrangeColor,
                                       offset: Offset(0.0, 1.0), //(x,y)
                                       blurRadius: 8.0,
                                     )
@@ -108,7 +108,7 @@ class _CareerQuizzesScreenState extends State<CareerQuizzesScreen> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(50.w),
                               onTap: () {
-                                context.go("/${RouteConstant.fullStatName}");
+                                context.go("/${RouteConstant.myCareerQuizAttemptsName}");
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -116,11 +116,11 @@ class _CareerQuizzesScreenState extends State<CareerQuizzesScreen> {
                                   gradient: const LinearGradient(
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
-                                    colors:[ColorConstant.appBarColor, ColorConstant.lightPinkColor],
+                                    colors:[ColorConstant.appBarColor, ColorConstant.peachColor],
                                   ),
                                   boxShadow: const [
                                     BoxShadow(
-                                      color: ColorConstant.violetColor,
+                                      color: ColorConstant.darkOrangeColor,
                                       offset: Offset(0.0, 1.0), //(x,y)
                                       blurRadius: 8.0,
                                     )

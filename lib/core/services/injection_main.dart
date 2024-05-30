@@ -287,6 +287,10 @@ Future<void> _careerSlInit() async {
           () => CareerQuizzesBloc( getCareerQuizzesCase: sl<GetCareerQuizzesCase>()));
   sl.registerFactory(
           () => CareerQuizDetailBloc(getCareerQuizCase: sl<GetCareerQuizCase>()));
+  sl.registerFactory(
+          () => MyCareerQuizAttemptsBloc(myCareerAttemptsCase: sl<MyCareerAttemptsCase>()));
+  sl.registerFactory(
+          () => ResultCareerQuizBloc(resultCareerQuiz: sl<ResultCareerQuiz>()));
 }
 
 Future<void> _iutubeSlInit() async {

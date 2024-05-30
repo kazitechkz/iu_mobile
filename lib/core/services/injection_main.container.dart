@@ -56,6 +56,8 @@ import 'package:iu/features/career/domain/use_cases/get_career_quiz_case.dart';
 import 'package:iu/features/career/domain/use_cases/get_career_quiz_group_list_case.dart';
 import 'package:iu/features/career/presentation/career_quiz_detail/bloc/career_quiz_detail_bloc.dart';
 import 'package:iu/features/career/presentation/career_quizzes/career_quizzes_screen.dart';
+import 'package:iu/features/career/presentation/my_career_quiz_attempts/bloc/my_career_quiz_attempts_bloc.dart';
+import 'package:iu/features/career/presentation/result_career_quiz/bloc/result_career_quiz_bloc.dart';
 import 'package:iu/features/category/data/datasources/category_datasources.dart';
 import 'package:iu/features/category/data/repositories/category_repository.dart';
 import 'package:iu/features/category/domain/interface/category_interface.dart';

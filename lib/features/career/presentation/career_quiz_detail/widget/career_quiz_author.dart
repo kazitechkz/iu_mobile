@@ -26,7 +26,7 @@ class CareerQuizAuthorWidget extends StatelessWidget {
           gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [ColorConstant.appBarColor, ColorConstant.orangeColor]
+              colors: [ColorConstant.appBarColor, ColorConstant.peachColor]
           ),
       ),
       child: Column(
