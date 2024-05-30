@@ -92,6 +92,9 @@ dependencies:
   flutter_web_auth_2: ^3.1.2
   marquee: ^2.2.3
   webview_flutter: ^4.8.0
+  webview_flutter_wkwebview: ^3.13.1
+  webview_flutter_platform_interface: ^2.10.0
+  webview_flutter_android: ^3.16.3
 
 dev_dependencies:
   flutter_test:
