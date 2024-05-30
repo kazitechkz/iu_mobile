@@ -32,7 +32,7 @@ class CareerQuizCardWidget extends StatelessWidget {
           gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [ColorConstant.appBarColor, ColorConstant.lightPinkColor]
+              colors: [ColorConstant.appBarColor, ColorConstant.peachColor]
           )
       ),
       child: Row(

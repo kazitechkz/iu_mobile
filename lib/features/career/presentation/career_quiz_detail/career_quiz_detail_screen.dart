@@ -70,7 +70,7 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                                         end: Alignment.bottomRight,
                                         colors: [
                                           ColorConstant.appBarColor,
-                                          ColorConstant.lightPinkColor
+                                          ColorConstant.peachColor
                                         ])),
                                 child: CachedNetworkImage(
                                   imageUrl:
@@ -88,7 +88,7 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                                       "${careerQuiz.titleRu}",
                                       maxLines: 2,
                                       style: TextStyle(
-                                          color: ColorConstant.orangeColor,
+                                          color: ColorConstant.peachColor,
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.bold
                                       ),
@@ -151,9 +151,9 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                       ),
                       SizedBox(height: 10.h,),
                       GFAccordion(
-                          collapsedTitleBackgroundColor:ColorConstant.orangeColor,
-                          expandedTitleBackgroundColor:ColorConstant.darkOrangeColor,
-                          contentBackgroundColor: ColorConstant.darkOrangeColor,
+                          collapsedTitleBackgroundColor:ColorConstant.peachColor,
+                          expandedTitleBackgroundColor:ColorConstant.peachColor,
+                          contentBackgroundColor: ColorConstant.peachColor,
                           titleBorderRadius: BorderRadius.circular(10.w),
                           contentBorderRadius: BorderRadius.circular(10.w),
                           titleChild: Text(
@@ -185,9 +185,9 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                           )),
                       SizedBox(height: 10.h,),
                       GFAccordion(
-                          collapsedTitleBackgroundColor:ColorConstant.orangeColor,
-                          expandedTitleBackgroundColor:ColorConstant.darkOrangeColor,
-                          contentBackgroundColor: ColorConstant.darkOrangeColor,
+                          collapsedTitleBackgroundColor:ColorConstant.peachColor,
+                          expandedTitleBackgroundColor:ColorConstant.peachColor,
+                          contentBackgroundColor: ColorConstant.peachColor,
                           titleBorderRadius: BorderRadius.circular(10.w),
                           contentBorderRadius: BorderRadius.circular(10.w),
                           titleChild: Text(
@@ -228,7 +228,7 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                      AutoSizeText(
                        "Авторы тестов:",
                        style: TextStyle(
-                         color: ColorConstant.orangeColor,
+                         color: ColorConstant.peachColor,
                          fontSize: 18.sp,
                          fontWeight: FontWeight.bold
                      ),),
