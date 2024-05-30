@@ -24,7 +24,6 @@ import 'package:iu/features/iutube/presentation/iutube_list/bloc/iutube_list_blo
 import 'package:iu/features/iutube/presentation/iutube_list/iutube_list_screen.dart';
 import 'package:iu/features/iutube/presentation/iutube_main/bloc/iutube_main_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_main/iutube_main_screen.dart';
-import 'package:iu/features/menu_services/presentation/main_services/main_services_screen.dart';
 import 'package:iu/features/news/presentation/news_detail/bloc/news_detail_bloc.dart';
 import 'package:iu/features/news/presentation/news_detail/news_detail_screen.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
@@ -632,7 +631,10 @@ class RouteNavigation {
             path: "/${RouteConstant.mySubscriptionsName}",
             name: RouteConstant.mySubscriptionsName,
             builder: (context, state) {
-              return const MySubscriptionScreen();
+              return BlocProvider(
+                  create: (_) => sl<UserInfoBloc>(),
+                  child: const MySubscriptionScreen(),
+              );
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
@@ -7,9 +6,6 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/user/presentation/bloc/user_info_bloc.dart';
 import 'package:iu/features/user/presentation/widgets/get_form_widget.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-
-import '../../../../core/services/injection_main.container.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({super.key});

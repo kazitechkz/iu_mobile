@@ -1,3 +1,5 @@
+import 'package:iu/core/common/models/subscription.dart';
+
 import '../../../../core/common/models/file_entity.dart';
 import '../../../../core/common/models/gender_entity.dart';
 import '../../../../core/utils/typedef.dart';
@@ -14,6 +16,7 @@ class MeModel extends MeEntity{
         super.file,
         super.gender,
         super.birthDate,
+        required super.subscriptions,
         required super.isKundelik,
         required super.isGoogle,
         super.parentPhone,
@@ -29,6 +32,7 @@ class MeModel extends MeEntity{
     balance:map["balance"],
     file:map["file"] !=null ? FileModel.fromMap(map["file"]) : null,
     gender:map["gender"] !=null ? GenderModel.fromMap(map["gender"]) : null,
+    subscriptions: SubscriptionModel.fromMapList(map["subscription"].cast<DataMap>()),
     birthDate:map["birth_date"] != null ? map['birth_date'] as String : null,
     isKundelik:map["isKundelik"],
     isGoogle:map["isGoogle"],

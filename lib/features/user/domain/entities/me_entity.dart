@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../../core/common/models/file_entity.dart';
 import '../../../../core/common/models/gender_entity.dart';
+import '../../../../core/common/models/subscription.dart';
 
 class MeEntity extends Equatable {
   final int id;
@@ -11,6 +12,7 @@ class MeEntity extends Equatable {
   final int balance;
   final FileEntity? file;
   final GenderEntity? gender;
+  final List<SubscriptionEntity> subscriptions;
   final String? birthDate;
   final bool isKundelik;
   final bool isGoogle;
@@ -27,6 +29,7 @@ class MeEntity extends Equatable {
       this.file,
       this.gender,
       this.birthDate,
+      required this.subscriptions,
       required this.isKundelik,
       required this.isGoogle,
       this.parentPhone,
@@ -43,6 +46,7 @@ class MeEntity extends Equatable {
         file,
         gender,
         birthDate,
+        subscriptions,
         isKundelik,
         isGoogle,
         parentPhone,
