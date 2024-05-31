@@ -14,10 +14,13 @@ import 'package:iu/features/auth/presentation/screens/forget_screen.dart';
 import 'package:iu/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:iu/features/auth/presentation/screens/verify_screen.dart';
 import 'package:iu/features/auth/presentation/widgets/kundelik_widget.dart';
+import 'package:iu/features/career/domain/use_cases/get_career_quiz_group_list_case.dart';
 import 'package:iu/features/career/presentation/career_quiz_detail/bloc/career_quiz_detail_bloc.dart';
 import 'package:iu/features/career/presentation/career_quiz_detail/career_quiz_detail_screen.dart';
 import 'package:iu/features/career/presentation/my_career_quiz_attempts/bloc/my_career_quiz_attempts_bloc.dart';
 import 'package:iu/features/career/presentation/my_career_quiz_attempts/my_career_quiz_attempts_screen.dart';
+import 'package:iu/features/career/presentation/pass_career_one/bloc/pass_career_one_bloc.dart';
+import 'package:iu/features/career/presentation/pass_career_one/pass_career_one_screen.dart';
 import 'package:iu/features/career/presentation/result_career_quiz/bloc/result_career_quiz_bloc.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
@@ -72,6 +75,8 @@ import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dar
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/career/presentation/career_quizzes/bloc/career_quizzes_bloc.dart';
 import '../../features/career/presentation/career_quizzes/career_quizzes_screen.dart';
+import '../../features/career/presentation/career_subscriptions/bloc/career_subscriptions_bloc.dart';
+import '../../features/career/presentation/career_subscriptions/career_subscriptions_screen.dart';
 import '../../features/career/presentation/result_career_quiz/result_career_quiz_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
@@ -663,6 +668,31 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<ResultCareerQuizBloc>(),
                 child: ResultCareerQuizScreen(attemptId: attemptId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.careerSubscriptionsName}",
+            name: RouteConstant.careerSubscriptionsName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<CareerSubscriptionsBloc>(),
+                child: CareerSubscriptionsScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.passCareerQuizName}/:quizId",
+            name: RouteConstant.passCareerQuizName,
+            builder: (context, state) {
+              int quizId = int.parse(state.pathParameters['quizId'] ?? "0");
+              return BlocProvider(
+                create: (_) => sl<PassCareerOneBloc>(),
+                child: PassCareerOneScreen(quizId: quizId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

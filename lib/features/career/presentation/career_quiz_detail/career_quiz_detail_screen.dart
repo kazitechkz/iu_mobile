@@ -8,6 +8,8 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iu/core/app_constants/app_constant.dart';
 import 'package:iu/features/career/presentation/career_quiz_detail/bloc/career_quiz_detail_bloc.dart';
 import 'package:iu/features/career/presentation/career_quiz_detail/widget/career_quiz_author.dart';
 
@@ -53,7 +55,8 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
               final isPurchased = state.careerQuizEntity.isPurchased;
               return SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
                   child: Column(
                     children: [
                       Row(
@@ -78,7 +81,8 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               )),
-                          Expanded(flex: 3,
+                          Expanded(
+                              flex: 3,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 8.w),
                                 child: Column(
@@ -90,69 +94,88 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                                       style: TextStyle(
                                           color: ColorConstant.peachColor,
                                           fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(height: 10.h,),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
                                     Text(
                                       "#${careerQuiz.careerQuizGroup?.titleRu}",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(height: 10.h,),
-                                    (
-                                      isPurchased || careerQuiz.price == 0
-                                          ? Container(
-                                        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.white),
-                                            borderRadius: BorderRadius.circular(30.w),
-                                            color: ColorConstant.bottomBarColor
-                                        ),
-                                        child: AutoSizeText(
-                                          maxLines: 1,
-                                          "Пройти тест",
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold
-                                          ),
-                                        ),
-                                      )
-                                          : Container(
-                                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 8.w),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(30.w),
-                                            gradient: const LinearGradient(
-                                                begin: Alignment.centerLeft,
-                                                end: Alignment.centerRight,
-                                                colors: [ColorConstant.orangeColor,ColorConstant.darkOrangeColor]
-                                            )
-                                        ),
-                                        child: AutoSizeText(
-                                          maxLines: 1,
-                                          "Приобрести всего за ${careerQuiz.price} KZT",
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold
-                                          ),
-                                        ),
-                                      )
-                                    )
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    (isPurchased || careerQuiz.price == 0
+                                        ? InkWell(
+                                            onTap: (){
+                                              if(careerQuiz.code == AppConstant.ONE_ANSWER || careerQuiz.code == AppConstant.QUESTIONS_AND_ANSWERS){
+                                                context.go("/${RouteConstant.passCareerQuizName}/${careerQuiz.id}");
+                                              }
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10.h,
+                                                  horizontal: 10.w),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.white),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.w),
+                                                  color: ColorConstant
+                                                      .bottomBarColor),
+                                              child: AutoSizeText(
+                                                maxLines: 1,
+                                                "Пройти тест",
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 15.h,
+                                                horizontal: 8.w),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.w),
+                                                gradient: const LinearGradient(
+                                                    begin: Alignment.centerLeft,
+                                                    end: Alignment.centerRight,
+                                                    colors: [
+                                                      ColorConstant.orangeColor,
+                                                      ColorConstant
+                                                          .darkOrangeColor
+                                                    ])),
+                                            child: AutoSizeText(
+                                              maxLines: 1,
+                                              "Приобрести всего за ${careerQuiz.price} KZT",
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ))
                                   ],
                                 ),
-                              )
-                          )
+                              ))
                         ],
                       ),
-                      SizedBox(height: 10.h,),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       GFAccordion(
-                          collapsedTitleBackgroundColor:ColorConstant.peachColor,
-                          expandedTitleBackgroundColor:ColorConstant.peachColor,
+                          collapsedTitleBackgroundColor:
+                              ColorConstant.peachColor,
+                          expandedTitleBackgroundColor:
+                              ColorConstant.peachColor,
                           contentBackgroundColor: ColorConstant.peachColor,
                           titleBorderRadius: BorderRadius.circular(10.w),
                           contentBorderRadius: BorderRadius.circular(10.w),
@@ -164,15 +187,13 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                               fontSize: 14.sp,
                             ),
                           ),
-                          contentChild: Html(
-                            data: careerQuiz.descriptionRu,
-                            style: {
-                              "p":Style(
-                                color: Colors.white,
-                                fontSize: FontSize(12),
-                              )
-                            }
-                          ),
+                          contentChild:
+                              Html(data: careerQuiz.descriptionRu, style: {
+                            "p": Style(
+                              color: Colors.white,
+                              fontSize: FontSize(12),
+                            )
+                          }),
                           collapsedIcon: Icon(
                             FontAwesomeIcons.chevronDown,
                             color: Colors.white,
@@ -183,10 +204,14 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                             color: Colors.white,
                             size: 12.sp,
                           )),
-                      SizedBox(height: 10.h,),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       GFAccordion(
-                          collapsedTitleBackgroundColor:ColorConstant.peachColor,
-                          expandedTitleBackgroundColor:ColorConstant.peachColor,
+                          collapsedTitleBackgroundColor:
+                              ColorConstant.peachColor,
+                          expandedTitleBackgroundColor:
+                              ColorConstant.peachColor,
                           contentBackgroundColor: ColorConstant.peachColor,
                           titleBorderRadius: BorderRadius.circular(10.w),
                           contentBorderRadius: BorderRadius.circular(10.w),
@@ -198,15 +223,12 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                               fontSize: 14.sp,
                             ),
                           ),
-                          contentChild: Html(
-                              data: careerQuiz.ruleRu,
-                              style: {
-                                "p":Style(
-                                  color: Colors.white,
-                                  fontSize: FontSize(12),
-                                )
-                              }
-                          ),
+                          contentChild: Html(data: careerQuiz.ruleRu, style: {
+                            "p": Style(
+                              color: Colors.white,
+                              fontSize: FontSize(12),
+                            )
+                          }),
                           collapsedIcon: Icon(
                             FontAwesomeIcons.chevronDown,
                             color: Colors.white,
@@ -217,7 +239,9 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                             color: Colors.white,
                             size: 12.sp,
                           )),
-                      SizedBox(height: 10.h,),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Divider(
@@ -225,16 +249,22 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                           color: Colors.white.withOpacity(0.5),
                         ),
                       ),
-                     AutoSizeText(
-                       "Авторы тестов:",
-                       style: TextStyle(
-                         color: ColorConstant.peachColor,
-                         fontSize: 18.sp,
-                         fontWeight: FontWeight.bold
-                     ),),
-
-                      SizedBox(height: 10.h,),
-                      ...(careerQuiz.careerQuizCreators != null ? careerQuiz.careerQuizCreators!.map((authorDetail) => CareerQuizAuthorWidget(careerAuthor: authorDetail,)) : [])
+                      AutoSizeText(
+                        "Авторы тестов:",
+                        style: TextStyle(
+                            color: ColorConstant.peachColor,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      ...(careerQuiz.careerQuizCreators != null
+                          ? careerQuiz.careerQuizCreators!
+                              .map((authorDetail) => CareerQuizAuthorWidget(
+                                    careerAuthor: authorDetail,
+                                  ))
+                          : [])
                     ],
                   ),
                 ),
