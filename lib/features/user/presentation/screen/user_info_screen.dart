@@ -39,7 +39,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             return getUserForm(context, state);
           }
           if (state is GetInfoError) {
-            print(state.failureData);
+            return const Center(child: GFLoader(type: GFLoaderType.ios));
           }
           return const Center(child: GFLoader(type: GFLoaderType.ios));
         },

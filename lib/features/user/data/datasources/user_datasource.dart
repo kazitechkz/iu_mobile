@@ -28,7 +28,7 @@ class UserDataSourceImpl implements UserDataSourceInterface{
     try {
       final response = await HttpUtil().get(ApiConstant.me);
       final responseData = ResponseData.fromJson(response);
-      final result = MeModel.fromMap(responseData.data);
+      final result = MeModel.fromJson(responseData.data);
       return result;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);

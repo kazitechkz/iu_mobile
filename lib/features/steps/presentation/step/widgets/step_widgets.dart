@@ -179,8 +179,12 @@ Widget courseGrid(MainStepEntity stepEntity) {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10.w),
       gradient: const LinearGradient(
-        colors: ColorConstant.violetToPinkGradient
-      )
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            ColorConstant.darkOrangeColor,
+            ColorConstant.appBarColor,
+          ])
     ),
     child: GFListTile(
       padding: EdgeInsets.all(10.h),

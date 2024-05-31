@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iu/core/errors/exception.dart';
 import 'package:iu/core/utils/google_api.dart';
 import 'package:iu/core/utils/hive_utils.dart';
 import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
@@ -18,7 +22,7 @@ import '../../../../core/widgets/elevated_gradient_button.dart';
 import '../../domain/parameters/sign_in_parameter.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/sign_in_form.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -85,10 +89,17 @@ class _AuthScreenState extends State<AuthScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthErrorState) {
-          AppToaster.showError(state.failureData.message ?? "");
+          if (state.failureData.message != null) {
+            final failMessage = state.failureData;
+            if (state.failureData.statusCode == 9999) {
+              AppToaster.showError('123123123');
+            } else {
+              AppToaster.showError(state.failureData.message ?? "");
+            }
+          }
         }
         if (state is AuthSignedInState) {
-          AppToaster.showSuccess("Добро пожаловать!");
+          AppToaster.showSuccess("Добро пожаловать!", gravity: ToastGravity.SNACKBAR);
           context.pushReplacementNamed(RouteConstant.dashboardScreenName);
         }
       },
@@ -252,10 +263,27 @@ class _AuthScreenState extends State<AuthScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('Don’t have an account? Sign up',
-                          style: TextStyle(color: Colors.blue)),
+                    GestureDetector(
+                        onTap: () {
+                          context.pushReplacement(
+                              "/${RouteConstant.signUpScreenName}");
+                        },
+                      child: RichText(
+                          text: TextSpan(
+                              text:
+                              '${AppLocalizations.of(context)!.no_account} ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: AppLocalizations.of(context)!.sign_up,
+                                  style: TextStyle(
+                                      color: ColorConstant.linkColor,
+                                      fontSize: 12.sp),
+                                )
+                              ])),
                     ),
                   ],
                 ),

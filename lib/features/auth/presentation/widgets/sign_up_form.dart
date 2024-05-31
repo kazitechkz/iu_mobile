@@ -16,7 +16,7 @@ class SignUpForm extends StatelessWidget {
       required this.emailController,
       required this.phoneController,
       required this.passwordController,
-      this.errors = null});
+      this.errors});
   final GlobalKey<FormState> keyForm;
   final TextEditingController emailController;
   final TextEditingController nameController;
@@ -33,14 +33,13 @@ class SignUpForm extends StatelessWidget {
           AppTextFormField(
             controller: nameController,
             type: TextInputType.text,
-            suffixIcon: const Icon(FontAwesomeIcons.user),
+            suffixIcon: const Icon(FontAwesomeIcons.user, color: Colors.white,),
             obscureText: false,
             countText: false,
             labelText: AppLocalizations.of(context)!.name,
             enabled: true,
-            serverErrorText: errors?.errors["name"] != null
-                ? errors?.errors["name"]?.join()
-                : null,
+            style: const TextStyle(color: Colors.white),
+            serverErrorText: errors?.errors["name"]?.join(),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.incorrect_value;
@@ -52,14 +51,13 @@ class SignUpForm extends StatelessWidget {
           AppTextFormField(
             controller: emailController,
             type: TextInputType.emailAddress,
-            suffixIcon: Icon(FontAwesomeIcons.envelope),
+            suffixIcon: const Icon(FontAwesomeIcons.envelope, color: Colors.white,),
             obscureText: false,
             countText: false,
             labelText: AppLocalizations.of(context)!.email,
             enabled: true,
-            serverErrorText: errors?.errors["email"] != null
-                ? errors?.errors["email"]?.join()
-                : null,
+            style: const TextStyle(color: Colors.white),
+            serverErrorText: errors?.errors["email"]?.join(),
             validator: (value) {
               RegExp emailExp = RegExp(ValidatorConstant.emailPatterns);
               if (value == null || value.isEmpty) {
@@ -71,25 +69,17 @@ class SignUpForm extends StatelessWidget {
             },
           ),
           SizedBox(height: 20.h),
-          AppPhoneFormField(
+          AppTextFormField(
             controller: phoneController,
-            type: TextInputType.phone,
-            suffixIcon: const Icon(FontAwesomeIcons.phone),
+            type: TextInputType.text,
+            suffixIcon: const Icon(FontAwesomeIcons.phone, color: Colors.white,),
             obscureText: false,
             countText: false,
             labelText: AppLocalizations.of(context)!.phone,
             enabled: true,
-            serverErrorText: errors?.errors["phone"] != null
-                ? errors?.errors["phone"]?.join()
-                : null,
+            style: const TextStyle(color: Colors.white),
+            serverErrorText: errors?.errors["phone"]?.join(),
             validator: (value) {
-              final regexp = RegExp(ValidatorConstant.kzPhonePatterns);
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.incorrect_value;
-              }
-              // else if (value.isNotEmpty && !regexp.hasMatch(value)) {
-              //   return AppLocalizations.of(context)!.incorrect_phone;
-              // }
               return null;
             },
           ),
@@ -97,14 +87,13 @@ class SignUpForm extends StatelessWidget {
           AppTextFormField(
             controller: passwordController,
             type: TextInputType.text,
-            suffixIcon: const Icon(FontAwesomeIcons.lock),
+            suffixIcon: const Icon(FontAwesomeIcons.lock, color: Colors.white,),
             obscureText: true,
             countText: false,
             labelText: AppLocalizations.of(context)!.password,
             enabled: true,
-            serverErrorText: errors?.errors["password"] != null
-                ? errors?.errors["password"]?.join()
-                : null,
+            style: const TextStyle(color: Colors.white),
+            serverErrorText: errors?.errors["password"]?.join(),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.incorrect_password;

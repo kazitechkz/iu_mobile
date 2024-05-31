@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
-import 'package:iu/core/app_constants/image_constant.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/utils/toasters.dart';
 import 'package:iu/core/widgets/header_title.dart';
@@ -24,18 +23,18 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpState extends State<SignUpScreen> {
   final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  final phoneController = MaskedTextController(mask: '+7 (000) 000-0000');
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  Errors? errors = null;
+  Errors? errors;
 
   @override
   void dispose() {
-    this.emailController.dispose();
-    this.phoneController.dispose();
-    this.nameController.dispose();
-    this.passwordController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -55,6 +54,7 @@ class _SignUpState extends State<SignUpScreen> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.black,
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
@@ -62,15 +62,17 @@ class _SignUpState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 320.w,
-                    height: 280.h,
-                    child: Image.asset(
-                      ImageConstant.AuthBear,
-                      fit: BoxFit.contain,
+                  Container(
+                    width: 300.r,
+                    height: 200.r,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/logo-white.png'),
+                          fit: BoxFit.contain,
+                        )
                     ),
                   ),
-                  HeaderTitle(title: AppLocalizations.of(context)!.sign_up),
+                  HeaderTitle(title: AppLocalizations.of(context)!.sign_up, color: Colors.white,),
                   SizedBox(
                     height: 30.h,
                   ),
@@ -87,7 +89,7 @@ class _SignUpState extends State<SignUpScreen> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  ((state is AuthState && state is! AuthLoadingState)
+                  ((state is! AuthLoadingState)
                       ? ElevatedGradientButton(
                           gradient: const LinearGradient(
                             colors: ColorConstant.violetToPinkGradient,
@@ -103,8 +105,9 @@ class _SignUpState extends State<SignUpScreen> {
                                     email: emailController.text.trim(),
                                     username: emailController.text.trim(),
                                     name: nameController.text.trim(),
-                                    phone: "+7${phoneController.text.trim()}",
+                                    phone: phoneController.text,
                                     password: passwordController.text.trim(),
+                                    role: "student"
                                   )));
                             } else {
                               AppToaster.showInfo("Заполните все поля!");
@@ -115,24 +118,23 @@ class _SignUpState extends State<SignUpScreen> {
                             style:
                                 TextStyle(color: Colors.white, fontSize: 18.sp),
                           ))
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        )),
+                      : const Center(child: CircularProgressIndicator())),
                   SizedBox(
                     height: 20.h,
                   ),
                   GestureDetector(
                     onTap: () {
                       context.pushReplacement(
-                          "/${RouteConstant.signInScreenName}");
+                          "/${RouteConstant.authScreenName}");
                     },
                     child: RichText(
                         text: TextSpan(
                             text:
                                 '${AppLocalizations.of(context)!.have_account} ',
                             style: TextStyle(
-                                color: ColorConstant.mainDarkColor,
-                                fontSize: 12.sp),
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                            ),
                             children: [
                           TextSpan(
                             text: AppLocalizations.of(context)!.sign_in,

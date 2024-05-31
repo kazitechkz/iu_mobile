@@ -32,12 +32,6 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
     context.read<UserInfoBloc>().add(const GetInfoEvent());
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    context.read<UserInfoBloc>().close();
-  }
-
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null && mounted) {

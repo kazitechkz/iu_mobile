@@ -1,20 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:getwidget/colors/gf_color.dart';
-import 'package:getwidget/components/appbar/gf_appbar.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/button/gf_icon_button.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:getwidget/shape/gf_button_shape.dart';
-import 'package:getwidget/types/gf_button_type.dart';
-import 'package:getwidget/types/gf_loader_type.dart';
-import 'package:go_router/go_router.dart';
-import 'package:iu/core/helpers/mathjax_helper.dart';
 import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
 import 'package:iu/features/sub_steps/presentation/detail/bloc/check_sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/detail/bloc/sub_step_detail_bloc.dart';
@@ -27,7 +13,6 @@ class SubStepDetailScreen extends StatefulWidget {
   final String subStepID;
 
   const SubStepDetailScreen({super.key, required this.subStepID});
-
 
   @override
   State<SubStepDetailScreen> createState() => _SubStepDetailState();

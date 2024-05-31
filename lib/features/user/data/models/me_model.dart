@@ -22,31 +22,35 @@ class MeModel extends MeEntity{
         super.parentPhone,
         super.parentName
       });
-  MeModel.fromMap(DataMap map)
-      : this(
-    id:map["id"],
-    name:map["name"],
-    email:map["email"],
-    phone:map["phone"] != null ? map['phone'] as String : null,
-    role:map["role"],
-    balance:map["balance"],
-    file:map["file"] !=null ? FileModel.fromMap(map["file"]) : null,
-    gender:map["gender"] !=null ? GenderModel.fromMap(map["gender"]) : null,
-    subscriptions: SubscriptionModel.fromMapList(map["subscription"].cast<DataMap>()),
-    birthDate:map["birth_date"] != null ? map['birth_date'] as String : null,
-    isKundelik:map["isKundelik"],
-    isGoogle:map["isGoogle"],
-    parentPhone:map["parent_phone"],
-    parentName:map["parent_name"],
 
-  );
-
-  factory MeModel.fromJson(Map<String, dynamic> json) {
-    return MeModel.fromMap(json);
+  factory MeModel.fromJson(DataMap map) {
+    var subscriptionsJson = map['subscription'];
+    Map<int, PlanEntity> subscriptions = {};
+    if (subscriptionsJson is Map<String, dynamic>) {
+      subscriptions = subscriptionsJson.map(
+            (key, value) => MapEntry(int.parse(key), PlanModel.fromJson(value)),
+      );
+    }
+    return MeModel(
+      id:map["id"],
+      name:map["name"],
+      email:map["email"],
+      phone:map["phone"] != null ? map['phone'] as String : null,
+      role:map["role"],
+      balance:map["balance"],
+      file:map["file"] !=null ? FileModel.fromMap(map["file"]) : null,
+      gender:map["gender"] !=null ? GenderModel.fromMap(map["gender"]) : null,
+      subscriptions: subscriptions,
+      birthDate:map["birth_date"] != null ? map['birth_date'] as String : null,
+      isKundelik:map["isKundelik"],
+      isGoogle:map["isGoogle"],
+      parentPhone:map["parent_phone"],
+      parentName:map["parent_name"],
+    );
   }
 
   static List<MeModel> fromMapList(
       List<Map<String, dynamic>> mapList) {
-    return mapList.map((map) => MeModel.fromMap(map)).toList();
+    return mapList.map((map) => MeModel.fromJson(map)).toList();
   }
 }

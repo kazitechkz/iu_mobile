@@ -12,7 +12,7 @@ class MeEntity extends Equatable {
   final int balance;
   final FileEntity? file;
   final GenderEntity? gender;
-  final List<SubscriptionEntity> subscriptions;
+  final Map<int, PlanEntity> subscriptions;
   final String? birthDate;
   final bool isKundelik;
   final bool isGoogle;

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/failure_data.dart';
+import 'package:iu/core/errors/exception.dart';
 import 'package:iu/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:iu/features/auth/domain/parameters/forget_parameter.dart';
 import 'package:iu/features/auth/domain/parameters/reset_parameter.dart';
@@ -52,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
     final result = await _signInCase(event.parameter);
     result.fold(
-        (failure) => emit(AuthErrorState(FailureData.fromApiFailure(failure))),
+        (failure) {print(failure.message); emit(AuthErrorState(FailureData.fromApiFailure(failure))); },
         (success) => emit(AuthSignedInState(success)));
   }
 

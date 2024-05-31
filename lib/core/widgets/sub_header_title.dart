@@ -12,7 +12,7 @@ class SubHeaderTitle extends StatelessWidget {
     return Text(
       title,
       style: const TextStyle(
-          color: ColorConstant.mainDarkColor,
+          color: Colors.white,
           fontSize: 18,
           fontWeight: FontWeight.normal),
     );

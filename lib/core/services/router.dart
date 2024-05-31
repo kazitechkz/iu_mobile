@@ -119,7 +119,7 @@ class RouteNavigation {
             builder: (context, state) {
               return MultiBlocProvider(
                   providers: [
-                    BlocProvider.value(value: sl<AuthBloc>()),
+                    BlocProvider(create: (_) => sl<AuthBloc>()),
                     BlocProvider.value(value: sl<GoogleBloc>()),
                     BlocProvider.value(value: sl<KundelikBloc>()),
                   ],
@@ -635,8 +635,8 @@ class RouteNavigation {
             path: "/${RouteConstant.mySubscriptionsName}",
             name: RouteConstant.mySubscriptionsName,
             builder: (context, state) {
-              return BlocProvider(
-                  create: (_) => sl<UserInfoBloc>(),
+              return BlocProvider.value(
+                  value: sl<UserInfoBloc>(),
                   child: const MySubscriptionScreen(),
               );
             },

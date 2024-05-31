@@ -21,7 +21,7 @@ class AppPhoneFormField extends StatelessWidget {
     this.hintStyle,
     required this.enabled,
     required this.countText,
-    this.serverErrorText = null,
+    this.serverErrorText,
   });
 
   final TextEditingController controller;
@@ -43,12 +43,12 @@ class AppPhoneFormField extends StatelessWidget {
   TextStyle defaultLabelStyle = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
-    color: Colors.black,
+    color: Colors.white,
   );
   TextStyle defaultTextStyle = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
-    color: Colors.black,
+    color: Colors.white,
   );
   TextStyle defaultErrorTextStyle = TextStyle(
     fontSize: 10.sp,
@@ -58,7 +58,7 @@ class AppPhoneFormField extends StatelessWidget {
   TextStyle defaultHintStyle = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w300,
-    color: Colors.white38,
+    color: Colors.white,
   );
 
   @override
@@ -79,29 +79,31 @@ class AppPhoneFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         counterText: countText ? "" : null,
+        suffixIconColor: Colors.white,
+        counterStyle: const TextStyle(color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: ColorConstant.borderGrayColor, width: 1),
+              const BorderSide(color: ColorConstant.borderGrayColor, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: ColorConstant.violetFirst, width: 1),
+          borderSide: const BorderSide(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 1),
+          borderSide: const BorderSide(color: Colors.redAccent, width: 1),
           borderRadius: BorderRadius.circular(50.sp),
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         hintStyle: hintStyle ?? defaultHintStyle,
         labelStyle: style ?? defaultLabelStyle,
         errorStyle: defaultErrorTextStyle,
-        focusColor: ColorConstant.violetFirst,
+        focusColor: Colors.white,
       ),
-      countries: ["KZ"],
+      countries: const ["KZ"],
     );
   }
 }
