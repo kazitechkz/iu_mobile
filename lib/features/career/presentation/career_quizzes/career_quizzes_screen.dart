@@ -55,7 +55,7 @@ class _CareerQuizzesScreenState extends State<CareerQuizzesScreen> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(50.w),
                               onTap: () {
-                                context.go("/${RouteConstant.fullStatName}");
+                                context.go("/${RouteConstant.careerSubscriptionsName}");
                               },
                               child: Container(
                                 decoration: BoxDecoration(

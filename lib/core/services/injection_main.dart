@@ -291,6 +291,10 @@ Future<void> _careerSlInit() async {
           () => MyCareerQuizAttemptsBloc(myCareerAttemptsCase: sl<MyCareerAttemptsCase>()));
   sl.registerFactory(
           () => ResultCareerQuizBloc(resultCareerQuiz: sl<ResultCareerQuiz>()));
+  sl.registerFactory(
+          () => CareerSubscriptionsBloc(getCareerQuizGroupListCase: sl<GetCareerQuizGroupListCase>()));
+  sl.registerFactory(
+          () => PassCareerOneBloc(finishCareerCase: sl<FinishCareerCase>(), passCareerQuizCase: sl<PassCareerQuizCase>()));
 }
 
 Future<void> _iutubeSlInit() async {
@@ -309,6 +313,7 @@ Future<void> _iutubeSlInit() async {
       () => IutubeDetailBloc(getVideoDetailCase: sl<GetVideoDetailCase>()));
   sl.registerFactory(
       () => IutubeAuthorBloc(getVideoAuthorCase: sl<GetVideoAuthorCase>()));
+
 }
 
 Future<void> _forumSlInit() async {
