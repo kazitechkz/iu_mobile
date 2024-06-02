@@ -63,6 +63,8 @@ import 'package:iu/features/subscription/presentation/bloc/local_subject/local_s
 import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/my_tech_support_list_screen.dart';
+import 'package:iu/features/techSupport/presentation/tech_support_detail/bloc/tech_support_detail_bloc.dart';
+import 'package:iu/features/techSupport/presentation/tech_support_detail/tech_support_detail_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_detail/tournament_detail_screen.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/bloc/tournament_list_bloc.dart';
 import 'package:iu/features/tournament/presentation/tournament_list/tournament_list_screen.dart';
@@ -122,14 +124,11 @@ class RouteNavigation {
             path: "/${RouteConstant.authScreenName}",
             name: RouteConstant.authScreenName,
             builder: (context, state) {
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider(create: (_) => sl<AuthBloc>()),
-                    BlocProvider.value(value: sl<GoogleBloc>()),
-                    BlocProvider.value(value: sl<KundelikBloc>()),
-                  ],
-                  child: const AuthScreen()
-              );
+              return MultiBlocProvider(providers: [
+                BlocProvider(create: (_) => sl<AuthBloc>()),
+                BlocProvider.value(value: sl<GoogleBloc>()),
+                BlocProvider.value(value: sl<KundelikBloc>()),
+              ], child: const AuthScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().guestMiddleWare(context, state);
@@ -251,13 +250,10 @@ class RouteNavigation {
                       path: "/${RouteConstant.profileScreenName}",
                       name: RouteConstant.profileScreenName,
                       builder: (context, state) {
-                        return MultiBlocProvider(
-                            providers: [
-                              BlocProvider.value(value: sl<UserInfoBloc>()),
-                              BlocProvider.value(value: sl<ChangeAvaBloc>())
-                            ],
-                            child: const ProfileMainScreen()
-                        );
+                        return MultiBlocProvider(providers: [
+                          BlocProvider.value(value: sl<UserInfoBloc>()),
+                          BlocProvider.value(value: sl<ChangeAvaBloc>())
+                        ], child: const ProfileMainScreen());
                       },
                       redirect:
                           (BuildContext context, GoRouterState state) async {
@@ -579,24 +575,38 @@ class RouteNavigation {
               return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
+            path: "/${RouteConstant.techSupportTicketDetailName}/:ticketId",
+            name: RouteConstant.techSupportTicketDetailName,
+            builder: (context, state) {
+              int ticketId = int.parse(state.pathParameters['ticketId'] ?? "0");
+              return BlocProvider(
+                create: (_) => sl<TechSupportDetailBloc>(),
+                child: TechSupportDetailScreen(ticketId: ticketId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
             path: "/${RouteConstant.subscriptionName}",
             name: RouteConstant.subscriptionName,
             builder: (context, state) {
               return MultiBlocProvider(
-                  providers: [
-                    BlocProvider<SubscriptionBloc>(
-                      create: (context) => SubscriptionBloc()..add(GetSubscriptionsEvent()),
-                    ),
-                    BlocProvider<LocalSubjectBloc>(
-                      create: (context) => LocalSubjectBloc(),
-                    ),
-                    BlocProvider<InitPayBloc>(
-                      create: (context) => InitPayBloc(useCase: sl<PayBoxUseCase>()),
-                    ),
-                  ],
-                  child: const SubscriptionScreen(),
+                providers: [
+                  BlocProvider<SubscriptionBloc>(
+                    create: (context) =>
+                        SubscriptionBloc()..add(GetSubscriptionsEvent()),
+                  ),
+                  BlocProvider<LocalSubjectBloc>(
+                    create: (context) => LocalSubjectBloc(),
+                  ),
+                  BlocProvider<InitPayBloc>(
+                    create: (context) =>
+                        InitPayBloc(useCase: sl<PayBoxUseCase>()),
+                  ),
+                ],
+                child: const SubscriptionScreen(),
               );
-
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);
@@ -641,8 +651,8 @@ class RouteNavigation {
             name: RouteConstant.mySubscriptionsName,
             builder: (context, state) {
               return BlocProvider.value(
-                  value: sl<UserInfoBloc>(),
-                  child: const MySubscriptionScreen(),
+                value: sl<UserInfoBloc>(),
+                child: const MySubscriptionScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
@@ -664,7 +674,8 @@ class RouteNavigation {
             path: "/${RouteConstant.resultCareerQuizName}/:attemptId",
             name: RouteConstant.resultCareerQuizName,
             builder: (context, state) {
-              int attemptId = int.parse(state.pathParameters['attemptId'] ?? "0");
+              int attemptId =
+                  int.parse(state.pathParameters['attemptId'] ?? "0");
               return BlocProvider(
                 create: (_) => sl<ResultCareerQuizBloc>(),
                 child: ResultCareerQuizScreen(attemptId: attemptId),

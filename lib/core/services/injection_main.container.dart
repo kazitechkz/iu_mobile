@@ -150,6 +150,7 @@ import 'package:iu/features/subscription/presentation/bloc/init_pay/init_pay_blo
 import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:iu/features/techSupport/presentation/my_tech_support_list/bloc/my_tech_support_tickets_bloc.dart';
+import 'package:iu/features/techSupport/presentation/tech_support_detail/bloc/tech_support_detail_bloc.dart';
 import 'package:iu/features/tournament/data/datasources/tournament_datasource.dart';
 import 'package:iu/features/tournament/data/repositories/tournament_repository.dart';
 import 'package:iu/features/tournament/domain/interfaces/tournament_interface.dart';

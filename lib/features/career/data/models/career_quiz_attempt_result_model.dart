@@ -25,7 +25,9 @@ class CareerQuizAttemptResultModel extends CareerQuizAttemptResultEntity {
           attemptId: map["attempt_id"],
           featureId: map["feature_id"],
           points: map["points"],
-          percentage: map["percentage"],
+          percentage: map["percentage"] is int
+              ? map["percentage"].toDouble()
+              : map["percentage"],
           createdAt: map["created_at"],
           updatedAt: map["updated_at"],
           careerQuizAttempt: map["career_quiz_attempt"] != null
