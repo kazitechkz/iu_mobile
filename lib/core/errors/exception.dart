@@ -29,32 +29,19 @@ class ApiException extends Equatable implements Exception {
 }
 
 class AuthException extends Equatable implements Exception {
-  final String token;
-  final String role;
-  final dynamic user;
-  final bool isFirst;
   final String redirectURL;
-  final int errorCode;
-  final dynamic errorDetails;
 
   const AuthException({
-    required this.token,
-    required this.role,
-    required this.user,
-    required this.isFirst,
-    required this.redirectURL,
-    required this.errorCode,
-    required this.errorDetails,
+    required this.redirectURL
   });
 
   @override
   String toString() {
-    return 'ApiException(token: $token, role: $role, user: $user, isFirst: $isFirst, redirectURL: $redirectURL, errorCode: $errorCode, errorDetails: $errorDetails)';
+    return 'ApiException(redirectURL: $redirectURL)';
   }
 
   @override
-  List<Object> get props =>
-      [token, role, user, isFirst, redirectURL, errorCode, errorDetails];
+  List<Object> get props => [ redirectURL ];
 }
 
 class CacheException extends Equatable implements Exception {

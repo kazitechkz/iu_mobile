@@ -16,6 +16,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import '../../../../core/app_constants/color_constant.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/common/models/response_data.dart';
+import '../../../../core/helpers/auth_exception_helper.dart';
 import '../../../../core/services/injection_main.container.dart';
 import '../../../../core/utils/toasters.dart';
 import '../../../../core/widgets/elevated_gradient_button.dart';
@@ -90,9 +91,14 @@ class _AuthScreenState extends State<AuthScreen> {
       listener: (context, state) {
         if (state is AuthErrorState) {
           if (state.failureData.message != null) {
-            final failMessage = state.failureData;
-            if (state.failureData.statusCode == 9999) {
-              AppToaster.showError('123123123');
+            final failMessage = state.failureData.message;
+            String url = extractRedirectURL(failMessage!);
+            if (url.isNotEmpty) {
+              AppToaster.showError('Подтвердите почту');
+              Uri uri = Uri.parse(url);
+              String? userId = uri.queryParameters['user'];
+              AppToaster.showSuccess("Код отправлен на почту");
+              context.go('/${RouteConstant.verifyScreenName}/${userId}');
             } else {
               AppToaster.showError(state.failureData.message ?? "");
             }

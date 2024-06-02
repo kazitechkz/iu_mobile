@@ -192,14 +192,14 @@ Widget courseGrid(MainStepEntity stepEntity) {
           backgroundImage: AssetImage(getSubjectImagePath(stepEntity.id)),
           // backgroundImage: getImageProviderFromServer(stepEntity.image?.url),
         ),
-        titleText: stepEntity.title_kk,
+        title: Text(stepEntity.title_kk, style: TextStyle(color: Colors.white, fontSize: 16.sp)),
         subTitle: Padding(
           padding: EdgeInsets.symmetric(vertical: 5.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Главы: ${stepEntity.steps_count}'),
-              Text('Темы: ${stepEntity.sub_steps_count}')
+              Text('Главы: ${stepEntity.steps_count}', style: TextStyle(color: Colors.white60, fontSize: 14.sp)),
+              Text('Темы: ${stepEntity.sub_steps_count}', style: TextStyle(color: Colors.white60, fontSize: 14.sp))
             ],
           ),
         ),

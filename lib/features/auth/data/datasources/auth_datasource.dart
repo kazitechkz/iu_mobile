@@ -60,7 +60,7 @@ class AuthDataSourceImpl extends AuthDataSourceInterface {
       );
       if (!result['status']) {
         AuthException exc = parseApiException(result['data'].toString());
-        throw AuthException(token: exc.token, role: exc.role, user: exc.user, isFirst: exc.isFirst, redirectURL: exc.redirectURL, errorCode: exc.errorCode, errorDetails: exc.errorDetails);
+        throw AuthException(redirectURL: exc.redirectURL);
       }
       final data = AuthInfoModel.fromMap(result["data"]);
       sl<Dio>().interceptors.add(BearerTokenInterceptor(data.token));

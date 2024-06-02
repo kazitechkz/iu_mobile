@@ -53,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
     final result = await _signInCase(event.parameter);
     result.fold(
-        (failure) {print(failure.message); emit(AuthErrorState(FailureData.fromApiFailure(failure))); },
+        (failure) { emit(AuthErrorState(FailureData.fromApiFailure(failure))); },
         (success) => emit(AuthSignedInState(success)));
   }
 
