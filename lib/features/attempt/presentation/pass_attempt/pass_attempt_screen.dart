@@ -239,6 +239,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                           width: 320.w,
                           child: ExpandableCarousel.builder(
                             options: CarouselOptions(
+                                pageSnapping: false,
                                 enlargeCenterPage: true,
                                 disableCenter: true,
                                 controller: paginationCarouselController,

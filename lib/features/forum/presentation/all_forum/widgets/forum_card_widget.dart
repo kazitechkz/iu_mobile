@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
+import 'package:iu/core/helpers/color_helper.dart';
 import 'package:iu/features/forum/domain/entities/forum_entity.dart';
 
 import '../../../../../core/helpers/str_helper.dart';
@@ -19,164 +21,161 @@ class ForumCardWidget extends StatefulWidget {
 class _ForumCardWidgetState extends State<ForumCardWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.w),
-        ),
-        elevation: 2.0,
-        surfaceTintColor: Colors.white,
-        child: Container(
-          width: 320.w,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: ColorConstant.violetToPinkGradient),
-              borderRadius: BorderRadius.circular(20.w),
-              border: Border.all(color: ColorConstant.violetFirst)),
-          padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      constraints: BoxConstraints(
+        minHeight: 120.h,
+      ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: ColorConstant.peachColor),
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [ColorConstant.appBarColor, ColorConstant.peachColor])),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                constraints: BoxConstraints(minWidth: 80.w),
                 decoration: BoxDecoration(
-                    color: ColorConstant.violetFirst,
-                    borderRadius: BorderRadius.circular(30.w)),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: ColorConstant.peachColor),
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          ColorConstant.appBarColor,
+                          ColorHelper.getSecondSubjectColor(
+                              widget.forumEntity.subjectId)
+                        ])),
                 child: Text(
                   "${widget.forumEntity.subject?.title_ru}",
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Text(
-                StrHelper.truncateWithEllipsis(50, widget.forumEntity.text),
-                style: TextStyle(fontSize: 22.sp, color: Colors.white),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 24.sp,
-                    backgroundImage: getImageProviderFromServer(
-                        widget.forumEntity.user?.file?.url),
-                  ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  AutoSizeText(
-                    "${widget.forumEntity.user?.name}",
-                    style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Center(
-                    child: _getForumText(
-                        widget.forumEntity.discussRatingSumRating ?? 0),
-                  )),
-                  Expanded(
-                      child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                              text: "${widget.forumEntity.discussesCount}",
-                              style: TextStyle(
-                                  fontSize: 24.sp, color: Colors.white)),
-                          WidgetSpan(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5.0.w),
-                              child: Icon(
-                                FontAwesomeIcons.comment,
-                                size: 24.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )),
-                ],
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _getForumText(int rating) {
-    if (rating > 0) {
-      return RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-                text: "+${rating}",
-                style: TextStyle(fontSize: 24.sp, color: Colors.greenAccent)),
-            WidgetSpan(
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.0.w),
-                child: Icon(
-                  FontAwesomeIcons.faceSmileWink,
-                  size: 24.sp,
-                  color: Colors.greenAccent,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    if (rating < 0) {
-      return RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-                text: "${rating}",
-                style: TextStyle(fontSize: 24.sp, color: Colors.red)),
-            WidgetSpan(
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.0.w),
-                child: Icon(
-                  FontAwesomeIcons.faceSadTear,
-                  size: 24.sp,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-              text: "${rating}",
-              style: TextStyle(fontSize: 24.sp, color: Colors.white)),
-          WidgetSpan(
-            child: Padding(
-              padding: EdgeInsets.only(left: 5.0.w),
-              child: Icon(
-                FontAwesomeIcons.faceMehBlank,
-                size: 24.sp,
+          SizedBox(
+            height: 10.h,
+          ),
+          AutoSizeText(
+            StrHelper.truncateWithEllipsis(80, widget.forumEntity.text),
+            maxLines: 3,
+            style: TextStyle(
                 color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          Wrap(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.h),
+                child: RichText(
+                    text: TextSpan(children: [
+                  WidgetSpan(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Icon(
+                        FontAwesomeIcons.solidHeart,
+                        color: ColorConstant.peachColor,
+                        size: 16.sp,
+                      ),
+                    ),
+                  ),
+                  TextSpan(
+                    text: "${widget.forumEntity.discussRatingSumRating}",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                ])),
               ),
+              SizedBox(
+                width: 10.w,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.h),
+                child: RichText(
+                    text: TextSpan(children: [
+                  WidgetSpan(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Icon(
+                        FontAwesomeIcons.solidComment,
+                        color: ColorConstant.peachColor,
+                        size: 16.sp,
+                      ),
+                    ),
+                  ),
+                  TextSpan(
+                    text: "${widget.forumEntity.discussesCount}",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                ])),
+              ),
+              SizedBox(
+                width: 10.w,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.h),
+                child: RichText(
+                    text: TextSpan(children: [
+                  WidgetSpan(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Icon(
+                        FontAwesomeIcons.solidClock,
+                        color: ColorConstant.peachColor,
+                        size: 16.sp,
+                      ),
+                    ),
+                  ),
+                  TextSpan(
+                    text:
+                        "${StrHelper.toDateTimeString(widget.forumEntity.createdAt)}",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                ])),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h),
+            child: Divider(
+              height: 2.h,
+              color: Colors.white.withOpacity(0.5),
             ),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RichText(
+                  text: TextSpan(children: [
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: GFAvatar(
+                      size: 24,
+                      backgroundImage: getImageProviderFromServer(
+                          widget.forumEntity.user?.file?.url),
+                    ),
+                  ),
+                ),
+                TextSpan(
+                  text: "${widget.forumEntity.user?.name}",
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ),
+              ]))
+            ],
+          )
         ],
       ),
     );

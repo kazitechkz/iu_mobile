@@ -13,50 +13,57 @@ part 'pass_career_one_event.dart';
 part 'pass_career_one_state.dart';
 
 class PassCareerOneBloc extends Bloc<PassCareerOneEvent, PassCareerOneState> {
-  PassCareerOneBloc({required FinishCareerCase finishCareerCase, required PassCareerQuizCase passCareerQuizCase})
+  PassCareerOneBloc(
+      {required FinishCareerCase finishCareerCase,
+      required PassCareerQuizCase passCareerQuizCase})
       : this._finishCareerCase = finishCareerCase,
         this._passCareerQuizCase = passCareerQuizCase,
         super(PassCareerOneInitialState()) {
     on<PassCareerOneGetAllEvent>(_handlePassCareerOneGetAllEvent);
     on<PassCareerOneGiveAnswerEvent>(_handlePassCareerOneGiveAnswerEvent);
     on<PassCareerOneFinishEvent>(_handlePassCareerOneFinishEvent);
-
   }
+
   final FinishCareerCase _finishCareerCase;
   final PassCareerQuizCase _passCareerQuizCase;
 
-  Future<void> _handlePassCareerOneGetAllEvent(PassCareerOneGetAllEvent event, Emitter<PassCareerOneState> emit)async {
+  Future<void> _handlePassCareerOneGetAllEvent(
+      PassCareerOneGetAllEvent event, Emitter<PassCareerOneState> emit) async {
     emit(PassCareerOneLoadingState());
     final result = await _passCareerQuizCase(event.quizId);
     result.fold(
-            (l) => emit(PassCareerOneFailedState(FailureData.fromApiFailure(l))),
-            (r) => emit(PassCareerOneSuccessState(careerQuizEntity: r, givenAnswer: {}))
-    );
+        (l) => emit(PassCareerOneFailedState(FailureData.fromApiFailure(l))),
+        (r) => emit(
+            PassCareerOneSuccessState(careerQuizEntity: r, givenAnswer: {})));
   }
 
-  Future<void> _handlePassCareerOneGiveAnswerEvent(PassCareerOneGiveAnswerEvent event, Emitter<PassCareerOneState> emit) async{
-    if(state is PassCareerOneSuccessState){
+  Future<void> _handlePassCareerOneGiveAnswerEvent(
+      PassCareerOneGiveAnswerEvent event,
+      Emitter<PassCareerOneState> emit) async {
+    if (state is PassCareerOneSuccessState) {
       final currentState = state as PassCareerOneSuccessState;
       final givenAnswer = currentState.givenAnswer;
+      final answers = Map<int, int>.from(currentState.answers);
       givenAnswer[event.questionId] = event.answerId;
-      print(givenAnswer);
-      emit(currentState.copyWith(CareerQuizEntity: currentState.careerQuizEntity, GivenAnswer: givenAnswer));
+      answers[event.questionId] =
+          (event.answerId + event.questionId + event.answerValue);
+      emit(currentState.copyWith(
+        CareerQuizEntity: currentState.careerQuizEntity,
+        GivenAnswer: Map<int, int>.from(givenAnswer),
+        Answers: Map<int, int>.from(answers),
+      ));
     }
   }
 
-  Future<void> _handlePassCareerOneFinishEvent(PassCareerOneFinishEvent event,  Emitter<PassCareerOneState> emit) async{
-    if(state is PassCareerOneSuccessState){
+  Future<void> _handlePassCareerOneFinishEvent(
+      PassCareerOneFinishEvent event, Emitter<PassCareerOneState> emit) async {
+    if (state is PassCareerOneSuccessState) {
       final currentState = state as PassCareerOneSuccessState;
       emit(PassCareerOneLoadingState());
       final result = await _finishCareerCase(event.parameter);
       result.fold(
-              (l) => emit(PassCareerOneFailedState(FailureData.fromApiFailure(l))),
-              (r) => emit(PassCareerOneFinishedState(resultId: r))
-      );
-
+          (l) => emit(PassCareerOneFailedState(FailureData.fromApiFailure(l))),
+          (r) => emit(PassCareerOneFinishedState(resultId: r)));
     }
   }
-
-
-
 }

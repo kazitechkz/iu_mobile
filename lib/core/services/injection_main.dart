@@ -32,10 +32,12 @@ Future<void> slInit() async {
   await _openAiSLInit();
   await _singleSubscriptionSlInit();
 }
+
 Future<void> _talkerSLInit() async {
   final talker = TalkerFlutter.init();
   sl.registerSingleton(talker);
 }
+
 Future<void> _hiveSLInit() async {
   await Hive.initFlutter();
   Hive.registerAdapter(AuthUserHiveAdapter());
@@ -85,7 +87,8 @@ Future<void> _authSLInit() async {
       ));
   //Cases
   sl.registerLazySingleton(() => GoogleBloc(useCase: sl<GoogleSignInCase>()));
-  sl.registerLazySingleton(() => KundelikBloc(useCase: sl<KundelikSignInCase>()));
+  sl.registerLazySingleton(
+      () => KundelikBloc(useCase: sl<KundelikSignInCase>()));
   sl.registerLazySingleton(() => GoogleSignInCase(sl()));
   sl.registerLazySingleton(() => KundelikSignInCase(sl()));
   sl.registerLazySingleton(() => ForgetCase(sl()));
@@ -108,12 +111,18 @@ Future<void> _stepSLInit() async {
   sl.registerLazySingleton<StepInterface>(() => StepRepository(sl()));
   sl.registerLazySingleton<StepDataSourceInterface>(() => StepDataSourceImpl());
 
-  sl.registerLazySingleton(() => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
-  sl.registerLazySingleton(() => SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
-  sl.registerLazySingleton(() => CheckSubStepExamResultBloc(checkExamResultUseCase: sl<CheckExamResultUseCase>()));
-  sl.registerLazySingleton(() => SubStepExamBloc(useCase: sl<GetSubStepExamUseCase>()));
-  sl.registerLazySingleton(() => SubStepExamResultBloc(useCase: sl<GetSubStepExamResultsUseCase>()));
-  sl.registerLazySingleton(() => ExamRadioBloc(useCase: sl<PassSubStepExamUseCase>()));
+  sl.registerLazySingleton(
+      () => SubStepBloc(subStepUseCase: sl<SubStepUseCase>()));
+  sl.registerLazySingleton(() =>
+      SubStepDetailBloc(subStepDetailUseCase: sl<SubStepDetailUseCase>()));
+  sl.registerLazySingleton(() => CheckSubStepExamResultBloc(
+      checkExamResultUseCase: sl<CheckExamResultUseCase>()));
+  sl.registerLazySingleton(
+      () => SubStepExamBloc(useCase: sl<GetSubStepExamUseCase>()));
+  sl.registerLazySingleton(
+      () => SubStepExamResultBloc(useCase: sl<GetSubStepExamResultsUseCase>()));
+  sl.registerLazySingleton(
+      () => ExamRadioBloc(useCase: sl<PassSubStepExamUseCase>()));
   sl.registerLazySingleton(() => SubStepUseCase(sl()));
   sl.registerLazySingleton(() => GetSubStepExamResultsUseCase(sl()));
   sl.registerLazySingleton(() => GetSubStepExamUseCase(sl()));
@@ -283,18 +292,19 @@ Future<void> _careerSlInit() async {
   sl.registerLazySingleton<CareerInterface>(() => CareerRepository(sl()));
   sl.registerLazySingleton<CareerDataSourceInterface>(
       () => CareerDataSourceImpl());
+  sl.registerFactory(() =>
+      CareerQuizzesBloc(getCareerQuizzesCase: sl<GetCareerQuizzesCase>()));
   sl.registerFactory(
-          () => CareerQuizzesBloc( getCareerQuizzesCase: sl<GetCareerQuizzesCase>()));
+      () => CareerQuizDetailBloc(getCareerQuizCase: sl<GetCareerQuizCase>()));
+  sl.registerFactory(() => MyCareerQuizAttemptsBloc(
+      myCareerAttemptsCase: sl<MyCareerAttemptsCase>()));
   sl.registerFactory(
-          () => CareerQuizDetailBloc(getCareerQuizCase: sl<GetCareerQuizCase>()));
-  sl.registerFactory(
-          () => MyCareerQuizAttemptsBloc(myCareerAttemptsCase: sl<MyCareerAttemptsCase>()));
-  sl.registerFactory(
-          () => ResultCareerQuizBloc(resultCareerQuiz: sl<ResultCareerQuiz>()));
-  sl.registerFactory(
-          () => CareerSubscriptionsBloc(getCareerQuizGroupListCase: sl<GetCareerQuizGroupListCase>()));
-  sl.registerFactory(
-          () => PassCareerOneBloc(finishCareerCase: sl<FinishCareerCase>(), passCareerQuizCase: sl<PassCareerQuizCase>()));
+      () => ResultCareerQuizBloc(resultCareerQuiz: sl<ResultCareerQuiz>()));
+  sl.registerFactory(() => CareerSubscriptionsBloc(
+      getCareerQuizGroupListCase: sl<GetCareerQuizGroupListCase>()));
+  sl.registerFactory(() => PassCareerOneBloc(
+      finishCareerCase: sl<FinishCareerCase>(),
+      passCareerQuizCase: sl<PassCareerQuizCase>()));
 }
 
 Future<void> _iutubeSlInit() async {
@@ -313,7 +323,6 @@ Future<void> _iutubeSlInit() async {
       () => IutubeDetailBloc(getVideoDetailCase: sl<GetVideoDetailCase>()));
   sl.registerFactory(
       () => IutubeAuthorBloc(getVideoAuthorCase: sl<GetVideoAuthorCase>()));
-
 }
 
 Future<void> _forumSlInit() async {
@@ -389,11 +398,15 @@ Future<void> _techSupportSlInit() async {
       () => TechSupportDataSourceImpl());
   sl.registerFactory(() => MyTechSupportTicketsBloc(
       getMyTechSupportTicketsCase: sl<GetMyTechSupportTicketsCase>()));
+  sl.registerFactory(() => TechSupportDetailBloc(
+      getTechSupportTicketDetailCase: sl<GetTechSupportTicketDetailCase>(),
+      closeTechSupportTicketCase: sl<CloseTechSupportTicketCase>()));
 }
 
 Future<void> _accountSlInit() async {
   sl.registerLazySingleton(() => UserInfoBloc(accountCase: sl<AccountCase>()));
-  sl.registerLazySingleton(() => ChangeUserInfoBloc(accountChangeCase: sl<AccountChangeCase>()));
+  sl.registerLazySingleton(
+      () => ChangeUserInfoBloc(accountChangeCase: sl<AccountChangeCase>()));
   sl.registerLazySingleton(() => ChangeAvaBloc(useCase: sl<ChangeAvaCase>()));
   sl.registerLazySingleton(() => AccountCase(sl()));
   sl.registerLazySingleton(() => ChangeAvaCase(sl()));
@@ -426,7 +439,5 @@ Future<void> _singleSubscriptionSlInit() async {
   sl.registerLazySingleton(() => PayBoxUseCase(sl()));
   sl.registerLazySingleton<PayBoxInterface>(() => PayBoxRepository(sl()));
   sl.registerLazySingleton<PayBoxDatasourceInterface>(
-          () => PayBoxDatasourceImpl());
+      () => PayBoxDatasourceImpl());
 }
-
-

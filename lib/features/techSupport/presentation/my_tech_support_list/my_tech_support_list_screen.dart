@@ -56,10 +56,10 @@ class _MyTechSupportListScreenState extends State<MyTechSupportListScreen> {
                             decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   begin: Alignment.topLeft,
-                                  end: Alignment(0.8, 1),
+                                  end: Alignment(0.8, 0.85),
                                   colors: [
                                     ColorConstant.bottomBarColor,
-                                    ColorConstant.violetFirst
+                                    ColorConstant.peachColor
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(20.w)),
@@ -89,14 +89,14 @@ class _MyTechSupportListScreenState extends State<MyTechSupportListScreen> {
                                         padding:
                                             const EdgeInsets.only(right: 15),
                                         child: Icon(
-                                          FontAwesomeIcons.book,
+                                          FontAwesomeIcons.headset,
                                           color: Colors.white,
                                           size: 16.sp,
                                         ),
                                       ),
                                       Flexible(
                                         child: Text(
-                                          "1 предмет на выбор",
+                                          "Возникли вопросы? Напишите нам!",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16.sp),
@@ -123,7 +123,7 @@ class _MyTechSupportListScreenState extends State<MyTechSupportListScreen> {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          "На выполнение дается строго отведенное время",
+                                          "Ответим так быстро как сможем",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16.sp),
@@ -143,14 +143,14 @@ class _MyTechSupportListScreenState extends State<MyTechSupportListScreen> {
                                         padding:
                                             const EdgeInsets.only(right: 15),
                                         child: Icon(
-                                          FontAwesomeIcons.language,
+                                          FontAwesomeIcons.userGroup,
                                           color: Colors.white,
                                           size: 16.sp,
                                         ),
                                       ),
                                       Flexible(
                                         child: Text(
-                                          "Выбор казахского и русского языка",
+                                          "Команда специалистов готовы ответить на ваш вопрос",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16.sp),

@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class StrHelper {
   static String beautifulInteger(int stat) {
     String outputString = stat.toString();
@@ -16,7 +18,7 @@ class StrHelper {
         : '${myString.substring(0, cutoff)}...';
   }
 
-  static String toHourMinutesSeconds(int time, int timeLeft){
+  static String toHourMinutesSeconds(int time, int timeLeft) {
     int difference = time - timeLeft;
     Duration duration = Duration(milliseconds: difference);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -24,5 +26,9 @@ class StrHelper {
     String minutes = twoDigits(duration.inMinutes.remainder(60));
     String seconds = twoDigits(duration.inSeconds.remainder(60));
     return "$hours:$minutes:$seconds";
+  }
+
+  static String toDateTimeString(String? casualDate) {
+    return "${DateFormat("HH:mm dd/MM/yyyy").format(DateTime.parse(casualDate ?? DateTime.now().toString()))}";
   }
 }
