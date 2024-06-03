@@ -336,6 +336,7 @@ Future<void> _forumSlInit() async {
   sl.registerLazySingleton<ForumDataSourceInterface>(
       () => ForumDataSourceImpl());
   sl.registerFactory(() => AllForumBloc(allForumCase: sl<AllForumCase>()));
+  sl.registerFactory(() => ForumDetailBloc(getForumCase: sl<GetForumCase>(), getForumDiscussCase: sl<GetForumDiscussCase>()));
 }
 
 Future<void> _newsSlInit() async {

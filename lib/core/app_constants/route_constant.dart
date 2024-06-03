@@ -42,6 +42,6 @@ class RouteConstant {
   static const String resultCareerQuizName = "result-career-quiz";
   static const String careerSubscriptionsName = "career-subscriptions";
   static const String passCareerQuizName = "pass-career-quiz";
-  static const String techSupportTicketDetailName =
-      "tech-support-ticket-detail";
+  static const String techSupportTicketDetailName = "tech-support-ticket-detail";
+  static const String forumDetailName = "forum-detail";
 }

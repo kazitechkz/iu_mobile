@@ -5,10 +5,10 @@ sealed class ForumDetailEvent {}
 
 class ForumDetailGetByIdEvent extends ForumDetailEvent {
   final int forumId;
-  ForumDetailGetByIdEvent(this.forumId);
+  ForumDetailGetByIdEvent({required this.forumId});
 }
 
-class ForumDetailGetDiscusses extends ForumDetailEvent {
+class ForumDetailGetDiscussesEvent extends ForumDetailEvent {
   final GetForumDiscussParameter parameter;
-  ForumDetailGetDiscusses(this.parameter);
+  ForumDetailGetDiscussesEvent({required this.parameter});
 }

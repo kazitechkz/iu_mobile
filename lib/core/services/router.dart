@@ -24,6 +24,8 @@ import 'package:iu/features/career/presentation/pass_career_one/pass_career_one_
 import 'package:iu/features/career/presentation/result_career_quiz/bloc/result_career_quiz_bloc.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
+import 'package:iu/features/forum/presentation/forum_detail/bloc/forum_detail_bloc.dart';
+import 'package:iu/features/forum/presentation/forum_detail/forum_detail_screen.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/bloc/iutube_detail_bloc.dart';
 import 'package:iu/features/iutube/presentation/iutube_detail/iutube_detail_screen.dart';
 import 'package:iu/features/iutube/presentation/iutube_list/bloc/iutube_list_bloc.dart';
@@ -704,6 +706,19 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<PassCareerOneBloc>(),
                 child: PassCareerOneScreen(quizId: quizId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.forumDetailName}/:forumId",
+            name: RouteConstant.forumDetailName,
+            builder: (context, state) {
+              int forumId = int.parse(state.pathParameters['forumId'] ?? "0");
+              return BlocProvider(
+                create: (_) => sl<ForumDetailBloc>(),
+                child: ForumDetailScreen(forumId: forumId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

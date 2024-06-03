@@ -78,6 +78,7 @@ import 'package:iu/features/forum/domain/use_cases/get_forum_case.dart';
 import 'package:iu/features/forum/domain/use_cases/get_forum_discuss_case.dart';
 import 'package:iu/features/forum/domain/use_cases/rating_forum_case.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
+import 'package:iu/features/forum/presentation/forum_detail/bloc/forum_detail_bloc.dart';
 import 'package:iu/features/iutube/data/datasources/iutube_datasource.dart';
 import 'package:iu/features/iutube/data/repositories/iutube_repository.dart';
 import 'package:iu/features/iutube/domain/interface/iutube_interface.dart';

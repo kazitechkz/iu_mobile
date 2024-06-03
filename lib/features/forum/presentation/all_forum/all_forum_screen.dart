@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/utils/toasters.dart';
 import 'package:iu/features/forum/domain/parameters/all_forum_parameter.dart';
@@ -56,7 +57,8 @@ class _AllForumScreenState extends State<AllForumScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                        },
                         child: Container(
                           margin: EdgeInsets.all(10),
                           padding: EdgeInsets.symmetric(

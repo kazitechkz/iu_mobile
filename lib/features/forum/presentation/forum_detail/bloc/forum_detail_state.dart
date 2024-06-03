@@ -22,12 +22,12 @@ final class ForumDetailFailedState extends ForumDetailState {
 
 final class ForumDetailSuccessState extends ForumDetailState {
   final GetForumEntity forumEntity;
-  final GetForumDiscussEntity discussEntity;
-  final List<DiscussEntity> discusses;
+  final GetForumDiscussEntity? discussEntity;
+  final List<DiscussEntity>? discusses;
   ForumDetailSuccessState(
       {required this.forumEntity,
-      required this.discussEntity,
-      required this.discusses});
+       this.discussEntity,
+       this.discusses});
 
   ForumDetailSuccessState copyWith(
       {GetForumEntity? ForumEntity,
