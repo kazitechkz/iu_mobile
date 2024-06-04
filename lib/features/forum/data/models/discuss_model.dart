@@ -21,7 +21,7 @@ class DiscussModel extends DiscussEntity {
           userId: map["user_id"],
           forumId: map["forum_id"],
           text: map["text"],
-          discussRatingsSumRating: map["discuss_ratings_sum_rating"],
+          discussRatingsSumRating: map["discuss_ratings_sum_rating"] != null ? int.parse(map["discuss_ratings_sum_rating"]) : 0,
           user: map["user"] != null
               ? OrdinaryUserModel.fromMap(map["user"])
               : null,
