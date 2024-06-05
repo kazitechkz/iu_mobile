@@ -6,6 +6,8 @@ import 'package:iu/core/common/widgets/scaffold_with_navigation.dart';
 import 'package:iu/core/services/router_middleware.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
+import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/bloc/my_attempt_settings_bloc.dart';
+import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/my_attempt_settings_screen.dart';
 import 'package:iu/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:iu/features/auth/presentation/bloc/google/google_bloc.dart';
 import 'package:iu/features/auth/presentation/bloc/kundelik/kundelik_bloc.dart';
@@ -78,6 +80,8 @@ import 'package:iu/features/unt/presentation/unt_single/unt_single_screen.dart';
 import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
 import '../../features/attempt/presentation/attempt_result/attempt_result_screen.dart';
 import '../../features/attempt/presentation/pass_attempt/pass_attempt_screen.dart';
+import '../../features/attempt_setting/domain/use_cases/my_attempt_setting_single_use_case.dart';
+import '../../features/attempt_setting/domain/use_cases/my_attempt_settings_unt_use_case.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/career/presentation/career_quizzes/bloc/career_quizzes_bloc.dart';
 import '../../features/career/presentation/career_quizzes/career_quizzes_screen.dart';
@@ -101,6 +105,7 @@ import '../../features/user/presentation/bloc/user_info_bloc.dart';
 import '../../features/user/presentation/screen/user_info_screen.dart';
 import '../../features/welcome/presentation/bloc/welcome_bloc.dart';
 import '../../features/welcome/presentation/screens/welcome_screen.dart';
+import '../common/models/pagination_parameter.dart';
 import 'injection_main.container.dart';
 
 class RouteNavigation {
@@ -733,6 +738,33 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<NotificationListBloc>(),
                 child: NotificationListScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.myAttemptsSettingsScreenName}",
+            name: RouteConstant.myAttemptsSettingsScreenName,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<MyAttemptSettingsSingleBloc>(
+                    create: (context) => MyAttemptSettingsSingleBloc(
+                        myAttemptSettingSingleUseCase:
+                            sl<MyAttemptSettingSingleUseCase>())
+                      ..add(MyAttemptSettingsSingleGetEvent(
+                          PaginationParameter(page: 1))),
+                  ),
+                  BlocProvider<MyAttemptSettingsManyBloc>(
+                    create: (context) => MyAttemptSettingsManyBloc(
+                        myAttemptSettingsUntUseCase:
+                            sl<MyAttemptSettingsUntUseCase>())
+                      ..add(MyAttemptSettingsManyGetEvent(
+                          PaginationParameter(page: 1))),
+                  ),
+                ],
+                child: const MyAttemptSettingsScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
