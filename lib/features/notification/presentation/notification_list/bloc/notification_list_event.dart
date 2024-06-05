@@ -17,3 +17,8 @@ class CheckNotificationEvent extends NotificationListEvent{
     final int notificationId;
     CheckNotificationEvent({required this.notificationId});
 }
+
+class NotificationListCheckActiveNotificationEvent extends NotificationListEvent{
+  final NotificationEntity notification;
+  NotificationListCheckActiveNotificationEvent({required this.notification});
+}

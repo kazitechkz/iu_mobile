@@ -22,27 +22,35 @@ class NotificationListFailedState extends NotificationListState {
   List<Object?> get props => [failureData];
 }
 
+class NotificationListCheckedState extends NotificationListState {
+  @override
+  List<Object?> get props => [];
+}
+
 class NotificationListSuccessState extends NotificationListState {
   final List<int>? notificationIDS;
   final PaginationData<List<NotificationEntity>> notificationEntity;
   final List<NotificationEntity> notifications;
+  final NotificationEntity? activeNotification;
 
   NotificationListSuccessState(
-      {this.notificationIDS,required this.notificationEntity,required this.notifications});
+      {this.notificationIDS,required this.notificationEntity,required this.notifications, this.activeNotification});
 
   NotificationListSuccessState copyWith({
      List<int>? NotificationIDS,
      PaginationData<List<NotificationEntity>>? NotificationEntity,
      List<NotificationEntity>? Notifications,
+    NotificationEntity? ActiveNotification,
 }){
     return NotificationListSuccessState(
       notificationIDS: NotificationIDS ?? notificationIDS,
       notificationEntity: NotificationEntity?? notificationEntity,
-      notifications: Notifications ?? notifications
+      notifications: Notifications ?? notifications,
+      activeNotification: ActiveNotification ?? activeNotification
     );
   }
 
   @override
   List<Object?> get props =>
-      [notificationIDS, notificationEntity, notifications];
+      [notificationIDS, notificationEntity, notifications,activeNotification];
 }

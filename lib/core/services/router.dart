@@ -37,6 +37,8 @@ import 'package:iu/features/news/presentation/news_detail/news_detail_screen.dar
 import 'package:iu/features/news/presentation/news_list/bloc/important_news/important_news_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/bloc/news_list/news_list_bloc.dart';
 import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
+import 'package:iu/features/notification/presentation/notification_list/bloc/notification_list_bloc.dart';
+import 'package:iu/features/notification/presentation/notification_list/notification_list_screen.dart';
 import 'package:iu/features/payment/presentation/screens/payment_screen.dart';
 import 'package:iu/features/profile/my_subscription/presentation/screens/my_subscription_screen.dart';
 import 'package:iu/features/profile/profile_main_screen.dart';
@@ -719,6 +721,18 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<ForumDetailBloc>(),
                 child: ForumDetailScreen(forumId: forumId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.notificationListScreenName}",
+            name: RouteConstant.notificationListScreenName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<NotificationListBloc>(),
+                child: NotificationListScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

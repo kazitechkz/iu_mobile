@@ -94,7 +94,7 @@ class MainServiceEntity extends Equatable {
         const MainServiceEntity(
           image: "assets/images/icons/message.webp",
           name: 'Сообщения',
-          routeName: RouteConstant.untModeScreenName,
+          routeName: RouteConstant.notificationListScreenName,
         ),
         const MainServiceEntity(
           image: "assets/images/icons/news.webp",
