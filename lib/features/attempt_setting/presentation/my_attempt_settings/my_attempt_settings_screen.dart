@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/widgets/many_unt_widget.dart';
 import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/widgets/single_unt_widget.dart';
 
 import '../../../../core/app_constants/color_constant.dart';
@@ -30,42 +32,49 @@ class _MyAttemptSettingsScreenState extends State<MyAttemptSettingsScreen> {
         index: index,
         children: [
           const SingleUntWidget(),
-          Container(
-            child: Text("wow"),
-          ),
+          const ManyUntWidget(),
         ],
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.w),
-        clipBehavior: Clip.hardEdge,
-        constraints: BoxConstraints(minHeight: 80.h),
-        decoration: BoxDecoration(
-            color: ColorConstant.appBarColor,
-            borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: ColorConstant.peachColor)),
-        child: BottomNavigationBar(
-          selectedItemColor: ColorConstant.orangeColor,
-          unselectedItemColor: ColorConstant.grayColor,
-          currentIndex: index,
-          onTap: (int newindex) {
-            setState(() {
-              index = newindex;
-            });
-          },
-          backgroundColor: Colors.transparent,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.book),
-              label: "Сдача 1 предмета",
-              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+      bottomNavigationBar: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+            color: Colors.transparent,
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              constraints: BoxConstraints(minHeight: 80.h),
+              decoration: BoxDecoration(
+                  color: ColorConstant.appBarColor,
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: ColorConstant.peachColor)),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                selectedItemColor: ColorConstant.orangeColor,
+                unselectedItemColor: ColorConstant.grayColor,
+                currentIndex: index,
+                onTap: (int newindex) {
+                  setState(() {
+                    index = newindex;
+                  });
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.book),
+                    label: "Сдача 1 предмета",
+                    backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.boxesStacked),
+                    label: "Сдача ЕНТ",
+                    backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
+                  ),
+                ],
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.boxesStacked),
-              label: "Сдача ЕНТ",
-              backgroundColor: ColorConstant.appBarColor.withOpacity(0.5),
-            ),
-          ],
-        ),
+          ),
+        ]
       ),
     );
   }

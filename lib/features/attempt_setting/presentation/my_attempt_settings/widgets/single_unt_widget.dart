@@ -27,7 +27,7 @@ class _SingleUntWidgetState extends State<SingleUntWidget> {
         if (state is MyAttemptSettingsSingleSuccessState) {
           return SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 10.h),
               child: Column(
                 children: state.singleUntData
                     .map((singleUntData) => SingleUntCardWidget(
