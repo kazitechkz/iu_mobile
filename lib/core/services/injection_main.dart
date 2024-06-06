@@ -362,6 +362,12 @@ Future<void> _notificationSlInit() async {
       () => NotificationRepository(sl()));
   sl.registerLazySingleton<NotificationDataSourceInterface>(
       () => NotificationDataSourceImpl());
+  sl.registerFactory(
+          () => NotificationListBloc(
+              getNotificationAllCase: sl<GetNotificationAllCase>(),
+              myNotificationIdsCase: sl<MyNotificationIdsCase>(),
+              checkNotificationCase: sl<CheckNotificationCase>()));
+
 }
 
 Future<void> _statSlInit() async {

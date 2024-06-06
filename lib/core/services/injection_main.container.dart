@@ -104,6 +104,7 @@ import 'package:iu/features/notification/domain/use_cases/get_notification_all_c
 import 'package:iu/features/notification/domain/use_cases/get_notification_type_case.dart';
 import 'package:iu/features/notification/domain/use_cases/get_unread_message_count_case.dart';
 import 'package:iu/features/notification/domain/use_cases/my_notification_ids_case.dart';
+import 'package:iu/features/notification/presentation/notification_list/bloc/notification_list_bloc.dart';
 import 'package:iu/features/open_ai/data/datasources/open_ai_datasource.dart';
 import 'package:iu/features/open_ai/data/repositories/open_ai_repository.dart';
 import 'package:iu/features/open_ai/domain/interfaces/open_ai_interface.dart';

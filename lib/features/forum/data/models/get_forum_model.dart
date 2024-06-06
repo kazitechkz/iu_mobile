@@ -6,12 +6,12 @@ import '../../domain/entities/get_forum_entity.dart';
 class GetForumModel extends GetForumEntity {
   const GetForumModel(
       {required ForumModel super.forum,
-      required DiscussRatingModel super.rating});
+      required DiscussRatingModel? super.rating});
 
   GetForumModel.fromMap(DataMap map)
       : this(
           forum: ForumModel.fromMap(map["forum"]),
-          rating: DiscussRatingModel.fromMap(map["rating"]),
+          rating: map["rating"] != null ?  DiscussRatingModel.fromMap(map["rating"]) : null,
         );
 
   factory GetForumModel.fromJson(Map<String, dynamic> json) {
