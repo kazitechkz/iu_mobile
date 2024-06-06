@@ -418,6 +418,7 @@ Future<void> _accountSlInit() async {
 }
 
 Future<void> _questionSlInit() async {
+  sl.registerLazySingleton(() => MySavedQuestionsBloc(useCase: sl<GetMySavedQuestionsCase>()));
   sl.registerLazySingleton(() => GetCategoryQuestionCase(sl()));
   sl.registerLazySingleton(() => GetMySavedQuestionByIdCase(sl()));
   sl.registerLazySingleton(() => GetMySavedQuestionsCase(sl()));

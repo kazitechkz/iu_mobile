@@ -1,9 +1,9 @@
 class PaginationData<T> {
-  final int? currentPage;
+  final int currentPage;
   late T data;
   final String? firstPageUrl;
   final int? from;
-  final int? lastPage;
+  final int lastPage;
   final String? lastPageUrl;
   final List<PaginationLink> links;
   final String? nextPageUrl;
@@ -33,7 +33,7 @@ class PaginationData<T> {
         data = json["data"],
         firstPageUrl = json["first_page_url"],
         from = json["from"] != null ? json["from"] as int : 0,
-        lastPage = json["last_page"] != null ? json["last_page"] as int : 0,
+        lastPage = json["last_page"] as int,
         lastPageUrl = json["last_page_url"] as String?,
         links = json["links"] != null
             ? PaginationLink.fromMapList(
@@ -53,11 +53,11 @@ class PaginationData<T> {
     required PaginationData other,
   }) {
     return PaginationData<T>(
-      currentPage: other.currentPage ?? this.currentPage,
+      currentPage: other.currentPage,
       data: data ?? this.data,
       firstPageUrl: other.firstPageUrl ?? this.firstPageUrl,
       from: other.from ?? this.from,
-      lastPage: other.lastPage ?? this.lastPage,
+      lastPage: other.lastPage,
       lastPageUrl: other.lastPageUrl ?? this.lastPageUrl,
       links: other.links ?? this.links,
       nextPageUrl: other.nextPageUrl ?? this.nextPageUrl,

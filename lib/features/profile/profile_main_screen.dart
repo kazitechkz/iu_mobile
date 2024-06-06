@@ -172,7 +172,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                 buildMenuItem(
                   icon: Icons.favorite,
                   text: 'Мои вопросы',
-                  onClicked: () {},
+                  onClicked: () => context.goNamed(RouteConstant.mySavedQuestionsName),
                 ),
                 buildMenuItem(
                   icon: Icons.settings,

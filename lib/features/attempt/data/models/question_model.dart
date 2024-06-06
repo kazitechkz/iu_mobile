@@ -13,7 +13,7 @@ class QuestionModel extends QuestionEntity {
     required super.answerA,
     required super.answerB,
     required super.answerC,
-    super.answerD,
+    required super.answerD,
     super.answerE,
     super.answerF,
     super.answerG,

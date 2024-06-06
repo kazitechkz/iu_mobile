@@ -15,6 +15,7 @@ import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/size/gf_size.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iu/core/helpers/html_helper.dart';
 
 import '../../../../../core/app_constants/route_constant.dart';
 import '../../../../../core/helpers/mathjax_helper.dart';
@@ -23,7 +24,7 @@ import '../bloc/check_sub_step_exam_result_bloc.dart';
 import '../bloc/sub_step_detail_bloc.dart';
 
 Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
-  String cleanedHtml = fixHtml(state.entity.subStepContentEntity!.text_kk);
+  String cleanedHtml = HtmlHelper.fixHtml(state.entity.subStepContentEntity!.text_kk);
   return RefreshIndicator(
     onRefresh: () async { sl<SubStepDetailBloc>().addEvent(GetSubStepDetailEvent(state.entity.id.toString())); },
     child: SingleChildScrollView(
@@ -103,29 +104,3 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
   );
 }
 
-String fixHtml(String html) {
-  var inputHtml = parseFragment(html);
-
-  // Заменяем все <p> внутри <th> и <td> на <span>
-  inputHtml.querySelectorAll("th p, td p").forEach((element) {
-    element.replaceWith(replaceElementWithTag(element, "span"));
-  });
-
-  // Перемещаем все <li> внутри <th> и <td> в <span>
-  inputHtml.querySelectorAll("th > ul > li, th > ol > li, td > ul > li, td > ol > li").forEach((element) {
-    element.replaceWith(replaceElementWithTag(element, "span"));
-  });
-
-  // Перемещаем все <ul> и <ol> внутри <th> и <td> в <span>
-  inputHtml.querySelectorAll("th > ul, th > ol, td > ul, td > ol").forEach((element) {
-    element.replaceWith(replaceElementWithTag(element, "span"));
-  });
-
-  return inputHtml.outerHtml;
-}
-
-dom.Element replaceElementWithTag(dom.Element element, String replacement) {
-  var newElement = dom.Element.tag(replacement);
-  newElement.innerHtml = element.innerHtml;
-  return newElement;
-}

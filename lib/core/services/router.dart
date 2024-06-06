@@ -40,6 +40,8 @@ import 'package:iu/features/news/presentation/news_list/news_list_screen.dart';
 import 'package:iu/features/payment/presentation/screens/payment_screen.dart';
 import 'package:iu/features/profile/my_subscription/presentation/screens/my_subscription_screen.dart';
 import 'package:iu/features/profile/profile_main_screen.dart';
+import 'package:iu/features/question/presentation/my_saved_questions/bloc/my_saved_questions_bloc.dart';
+import 'package:iu/features/question/presentation/my_saved_questions/screens/my_saved_question_screen.dart';
 import 'package:iu/features/stat/presentation/full_stat/bloc/full_stat_bloc.dart';
 import 'package:iu/features/stat/presentation/full_stat/full_stat_screen.dart';
 import 'package:iu/features/stat/presentation/stat_attempt/bloc/stat_attempt_bloc.dart';
@@ -85,6 +87,7 @@ import '../../features/career/presentation/result_career_quiz/result_career_quiz
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
 import '../../features/iutube/presentation/iutube_author/iutube_author_screen.dart';
+import '../../features/question/domain/parameters/get_my_saved_questions_parameter.dart';
 import '../../features/subscription/presentation/screen/subscription_screen.dart';
 import '../../features/tournament/domain/parameters/get_tournament_awards_parameter.dart';
 import '../../features/tournament/presentation/tournament_detail/bloc/sub_tournament_participants/sub_tournament_participants_bloc.dart';
@@ -655,6 +658,20 @@ class RouteNavigation {
               return BlocProvider.value(
                 value: sl<UserInfoBloc>(),
                 child: const MySubscriptionScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.mySavedQuestionsName}",
+            name: RouteConstant.mySavedQuestionsName,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: sl<MySavedQuestionsBloc>()),
+                  ],
+                  child: const MySavedQuestionScreen()
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
