@@ -4,11 +4,6 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/question/domain/parameters/get_my_saved_questions_parameter.dart';
 import 'package:iu/features/question/presentation/my_saved_questions/bloc/my_saved_questions_bloc.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-import 'package:very_good_infinite_list/very_good_infinite_list.dart';
-
-import '../../../../../core/services/injection_main.container.dart';
-import '../../../../attempt/domain/entities/question_entity.dart';
 import '../widgets/saved_question_widget.dart';
 
 class MySavedQuestionScreen extends StatefulWidget {
@@ -19,7 +14,6 @@ class MySavedQuestionScreen extends StatefulWidget {
 }
 
 class _MySavedQuestionScreenState extends State<MySavedQuestionScreen> {
-  static const _pageSize = 5;
   final ScrollController _scrollController = ScrollController();
   GetMySavedQuestionsParameter params = const GetMySavedQuestionsParameter(page: 1);
 
@@ -42,8 +36,8 @@ class _MySavedQuestionScreenState extends State<MySavedQuestionScreen> {
   }
 
   void _onScroll() {
-    if (_isBottom && !_isLoading) {
-      context.read<MySavedQuestionsBloc>().add(GetMySavedQuestionsEvent(params.copyWith(page: context.read<MySavedQuestionsBloc>().currentPage)));
+    if (_isBottom && !_isLoading && !_hasReachedMax) {
+      context.read<MySavedQuestionsBloc>().add(GetMySavedQuestionsEvent(params.copyWith(page: context.read<MySavedQuestionsBloc>().currentPage + 1)));
     }
   }
 
@@ -55,7 +49,13 @@ class _MySavedQuestionScreenState extends State<MySavedQuestionScreen> {
   }
 
   bool get _isLoading {
-    return context.read<MySavedQuestionsBloc>().state is MySavedQuestionsLoading;
+    final currentState = context.read<MySavedQuestionsBloc>().state;
+    return currentState is MySavedQuestionsLoading;
+  }
+
+  bool get _hasReachedMax {
+    final currentState = context.read<MySavedQuestionsBloc>().state;
+    return currentState is MySavedQuestionsLoaded && currentState.hasReachedMax;
   }
 
   @override
@@ -68,35 +68,33 @@ class _MySavedQuestionScreenState extends State<MySavedQuestionScreen> {
       ),
       body: BlocBuilder<MySavedQuestionsBloc, MySavedQuestionsState>(
         builder: (context, state) {
-          if (state is MySavedQuestionsLoading) {
+          if (state is MySavedQuestionsInitial) {
             return const Center(
               child: CircularProgressIndicator(),
-            );
-          } else if (state is MySavedQuestionsLoaded) {
-            return NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && !_isLoading) {
-                  context.read<MySavedQuestionsBloc>().add(GetMySavedQuestionsEvent(params.copyWith(page: context.read<MySavedQuestionsBloc>().currentPage)));
-                }
-                return false;
-              },
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: state.questions.data.length + (_isLoading ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index >= state.questions.data.length) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return getQuestionCard(context, state.questions.data[index], index);
-                },
-              ),
             );
           } else if (state is MySavedQuestionsError) {
             return Center(
               child: Text('Error: ${state.failureData.message}'),
             );
+          } else if (state is MySavedQuestionsLoaded) {
+            return ListView.builder(
+              key: const PageStorageKey<String>('my_saved_questions_list'),
+              controller: _scrollController,
+              itemCount: state.hasReachedMax ? state.questions.length : state.questions.length + 1,
+              itemBuilder: (context, index) {
+                if (index >= state.questions.length) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.red),
+                    ),
+                  );
+                }
+                return getQuestionCard(context, state.questions[index], index);
+              },
+            );
           }
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox.shrink();
         },
       ),
     );
