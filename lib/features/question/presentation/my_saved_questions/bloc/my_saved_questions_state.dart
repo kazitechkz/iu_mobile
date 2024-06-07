@@ -16,8 +16,20 @@ class MySavedQuestionsLoading extends MySavedQuestionsState {
 }
 
 class MySavedQuestionsLoaded extends MySavedQuestionsState {
-  final PaginationData<List<QuestionEntity>> questions;
-  const MySavedQuestionsLoaded(this.questions);
+  final List<QuestionEntity> questions;
+  final bool hasReachedMax;
+
+  const MySavedQuestionsLoaded({required this.questions, required this.hasReachedMax});
+
+  MySavedQuestionsLoaded copyWith({
+    List<QuestionEntity>? questions,
+    bool? hasReachedMax,
+  }) {
+    return MySavedQuestionsLoaded(
+      questions: questions ?? this.questions,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
+  }
   @override
   // TODO: implement props
   List<Object?> get props => [questions];
