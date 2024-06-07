@@ -48,4 +48,5 @@ class RouteConstant {
   static const String forumDetailName = "forum-detail";
   static const String notificationListScreenName = "notifications-list";
   static const String myAttemptsSettingsScreenName = "my-attempts-settings";
+  static const String classRoomScreenName = "classrooms";
 }

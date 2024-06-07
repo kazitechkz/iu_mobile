@@ -50,12 +50,12 @@ class MainServiceEntity extends Equatable {
         const MainServiceEntity(
           image: "assets/images/icons/question.webp",
           name: 'Мои вопросы',
-          routeName: RouteConstant.untModeScreenName,
+          routeName: RouteConstant.mySavedQuestionsName,
         ),
         const MainServiceEntity(
           image: "assets/images/icons/classroom.webp",
           name: 'Мои классы',
-          routeName: RouteConstant.untModeScreenName,
+          routeName: RouteConstant.classRoomScreenName,
         ),
       ],
       [

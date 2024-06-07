@@ -37,4 +37,12 @@ class HttpUtil {
         ));
     return response.data;
   }
+
+  Future delete(String path,
+      {dynamic data, Map<String, dynamic>? queryParameters}) async {
+    var response = await dio.delete(path,
+        data: data,
+        queryParameters: queryParameters);
+    return response.data;
+  }
 }

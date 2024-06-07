@@ -146,4 +146,5 @@ class ApiConstant {
       "${baseApiUrl}my-attempt-settings-unt";
   static const String getAiAnswer = "${baseApiUrl}get-ai-answer/";
   static const String getInitPay = "${baseApiUrl}paybox/";
+  static const String studentClassRooms = "${baseApiUrl}classrooms";
 }

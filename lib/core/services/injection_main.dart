@@ -18,6 +18,7 @@ Future<void> slInit() async {
   await _iutubeSlInit();
   await _forumSlInit();
   await _newsSlInit();
+  await _classRoomSLInit();
   await _notificationSlInit();
   await _statSlInit();
   await _factSLInit();
@@ -337,6 +338,18 @@ Future<void> _forumSlInit() async {
       () => ForumDataSourceImpl());
   sl.registerFactory(() => AllForumBloc(allForumCase: sl<AllForumCase>()));
   sl.registerFactory(() => ForumDetailBloc(getForumCase: sl<GetForumCase>(), getForumDiscussCase: sl<GetForumDiscussCase>()));
+}
+
+
+Future<void> _classRoomSLInit() async {
+  sl.registerLazySingleton(() => ExitRoomCase(sl()));
+  sl.registerLazySingleton(() => JoinRoomCase(sl()));
+  sl.registerLazySingleton(() => GetRoomsCase(sl()));
+  sl.registerLazySingleton<ClassRoomDataSourceInterface>(
+          () => ClassRoomDataSourceImpl());
+  sl.registerLazySingleton<ClassRoomInterface>(
+          () => ClassRoomRepository(sl()));
+  sl.registerFactory(() => ClassroomBloc(exitRoomCase: sl<ExitRoomCase>(), getRoomsCase: sl<GetRoomsCase>(), joinRoomCase: sl<JoinRoomCase>()),);
 }
 
 Future<void> _newsSlInit() async {

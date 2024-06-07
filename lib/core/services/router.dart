@@ -24,6 +24,8 @@ import 'package:iu/features/career/presentation/my_career_quiz_attempts/my_caree
 import 'package:iu/features/career/presentation/pass_career_one/bloc/pass_career_one_bloc.dart';
 import 'package:iu/features/career/presentation/pass_career_one/pass_career_one_screen.dart';
 import 'package:iu/features/career/presentation/result_career_quiz/bloc/result_career_quiz_bloc.dart';
+import 'package:iu/features/classroom/presentation/bloc/classroom_bloc.dart';
+import 'package:iu/features/classroom/presentation/classroom_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
 import 'package:iu/features/forum/presentation/forum_detail/bloc/forum_detail_bloc.dart';
@@ -782,6 +784,18 @@ class RouteNavigation {
                   ),
                 ],
                 child: const MyAttemptSettingsScreen(),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.classRoomScreenName}",
+            name: RouteConstant.classRoomScreenName,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => sl<ClassroomBloc>(),
+                child: ClassRoomScreen(),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {
