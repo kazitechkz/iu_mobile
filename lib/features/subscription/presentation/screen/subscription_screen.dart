@@ -1,20 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/common/models/subject.dart';
-import 'package:iu/core/utils/freedom_utils.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
-import 'package:iu/features/subscription/domain/entities/subscription_entity.dart';
 import 'package:iu/features/subscription/domain/parameters/paybox_parameters.dart';
 import 'package:iu/features/subscription/presentation/bloc/init_pay/init_pay_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dart';
-import 'package:iu/features/subscription/presentation/widgets/webview_init_widget.dart';
-
 import '../../../../core/app_constants/color_constant.dart';
 import '../widgets/local_subject_widget.dart';
 import '../widgets/subscription_widgets.dart';

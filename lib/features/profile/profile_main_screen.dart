@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getwidget/components/avatar/gf_avatar.dart';
+import 'package:getwidget/components/checkbox_list_tile/gf_checkbox_list_tile.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,11 +12,11 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/services/image_service.dart';
 import 'package:iu/core/utils/google_api.dart';
 import 'package:iu/features/user/presentation/bloc/ava/change_ava_bloc.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-
-import '../../core/services/injection_main.container.dart';
+import 'package:iu/l10n/bloc/locale_cubit.dart';
+import '../../core/app_constants/color_constant.dart';
 import '../../core/utils/hive_utils.dart';
 import '../user/presentation/bloc/user_info_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileMainScreen extends StatefulWidget {
   const ProfileMainScreen({super.key});
@@ -25,7 +27,7 @@ class ProfileMainScreen extends StatefulWidget {
 
 class _ProfileMainScreenState extends State<ProfileMainScreen> {
   final ImagePicker _picker = ImagePicker();
-
+  
   @override
   void initState() {
     super.initState();
@@ -114,7 +116,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                               ),
                             ),
                             Text(
-                              'Ученик',
+                              state.meInfo.isKundelik ? 'Ученик' : state.meInfo.email,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 color: Colors.white70,
@@ -126,7 +128,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                     );
                   }
                   if (state is GetInfoError) {
-                    print(state.failureData);
+
                   }
                   return const Center(child: GFLoader(type: GFLoaderType.ios));
                 },
@@ -140,14 +142,14 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
               children: [
                 buildMenuItem(
                   icon: Icons.person,
-                  text: 'Изменить профиль',
+                  text: AppLocalizations.of(context)!.change_profile,
                   onClicked: () {
                     context.goNamed(RouteConstant.userInfoScreenName);
                   },
                 ),
                 buildMenuItem(
                   icon: Icons.mail,
-                  text: 'Уведомление',
+                  text: AppLocalizations.of(context)!.notifications,
                   onClicked: () {},
                   trailing: Container(
                     padding: EdgeInsets.all(6.w),
@@ -166,25 +168,82 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                 ),
                 buildMenuItem(
                   icon: Icons.subscriptions_outlined,
-                  text: 'Мои подписки',
+                  text: AppLocalizations.of(context)!.my_subscriptions,
                   onClicked: () => context.goNamed(RouteConstant.mySubscriptionsName),
                 ),
                 buildMenuItem(
                   icon: Icons.favorite,
-                  text: 'Мои вопросы',
+                  text: AppLocalizations.of(context)!.my_saved_questions,
                   onClicked: () => context.goNamed(RouteConstant.mySavedQuestionsName),
                 ),
                 buildMenuItem(
-                  icon: Icons.settings,
-                  text: 'Настройки',
-                  onClicked: () {},
+                  icon: Icons.language,
+                  text: AppLocalizations.of(context)!.language,
+                  onClicked: () {
+                    showModalBottomSheet(
+                        backgroundColor: ColorConstant.backgroundColor,
+                        context: context,
+                        builder: (builder) {
+                          return BlocBuilder<LocaleCubit, LocaleState>(
+                            builder: (context, state) {
+                              return FractionallySizedBox(
+                                heightFactor: 0.5,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                  child: Column(
+                                    children: [
+                                      GFCheckboxListTile(
+                                        titleText: 'Қазақ',
+                                        listItemTextColor: Colors.white,
+                                        avatar: const GFAvatar(
+                                          backgroundImage: AssetImage('assets/icons/kk_icon.png'),
+                                        ),
+                                        size: 25,
+                                        activeBgColor: ColorConstant.orangeColor,
+                                        type: GFCheckboxType.circle,
+                                        activeIcon: const Icon(
+                                          Icons.check,
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        onChanged: (value) => context.read<LocaleCubit>().toKazakh(),
+                                        value: state.locale == const Locale('kk') ? true : false,
+                                        inactiveIcon: null,
+                                      ),
+                                      GFCheckboxListTile(
+                                        titleText: 'Русский',
+                                        listItemTextColor: Colors.white,
+                                        avatar: const GFAvatar(
+                                          backgroundImage: AssetImage('assets/icons/ru_icon.png'),
+                                        ),
+                                        size: 25,
+                                        activeBgColor: ColorConstant.orangeColor,
+                                        type: GFCheckboxType.circle,
+                                        activeIcon: const Icon(
+                                          Icons.check,
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        onChanged: (value) => context.read<LocaleCubit>().toRussian(),
+                                        value: state.locale == const Locale('ru') ? true : false,
+                                        inactiveIcon: null,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                    );
+                  },
                 ),
                 BlocBuilder<UserInfoBloc, UserInfoState>(
                   builder: (context, state) {
                     if (state is GetInfoLoaded) {
                       return buildMenuItem(
                         icon: Icons.logout,
-                        text: 'Выход',
+                        text: AppLocalizations.of(context)!.logout,
                         onClicked: () {
                           if (state.meInfo.isGoogle) {
                             GoogleSignInApi.logout();
@@ -199,7 +258,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                     }
                     return buildMenuItem(
                       icon: Icons.logout,
-                      text: 'Выход',
+                      text: AppLocalizations.of(context)!.logout,
                       onClicked: () {
                         HiveUtils().loggedOutFromHive().then((_) {
                           // Перенаправление пользователя на экран входа

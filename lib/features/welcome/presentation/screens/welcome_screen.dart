@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
@@ -41,7 +39,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         },
         builder: (context, state) {
           if (state is WelcomeLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is WelcomeFailedState) {
@@ -134,7 +132,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 if (state.currentPage >= 2) {
                                   context
                                       .read<WelcomeBloc>()
-                                      .add(WelcomeCacheEvent());
+                                      .add(const WelcomeCacheEvent());
                                 } else {
                                   pageController.nextPage(
                                       duration:
@@ -144,7 +142,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               },
                               child: Text(
                                 AppLocalizations.of(context)!.next,
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
@@ -156,7 +154,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ],
             );
           }
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     );

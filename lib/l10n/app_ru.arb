@@ -5,6 +5,7 @@
   "or": "или",
   "sign_in": "Вход",
   "sign_up": "Зарегистрироваться",
+  "logout": "Выход",
   "email": "Ваш E-Mail",
   "phone": "Номер телефона",
   "name": "Ф.И.О.",
@@ -18,5 +19,10 @@
   "no_account": "Нет Аккаунта?",
   "have_account": "Уже Есть Аккаунт?",
   "verify_account": "Подтвердить аккаунт",
-  "verify_account_text": "Введите код прибывший на вашу почту"
+  "verify_account_text": "Введите код прибывший на вашу почту",
+  "language": "Язык",
+  "change_profile": "Изменить профиль",
+  "notifications": "Уведомление",
+  "my_subscriptions": "Мои подписки",
+  "my_saved_questions": "Мои вопросы"
 }
