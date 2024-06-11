@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:iu/core/common/models/categories.dart';
 import 'package:iu/core/common/models/file_entity.dart';
 import 'package:iu/core/common/models/subject.dart';
-
-import '../../../../core/utils/typedef.dart';
 
 class StepEntity extends Equatable {
   final int id;

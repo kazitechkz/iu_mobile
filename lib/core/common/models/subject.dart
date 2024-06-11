@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/file_entity.dart';
-
+import 'package:iu/core/mixins/title_mixin.dart';
 import '../../utils/typedef.dart';
 
-class SubjectEntity extends Equatable {
+class SubjectEntity extends Equatable with TitleMixin {
   final int id;
   final String title_kk;
   final String title_ru;
@@ -49,6 +46,12 @@ class SubjectEntity extends Equatable {
         image,
         image_url
       ];
+
+  @override
+  String? getTitleKk() => title_kk;
+
+  @override
+  String? getTitleRu() => title_ru;
 }
 
 class SubjectModel extends SubjectEntity {
