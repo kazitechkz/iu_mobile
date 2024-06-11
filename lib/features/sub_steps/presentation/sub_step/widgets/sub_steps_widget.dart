@@ -39,17 +39,17 @@ Widget subSteps(BuildContext context, List<SubStepEntity> subSteps) {
                   }
                 },
                 child: ListTile(
-                    title: Text(step.titleKk, style: const TextStyle(fontSize: 20),),
+                    title: Text(step.getLocalizedTitle(context), style: const TextStyle(fontSize: 20),),
                     leading: SizedBox(
                       width: 50,
                       child: step.isFree ? GFProgressBar(
-                          percentage: step.progressKk!/100,
+                          percentage: step.getLocalizedProgress(context)!/100,
                           circleWidth: 3,
                           radius: 50,
                           type: GFProgressType.circular,
                           progressBarColor: GFColors.SUCCESS,
                           child: Center(
-                            child: Text('${step.progressKk}%', textAlign: TextAlign.end,
+                            child: Text('${step.getLocalizedProgress(context)}%', textAlign: TextAlign.end,
                               style: const TextStyle(fontSize: 10, color: Colors.black),
                             ),
                         ),

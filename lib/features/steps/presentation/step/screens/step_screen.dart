@@ -9,7 +9,7 @@ import 'package:transformable_list_view/transformable_list_view.dart';
 import '../../../../../core/app_constants/route_constant.dart';
 import '../bloc/step_bloc.dart' as Step;
 import '../widgets/step_widgets.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class StepScreen extends StatefulWidget {
   const StepScreen({super.key});
 
@@ -28,7 +28,7 @@ class _StepScreenState extends State<StepScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBarWidget(text: 'Обучение', imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.dashboardScreenName),
+      appBar: CommonAppBarWidget(text: AppLocalizations.of(context)!.steps, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.dashboardScreenName),
       body: BlocConsumer<Step.StepBloc, Step.StepState>(
         builder: (context, state) {
           if (state is Step.StepLoadingState) {

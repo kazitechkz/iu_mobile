@@ -1,17 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/components/appbar/gf_appbar.dart';
-import 'package:getwidget/components/button/gf_icon_button.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:getwidget/types/gf_button_type.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
-import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/features/steps/presentation/detail/bloc/step_detail_bloc.dart';
 import 'package:iu/features/steps/presentation/detail/widgets/stepper_widget.dart';
-
-import '../../../../../core/services/injection_main.container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/widgets/common_app_bar_widget.dart';
 
 class StepDetailScreen extends StatefulWidget {
@@ -66,7 +60,7 @@ class _StepDetailScreenState extends State<StepDetailScreen> {
         }
         if (state is StepDetailLoaded) {
           return Scaffold(
-              appBar: CommonAppBarWidget(text: state.stepEntities[0].subject!.title_kk, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepsScreenName),
+              appBar: CommonAppBarWidget(text: state.stepEntities[0].subject!.getLocalizedTitle(context), imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepsScreenName),
               backgroundColor: const Color(0xffc9ecff),
               body: SingleChildScrollView(
                 reverse: true,

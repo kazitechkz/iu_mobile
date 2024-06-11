@@ -1,11 +1,6 @@
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:html/parser.dart' show parseFragment;
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/colors/gf_color.dart';
@@ -16,15 +11,15 @@ import 'package:getwidget/size/gf_size.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/helpers/html_helper.dart';
-
 import '../../../../../core/app_constants/route_constant.dart';
 import '../../../../../core/helpers/mathjax_helper.dart';
 import '../../../../../core/services/injection_main.container.dart';
 import '../bloc/check_sub_step_exam_result_bloc.dart';
 import '../bloc/sub_step_detail_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
-  String cleanedHtml = HtmlHelper.fixHtml(state.entity.subStepContentEntity!.text_kk);
+  String cleanedHtml = HtmlHelper.fixHtml(state.entity.subStepContentEntity!.getLocalizedText(context));
   return RefreshIndicator(
     onRefresh: () async { sl<SubStepDetailBloc>().addEvent(GetSubStepDetailEvent(state.entity.id.toString())); },
     child: SingleChildScrollView(
@@ -59,7 +54,7 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                               'localeID': '1'
                             });
                           },
-                          text: "Просмотреть результат",
+                          text: AppLocalizations.of(context)!.show_result_button,
                           shape: GFButtonShape.pills,
                           size: GFSize.LARGE,
                         ),
@@ -72,7 +67,7 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                                 'localeID': '1'
                               });
                         },
-                        text: "Пройти снова",
+                        text: AppLocalizations.of(context)!.pass_again_button,
                         shape: GFButtonShape.pills,
                         color: GFColors.SUCCESS,
                         size: GFSize.LARGE,
@@ -84,7 +79,7 @@ Widget getSubStepContent(SubStepDetailLoaded state, BuildContext context) {
                                 'localeID': '1'
                               });
                         },
-                        text: "Начать тест",
+                        text: AppLocalizations.of(context)!.pass_test_button,
                         shape: GFButtonShape.pills,
                         color: GFColors.SUCCESS,
                         size: GFSize.LARGE,

@@ -6,10 +6,11 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_button_type.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/sub_steps/domain/parameters/sub_step_exam_parameters.dart';
 import 'package:iu/features/sub_steps/presentation/result/bloc/sub_step_exam_result_bloc.dart';
 import 'package:iu/features/sub_steps/presentation/result/widgets/getSubStepExamResultContent.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/app_constants/route_constant.dart';
 
 class SubStepExamResultScreen extends StatefulWidget {
@@ -37,22 +38,8 @@ class _SubStepExamResultScreenState extends State<SubStepExamResultScreen> {
         if (state is SubStepExamResultLoaded) {
           return Scaffold(
             backgroundColor: Colors.white,
-            appBar: GFAppBar(
-              leading: GFIconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  context.goNamed(RouteConstant.subStepDetailScreenName,
-                      pathParameters: {'subStepID': state.subStepExamResults.subStepExamEntity[0].sub_step_id
-                          .toString()});
-                },
-                type: GFButtonType.transparent,
-              ),
-              title: Text('Контрольные вопросы'),
-              centerTitle: true,
-            ),
+            appBar: CommonAppBarWidget(text: AppLocalizations.of(context)!.final_questions, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.subStepDetailScreenName, pathParams: {'subStepID': state.subStepExamResults.subStepExamEntity[0].sub_step_id
+                .toString()}),
             body: getSubStepExamResultContent(state.subStepExamResults, context),
             // floatingActionButton: FloatingActionButton(
             //   onPressed: () => context.read<ExamRadioBloc>().add(SubmitAnswers()),

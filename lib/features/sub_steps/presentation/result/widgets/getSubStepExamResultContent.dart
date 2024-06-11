@@ -14,7 +14,7 @@ Widget getSubStepExamResultContent(SubStepExamResultEntity exams, BuildContext c
     padding: const EdgeInsets.all(10.0),
     child: ListView(
       children: [
-        _getAdditionalCard(exams.isRight, exams.count), // Ваш дополнительный карточный элемент
+        _getAdditionalCard(exams.isRight, exams.count),
         ...exams.subStepExamEntity.asMap().entries.map((entry) {
           int index = entry.key;
           var question = entry.value;

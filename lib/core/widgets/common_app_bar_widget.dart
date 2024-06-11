@@ -31,7 +31,7 @@ class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     // Максимальная ширина текста в пикселях (приблизительная)
-    final maxTextWidth = MediaQuery.of(context).size.width - 200;
+    final maxTextWidth = MediaQuery.of(context).size.width - 300;
 
     // Стиль текста
     const textStyle = TextStyle(

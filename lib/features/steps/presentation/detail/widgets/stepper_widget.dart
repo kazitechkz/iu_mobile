@@ -11,7 +11,7 @@ import 'package:collection/collection.dart';
 import '../../../../../core/services/injection_main.container.dart';
 import '../../../../sub_steps/presentation/sub_step/bloc/sub_step_bloc.dart';
 import '../../../../sub_steps/presentation/sub_step/screen/sub_step_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep = 0}) {
   activeStep = steps.length;
   return Padding(
@@ -40,7 +40,7 @@ Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep 
                                 },
                               );
                             },
-                    child: _buildStep(step)
+                    child: _buildStep(step, context)
                 )
             ),
           )).toList(),
@@ -48,7 +48,7 @@ Widget ownStepper(BuildContext context, List<StepEntity> steps, {int activeStep 
   );
 }
 
-Widget _buildStep(StepEntity step) {
+Widget _buildStep(StepEntity step, BuildContext context) {
   return Column(
     children: [
       Container(
@@ -82,7 +82,7 @@ Widget _buildStep(StepEntity step) {
       ),
       SizedBox(
         width: 150.w,
-        child: Text(step.title_kk, style: const TextStyle(fontSize: 12), textAlign: TextAlign.center,)
+        child: Text(step.getLocalizedTitle(context), style: const TextStyle(fontSize: 12), textAlign: TextAlign.center,)
       ),
       const SizedBox(height: 10,),
       SizedBox(
@@ -91,14 +91,14 @@ Widget _buildStep(StepEntity step) {
           padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: GFProgressBar(
             margin: EdgeInsets.symmetric(vertical: 5.h),
-            percentage: step.progress_kk!/100,
+            percentage: step.getLocalizedProgress(context)/100,
             lineHeight: 12,
             alignment: MainAxisAlignment.spaceBetween,
             // leading  : const Icon( Icons.sentiment_dissatisfied, color: GFColors.DANGER),
             // trailing: const Icon( Icons.sentiment_satisfied, color: GFColors.SUCCESS),
             backgroundColor: Colors.black26,
             progressBarColor: GFColors.INFO,
-            child: Text('${step.progress_kk}%', textAlign: TextAlign.end,
+            child: Text('${step.getLocalizedProgress(context)}%', textAlign: TextAlign.end,
               style: const TextStyle(fontSize: 9, color: Colors.white),
             ),
           ),

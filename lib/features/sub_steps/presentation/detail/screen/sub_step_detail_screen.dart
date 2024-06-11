@@ -8,7 +8,7 @@ import 'package:iu/features/sub_steps/presentation/detail/widgets/get_sub_step_c
 import '../../../../../core/app_constants/route_constant.dart';
 import '../../../../../core/services/injection_main.container.dart';
 import '../../../../../core/widgets/common_app_bar_widget.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SubStepDetailScreen extends StatefulWidget {
   final String subStepID;
 
@@ -53,7 +53,7 @@ class _SubStepDetailState extends State<SubStepDetailScreen> {
         } else if (state is SubStepDetailLoaded) {
           return Scaffold(
             backgroundColor: Colors.white,
-            appBar: CommonAppBarWidget(text: state.entity.titleKk, imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepDetailScreenName, pathParams: {'subjectID': state.entity.step.subject_id
+            appBar: CommonAppBarWidget(text: state.entity.getLocalizedTitle(context), imageUrl: 'assets/images/icons/education.webp', routeLink: RouteConstant.stepDetailScreenName, pathParams: {'subjectID': state.entity.step.subject_id
                 .toString()}),
             body: getSubStepContent(state, context),
           );

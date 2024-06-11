@@ -1,11 +1,13 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:iu/l10n/bloc/locale_cubit.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({required this.navigationShell, super.key});
@@ -40,7 +42,7 @@ class _BottomNavBarState extends State<BottomNavBar>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color:
-                      isActive ? ColorConstant.orangeColor : Colors.transparent,
+                  isActive ? ColorConstant.orangeColor : Colors.transparent,
                 ),
                 child: GestureDetector(
                   onTap: () {
@@ -53,15 +55,19 @@ class _BottomNavBarState extends State<BottomNavBar>
                         iconList[index],
                         size: 20,
                         color:
-                            isActive ? Colors.white : ColorConstant.grayColor,
+                        isActive ? Colors.white : ColorConstant.grayColor,
                       ),
-                      Text(
-                        iconLabel[index],
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color:
+                      BlocBuilder<LocaleCubit, LocaleState>(
+                        builder: (context, state) {
+                          return Text(
+                            state.locale == const Locale('kk') ? iconLabelKk[index] : iconLabelRu[index],
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              color:
                               isActive ? Colors.white : ColorConstant.grayColor,
-                        ),
+                            ),
+                          );
+                        },
                       )
                     ],
                   ),
@@ -95,7 +101,8 @@ class _BottomNavBarState extends State<BottomNavBar>
     FontAwesomeIcons.dumbbell,
     FontAwesomeIcons.user,
   ];
-  List<String> iconLabel = ["Главная", "Обучение", "Тренажер", "Профиль"];
+  List<String> iconLabelKk = ["Басты бет", "Оқыту", "Тренажер", "Профиль"];
+  List<String> iconLabelRu = ["Главная", "Обучение", "Тренажер", "Профиль"];
   List<String> routingName = [
     RouteConstant.dashboardScreenName,
     RouteConstant.stepsScreenName,

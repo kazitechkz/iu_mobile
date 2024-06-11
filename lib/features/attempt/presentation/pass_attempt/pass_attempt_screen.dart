@@ -7,7 +7,6 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +23,7 @@ import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../domain/entities/attempt_common_entity.dart';
 import 'bloc/pass_attempt_bloc.dart';
 import 'bloc/pass_attempt_event.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PassUntScreen extends StatefulWidget {
   final int attemptId;
 
@@ -38,6 +37,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
   CarouselController attemptCarouselController = CarouselController();
   CarouselController paginationCarouselController = CarouselController();
 
+  @override
   void initState() {
     super.initState();
     context
@@ -45,6 +45,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
         .add(PassAttemptGetByAttemptIdEvent(widget.attemptId));
   }
 
+  @override
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
     context
@@ -55,8 +56,8 @@ class _PassUntScreenState extends State<PassUntScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CommonAppBarWidget(
-          text: "Тренажер ЕНТ",
+        appBar: CommonAppBarWidget(
+          text: AppLocalizations.of(context)!.unt_training,
           imageUrl: "assets/images/icons/training.webp",
           routeLink: RouteConstant.untModeScreenName,
         ),
@@ -64,7 +65,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
           listener: (context, state) {
             if (state is PassAttemptSuccessState) {
               if (state.answeredResult == null) {
-                this.checkAnsweredResult(context, state);
+                checkAnsweredResult(context, state);
               }
             }
             if (state is PassAttemptFinishedState) {
@@ -103,7 +104,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               HeaderTitle(
-                                  title: "Полная сдача ЕНТ",
+                                  title: AppLocalizations.of(context)!.full_pass_unt,
                                   fontSize: 22.sp,
                                   color: Colors.white),
                               const SizedBox(
@@ -139,20 +140,20 @@ class _PassUntScreenState extends State<PassUntScreen> {
                         DropdownButtonHideUnderline(
                           child: DropdownButton2<int>(
                             isExpanded: true,
-                            hint: const Row(
+                            hint: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.list,
                                   size: 16,
                                   color: ColorConstant.darkOrangeColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Выберите дисциплину',
-                                    style: TextStyle(
+                                    AppLocalizations.of(context)!.select_discipline,
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: ColorConstant.darkOrangeColor,
@@ -234,7 +235,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                         SizedBox(
                           height: 20.h,
                         ),
-                        Container(
+                        SizedBox(
                           height: 60,
                           width: 320.w,
                           child: ExpandableCarousel.builder(
@@ -247,8 +248,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                 showIndicator: false,
                                 onPageChanged: (int index,
                                     CarouselPageChangedReason reason) {
-                                  this
-                                      .attemptCarouselController
+                                  attemptCarouselController
                                       .jumpToPage(index);
                                 }),
                             itemCount: state
@@ -262,8 +262,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                                 child: InkWell(
                                   onTap: () {
-                                    this
-                                        .attemptCarouselController
+                                    attemptCarouselController
                                         .jumpToPage(pageViewIndex);
                                   },
                                   child: SizedBox(
@@ -308,8 +307,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                 context.read<PassAttemptBloc>().add(
                                     PassAttemptCarouselSliderChangeEvent(
                                         index));
-                                this
-                                    .paginationCarouselController
+                                paginationCarouselController
                                     .jumpToPage(index);
                               }),
                           itemCount: state
@@ -341,8 +339,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                           BorderRadius.circular(10.w)),
                                   child: ConstrainedBox(
                                       constraints: BoxConstraints(
-                                        minHeight: 200
-                                            .h, // Установка минимальной высоты в 200 пикселей
+                                        minHeight: 200.h, // Установка минимальной высоты в 200 пикселей
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -350,7 +347,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              "Вопрос ${pageViewIndex + 1}/${state.attempt.subjectQuestions[state.subjectId ?? 0].question.length}",
+                                              "${AppLocalizations.of(context)!.question} ${pageViewIndex + 1}/${state.attempt.subjectQuestions[state.subjectId ?? 0].question.length}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
@@ -401,7 +398,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                                       )
                                                     ],
                                                   )
-                                                : SizedBox()),
+                                                : const SizedBox()),
                                             SizedBox(
                                               height: 10.h,
                                             ),
@@ -454,27 +451,25 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                                       activeQuestion.typeId),
                                               answerType: 'c',
                                             ),
-                                            (activeQuestion.answerD != null
-                                                ? AnswerButton(
-                                                    answer:
-                                                        activeQuestion.answerD,
-                                                    isAlreadyAnswered:
-                                                        isAlreadyAnswered(
-                                                            state,
-                                                            "d",
-                                                            activeQuestion.id),
-                                                    isChecked: isChecked(state,
-                                                        "d", activeQuestion.id),
-                                                    onSelected: (answer) =>
-                                                        checkAnswered(
-                                                            context,
-                                                            "d",
-                                                            activeQuestion.id,
-                                                            activeQuestion
-                                                                .typeId),
-                                                    answerType: 'd',
-                                                  )
-                                                : const SizedBox()),
+                                            AnswerButton(
+                                              answer:
+                                              activeQuestion.answerD,
+                                              isAlreadyAnswered:
+                                              isAlreadyAnswered(
+                                                  state,
+                                                  "d",
+                                                  activeQuestion.id),
+                                              isChecked: isChecked(state,
+                                                  "d", activeQuestion.id),
+                                              onSelected: (answer) =>
+                                                  checkAnswered(
+                                                      context,
+                                                      "d",
+                                                      activeQuestion.id,
+                                                      activeQuestion
+                                                          .typeId),
+                                              answerType: 'd',
+                                            ),
                                             (activeQuestion.answerE != null
                                                 ? AnswerButton(
                                                     answer:
@@ -640,7 +635,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                             height: 40.h,
                                             borderRadius: 20.0,
                                             child: Text(
-                                              "Ответить",
+                                              AppLocalizations.of(context)!.answer_button,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
@@ -673,7 +668,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                             width: 80.w,
                                             height: 40.h,
                                             borderRadius: 20.0,
-                                            child: Icon(
+                                            child: const Icon(
                                               FontAwesomeIcons.chevronRight,
                                               color: Colors.white,
                                             ),
@@ -695,7 +690,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
               );
             }
 
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           },
@@ -803,7 +798,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
       }
     }
     if (state.answeredQuestions.containsKey(questionId)) {
-      if (state.answeredQuestions[questionId]!.length >= 1 &&
+      if (state.answeredQuestions[questionId]!.isNotEmpty &&
           !state.answeredQuestionsID.containsKey(questionId)) {
         return true;
       }

@@ -1,8 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:iu/core/common/models/file_entity.dart';
 import 'package:iu/core/common/models/subject.dart';
+import 'package:iu/core/mixins/title_mixin.dart';
 
-class StepEntity extends Equatable {
+import '../../../../core/mixins/progress_mixin.dart';
+
+class StepEntity extends Equatable with TitleMixin, ProgressMixin {
   final int id;
   final String title_kk;
   final String title_ru;
@@ -38,6 +41,18 @@ class StepEntity extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [id, title_kk, title_ru, image, subject_id, category_id, plan_id, level, is_free, is_active, progress_kk, progress_ru, subject, image_url];
+
+  @override
+  String? getTitleKk() => title_kk;
+
+  @override
+  String? getTitleRu() => title_ru;
+
+  @override
+  int? getProgressKk() => progress_kk;
+
+  @override
+  int? getProgressRu() => progress_ru;
 }
 
 class MainStepEntity extends SubjectEntity {

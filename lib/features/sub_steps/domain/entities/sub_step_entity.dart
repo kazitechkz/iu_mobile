@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:iu/core/mixins/progress_mixin.dart';
+import 'package:iu/core/mixins/title_mixin.dart';
 import 'package:iu/features/sub_steps/domain/entities/sub_result_entity.dart';
 import 'package:iu/features/sub_steps/domain/entities/sub_step_content_entity.dart';
 import 'package:iu/features/sub_steps/domain/entities/sub_step_video_entity.dart';
 
 import '../../../steps/data/models/step_model.dart';
 
-class SubStepEntity extends Equatable {
+class SubStepEntity extends Equatable with TitleMixin, ProgressMixin {
   final int id;
   final String titleRu;
   final String titleKk;
@@ -45,4 +47,16 @@ class SubStepEntity extends Equatable {
   List<Object?> get props => [
     id, titleKk, titleRu, stepId, subCategoryId, level, isActive, createdAt, updatedAt, isFree, progressKk, progressRu, step, subStepVideoEntity, subResultEntity, subStepContentEntity
   ];
+
+  @override
+  int? getProgressKk() => progressKk;
+
+  @override
+  int? getProgressRu() => progressRu;
+
+  @override
+  String? getTitleKk() => titleKk;
+
+  @override
+  String? getTitleRu() => titleRu;
 }

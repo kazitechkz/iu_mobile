@@ -24,5 +24,18 @@
     "change_profile": "Профиль өзгерту",
     "notifications": "Хабарландырулар",
     "my_subscriptions": "Менін жазылымдарым",
-    "my_saved_questions": "Менің сұрақтарым"
+    "my_saved_questions": "Менің сұрақтарым",
+    "statistics": "Статистика",
+    "unt_training": "ҰБТ Тренажер",
+    "full_pass_unt": "Толыққанды ҰБТ",
+    "select_discipline": "Пәнді таңдау",
+    "question": "Сұрақ",
+    "answer_button": "Жауап беру",
+    "steps": "Оқыту",
+    "steps_title": "Тараулар",
+    "sub_steps_title": "Тақырыптар",
+    "show_result_button": "Нәтижені көру",
+    "pass_again_button": "Қайта өту",
+    "pass_test_button": "Тест өту",
+    "final_questions": "Қорытынды сұрақтар"
 }

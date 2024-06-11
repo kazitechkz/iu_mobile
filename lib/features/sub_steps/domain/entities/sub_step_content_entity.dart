@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:iu/core/mixins/text_mixin.dart';
 
-class SubStepContentEntity extends Equatable {
+import '../../../../core/mixins/content_mixin.dart';
+
+class SubStepContentEntity extends Equatable with TextMixin {
   final int id;
   final String text_ru;
   final String text_kk;
@@ -15,4 +18,10 @@ class SubStepContentEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, text_kk, text_ru, is_active];
+
+  @override
+  String? getTextKk() => text_kk;
+
+  @override
+  String? getTextRu() => text_ru;
 }

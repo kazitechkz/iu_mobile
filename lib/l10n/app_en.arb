@@ -24,5 +24,18 @@
   "change_profile": "Изменить профиль",
   "notifications": "Уведомление",
   "my_subscriptions": "Мои подписки",
-  "my_saved_questions": "Мои вопросы"
+  "my_saved_questions": "Мои вопросы",
+  "statistics": "Статистика",
+  "unt_training": "Тренажер ЕНТ",
+  "full_pass_unt": "Полная сдача ЕНТ",
+  "select_discipline": "Выбрать дисциплину",
+  "question": "Вопрос",
+  "answer_button": "Ответить",
+  "steps": "Обучение",
+  "steps_title": "Главы",
+  "sub_steps_title": "Темы",
+  "show_result_button": "Просмотреть результат",
+  "pass_again_button": "Пройти снова",
+  "pass_test_button": "Начать тест",
+  "final_questions": "Контрольные вопросы"
 }

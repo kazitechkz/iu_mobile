@@ -11,7 +11,7 @@ import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../../stat/domain/entities/subject_result_entity.dart';
 import 'package:collection/collection.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AttemptResultScreen extends StatefulWidget {
   final int attemptId;
 
@@ -32,8 +32,8 @@ class _AttemptResultScreenState extends State<AttemptResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBarWidget(
-        text: "Статистика",
+      appBar: CommonAppBarWidget(
+        text: AppLocalizations.of(context)!.statistics,
         imageUrl: "assets/images/icons/stat.webp",
         routeLink: RouteConstant.statMainName,
       ),
@@ -41,7 +41,7 @@ class _AttemptResultScreenState extends State<AttemptResultScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is AttemptResultLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
