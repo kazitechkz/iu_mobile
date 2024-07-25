@@ -6,6 +6,7 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/user/presentation/bloc/user_info_bloc.dart';
 import 'package:iu/features/user/presentation/widgets/get_form_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({super.key});
@@ -27,7 +28,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CommonAppBarWidget(text: 'Редактировать', imageUrl: 'assets/images/icons/user_edit.png', routeLink: RouteConstant.profileScreenName,),
+      appBar: CommonAppBarWidget(text: AppLocalizations.of(context)!.appbar_edit, imageUrl: 'assets/images/icons/user_edit.png', routeLink: RouteConstant.profileScreenName,),
       body: BlocConsumer<UserInfoBloc, UserInfoState>(
         listener: (context, state) {
           if (state is GetInfoError) {

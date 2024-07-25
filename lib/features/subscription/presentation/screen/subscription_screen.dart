@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/common/models/subject.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
+import 'package:iu/features/subscription/domain/entities/subscription_entity.dart';
 import 'package:iu/features/subscription/domain/parameters/paybox_parameters.dart';
 import 'package:iu/features/subscription/presentation/bloc/init_pay/init_pay_bloc.dart';
 import 'package:iu/features/subscription/presentation/bloc/local_subject/local_subject_bloc.dart';
@@ -12,7 +13,7 @@ import 'package:iu/features/subscription/presentation/bloc/subscription_bloc.dar
 import '../../../../core/app_constants/color_constant.dart';
 import '../widgets/local_subject_widget.dart';
 import '../widgets/subscription_widgets.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
 
@@ -30,9 +31,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBarWidget(
+      appBar: CommonAppBarWidget(
         routeLink: RouteConstant.dashboardScreenName,
-        text: 'Подписки',
+        text: AppLocalizations.of(context)!.appbar_subscriptions,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -43,43 +44,43 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   children: [
                     Image.asset('assets/images/subs_header.webp'),
                     const SizedBox(height: 10),
-                    const Text(
-                      'Купить доступ',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.buy_subscription,
+                      style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
                     const SizedBox(height: 10),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          leading: Icon(Icons.check, color: Colors.white),
+                          leading: const Icon(Icons.check, color: Colors.white),
                           title: Text(
-                            'Работа над ошибками, подсказки и решения',
-                            style: TextStyle(color: Colors.white),
+                            AppLocalizations.of(context)!.plan_work_on_mistakes,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.check, color: Colors.white),
+                          leading: const Icon(Icons.check, color: Colors.white),
                           title: Text(
-                            'Анализ слабых мест',
-                            style: TextStyle(color: Colors.white),
+                            AppLocalizations.of(context)!.plan_analyze,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.check, color: Colors.white),
+                          leading: const Icon(Icons.check, color: Colors.white),
                           title: Text(
-                            'Полная статистика',
-                            style: TextStyle(color: Colors.white),
+                            AppLocalizations.of(context)!.plan_stats,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.check, color: Colors.white),
+                          leading: const Icon(Icons.check, color: Colors.white),
                           title: Text(
-                            'Неограниченный доступ',
-                            style: TextStyle(color: Colors.white),
+                            AppLocalizations.of(context)!.plan_unlimit,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -88,11 +89,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: state.subs
-                          .map((sub) => GestureDetector(
+                          .map((SubscriptionEntity sub) => GestureDetector(
                                 onTap: () => context.read<SubscriptionBloc>().add(SelectSubscriptionEvent(sub.period)),
                                 child: SubscriptionOption(
                                     price: sub.price,
-                                    period: sub.titleRu,
+                                    period: sub.getLocalizedTitle(context),
                                     isSelected: sub.isSelected),
                               ))
                           .toList(),
@@ -122,11 +123,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                   horizontal: 15, vertical: 10.0),
                                               child: Column(
                                                 children: [
-                                                  const Padding(
-                                                    padding: EdgeInsets.all(16.0),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(16.0),
                                                     child: Text(
-                                                      'Выберите предметы',
-                                                      style: TextStyle(
+                                                      AppLocalizations.of(context)!.select_subjects,
+                                                      style: const TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.bold,
@@ -185,9 +186,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                               if (state is GetInitPayLoading) {
                                                                 return const Center(child: CircularProgressIndicator());
                                                               }
-                                                              return const Text(
-                                                                'Продолжить',
-                                                                style: TextStyle(
+                                                              return Text(
+                                                                AppLocalizations.of(context)!.continue_button,
+                                                                style: const TextStyle(
                                                                     color: Colors
                                                                         .white),
                                                               );
@@ -207,7 +208,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       if (state
                                       is GetSelectedLocalSubjectsError) {
                                         GFToast.showToast(
-                                            'Можно выбрать только два предмета',
+                                            AppLocalizations.of(context)!.info_toastr_plan_validation_message,
                                             context,
                                             toastPosition: GFToastPosition.BOTTOM,
                                             textStyle: const TextStyle(
@@ -228,9 +229,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             horizontal: 100, vertical: 20),
                         textStyle: const TextStyle(fontSize: 20),
                       ),
-                      child: const Text(
-                        'Продолжить',
-                        style: TextStyle(color: Colors.white),
+                      child: Text(
+                        AppLocalizations.of(context)!.continue_button,
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     const SizedBox(height: 10),

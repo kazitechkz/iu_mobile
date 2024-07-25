@@ -6,7 +6,7 @@ import 'package:iu/core/helpers/subscription_helper.dart';
 import 'package:iu/core/services/image_service.dart';
 import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/user/presentation/bloc/user_info_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/app_constants/color_constant.dart';
 import '../../../../../core/common/models/subscription.dart';
 
@@ -28,7 +28,7 @@ class _MySubscriptionScreenState extends State<MySubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBarWidget(text: 'Мои подписки', imageUrl: 'assets/images/icons/subscriptions.webp', routeLink: RouteConstant.profileScreenName),
+      appBar: CommonAppBarWidget(text: AppLocalizations.of(context)!.appbar_my_subscriptions, imageUrl: 'assets/images/icons/subscriptions.webp', routeLink: RouteConstant.profileScreenName),
       body: BlocBuilder<UserInfoBloc, UserInfoState>(
         builder: (context, state) {
           if (state is GetInfoLoaded) {
@@ -59,13 +59,13 @@ class _MySubscriptionScreenState extends State<MySubscriptionScreen> {
                             backgroundImage: AssetImage(getSubjectImagePath(index)),
                           ),
                           title: Text(plan.title_kk, style: const TextStyle(fontSize: 19, color: Colors.white),),
-                          subTitle: Text('Дата истечения: ${plan.endAt}', style: const TextStyle(color: Colors.white),),
+                          subTitle: Text('${AppLocalizations.of(context)!.expiration_date}: ${plan.endAt}', style: const TextStyle(color: Colors.white),),
                         ),
                       );
                   }
               );
             }
-            return const Center(child: Text('У вас пока нет активных подписок!', style: TextStyle(fontSize: 20, color: Colors.white),));
+            return Center(child: Text(AppLocalizations.of(context)!.not_subscriptions, style: const TextStyle(fontSize: 20, color: Colors.white),));
           }
           return const Center(child: CircularProgressIndicator());
         },

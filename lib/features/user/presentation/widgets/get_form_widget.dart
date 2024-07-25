@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,7 +10,7 @@ import 'package:getwidget/position/gf_toast_position.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:intl/intl.dart';
 import 'package:iu/features/user/presentation/bloc/user_info_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../domain/parameters/change_profile_parameters.dart';
 import '../bloc/change/change_user_info_bloc.dart';
 
@@ -31,10 +30,10 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
             FormBuilderTextField(
               name: 'name',
               initialValue: state.meInfo.name,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.account_circle_outlined),
-                  labelText: 'Имя',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.account_circle_outlined),
+                  labelText: AppLocalizations.of(context)!.name,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
             ),
@@ -45,10 +44,10 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
               controller: phoneController,
               name: 'phone',
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.phone_android),
-                  labelText: 'Номер телефона',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.phone_android),
+                  labelText: AppLocalizations.of(context)!.phone,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
             ),
@@ -61,10 +60,10 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
               initialValue: state.meInfo.birthDate != null
                   ? DateTime.parse(state.meInfo.birthDate!)
                   : null,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.date_range_outlined),
-                  labelText: 'Дата рождения',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.date_range_outlined),
+                  labelText: AppLocalizations.of(context)!.birthday,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
               format: DateFormat('yyyy-MM-dd'),
@@ -75,10 +74,10 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
             FormBuilderDropdown(
               name: 'gender',
               initialValue: state.meInfo.gender?.id,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.male_outlined),
-                  labelText: 'Пол',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.male_outlined),
+                  labelText: AppLocalizations.of(context)!.gender,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
               items: [1, 2]
@@ -86,7 +85,7 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
                   DropdownMenuItem(
                     value: gender,
                     child: Text(
-                        gender == 1 ? 'мужской' : 'женский'),
+                        gender == 1 ? AppLocalizations.of(context)!.man : AppLocalizations.of(context)!.woman),
                   ))
                   .toList(),
             ),
@@ -97,10 +96,10 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
               readOnly: true,
               name: 'email',
               initialValue: state.meInfo.email,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
-                  labelText: 'Почта',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  labelText: AppLocalizations.of(context)!.email,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
             ),
@@ -109,16 +108,16 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
             ),
             FormBuilderTextField(
               name: 'password',
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.password),
-                  labelText: 'Пароль',
-                  border: OutlineInputBorder(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.password),
+                  labelText: AppLocalizations.of(context)!.password,
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gapPadding: 2.0)),
               obscureText: true,
               validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(errorText: 'Поле обязательно для заполнения'),
-                FormBuilderValidators.minLength(4, errorText: 'Поле password должно быть не короче 4 символов'),
+                FormBuilderValidators.required(errorText: AppLocalizations.of(context)!.required_input_error),
+                FormBuilderValidators.minLength(4, errorText: AppLocalizations.of(context)!.min_length_input_error),
               ]),
             ),
             SizedBox(height: 20.h),
@@ -146,13 +145,13 @@ Widget getUserForm(BuildContext context, GetInfoLoaded state) {
                     return const Center(child: GFLoader(type: GFLoaderType.ios));
                   }
 
-                  return const Text('Обновить');
+                  return Text(AppLocalizations.of(context)!.update_button);
                 },
                 listener: (BuildContext context, ChangeUserInfoState state) {
                   if (state is ChangeUserInfoLoaded) {
                     if(state.result) {
                       GFToast.showToast(
-                          'Успешно обновлено',
+                          AppLocalizations.of(context)!.success_toastr_update,
                           context,
                           toastPosition: GFToastPosition.BOTTOM,
                           textStyle: const TextStyle(

@@ -110,11 +110,11 @@ class _CommonAppBarWidgetState extends State<CommonAppBarWidget> {
           ],
         ),
       ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(10),
-        ),
-      ),
+      // shape: const RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(
+      //     bottom: Radius.circular(10),
+      //   ),
+      // ),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:iu/core/widgets/common_app_bar_widget.dart';
 import 'package:iu/features/question/domain/parameters/get_my_saved_questions_parameter.dart';
 import 'package:iu/features/question/presentation/my_saved_questions/bloc/my_saved_questions_bloc.dart';
 import '../widgets/saved_question_widget.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MySavedQuestionScreen extends StatefulWidget {
   const MySavedQuestionScreen({super.key});
 
@@ -61,8 +61,8 @@ class _MySavedQuestionScreenState extends State<MySavedQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBarWidget(
-        text: 'Мои вопросы',
+      appBar: CommonAppBarWidget(
+        text: AppLocalizations.of(context)!.appbar_my_questions,
         routeLink: RouteConstant.profileScreenName,
         imageUrl: 'assets/images/icons/question.webp',
       ),

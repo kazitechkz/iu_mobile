@@ -54,10 +54,12 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                 height: 250.h,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Colors.purple, Colors.pink],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        ColorConstant.darkOrangeColor,
+                        ColorConstant.appBarColor,
+                      ]),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(50.r),
                     bottomRight: Radius.circular(50.r),
@@ -152,16 +154,26 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                   text: AppLocalizations.of(context)!.notifications,
                   onClicked: () {},
                   trailing: Container(
+                    width: 30.w,
+                    height: 30.w,
                     padding: EdgeInsets.all(6.w),
-                    decoration: const BoxDecoration(
-                      color: Colors.purple,
-                      shape: BoxShape.circle,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        gradient: const LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+                              ColorConstant.darkOrangeColor,
+                              ColorConstant.appBarColor,
+                            ])
                     ),
-                    child: Text(
-                      '7',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
+                    child: Center(
+                      child: Text(
+                        '7',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.sp,
+                        ),
                       ),
                     ),
                   ),
@@ -187,7 +199,7 @@ class _ProfileMainScreenState extends State<ProfileMainScreen> {
                           return BlocBuilder<LocaleCubit, LocaleState>(
                             builder: (context, state) {
                               return FractionallySizedBox(
-                                heightFactor: 0.5,
+                                heightFactor: 0.6,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Column(
