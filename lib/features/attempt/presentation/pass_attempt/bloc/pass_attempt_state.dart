@@ -25,14 +25,18 @@ class PassAttemptSuccessState extends PassAttemptState {
   final AnsweredResultEntity? answeredResult;
   final int timeLeftMS;
   final Map<int, List<String>> answeredQuestionsID;
-  PassAttemptSuccessState(this.attempt,
-      {required this.timeLeftMS,
-      this.subjectId = 0,
-      this.answeredQuestions = const {},
-      this.answerResult,
-      this.activeSlider = 0,
-      this.answeredQuestionsID = const {},
-      this.answeredResult});
+  final List<int> savedQuestionId;
+  PassAttemptSuccessState(
+    this.attempt, {
+    required this.timeLeftMS,
+    this.subjectId = 0,
+    this.answeredQuestions = const {},
+    this.answerResult,
+    this.activeSlider = 0,
+    this.answeredQuestionsID = const {},
+    this.answeredResult,
+    this.savedQuestionId = const [],
+  });
 
   @override
   List<Object?> get props => [
@@ -43,7 +47,8 @@ class PassAttemptSuccessState extends PassAttemptState {
         answerResult,
         answeredQuestionsID,
         answeredResult,
-        timeLeftMS
+        timeLeftMS,
+        savedQuestionId,
       ];
 
   PassAttemptSuccessState copyWith({
@@ -55,6 +60,7 @@ class PassAttemptSuccessState extends PassAttemptState {
     Map<int, List<String>>? answeredQuestionsID,
     AnsweredResultEntity? answeredResult,
     int? activeSlider,
+    List<int>? SavedQuestionId,
   }) {
     return PassAttemptSuccessState(
       attempt ?? this.attempt,
@@ -65,6 +71,7 @@ class PassAttemptSuccessState extends PassAttemptState {
       answerResult: answerResult ?? this.answerResult,
       answeredQuestionsID: answeredQuestionsID ?? this.answeredQuestionsID,
       answeredResult: answeredResult ?? this.answeredResult,
+      savedQuestionId: SavedQuestionId ?? this.savedQuestionId,
     );
   }
 }

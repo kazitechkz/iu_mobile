@@ -5,6 +5,8 @@ import 'package:iu/core/app_constants/route_constant.dart';
 import 'package:iu/core/common/widgets/scaffold_with_navigation.dart';
 import 'package:iu/core/services/router_middleware.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
+import 'package:iu/features/attempt/presentation/attempt_work_over_failure/attempt_work_over_failure_screen.dart';
+import 'package:iu/features/attempt/presentation/attempt_work_over_failure/bloc/attempt_work_over_failure_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
 import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/bloc/my_attempt_settings_bloc.dart';
 import 'package:iu/features/attempt_setting/presentation/my_attempt_settings/my_attempt_settings_screen.dart';
@@ -415,6 +417,19 @@ class RouteNavigation {
               return await RouterMiddleWare().authMiddleWare(context, state);
             }),
         GoRoute(
+            path: "/${RouteConstant.attemptWorkOverFailureName}/:attemptId",
+            name: RouteConstant.attemptWorkOverFailureName,
+            builder: (context, state) {
+              int attemptId = int.parse(state.pathParameters['attemptId']!);
+              return BlocProvider(
+                create: (_) => sl<AttemptWorkOverFailureBloc>(),
+                child: AttemptWorkOverFailureScreen(attemptId: attemptId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
             path: "/${RouteConstant.statByAttemptIdName}/:attemptId",
             name: RouteConstant.statByAttemptIdName,
             builder: (context, state) {
@@ -676,12 +691,9 @@ class RouteNavigation {
             path: "/${RouteConstant.mySavedQuestionsName}",
             name: RouteConstant.mySavedQuestionsName,
             builder: (context, state) {
-              return MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: sl<MySavedQuestionsBloc>()),
-                  ],
-                  child: const MySavedQuestionScreen()
-              );
+              return MultiBlocProvider(providers: [
+                BlocProvider.value(value: sl<MySavedQuestionsBloc>()),
+              ], child: const MySavedQuestionScreen());
             },
             redirect: (BuildContext context, GoRouterState state) async {
               return await RouterMiddleWare().authMiddleWare(context, state);

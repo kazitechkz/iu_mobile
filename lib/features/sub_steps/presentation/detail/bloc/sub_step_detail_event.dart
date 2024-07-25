@@ -8,6 +8,5 @@ class GetSubStepDetailEvent extends SubStepDetailEvent {
   final String subStepId;
   const GetSubStepDetailEvent(this.subStepId);
   @override
-  // TODO: implement props
   List<Object?> get props => [subStepId];
 }

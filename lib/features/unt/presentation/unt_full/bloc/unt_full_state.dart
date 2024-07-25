@@ -17,19 +17,28 @@ class UntFullLoadingState extends UntFullState {
 
 class UntFullSubjectLoadedState extends UntFullState {
   final List<SubjectEntity> subjects;
-  const UntFullSubjectLoadedState(this.subjects,
-      {super.parameter = const CreateAttemptParameter(
+  final List<SubjectEntity> not_complusory_subjects;
+  final List<SubjectEntity> complusory_subjects;
+  const UntFullSubjectLoadedState(
+      {required this.subjects,
+      required this.complusory_subjects,
+      required this.not_complusory_subjects,
+      super.parameter = const CreateAttemptParameter(
           subjects: [], locale_id: 1, attempt_type_id: 1)});
   // Updated copyWith method
   UntFullSubjectLoadedState copyWith({
     List<SubjectEntity>? Subjects,
+    List<SubjectEntity>? NCSubjects,
+    List<SubjectEntity>? CSubjects,
     List<int>? subjects,
     int? localeId,
     int? attemptTypeId,
   }) {
     return UntFullSubjectLoadedState(
-      Subjects ??
+      subjects: Subjects ??
           this.subjects, // Use the new subjects list if provided, otherwise use the current list
+      complusory_subjects: CSubjects ?? this.complusory_subjects,
+      not_complusory_subjects: NCSubjects ?? this.not_complusory_subjects,
       parameter: parameter?.copyWith(
         subjects: subjects ?? parameter?.subjects,
         locale_id: localeId ?? parameter?.locale_id,

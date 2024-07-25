@@ -26,6 +26,7 @@ import 'package:iu/features/attempt/domain/use_cases/get_attempt_stat_case.dart'
 import 'package:iu/features/attempt/domain/use_cases/get_unt_stat_case.dart';
 import 'package:iu/features/attempt/domain/use_cases/save_question_case.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
+import 'package:iu/features/attempt/presentation/attempt_work_over_failure/bloc/attempt_work_over_failure_bloc.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_bloc.dart';
 import 'package:iu/features/attempt_setting/data/datasources/attempt_setting_datasource.dart';
 import 'package:iu/features/attempt_setting/data/repositories/attempt_setting_repository.dart';

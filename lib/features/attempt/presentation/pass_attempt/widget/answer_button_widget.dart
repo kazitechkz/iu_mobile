@@ -42,12 +42,25 @@ class AnswerButton extends StatelessWidget {
               extensions: [
                 TagExtension(
                   tagsToExtend: {"pre"},
-                  builder: (extensionContext) =>
-                      Math.tex(extensionContext.innerHtml),
+                  builder: (extensionContext) => Math.tex(
+                    extensionContext.innerHtml,
+                    textStyle: TextStyle(color: Colors.white),
+                  ),
                 )
               ],
               style: {
                 'pre': Style(color: Colors.white),
+                'tex': Style(color: Colors.white),
+                'p': Style(color: Colors.white),
+                'b': Style(color: Colors.white),
+                'li': Style(color: Colors.white),
+                'h1': Style(color: Colors.white),
+                'h2': Style(color: Colors.white),
+                'h3': Style(color: Colors.white),
+                'h4': Style(color: Colors.white),
+                'h5': Style(color: Colors.white),
+                'h6': Style(color: Colors.white),
+                "div": Style(color: Colors.white)
               },
             ),
           ],
@@ -61,7 +74,7 @@ class AnswerButton extends StatelessWidget {
       return Border.all(color: ColorConstant.violetColor, width: 2);
     }
     if (this.isChecked) {
-      return Border.all(color: ColorConstant.darkOrangeColor, width: 2);
+      return Border.all(color: Colors.white, width: 2);
     }
     return Border.all(color: Colors.white, width: 2);
   }

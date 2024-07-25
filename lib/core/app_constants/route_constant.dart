@@ -21,6 +21,7 @@ class RouteConstant {
   static const String passAttemptById = "pass-attempt-by";
   static const String statMainName = "stat-main";
   static const String attemptResultByAttemptIdName = "attempt-result-by-id";
+  static const String attemptWorkOverFailureName = "attempt-work-over-failure";
   static const String statByAttemptIdName = "stat-by-attempt-id";
   static const String fullStatName = "full-stat";
   static const String listTournamentName = "list-tournaments";

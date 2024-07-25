@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iu/core/common/models/subject.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
+import 'package:iu/features/attempt/presentation/attempt_result/widgets/attempt_result_buttons.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/widgets/attempt_result_card_widget.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/widgets/attempt_result_subject_card.dart';
 import '../../../../core/app_constants/route_constant.dart';
@@ -12,6 +13,7 @@ import '../../../../core/widgets/common_app_bar_widget.dart';
 import '../../../stat/domain/entities/subject_result_entity.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AttemptResultScreen extends StatefulWidget {
   final int attemptId;
 
@@ -56,7 +58,13 @@ class _AttemptResultScreenState extends State<AttemptResultScreen> {
                         attemptEntity: state.stats.attempt,
                       ),
                       SizedBox(
-                        height: 15.h,
+                        height: 20.h,
+                      ),
+                      AttemptResultButtons(
+                        attemptId: widget.attemptId,
+                      ),
+                      SizedBox(
+                        height: 10.h,
                       ),
                       ..._getSubjectCard(
                           state.stats.subjects, state.stats.subjectResult)

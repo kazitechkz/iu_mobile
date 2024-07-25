@@ -2,10 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:iu/features/attempt/domain/parameters/answered_result_parameter.dart';
 import 'package:iu/features/attempt/domain/use_cases/finish_attempt_case.dart';
 import 'package:iu/features/attempt/domain/use_cases/get_attempt_case.dart';
+import 'package:iu/features/attempt/domain/use_cases/save_question_case.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_event.dart';
 import 'package:iu/features/attempt/presentation/pass_attempt/bloc/pass_attempt_state.dart';
 import '../../../../../core/common/models/failure_data.dart';
 import '../../../domain/entities/answer_result_entity.dart';
+import '../../../domain/parameters/save_question_parameter.dart';
 import '../../../domain/use_cases/answer_case.dart';
 import '../../../domain/use_cases/answer_result_case.dart';
 
@@ -15,24 +17,29 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
     required AnswerCase answerCase,
     required AnswerResultCase answerResultCase,
     required FinishAttemptCase finishAttemptCase,
+    required SaveQuestionCase saveQuestionCase,
   })  : _attemptCase = attemptCase,
         _answerCase = answerCase,
         _answerResultCase = answerResultCase,
         _finishAttemptCase = finishAttemptCase,
+        _saveQuestionCase = saveQuestionCase,
         super(PassAttemptInitialState()) {
     on<PassAttemptGetByAttemptIdEvent>(_handlePassAttemptGetByAttemptIdEvent);
     on<PassAttemptGetAnsweredEvent>(_handlePassAttemptGetAnsweredEvent);
     on<PassAttemptChangeSubjectEvent>(_handlePassAttemptChangeSubjectEvent);
     on<PassAttemptAnswerQuestionEvent>(_handlePassAttemptAnswerQuestionEvent);
     on<PassAttemptAnswerEvent>(_handlePassAttemptAnswerEvent);
+    on<PassAttemptOnTickEvent>(_handlePassAttemptOnTickEvent);
     on<PassAttemptCarouselSliderChangeEvent>(
         _handlePassAttemptCarouselSliderChangeEvent);
     on<PassAttemptFinishAttemptEvent>(_handlePassAttemptFinishAttemptEvent);
+    on<PassAttemptSaveQuestionEvent>(_handlePassAttemptSaveQuestionEvent);
   }
   final GetAttemptCase _attemptCase;
   final AnswerCase _answerCase;
   final AnswerResultCase _answerResultCase;
   final FinishAttemptCase _finishAttemptCase;
+  final SaveQuestionCase _saveQuestionCase;
 
   Future<void> _handlePassAttemptGetByAttemptIdEvent(
       PassAttemptGetByAttemptIdEvent event,
@@ -72,6 +79,14 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
         (l) => emit(PassAttemptFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
         (r) => emit(PassAttemptFinishedState(event.attemptId)));
+  }
+
+  Future<void> _handlePassAttemptOnTickEvent(
+      PassAttemptOnTickEvent event, Emitter<PassAttemptState> emit) async {
+    if (state is PassAttemptSuccessState) {
+      final currentState = state as PassAttemptSuccessState;
+      emit(currentState.copyWith(timeLeft: event.millisecondsLeft));
+    }
   }
 
   Future<void> _handlePassAttemptGetAnsweredEvent(
@@ -126,6 +141,22 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
         newQuestionAnswers[event.questionId] = [event.answer];
       }
       emit(currentState.copyWith(answeredQuestions: newQuestionAnswers));
+    }
+  }
+
+  Future<void> _handlePassAttemptSaveQuestionEvent(
+      PassAttemptSaveQuestionEvent event,
+      Emitter<PassAttemptState> emit) async {
+    if (state is PassAttemptSuccessState) {
+      final currentState = state as PassAttemptSuccessState;
+      final savedQuestionsId = currentState.savedQuestionId;
+      final result =
+          await _saveQuestionCase(SaveQuestionParameter(event.questionId));
+      result.fold(
+          (l) => emit(currentState.copyWith(
+              SavedQuestionId: [...savedQuestionsId, event.questionId])),
+          (r) => emit(currentState.copyWith(
+              SavedQuestionId: [...savedQuestionsId, event.questionId])));
     }
   }
 }

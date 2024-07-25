@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/utils/toasters.dart';
 import 'package:iu/features/attempt/domain/parameters/create_attempt_parameter.dart';
+import 'package:iu/features/unt/presentation/unt_full/widget/subject_card_widget.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/services/image_service.dart';
@@ -33,9 +34,9 @@ class _UntFullScreenState extends State<UntFullScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:const CommonAppBarWidget(
+        appBar: const CommonAppBarWidget(
           text: "Тренажер ЕНТ",
-          imageUrl:  "assets/images/icons/training.webp",
+          imageUrl: "assets/images/icons/training.webp",
           routeLink: RouteConstant.untModeScreenName,
         ),
         body: BlocConsumer<UntFullBloc, UntFullState>(
@@ -68,113 +69,117 @@ class _UntFullScreenState extends State<UntFullScreen> {
                                 gradient: const LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment(0.8, 1),
-                                  colors: [ColorConstant.bottomBarColor, ColorConstant.darkOrangeColor],
+                                  colors: [
+                                    ColorConstant.bottomBarColor,
+                                    ColorConstant.darkOrangeColor
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(20.w)),
                             child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Сдать полный тест",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Сдать полный тест",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      SizedBox(
-                                        height: 20.h,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:
+                                      Padding(
+                                        padding:
                                             const EdgeInsets.only(right: 15),
-                                            child: Icon(
-                                              FontAwesomeIcons.book,
+                                        child: Icon(
+                                          FontAwesomeIcons.book,
+                                          color: Colors.white,
+                                          size: 16.sp,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          "3 основных дисциплины и 2 на выбор",
+                                          style: TextStyle(
                                               color: Colors.white,
-                                              size: 16.sp,
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              "3 основных дисциплины и 2 на выбор",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.sp),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.only(right: 15),
-                                            child: Icon(
-                                              FontAwesomeIcons.clock,
-                                              color: Colors.white,
-                                              size: 16.sp,
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              "На выполнение дается 210 минут",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.sp),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.only(right: 15),
-                                            child: Icon(
-                                              FontAwesomeIcons.language,
-                                              color: Colors.white,
-                                              size: 16.sp,
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              "Выбор казахского и русского языка",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.sp),
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                              fontSize: 16.sp),
+                                        ),
+                                      )
                                     ],
                                   ),
-                                )),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Icon(
+                                          FontAwesomeIcons.clock,
+                                          color: Colors.white,
+                                          size: 16.sp,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          "На выполнение дается 210 минут",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16.sp),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Icon(
+                                          FontAwesomeIcons.language,
+                                          color: Colors.white,
+                                          size: 16.sp,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          "Выбор казахского и русского языка",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16.sp),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
                           ),
                           SizedBox(height: 10.h),
-                          Text("Выберите язык сдачи:",style: TextStyle(color: Colors.white, fontSize: 16.sp),),
+                          Text(
+                            "Выберите язык сдачи:",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
                           SizedBox(height: 10.h),
                           Center(
                             child: LiteRollingSwitch(
@@ -193,109 +198,94 @@ class _UntFullScreenState extends State<UntFullScreen> {
                               textSize: 12.0,
                               onChanged: (bool state) {
                                 context.read<UntFullBloc>().add(
-                                    UntFullUpdateLocaleIdEvent(
-                                        state ? 1 : 2));
+                                    UntFullUpdateLocaleIdEvent(state ? 1 : 2));
                               },
                               onTap: () {},
                               onDoubleTap: () {},
                               onSwipe: () {},
                             ),
                           ),
-                          SizedBox(height: 20.h),
+                          SizedBox(height: 10.h),
                         ],
                       ),
                     ),
                   ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      child: Center(
+                        child: Text(
+                          "Основные дисциплины:",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        ),
+                      ),
+                    ), // Space between the grids
+                  ),
                   SliverGrid(
                       delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (state.subjects[index].is_compulsory !=
-                                    1) {
-                                  List<int> newValue = List<int>.from(
-                                      state.parameter?.subjects ?? []);
-                                  if (newValue
-                                      .contains(state.subjects[index].id)) {
-                                    newValue
-                                        .remove(state.subjects[index].id);
-                                  } else {
-                                    if (newValue.length >= 2) {
-                                      newValue[0] = newValue[1];
-                                      newValue[1] =
-                                          state.subjects[index].id;
-                                    } else {
-                                      newValue
-                                          .add(state.subjects[index].id);
-                                    }
-                                  }
-                                  context.read<UntFullBloc>().add(
-                                      UntFullAddSubjectsEvent(newValue));
-                                }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: getImageProviderFromServer(
-                                          state
-                                              .subjects[index].image?.url)),
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Positioned(
-                                      right: 10,
-                                      top: 5,
-                                      child: (state.parameter?.subjects
-                                          .contains(state
-                                          .subjects[index]
-                                          .id) ==
-                                          true ||
-                                          state.subjects[index]
-                                              .is_compulsory ==
-                                              1
-                                          ? const Icon(
-                                          FontAwesomeIcons.circleCheck,
-                                          color:
-                                          Colors.lightGreenAccent)
-                                          : SizedBox()),
-                                    ),
-                                    Positioned(
-                                        bottom: 20,
-                                        child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2.h,
-                                                horizontal: 2.w),
-                                            width: 120.w,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(20),
-                                              gradient:
-                                              const LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment(0.8, 1),
-                                                colors: ColorConstant
-                                                    .violetToPinkGradient,
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                textAlign: TextAlign.center,
-                                                state.subjects[index]
-                                                    .title_ru,
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ))),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }, childCount: state.subjects.length),
+                          (BuildContext context, int index) {
+                        return SubjectCardWidget(
+                          subjectEntity: state.complusory_subjects[index],
+                          subjects: state.parameter?.subjects ?? [],
+                        );
+                      }, childCount: state.complusory_subjects.length),
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisExtent: 130,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      )),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      child: Center(
+                        child: Text(
+                          "Выберите 2 дисциплины:",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        ),
+                      ),
+                    ), // Space between the grids
+                  ),
+                  SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (state.not_complusory_subjects[index]
+                                    .is_compulsory !=
+                                1) {
+                              List<int> newValue = List<int>.from(
+                                  state.parameter?.subjects ?? []);
+                              if (newValue.contains(
+                                  state.not_complusory_subjects[index].id)) {
+                                newValue.remove(
+                                    state.not_complusory_subjects[index].id);
+                              } else {
+                                if (newValue.length >= 2) {
+                                  newValue[0] = newValue[1];
+                                  newValue[1] =
+                                      state.not_complusory_subjects[index].id;
+                                } else {
+                                  newValue.add(
+                                      state.not_complusory_subjects[index].id);
+                                }
+                              }
+                              context
+                                  .read<UntFullBloc>()
+                                  .add(UntFullAddSubjectsEvent(newValue));
+                            }
+                          },
+                          child: SubjectCardWidget(
+                            subjectEntity: state.not_complusory_subjects[index],
+                            subjects: state.parameter?.subjects ?? [],
+                          ),
+                        );
+                      }, childCount: state.not_complusory_subjects.length),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisExtent: 180,
                         crossAxisSpacing: 10,

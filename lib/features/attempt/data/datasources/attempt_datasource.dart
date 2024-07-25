@@ -191,8 +191,8 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
   @override
   Future<GetStatEntity> getAttemptStatDS(int attemptId) async {
     try {
-      final response =
-          await HttpUtil().get(ApiConstant.getStatAttemptById + 430.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.getStatAttemptById + attemptId.toString());
       final data = ResponseData.fromJson(response);
       final result = GetStatModel.fromMap(data.data);
       return result;

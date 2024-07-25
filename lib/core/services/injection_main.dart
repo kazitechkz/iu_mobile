@@ -223,6 +223,11 @@ Future<void> _attemptSlInit() async {
         answerCase: sl<AnswerCase>(),
         answerResultCase: sl<AnswerResultCase>(),
         finishAttemptCase: sl<FinishAttemptCase>(),
+        saveQuestionCase: sl<SaveQuestionCase>(),
+      ));
+  sl.registerFactory(() => AttemptWorkOverFailureBloc(
+        saveQuestionCase: sl<SaveQuestionCase>(),
+        getAttemptStatCase: sl<GetAttemptStatCase>(),
       ));
 }
 
@@ -337,19 +342,24 @@ Future<void> _forumSlInit() async {
   sl.registerLazySingleton<ForumDataSourceInterface>(
       () => ForumDataSourceImpl());
   sl.registerFactory(() => AllForumBloc(allForumCase: sl<AllForumCase>()));
-  sl.registerFactory(() => ForumDetailBloc(getForumCase: sl<GetForumCase>(), getForumDiscussCase: sl<GetForumDiscussCase>()));
+  sl.registerFactory(() => ForumDetailBloc(
+      getForumCase: sl<GetForumCase>(),
+      getForumDiscussCase: sl<GetForumDiscussCase>()));
 }
-
 
 Future<void> _classRoomSLInit() async {
   sl.registerLazySingleton(() => ExitRoomCase(sl()));
   sl.registerLazySingleton(() => JoinRoomCase(sl()));
   sl.registerLazySingleton(() => GetRoomsCase(sl()));
   sl.registerLazySingleton<ClassRoomDataSourceInterface>(
-          () => ClassRoomDataSourceImpl());
-  sl.registerLazySingleton<ClassRoomInterface>(
-          () => ClassRoomRepository(sl()));
-  sl.registerFactory(() => ClassroomBloc(exitRoomCase: sl<ExitRoomCase>(), getRoomsCase: sl<GetRoomsCase>(), joinRoomCase: sl<JoinRoomCase>()),);
+      () => ClassRoomDataSourceImpl());
+  sl.registerLazySingleton<ClassRoomInterface>(() => ClassRoomRepository(sl()));
+  sl.registerFactory(
+    () => ClassroomBloc(
+        exitRoomCase: sl<ExitRoomCase>(),
+        getRoomsCase: sl<GetRoomsCase>(),
+        joinRoomCase: sl<JoinRoomCase>()),
+  );
 }
 
 Future<void> _newsSlInit() async {
@@ -375,12 +385,10 @@ Future<void> _notificationSlInit() async {
       () => NotificationRepository(sl()));
   sl.registerLazySingleton<NotificationDataSourceInterface>(
       () => NotificationDataSourceImpl());
-  sl.registerFactory(
-          () => NotificationListBloc(
-              getNotificationAllCase: sl<GetNotificationAllCase>(),
-              myNotificationIdsCase: sl<MyNotificationIdsCase>(),
-              checkNotificationCase: sl<CheckNotificationCase>()));
-
+  sl.registerFactory(() => NotificationListBloc(
+      getNotificationAllCase: sl<GetNotificationAllCase>(),
+      myNotificationIdsCase: sl<MyNotificationIdsCase>(),
+      checkNotificationCase: sl<CheckNotificationCase>()));
 }
 
 Future<void> _statSlInit() async {
@@ -437,7 +445,8 @@ Future<void> _accountSlInit() async {
 }
 
 Future<void> _questionSlInit() async {
-  sl.registerLazySingleton(() => MySavedQuestionsBloc(useCase: sl<GetMySavedQuestionsCase>()));
+  sl.registerLazySingleton(
+      () => MySavedQuestionsBloc(useCase: sl<GetMySavedQuestionsCase>()));
   sl.registerLazySingleton(() => GetCategoryQuestionCase(sl()));
   sl.registerLazySingleton(() => GetMySavedQuestionByIdCase(sl()));
   sl.registerLazySingleton(() => GetMySavedQuestionsCase(sl()));

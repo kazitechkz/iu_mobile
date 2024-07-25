@@ -31,7 +31,12 @@ class UntFullBloc extends Bloc<UntFullEvent, UntFullState> {
     result.fold(
         (l) => emit(UntFullFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
-        (r) => emit(UntFullSubjectLoadedState(r)));
+        (r) => emit(UntFullSubjectLoadedState(
+            subjects: r,
+            complusory_subjects:
+                r.where((element) => element.is_compulsory == 1).toList(),
+            not_complusory_subjects:
+                r.where((element) => element.is_compulsory != 1).toList())));
   }
 
   Future<void> _handleAddSubjectsEvent(

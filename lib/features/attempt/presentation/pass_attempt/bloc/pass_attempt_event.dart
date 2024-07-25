@@ -10,20 +10,20 @@ class PassAttemptGetByAttemptIdEvent extends PassAttemptEvent {
   List<Object?> get props => [attemptId];
 }
 
-class PassAttemptChangeSubjectEvent extends PassAttemptEvent{
+class PassAttemptChangeSubjectEvent extends PassAttemptEvent {
   final int subjectId;
   PassAttemptChangeSubjectEvent(this.subjectId);
   @override
   List<Object?> get props => [subjectId];
 }
 
-class PassAttemptAnswerQuestionEvent extends PassAttemptEvent{
+class PassAttemptAnswerQuestionEvent extends PassAttemptEvent {
   final String answer;
   final int questionId;
   final int typeId;
   PassAttemptAnswerQuestionEvent(this.answer, this.questionId, this.typeId);
   @override
-  List<Object?> get props => [typeId,questionId,answer];
+  List<Object?> get props => [typeId, questionId, answer];
 }
 
 class PassAttemptAnswerEvent extends PassAttemptEvent {
@@ -40,19 +40,29 @@ class PassAttemptGetAnsweredEvent extends PassAttemptEvent {
   List<Object?> get props => [attemptSubjectId];
 }
 
-class PassAttemptCarouselSliderChangeEvent extends PassAttemptEvent{
+class PassAttemptCarouselSliderChangeEvent extends PassAttemptEvent {
   final int activeSliderId;
   PassAttemptCarouselSliderChangeEvent(this.activeSliderId);
   @override
   List<Object?> get props => [activeSliderId];
 }
 
-class PassAttemptFinishAttemptEvent extends PassAttemptEvent{
+class PassAttemptFinishAttemptEvent extends PassAttemptEvent {
   final int attemptId;
   PassAttemptFinishAttemptEvent(this.attemptId);
   @override
   List<Object?> get props => [attemptId];
-
 }
 
+class PassAttemptOnTickEvent extends PassAttemptEvent {
+  final int millisecondsLeft;
+  PassAttemptOnTickEvent(this.millisecondsLeft);
+  @override
+  List<Object?> get props => [millisecondsLeft];
+}
 
+class PassAttemptSaveQuestionEvent extends PassAttemptEvent {
+  final int questionId;
+  PassAttemptSaveQuestionEvent(this.questionId);
+  List<Object?> get props => [questionId];
+}
