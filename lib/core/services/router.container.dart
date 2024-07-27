@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iu/core/app_constants/route_constant.dart';
-import 'package:iu/core/common/blocs/subject_dropdown/subject_dropdown_bloc.dart';
 import 'package:iu/core/common/widgets/scaffold_with_navigation.dart';
 import 'package:iu/core/services/router_middleware.dart';
 import 'package:iu/features/attempt/presentation/attempt_result/bloc/attempt_result_bloc.dart';
@@ -29,7 +28,6 @@ import 'package:iu/features/career/presentation/pass_career_one/pass_career_one_
 import 'package:iu/features/career/presentation/result_career_quiz/bloc/result_career_quiz_bloc.dart';
 import 'package:iu/features/classroom/presentation/bloc/classroom_bloc.dart';
 import 'package:iu/features/classroom/presentation/classroom_screen.dart';
-import 'package:iu/features/classroom/presentation/widgets/classroom_widget.dart';
 import 'package:iu/features/forum/presentation/all_forum/all_forum_screen.dart';
 import 'package:iu/features/forum/presentation/all_forum/bloc/all_forum_bloc.dart';
 import 'package:iu/features/forum/presentation/forum_detail/bloc/forum_detail_bloc.dart';
@@ -95,6 +93,8 @@ import '../../features/career/presentation/career_quizzes/bloc/career_quizzes_bl
 import '../../features/career/presentation/career_quizzes/career_quizzes_screen.dart';
 import '../../features/career/presentation/career_subscriptions/bloc/career_subscriptions_bloc.dart';
 import '../../features/career/presentation/career_subscriptions/career_subscriptions_screen.dart';
+import '../../features/career/presentation/pass_career_drag_drop/bloc/pass_career_drag_drop_bloc.dart';
+import '../../features/career/presentation/pass_career_drag_drop/pass_career_drag_drop_screen.dart';
 import '../../features/career/presentation/result_career_quiz/result_career_quiz_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
