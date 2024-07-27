@@ -26,6 +26,7 @@ class StatMainBloc extends Bloc<StatMainEvent, StatMainState> {
         super(StatMainInitialState()) {
     on<StatMainGetUNTStatEvent>(_getUntStatHandler);
     on<StatMainAllAttemptsEvent>(_StatMainAllAttemptsHandler);
+    on<StatMainPaginateStatEvent>(_StatMainPaginateStatEventHandler);
   }
 
   Future<void> _getUntStatHandler(
@@ -36,18 +37,37 @@ class StatMainBloc extends Bloc<StatMainEvent, StatMainState> {
         (l) => emit(StatMainFailedState(FailureData(
             statusCode: l.statusCode, message: l.message, errors: l.errors))),
         (r) => emit(StatMainSuccessState(untStatEntity: r)));
-     add(StatMainAllAttemptsEvent(parameter: AllAttemptsParameter()));
+    add(StatMainAllAttemptsEvent(parameter: AllAttemptsParameter()));
   }
 
   Future<void> _StatMainAllAttemptsHandler(
       StatMainAllAttemptsEvent event, Emitter<StatMainState> emit) async {
     if (state is StatMainSuccessState) {
       final currentState = state as StatMainSuccessState;
+      final oldData = currentState.allAttempts?.data ?? [];
       final result = await _allAttemptsCase(event.parameter);
       result.fold(
           (l) => emit(StatMainFailedState(FailureData(
               statusCode: l.statusCode, message: l.message, errors: l.errors))),
-          (r) => emit(currentState.copyWith(allAttempts: r)));
+          (r) => emit(currentState.copyWith(
+              allAttempts: r,
+              IsLoadingPagination: false,
+              AllAttemptsData: [...oldData, ...r.data])));
+    }
+  }
+
+  void _StatMainPaginateStatEventHandler(
+      StatMainPaginateStatEvent event, Emitter<StatMainState> emit) {
+    if (state is StatMainSuccessState) {
+      final currentState = state as StatMainSuccessState;
+      if (currentState.isLoadingPagination == false &&
+          (currentState.allAttempts?.lastPage ?? 0) >
+              (currentState.allAttempts?.currentPage ?? 0)) {
+        emit(currentState.copyWith(IsLoadingPagination: true));
+        add(StatMainAllAttemptsEvent(
+            parameter: AllAttemptsParameter(
+                page: (currentState.allAttempts?.currentPage ?? 0) + 1)));
+      }
     }
   }
 }

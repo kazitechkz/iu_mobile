@@ -22,3 +22,8 @@ class PassCareerOneFinishEvent extends PassCareerOneEvent {
   final FinishCareerQuizParameter parameter;
   PassCareerOneFinishEvent({required this.parameter});
 }
+
+class PassCareerOneChangeSliderEvent extends PassCareerOneEvent {
+  final int pageIndex;
+  PassCareerOneChangeSliderEvent(this.pageIndex);
+}

@@ -50,7 +50,7 @@ Future<void> _dioSLInit() async {
     connectTimeout: const Duration(seconds: 30),
     receiveTimeout: const Duration(seconds: 30),
     headers: {'Accept': "application/json"},
-    contentType: "application/json;charset=utf-8",
+    contentType: "application/json;charset=UTF-8",
     responseType: ResponseType.json,
   );
   final dio = Dio(options);
@@ -309,6 +309,9 @@ Future<void> _careerSlInit() async {
   sl.registerFactory(() => CareerSubscriptionsBloc(
       getCareerQuizGroupListCase: sl<GetCareerQuizGroupListCase>()));
   sl.registerFactory(() => PassCareerOneBloc(
+      finishCareerCase: sl<FinishCareerCase>(),
+      passCareerQuizCase: sl<PassCareerQuizCase>()));
+  sl.registerFactory(() => PassCareerDragDropBloc(
       finishCareerCase: sl<FinishCareerCase>(),
       passCareerQuizCase: sl<PassCareerQuizCase>()));
 }

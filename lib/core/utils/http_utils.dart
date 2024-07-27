@@ -12,9 +12,8 @@ class HttpUtil {
 
   Future post(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    var response = await dio.post(path,
-        data: data,
-        queryParameters: queryParameters);
+    var response =
+        await dio.post(path, data: data, queryParameters: queryParameters);
     return response.data;
   }
 
@@ -23,7 +22,10 @@ class HttpUtil {
     var response = await dio.get(path,
         data: data,
         queryParameters: queryParameters,
-        options: Options(contentType: Headers.jsonContentType));
+        options: Options(
+          responseType: ResponseType.json,
+          contentType: "application/json;charset=UTF-8",
+        ));
     return response.data;
   }
 
@@ -40,9 +42,8 @@ class HttpUtil {
 
   Future delete(String path,
       {dynamic data, Map<String, dynamic>? queryParameters}) async {
-    var response = await dio.delete(path,
-        data: data,
-        queryParameters: queryParameters);
+    var response =
+        await dio.delete(path, data: data, queryParameters: queryParameters);
     return response.data;
   }
 }

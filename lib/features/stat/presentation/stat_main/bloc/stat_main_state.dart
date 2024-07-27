@@ -15,22 +15,33 @@ final class StatMainLoadingState extends StatMainState {
 
 final class StatMainSuccessState extends StatMainState {
   final PaginationData<List<AttemptEntity>>? allAttempts;
+  final List<AttemptEntity>? allAttemptsData;
   final UntStatEntity untStatEntity;
+  final bool isLoadingPagination;
 
-  StatMainSuccessState({this.allAttempts, required this.untStatEntity});
+  StatMainSuccessState(
+      {this.allAttempts,
+      this.allAttemptsData,
+      required this.untStatEntity,
+      this.isLoadingPagination = false});
 
   StatMainSuccessState copyWith({
     PaginationData<List<AttemptEntity>>? allAttempts,
+    List<AttemptEntity>? AllAttemptsData,
     UntStatEntity? untStatEntity,
+    bool? IsLoadingPagination,
   }) {
     return StatMainSuccessState(
       allAttempts: allAttempts ?? this.allAttempts,
+      allAttemptsData: AllAttemptsData ?? this.allAttemptsData,
       untStatEntity: untStatEntity ?? this.untStatEntity,
+      isLoadingPagination: IsLoadingPagination ?? this.isLoadingPagination,
     );
   }
 
   @override
-  List<Object?> get props => [allAttempts, untStatEntity];
+  List<Object?> get props =>
+      [allAttempts.hashCode, untStatEntity, allAttemptsData];
 }
 
 final class StatMainFailedState extends StatMainState {

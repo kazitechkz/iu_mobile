@@ -91,13 +91,15 @@ class PassAttemptBloc extends Bloc<PassAttemptEvent, PassAttemptState> {
 
   Future<void> _handlePassAttemptGetAnsweredEvent(
       PassAttemptGetAnsweredEvent event, Emitter<PassAttemptState> emit) async {
-    final currentState = state as PassAttemptSuccessState;
-    final result = await _answerResultCase(
-        AnsweredResultParameter(attempt_subject_id: event.attemptSubjectId));
-    result.fold(
-        (l) => emit(PassAttemptFailedState(FailureData(
-            statusCode: l.statusCode, message: l.message, errors: l.errors))),
-        (r) => emit(currentState.copyWith(answeredResult: r)));
+    if (state is PassAttemptSuccessState) {
+      final currentState = state as PassAttemptSuccessState;
+      final result = await _answerResultCase(
+          AnsweredResultParameter(attempt_subject_id: event.attemptSubjectId));
+      result.fold(
+          (l) => emit(PassAttemptFailedState(FailureData(
+              statusCode: l.statusCode, message: l.message, errors: l.errors))),
+          (r) => emit(currentState.copyWith(answeredResult: r)));
+    }
   }
 
   void _handlePassAttemptChangeSubjectEvent(

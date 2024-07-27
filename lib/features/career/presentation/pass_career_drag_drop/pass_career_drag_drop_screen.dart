@@ -1,37 +1,41 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:iu/core/app_constants/app_constant.dart';
-import 'package:iu/features/career/domain/parameters/finish_career_quiz_parameter.dart';
-import 'package:iu/features/career/presentation/pass_career_one/bloc/pass_career_one_bloc.dart';
-import 'package:iu/features/career/presentation/pass_career_one/widgets/career_question_container_widget.dart';
+import 'package:iu/core/utils/toasters.dart';
+import 'package:iu/features/career/presentation/pass_career_drag_drop/bloc/pass_career_drag_drop_bloc.dart';
+import 'package:iu/features/career/presentation/pass_career_drag_drop/widgets/pass_career_container_widget.dart';
 
 import '../../../../core/app_constants/color_constant.dart';
 import '../../../../core/app_constants/route_constant.dart';
 import '../../../../core/widgets/common_app_bar_widget.dart';
-import '../../domain/entities/career_quiz_answer_entity.dart';
+import '../../domain/entities/career_quiz_question_entity.dart';
 
-class PassCareerOneScreen extends StatefulWidget {
-  const PassCareerOneScreen({super.key, required this.quizId});
+class PassCareerDragDropScreen extends StatefulWidget {
+  const PassCareerDragDropScreen({super.key, required this.quizId});
   final int quizId;
   @override
-  State<PassCareerOneScreen> createState() => _PassCareerOneScreenState();
+  State<PassCareerDragDropScreen> createState() =>
+      _PassCareerDragDropScreenState();
 }
 
-class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
+class _PassCareerDragDropScreenState extends State<PassCareerDragDropScreen> {
   CarouselController carouselController = CarouselController();
   @override
   void initState() {
     super.initState();
     context
-        .read<PassCareerOneBloc>()
-        .add(PassCareerOneGetAllEvent(widget.quizId));
+        .read<PassCareerDragDropBloc>()
+        .add(PassCareerDragDropGetCareerByIdEvent(widget.quizId));
+  }
+
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    context
+        .read<PassCareerDragDropBloc>()
+        .add(PassCareerDragDropGetCareerByIdEvent(widget.quizId));
   }
 
   @override
@@ -42,22 +46,17 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
         imageUrl: "assets/images/icons/career.webp",
         routeLink: "${RouteConstant.careerQuizDetailName}/${widget.quizId}",
       ),
-      body: BlocConsumer<PassCareerOneBloc, PassCareerOneState>(
-        listener: (BuildContext context, PassCareerOneState state) {
-          if (state is PassCareerOneFinishedState) {
-            context
-                .go("/${RouteConstant.resultCareerQuizName}/${state.resultId}");
+      body: BlocConsumer<PassCareerDragDropBloc, PassCareerDragDropState>(
+        listener: (BuildContext context, PassCareerDragDropState state) {
+          if (state is PassCareerDragDropFailedState) {
+            AppToaster.showError(state.failureData.message ?? "Error");
           }
         },
-        builder: (BuildContext context, PassCareerOneState state) {
-          if (state is PassCareerOneLoadingState ||
-              state is PassCareerOneFinishedState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+        builder: (BuildContext context, PassCareerDragDropState state) {
+          if (state is PassCareerDragDropLoadingState) {
+            return Center(child: CircularProgressIndicator());
           }
-          if (state is PassCareerOneSuccessState) {
-            final careerQuiz = state.careerQuizEntity;
+          if (state is PassCareerDragDropSuccessState) {
             return SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
@@ -73,23 +72,25 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
                           showIndicator: false,
                           onPageChanged:
                               (index, CarouselPageChangedReason reason) {
-                            context
-                                .read<PassCareerOneBloc>()
-                                .add(PassCareerOneChangeSliderEvent(index));
+                            context.read<PassCareerDragDropBloc>().add(
+                                PassCareerDragDropChangeSliderEvent(index));
                           }),
-                      itemCount: careerQuiz.careerQuizQuestions?.length ?? 0,
+                      itemCount:
+                          state.passCareerQuiz.careerQuizQuestions?.length ?? 0,
                       itemBuilder: (BuildContext context, int itemIndex,
                           int pageViewIndex) {
+                        CareerQuizQuestionEntity? activeQuestion = state
+                            .passCareerQuiz.careerQuizQuestions?[itemIndex];
                         return Column(
                           children: [
-                            CareerQuestionContainerWidget(
-                              careerQuestionEntity:
-                                  careerQuiz.careerQuizQuestions![itemIndex],
-                              answers: _getCareerQuizQuestions(
-                                  careerQuiz.careerQuizQuestions![itemIndex].id,
-                                  careerQuiz.careerQuizAnswers,
-                                  careerQuiz.code),
-                              type: careerQuiz.code,
+                            PassCareerContainerWidget(
+                              careerQuestionEntity: activeQuestion,
+                              answers: state.passCareerQuiz.careerQuizAnswers
+                                      ?.where((element) =>
+                                          element.questionId ==
+                                          (activeQuestion?.id ?? 0))
+                                      .toList() ??
+                                  [],
                             ),
                             SizedBox(
                               height: 15.h,
@@ -134,7 +135,7 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
                                     color: ColorConstant.appBarColor),
                                 child: Text(
                                   textAlign: TextAlign.center,
-                                  "${state.pageIndex + 1}/ ${state.careerQuizEntity.careerQuizQuestions?.length}",
+                                  "${state.pageIndex + 1} / ${state.passCareerQuiz.careerQuizQuestions?.length}",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 16.sp),
                                 ))),
@@ -142,7 +143,7 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
                             child: (state.pageIndex + 1 <=
                                         state.givenAnswer.length &&
                                     state.pageIndex <
-                                        (state.careerQuizEntity
+                                        (state.passCareerQuiz
                                                 .careerQuizQuestions?.length ??
                                             0))
                                 ? InkWell(
@@ -172,16 +173,10 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
                       height: 25.h,
                     ),
                     state.givenAnswer.length ==
-                            state.careerQuizEntity.careerQuizQuestions?.length
+                            state.passCareerQuiz.careerQuizQuestions?.length
                         ? Center(
                             child: InkWell(
-                              onTap: () {
-                                context.read<PassCareerOneBloc>().add(
-                                    PassCareerOneFinishEvent(
-                                        parameter: FinishCareerQuizParameter(
-                                            quiz_id: widget.quizId,
-                                            given_answers: state.givenAnswer)));
-                              },
+                              onTap: () {},
                               child: Container(
                                   margin: EdgeInsets.symmetric(horizontal: 5.w),
                                   padding: EdgeInsets.symmetric(
@@ -210,20 +205,5 @@ class _PassCareerOneScreenState extends State<PassCareerOneScreen> {
         },
       ),
     );
-  }
-
-  List<CareerQuizAnswerEntity> _getCareerQuizQuestions(int questionId,
-      List<CareerQuizAnswerEntity>? careerQuizAnswers, String type) {
-    if (careerQuizAnswers != null) {
-      if (type == AppConstant.QUESTIONS_AND_ANSWERS) {
-        return careerQuizAnswers
-            .where((answer) => answer.questionId == questionId)
-            .toList();
-      }
-      if (type == AppConstant.ONE_ANSWER) {
-        return careerQuizAnswers;
-      }
-    }
-    return [];
   }
 }

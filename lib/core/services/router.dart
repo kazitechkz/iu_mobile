@@ -93,6 +93,8 @@ import '../../features/career/presentation/career_quizzes/bloc/career_quizzes_bl
 import '../../features/career/presentation/career_quizzes/career_quizzes_screen.dart';
 import '../../features/career/presentation/career_subscriptions/bloc/career_subscriptions_bloc.dart';
 import '../../features/career/presentation/career_subscriptions/career_subscriptions_screen.dart';
+import '../../features/career/presentation/pass_career_drag_drop/bloc/pass_career_drag_drop_bloc.dart';
+import '../../features/career/presentation/pass_career_drag_drop/pass_career_drag_drop_screen.dart';
 import '../../features/career/presentation/result_career_quiz/result_career_quiz_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/iutube/presentation/iutube_author/bloc/iutube_author_bloc.dart';
@@ -744,6 +746,19 @@ class RouteNavigation {
               return BlocProvider(
                 create: (_) => sl<PassCareerOneBloc>(),
                 child: PassCareerOneScreen(quizId: quizId),
+              );
+            },
+            redirect: (BuildContext context, GoRouterState state) async {
+              return await RouterMiddleWare().authMiddleWare(context, state);
+            }),
+        GoRoute(
+            path: "/${RouteConstant.passCareerQuizDragDropName}/:quizId",
+            name: RouteConstant.passCareerQuizDragDropName,
+            builder: (context, state) {
+              int quizId = int.parse(state.pathParameters['quizId'] ?? "0");
+              return BlocProvider(
+                create: (_) => sl<PassCareerDragDropBloc>(),
+                child: PassCareerDragDropScreen(quizId: quizId),
               );
             },
             redirect: (BuildContext context, GoRouterState state) async {

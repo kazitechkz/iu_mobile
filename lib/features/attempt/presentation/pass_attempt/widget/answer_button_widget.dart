@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 
 import '../../../../../core/helpers/mathjax_helper.dart';
@@ -37,30 +38,18 @@ class AnswerButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Html(
-              data: MathJaxHelper.toMathJax(answer ?? ""),
-              extensions: [
-                TagExtension(
-                  tagsToExtend: {"pre"},
-                  builder: (extensionContext) => Math.tex(
-                    extensionContext.innerHtml,
-                    textStyle: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-              style: {
-                'pre': Style(color: Colors.white),
-                'tex': Style(color: Colors.white),
-                'p': Style(color: Colors.white),
-                'b': Style(color: Colors.white),
-                'li': Style(color: Colors.white),
-                'h1': Style(color: Colors.white),
-                'h2': Style(color: Colors.white),
-                'h3': Style(color: Colors.white),
-                'h4': Style(color: Colors.white),
-                'h5': Style(color: Colors.white),
-                'h6': Style(color: Colors.white),
-                "div": Style(color: Colors.white)
+            HtmlWidget(
+              textStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+              MathJaxHelper.clearText(answer ?? ""),
+              customWidgetBuilder: (element) {
+                if (element.localName == 'math' || element.localName == 'pre') {
+                  return Math.tex(element.text,
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold));
+                }
+                return null;
               },
             ),
           ],

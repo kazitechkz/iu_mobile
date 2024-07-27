@@ -9,9 +9,11 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/bottom_sheet/gf_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:iu/core/app_constants/color_constant.dart';
 import 'package:iu/core/helpers/mathjax_helper.dart';
 import 'package:iu/core/widgets/elevated_gradient_button.dart';
@@ -89,7 +91,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                   child: Column(
                     children: [
                       Container(
-                        height: 120.h,
+                        constraints: BoxConstraints(minHeight: 120.h),
                         width: 320.w,
                         decoration: BoxDecoration(
                             gradient: const LinearGradient(
@@ -145,6 +147,7 @@ class _PassUntScreenState extends State<PassUntScreen> {
                       SizedBox(
                         height: 20.h,
                       ),
+                      Text("${state.answeredResult?.data.values}"),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2<int>(
                           isExpanded: true,
@@ -197,7 +200,11 @@ class _PassUntScreenState extends State<PassUntScreen> {
                             context
                                 .read<PassAttemptBloc>()
                                 .add(PassAttemptChangeSubjectEvent(value ?? 0));
-                            checkAnsweredResult(context, state);
+                            context.read<PassAttemptBloc>().add(
+                                PassAttemptGetAnsweredEvent(state
+                                    .attempt
+                                    .subjectQuestions[value ?? 0]
+                                    .attemptSubjectId));
                             attemptCarouselController.jumpToPage(0);
                           },
                           buttonStyleData: ButtonStyleData(
@@ -407,70 +414,55 @@ class _PassUntScreenState extends State<PassUntScreen> {
                                           SizedBox(
                                             height: 20.h,
                                           ),
-                                          Html(
-                                            data: MathJaxHelper.clearText(
+                                          HtmlWidget(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp),
+                                            MathJaxHelper.clearText(
                                                 activeQuestion.text),
-                                            extensions: [
-                                              TagExtension(
-                                                tagsToExtend: {"pre"},
-                                                builder: (extensionContext) =>
-                                                    Math.tex(extensionContext
-                                                        .innerHtml),
-                                              )
-                                            ],
-                                            style: {
-                                              'pre': Style(color: Colors.white),
-                                              'p': Style(color: Colors.white),
-                                              'b': Style(color: Colors.white),
-                                              'li': Style(color: Colors.white),
-                                              'h1': Style(color: Colors.white),
-                                              'h2': Style(color: Colors.white),
-                                              'h3': Style(color: Colors.white),
-                                              'h4': Style(color: Colors.white),
-                                              'h5': Style(color: Colors.white),
-                                              'h6': Style(color: Colors.white),
+                                            customWidgetBuilder: (element) {
+                                              if (element.localName == 'math' ||
+                                                  element.localName == 'pre') {
+                                                return Math.tex(element.text,
+                                                    textStyle: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold));
+                                              }
+                                              return null;
                                             },
                                           ),
                                           SizedBox(
                                             height: 10.h,
                                           ),
                                           (activeQuestion.context != null
-                                              ? Html(
-                                                  data: MathJaxHelper.clearText(
+                                              ? HtmlWidget(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16.sp),
+                                                  MathJaxHelper.clearText(
                                                       activeQuestion.context
                                                               ?.context ??
                                                           ""),
-                                                  style: {
-                                                    'pre': Style(
-                                                        color: Colors.white),
-                                                    'p': Style(
-                                                        color: Colors.white),
-                                                    'b': Style(
-                                                        color: Colors.white),
-                                                    'li': Style(
-                                                        color: Colors.white),
-                                                    'h1': Style(
-                                                        color: Colors.white),
-                                                    'h2': Style(
-                                                        color: Colors.white),
-                                                    'h3': Style(
-                                                        color: Colors.white),
-                                                    'h4': Style(
-                                                        color: Colors.white),
-                                                    'h5': Style(
-                                                        color: Colors.white),
-                                                    'h6': Style(
-                                                        color: Colors.white),
+                                                  customWidgetBuilder:
+                                                      (element) {
+                                                    if (element.localName ==
+                                                            'math' ||
+                                                        element.localName ==
+                                                            'pre') {
+                                                      return Math.tex(
+                                                          element.text,
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold));
+                                                    }
+                                                    return null;
                                                   },
-                                                  extensions: [
-                                                    TagExtension(
-                                                      tagsToExtend: {"pre"},
-                                                      builder: (extensionContext) =>
-                                                          Math.tex(
-                                                              extensionContext
-                                                                  .innerHtml),
-                                                    )
-                                                  ],
                                                 )
                                               : const SizedBox()),
                                           SizedBox(
@@ -920,16 +912,21 @@ class _PassUntScreenState extends State<PassUntScreen> {
                   width: 320.w,
                 ),
                 activeQuestion.prompt != null
-                    ? Html(
-                        data: MathJaxHelper.clearText(
-                            activeQuestion.prompt ?? ""),
-                        extensions: [
-                          TagExtension(
-                            tagsToExtend: {"pre"},
-                            builder: (extensionContext) =>
-                                Math.tex(extensionContext.innerHtml),
-                          )
-                        ],
+                    ? HtmlWidget(
+                        textStyle:
+                            TextStyle(color: Colors.black, fontSize: 16.sp),
+                        MathJaxHelper.clearText(activeQuestion.prompt ?? ""),
+                        customWidgetBuilder: (element) {
+                          if (element.localName == 'math' ||
+                              element.localName == 'pre') {
+                            return Math.tex(element.text,
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold));
+                          }
+                          return null;
+                        },
                       )
                     : Text("К сожалению, подсказок нет"),
                 SizedBox(height: 20),

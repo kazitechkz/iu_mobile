@@ -18,6 +18,8 @@ class MyCareerQuizAttemptsBloc
         super(MyCareerQuizAttemptsInitialState()) {
     on<MyCareerQuizAttemptsByQuizIdEvent>(
         _handleMyCareerQuizAttemptsByQuizIdEvent);
+    on<MyCareerQuizAttemptsPaginateEvent>(
+        _handleMyCareerQuizAttemptsPaginateEvent);
   }
 
   final MyCareerAttemptsCase _myCareerAttemptsCase;
@@ -28,7 +30,7 @@ class MyCareerQuizAttemptsBloc
     if (state is MyCareerQuizAttemptsSuccessState) {
       final currentState = state as MyCareerQuizAttemptsSuccessState;
       final oldData = currentState.careerQuizzes;
-      emit(MyCareerQuizAttemptsLoadingState());
+      emit(currentState.copyWith(IsLoadingPagination: true));
       final result = await _myCareerAttemptsCase(event.parameter);
       result.fold(
           (l) => emit(
@@ -44,6 +46,20 @@ class MyCareerQuizAttemptsBloc
               MyCareerQuizAttemptsFailedState(FailureData.fromApiFailure(l))),
           (r) => emit(MyCareerQuizAttemptsSuccessState(
               careerQuizPagination: r, careerQuizzes: r.data)));
+    }
+  }
+
+  void _handleMyCareerQuizAttemptsPaginateEvent(
+      MyCareerQuizAttemptsPaginateEvent event,
+      Emitter<MyCareerQuizAttemptsState> emit) {
+    if (state is MyCareerQuizAttemptsSuccessState) {
+      final currentState = state as MyCareerQuizAttemptsSuccessState;
+      if (currentState.isLoadingPagination == false &&
+          currentState.careerQuizPagination.lastPage >
+              currentState.careerQuizPagination.currentPage) {
+        add(MyCareerQuizAttemptsByQuizIdEvent(MyCareerAttemptsParameter(
+            page: currentState.careerQuizPagination.currentPage + 1)));
+      }
     }
   }
 }

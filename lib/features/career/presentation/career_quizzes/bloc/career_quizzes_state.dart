@@ -23,18 +23,24 @@ class CareerQuizzesFailureState extends CareerQuizzesState {
 class CareerQuizzesSuccessState extends CareerQuizzesState {
   final GetCareerQuizzesEntity careerQuizzesEntity;
   final List<CareerQuizEntity> careerQuizzes;
-  CareerQuizzesSuccessState({required this.careerQuizzesEntity,required this.careerQuizzes});
+  final bool isLoadingPagination;
+  CareerQuizzesSuccessState(
+      {required this.careerQuizzesEntity,
+      required this.careerQuizzes,
+      this.isLoadingPagination = false});
 
-  CareerQuizzesSuccessState copyWith({
-    GetCareerQuizzesEntity? CareerQuizzesEntity,
-    List<CareerQuizEntity>? CareerQuizzes
-  }){
+  CareerQuizzesSuccessState copyWith(
+      {GetCareerQuizzesEntity? CareerQuizzesEntity,
+      List<CareerQuizEntity>? CareerQuizzes,
+      bool? IsLoadingPagination}) {
     return CareerQuizzesSuccessState(
-        careerQuizzesEntity: CareerQuizzesEntity ?? careerQuizzesEntity,
-        careerQuizzes: CareerQuizzes ?? careerQuizzes
+      careerQuizzesEntity: CareerQuizzesEntity ?? careerQuizzesEntity,
+      careerQuizzes: CareerQuizzes ?? careerQuizzes,
+      isLoadingPagination: IsLoadingPagination ?? isLoadingPagination,
     );
   }
 
   @override
-  List<Object?> get props => [careerQuizzesEntity];
+  List<Object?> get props =>
+      [careerQuizzesEntity, careerQuizzes, isLoadingPagination];
 }

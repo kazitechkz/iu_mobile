@@ -24,24 +24,30 @@ class PassCareerOneSuccessState extends PassCareerOneState {
   final CareerQuizEntity careerQuizEntity;
   final Map<int, int> givenAnswer;
   final Map<int, int> answers;
+  final int pageIndex;
   PassCareerOneSuccessState(
       {required this.careerQuizEntity,
       this.givenAnswer = const {},
-      this.answers = const {}});
+      this.answers = const {},
+      this.pageIndex = 0});
 
   PassCareerOneSuccessState copyWith({
     CareerQuizEntity? CareerQuizEntity,
     Map<int, int>? GivenAnswer,
     Map<int, int>? Answers,
+    int? PageIndex,
   }) {
     return PassCareerOneSuccessState(
-        careerQuizEntity: CareerQuizEntity ?? careerQuizEntity,
-        givenAnswer: GivenAnswer ?? givenAnswer,
-        answers: Answers ?? answers);
+      careerQuizEntity: CareerQuizEntity ?? careerQuizEntity,
+      givenAnswer: GivenAnswer ?? givenAnswer,
+      answers: Answers ?? answers,
+      pageIndex: PageIndex ?? pageIndex,
+    );
   }
 
   @override
-  List<Object?> get props => [careerQuizEntity, givenAnswer.hashCode, answers];
+  List<Object?> get props =>
+      [careerQuizEntity, givenAnswer.hashCode, answers, pageIndex];
 }
 
 class PassCareerOneFinishedState extends PassCareerOneState {

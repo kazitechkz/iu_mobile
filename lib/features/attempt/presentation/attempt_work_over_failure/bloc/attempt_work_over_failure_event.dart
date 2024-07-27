@@ -36,8 +36,7 @@ class AttemptWorkOverFailureSliderChangeEvent
 class AttemptWorkOverFailureSaveQuestionEvent
     extends AttemptWorkOverFailureEvent {
   final int questionId;
-
   AttemptWorkOverFailureSaveQuestionEvent(this.questionId);
-
+  @override
   List<Object?> get props => [questionId];
 }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +38,8 @@ class StatCardWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 5.w),
-                  child: Text(
-                    "${attemptEntity?.attemptType?.titleRu}",
+                  child: AutoSizeText(
+                    "${attemptEntity?.attemptType?.titleRu}${attemptEntity?.id}",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -65,15 +66,13 @@ class StatCardWidget extends StatelessWidget {
                         onTap: () {},
                         child: ElevatedButton(
                           onPressed: () {
-                            if(attemptEntity?.endAt == null){
+                            if (attemptEntity?.endAt == null) {
                               context.go(
                                   '/${RouteConstant.passAttemptById}/${attemptEntity?.id}');
-                            }
-                            else{
+                            } else {
                               context.go(
                                   '/${RouteConstant.attemptResultByAttemptIdName}/${attemptEntity?.id}');
                             }
-
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConstant.bottomBarColor,
@@ -130,10 +129,11 @@ class StatCardWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.w)),
         child: (attemptEntity?.endAt == null
             ? TimerCountdown(
-          spacerWidth: 5,
+                spacerWidth: 5,
                 colonsTextStyle:
                     TextStyle(color: ColorConstant.redColor, fontSize: 10.sp),
-                timeTextStyle: TextStyle(color: ColorConstant.redColor, fontSize: 10.sp),
+                timeTextStyle:
+                    TextStyle(color: ColorConstant.redColor, fontSize: 10.sp),
                 descriptionTextStyle:
                     TextStyle(color: ColorConstant.redColor, fontSize: 10.sp),
                 enableDescriptions: false,

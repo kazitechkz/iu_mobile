@@ -7,3 +7,5 @@ class MyCareerQuizAttemptsByQuizIdEvent extends MyCareerQuizAttemptsEvent {
   final MyCareerAttemptsParameter parameter;
   MyCareerQuizAttemptsByQuizIdEvent(this.parameter);
 }
+
+class MyCareerQuizAttemptsPaginateEvent extends MyCareerQuizAttemptsEvent {}
