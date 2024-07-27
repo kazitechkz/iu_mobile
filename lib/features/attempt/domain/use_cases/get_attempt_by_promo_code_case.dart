@@ -11,6 +11,6 @@ class GetAttemptByPromoCodeCase
 
   @override
   ResultFuture<AttemptEntity> call(String params) {
-    return this._attemptInterface.getAttemptByPromoCode(params);
+    return _attemptInterface.getAttemptByPromoCode(params);
   }
 }

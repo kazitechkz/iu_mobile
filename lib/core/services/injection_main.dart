@@ -171,6 +171,7 @@ Future<void> _appealSLInit() async {
 
 Future<void> _subjectSLInit() async {
   // sl.registerFactory(() => SubjectBloc(stepUseCase: sl<StepUseCase>()));
+  sl.registerLazySingleton(() => SubjectDropdownBloc());
   sl.registerLazySingleton(() => SubjectUseCase(sl()));
   sl.registerLazySingleton<SubjectInterface>(() => SubjectRepository(sl()));
   sl.registerLazySingleton<SubjectDatasourceInterface>(
@@ -210,6 +211,7 @@ Future<void> _attemptSlInit() async {
   sl.registerLazySingleton(() => AnswerResultCase(sl()));
   sl.registerLazySingleton(() => CreateAttemptCase(sl()));
   sl.registerLazySingleton(() => FinishAttemptCase(sl()));
+  sl.registerFactory(() => AttemptByPromoBloc(useCase: sl<GetAttemptByPromoCodeCase>()));
   sl.registerLazySingleton(() => GetAttemptByPromoCodeCase(sl()));
   sl.registerLazySingleton(() => GetAttemptCase(sl()));
   sl.registerLazySingleton(() => GetAttemptStatCase(sl()));

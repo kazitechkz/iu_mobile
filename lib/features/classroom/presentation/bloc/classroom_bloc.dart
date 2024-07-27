@@ -21,9 +21,9 @@ class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
     required JoinRoomCase joinRoomCase,
 })
       :
-      this._joinRoomCase = joinRoomCase,
-      this._getRoomsCase = getRoomsCase,
-      this._exitRoomCase = exitRoomCase,
+      _joinRoomCase = joinRoomCase,
+      _getRoomsCase = getRoomsCase,
+      _exitRoomCase = exitRoomCase,
         super(ClassroomInitialState()) {
       on<ClassroomAllEvent>(_handleClassroomAllEvent);
       on<ClassroomJoinEvent>(_handleClassroomJoinEvent);

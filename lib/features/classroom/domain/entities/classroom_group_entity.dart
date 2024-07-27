@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:iu/core/mixins/title_mixin.dart';
 
-class ClassroomGroupEntity extends Equatable{
+class ClassroomGroupEntity extends Equatable with TitleMixin {
   final int id;
   final int teacherId;
   final String titleRu;
@@ -12,4 +13,10 @@ class ClassroomGroupEntity extends Equatable{
 
   @override
   List<Object?> get props => [id,teacherId,titleRu,titleKk,promoCode,classroomsCount];
+
+  @override
+  String? getTitleKk() => titleKk;
+
+  @override
+  String? getTitleRu() => titleRu;
 }

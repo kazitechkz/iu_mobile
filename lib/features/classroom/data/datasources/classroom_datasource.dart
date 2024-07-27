@@ -19,7 +19,7 @@ class ClassRoomDataSourceImpl implements ClassRoomDataSourceInterface{
   @override
   Future<bool> exitRoom(int roomId) async {
     try {
-      final response = await httpUtils.delete(ApiConstant.studentClassRooms + "/" + roomId.toString());
+      final response = await httpUtils.delete("${ApiConstant.studentClassRooms}/$roomId");
       final responseData = ResponseData.fromJson(response);
       bool data = responseData.data;
       return data;
@@ -47,7 +47,7 @@ class ClassRoomDataSourceImpl implements ClassRoomDataSourceInterface{
   @override
   Future<bool> joinRoom(RoomParameter parameter) async {
     try {
-      final response = await httpUtils.delete(ApiConstant.studentClassRooms,data: parameter.toMap());
+      final response = await httpUtils.post(ApiConstant.studentClassRooms,data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       bool data = responseData.data;
       return data;

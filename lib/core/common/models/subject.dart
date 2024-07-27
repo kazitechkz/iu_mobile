@@ -113,7 +113,7 @@ class SubjectModel extends SubjectEntity {
   }
 }
 
-class LocalSubjectEntity extends Equatable {
+class LocalSubjectEntity extends Equatable with TitleMixin {
   final int id;
   final String titleKk;
   final String titleRu;
@@ -139,9 +139,15 @@ class LocalSubjectEntity extends Equatable {
   @override
   List<Object?> get props =>
       [id, titleKk, titleRu, imageUrl, isSelected, period];
+
+  @override
+  String? getTitleKk() => titleKk;
+
+  @override
+  String? getTitleRu() => titleRu;
 }
 
-class SingleLocalSubjectEntity extends Equatable {
+class SingleLocalSubjectEntity extends Equatable with TitleMixin {
   final String titleKk;
   final String titleRu;
 
@@ -149,4 +155,10 @@ class SingleLocalSubjectEntity extends Equatable {
 
   @override
   List<Object> get props => [titleKk, titleRu];
+
+  @override
+  String? getTitleKk() => titleKk;
+
+  @override
+  String? getTitleRu() =>titleRu;
 }

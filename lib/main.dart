@@ -12,9 +12,10 @@ import 'package:talker/talker.dart';
 import 'core/interceptors/error_interceptor.dart';
 import 'core/providers/user_provider.dart';
 import 'core/services/injection_main.container.dart';
-import 'core/services/router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
+import 'core/services/router.container.dart';
 
 void main() async {
   runZonedGuarded(() async {
