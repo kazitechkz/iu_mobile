@@ -15,34 +15,32 @@ part 'career_quizzes_state.dart';
 
 class CareerQuizzesBloc extends Bloc<CareerQuizzesEvent, CareerQuizzesState> {
   CareerQuizzesBloc({required GetCareerQuizzesCase getCareerQuizzesCase})
-      :
-        this._getCareerQuizzesCase = getCareerQuizzesCase,
+      : this._getCareerQuizzesCase = getCareerQuizzesCase,
         super(CareerQuizzesInitialState()) {
     on<GetCareerQuizzesEvent>(_handleGetCareerQuizzesEvent);
   }
 
   final GetCareerQuizzesCase _getCareerQuizzesCase;
 
-  Future<void> _handleGetCareerQuizzesEvent(GetCareerQuizzesEvent event, Emitter<CareerQuizzesState> emit) async{
-    if(state is CareerQuizzesSuccessState){
+  Future<void> _handleGetCareerQuizzesEvent(
+      GetCareerQuizzesEvent event, Emitter<CareerQuizzesState> emit) async {
+    if (state is CareerQuizzesSuccessState) {
       final currentState = state as CareerQuizzesSuccessState;
       final oldData = currentState.careerQuizzes;
+      emit(currentState.copyWith(IsLoadingPagination: true));
+      final result = await _getCareerQuizzesCase(event.parameter);
+      result.fold(
+          (l) => emit(CareerQuizzesFailureState(FailureData.fromApiFailure(l))),
+          (r) => emit(currentState.copyWith(
+              CareerQuizzesEntity: r,
+              CareerQuizzes: [...oldData, ...r.quizzes.data])));
+    } else {
       emit(CareerQuizzesLoadingState());
       final result = await _getCareerQuizzesCase(event.parameter);
       result.fold(
-              (l) => emit(CareerQuizzesFailureState(FailureData.fromApiFailure(l))),
-              (r) => emit(currentState.copyWith(CareerQuizzesEntity: r, CareerQuizzes: [...oldData,...r.quizzes.data]))
-      );
+          (l) => emit(CareerQuizzesFailureState(FailureData.fromApiFailure(l))),
+          (r) => emit(CareerQuizzesSuccessState(
+              careerQuizzesEntity: r, careerQuizzes: r.quizzes.data)));
     }
-    else{
-      emit(CareerQuizzesLoadingState());
-      final result = await _getCareerQuizzesCase(event.parameter);
-      result.fold(
-              (l) => emit(CareerQuizzesFailureState(FailureData.fromApiFailure(l))),
-              (r) => emit(CareerQuizzesSuccessState(careerQuizzesEntity: r, careerQuizzes: r.quizzes.data))
-      );
-    }
-
   }
-
 }

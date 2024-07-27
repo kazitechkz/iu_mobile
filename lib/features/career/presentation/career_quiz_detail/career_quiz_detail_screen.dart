@@ -111,9 +111,19 @@ class _CareerQuizDetailScreenState extends State<CareerQuizDetailScreen> {
                                     ),
                                     (isPurchased || careerQuiz.price == 0
                                         ? InkWell(
-                                            onTap: (){
-                                              if(careerQuiz.code == AppConstant.ONE_ANSWER || careerQuiz.code == AppConstant.QUESTIONS_AND_ANSWERS){
-                                                context.go("/${RouteConstant.passCareerQuizName}/${careerQuiz.id}");
+                                            onTap: () {
+                                              if (careerQuiz.code ==
+                                                      AppConstant.ONE_ANSWER ||
+                                                  careerQuiz.code ==
+                                                      AppConstant
+                                                          .QUESTIONS_AND_ANSWERS) {
+                                                context.go(
+                                                    "/${RouteConstant.passCareerQuizName}/${careerQuiz.id}");
+                                              }
+                                              if (careerQuiz.code ==
+                                                  AppConstant.DRAG_DROP) {
+                                                context.go(
+                                                    "/${RouteConstant.passCareerQuizDragDropName}/${careerQuiz.id}");
                                               }
                                             },
                                             child: Container(

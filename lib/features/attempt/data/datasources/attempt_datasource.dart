@@ -66,7 +66,8 @@ class AttemptDataSourceImpl extends AttemptDataSourceInterface {
   Future<PaginationData<List<AttemptEntity>>> allAttemptsDS(
       AllAttemptsParameter allAttemptsParameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.userAttempts);
+      final response = await HttpUtil().get(ApiConstant.userAttempts,
+          queryParameters: allAttemptsParameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final pagination = PaginationData.fromMap(responseData.data);
       List<AttemptModel> readyData = AttemptModel.fromMapList(

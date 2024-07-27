@@ -12,17 +12,31 @@ class MyCareerQuizAttemptsScreen extends StatefulWidget {
   const MyCareerQuizAttemptsScreen({super.key});
 
   @override
-  State<MyCareerQuizAttemptsScreen> createState() => _MyCareerQuizAttemptsScreenState();
+  State<MyCareerQuizAttemptsScreen> createState() =>
+      _MyCareerQuizAttemptsScreenState();
 }
 
-class _MyCareerQuizAttemptsScreenState extends State<MyCareerQuizAttemptsScreen> {
+class _MyCareerQuizAttemptsScreenState
+    extends State<MyCareerQuizAttemptsScreen> {
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    context.read<MyCareerQuizAttemptsBloc>().add(MyCareerQuizAttemptsByQuizIdEvent(new MyCareerAttemptsParameter(page: 1)));
-
+    context.read<MyCareerQuizAttemptsBloc>().add(
+        MyCareerQuizAttemptsByQuizIdEvent(
+            new MyCareerAttemptsParameter(page: 1)));
+    _scrollController.addListener(_endScrollBar);
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.removeListener(() {});
+    _scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,28 +45,41 @@ class _MyCareerQuizAttemptsScreenState extends State<MyCareerQuizAttemptsScreen>
         imageUrl: "assets/images/icons/career.webp",
         routeLink: RouteConstant.careerQuizzesListName,
       ),
-      body: BlocConsumer<MyCareerQuizAttemptsBloc,MyCareerQuizAttemptsState>(
-        listener: (BuildContext context, MyCareerQuizAttemptsState state) {  },
+      body: BlocConsumer<MyCareerQuizAttemptsBloc, MyCareerQuizAttemptsState>(
+        listener: (BuildContext context, MyCareerQuizAttemptsState state) {},
         builder: (BuildContext context, MyCareerQuizAttemptsState state) {
-          if(state is MyCareerQuizAttemptsLoadingState){
+          if (state is MyCareerQuizAttemptsLoadingState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if(state is MyCareerQuizAttemptsSuccessState){
+          if (state is MyCareerQuizAttemptsSuccessState) {
             return SingleChildScrollView(
-              child: Column(
-                children: state.careerQuizzes.map(
-                        (careerQuiz) => CareerQuizAttemptCardWidget(careerQuizAttempt: careerQuiz,)
-                ).toList(),
-              ),
+              controller: _scrollController,
+              child: Column(children: [
+                ...state.careerQuizzes
+                    .map((careerQuiz) => CareerQuizAttemptCardWidget(
+                          careerQuizAttempt: careerQuiz,
+                        ))
+                    .toList(),
+                (state.isLoadingPagination
+                    ? Center(child: CircularProgressIndicator())
+                    : SizedBox())
+              ]),
             );
           }
           return SizedBox();
-
-
         },
       ),
     );
+  }
+
+  void _endScrollBar() {
+    if (_scrollController.position.maxScrollExtent ==
+        _scrollController.offset) {
+      context
+          .read<MyCareerQuizAttemptsBloc>()
+          .add(MyCareerQuizAttemptsPaginateEvent());
+    }
   }
 }

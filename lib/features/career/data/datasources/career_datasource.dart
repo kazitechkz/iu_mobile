@@ -20,22 +20,25 @@ import '../models/get_career_quiz_group_list_model.dart';
 import '../models/get_career_quiz_model.dart';
 import '../models/get_career_quizzes_model.dart';
 
-abstract class CareerDataSourceInterface{
+abstract class CareerDataSourceInterface {
   Future<int> finishCareerDS(FinishCareerQuizParameter parameter);
   Future<GetCareerQuizEntity> getCareerQuizDS(int parameter);
   Future<GetCareerQuizGroupListEntity> getCareerQuizGroupListDS();
-  Future<GetCareerQuizzesEntity> getCareerQuizzesDS(GetCareerQuizzesParameter parameter);
-  Future<PaginationData<List<CareerQuizAttemptEntity>>> myCareerAttemptsDS(MyCareerAttemptsParameter parameter);
+  Future<GetCareerQuizzesEntity> getCareerQuizzesDS(
+      GetCareerQuizzesParameter parameter);
+  Future<PaginationData<List<CareerQuizAttemptEntity>>> myCareerAttemptsDS(
+      MyCareerAttemptsParameter parameter);
   Future<CareerQuizEntity> passCareerQuizDS(int parameter);
   Future<PayModel> payCareerDS(PayCareerParameter parameter);
   Future<CareerQuizAttemptEntity> resultCareerQuizDS(int parameter);
 }
 
-class CareerDataSourceImpl extends CareerDataSourceInterface{
+class CareerDataSourceImpl extends CareerDataSourceInterface {
   @override
   Future<int> finishCareerDS(FinishCareerQuizParameter parameter) async {
     try {
-      final response = await HttpUtil().post(ApiConstant.finishCareerQuiz,data: parameter.toMap());
+      final response = await HttpUtil()
+          .post(ApiConstant.finishCareerQuiz, data: parameter.toMap());
       final responseData = ResponseData<int>.fromJson(response);
       return responseData.data as int;
     } on DioException catch (e) {
@@ -48,7 +51,8 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   @override
   Future<GetCareerQuizEntity> getCareerQuizDS(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.getCareerQuizDetail + parameter.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.getCareerQuizDetail + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       final result = GetCareerQuizModel.fromMap(responseData.data);
       return result;
@@ -74,9 +78,11 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   }
 
   @override
-  Future<GetCareerQuizzesEntity> getCareerQuizzesDS(GetCareerQuizzesParameter parameter) async {
+  Future<GetCareerQuizzesEntity> getCareerQuizzesDS(
+      GetCareerQuizzesParameter parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.getCareerQuizzes,data: parameter.toMap());
+      final response = await HttpUtil()
+          .get(ApiConstant.getCareerQuizzes, data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final result = GetCareerQuizzesModel.fromMap(responseData.data);
       return result;
@@ -88,12 +94,15 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   }
 
   @override
-  Future<PaginationData<List<CareerQuizAttemptEntity>>> myCareerAttemptsDS(MyCareerAttemptsParameter parameter) async {
+  Future<PaginationData<List<CareerQuizAttemptEntity>>> myCareerAttemptsDS(
+      MyCareerAttemptsParameter parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.myCareerAttempts, data: parameter.toMap());
+      final response = await HttpUtil()
+          .get(ApiConstant.myCareerAttempts, data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       final paginationData = PaginationData.fromMap(responseData.data);
-      List<CareerQuizAttemptModel> data = CareerQuizAttemptModel.fromMapList(paginationData.data.cast<Map<String, dynamic>>());
+      List<CareerQuizAttemptModel> data = CareerQuizAttemptModel.fromMapList(
+          paginationData.data.cast<Map<String, dynamic>>());
       final result = PaginationData.fromType(paginationData, data);
       return result;
     } on DioException catch (e) {
@@ -106,7 +115,8 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   @override
   Future<CareerQuizEntity> passCareerQuizDS(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.passCareerQuiz + parameter.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.passCareerQuiz + parameter.toString());
       final responseData = ResponseData.fromJson(response);
       CareerQuizModel result = CareerQuizModel.fromMap(responseData.data);
       return result;
@@ -120,7 +130,8 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   @override
   Future<PayModel> payCareerDS(PayCareerParameter parameter) async {
     try {
-      final response = await HttpUtil().post(ApiConstant.payCareer,data: parameter.toMap());
+      final response =
+          await HttpUtil().post(ApiConstant.payCareer, data: parameter.toMap());
       final responseData = ResponseData.fromJson(response);
       PayModel result = PayModel.fromMap(responseData.data);
       return result;
@@ -134,9 +145,11 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
   @override
   Future<CareerQuizAttemptEntity> resultCareerQuizDS(int parameter) async {
     try {
-      final response = await HttpUtil().get(ApiConstant.resultCareerQuiz + parameter.toString());
+      final response = await HttpUtil()
+          .get(ApiConstant.resultCareerQuiz + parameter.toString());
       final responseData = ResponseData.fromJson(response);
-      CareerQuizAttemptModel result = CareerQuizAttemptModel.fromMap(responseData.data);
+      CareerQuizAttemptModel result =
+          CareerQuizAttemptModel.fromMap(responseData.data);
       return result;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
@@ -144,5 +157,4 @@ class CareerDataSourceImpl extends CareerDataSourceInterface{
       throw ApiException(message: e.toString());
     }
   }
-
 }

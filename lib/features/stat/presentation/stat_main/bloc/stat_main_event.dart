@@ -10,3 +10,5 @@ class StatMainAllAttemptsEvent extends StatMainEvent {
   final AllAttemptsParameter parameter;
   StatMainAllAttemptsEvent({required this.parameter});
 }
+
+class StatMainPaginateStatEvent extends StatMainEvent {}

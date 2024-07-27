@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -24,10 +25,20 @@ class StatMainScreen extends StatefulWidget {
 }
 
 class _StatMainScreenState extends State<StatMainScreen> {
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     context.read<StatMainBloc>().add(StatMainGetUNTStatEvent());
+    _scrollController.addListener(_endScrollBar);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(() {});
+    _scrollController.dispose();
   }
 
   @override
@@ -43,6 +54,7 @@ class _StatMainScreenState extends State<StatMainScreen> {
           builder: (context, state) {
             if (state is StatMainSuccessState) {
               return SingleChildScrollView(
+                controller: _scrollController,
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
@@ -64,7 +76,10 @@ class _StatMainScreenState extends State<StatMainScreen> {
                                     gradient: const LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
-                                      colors:[ColorConstant.darkOrangeColor, ColorConstant.orangeColor],
+                                      colors: [
+                                        ColorConstant.darkOrangeColor,
+                                        ColorConstant.orangeColor
+                                      ],
                                     ),
                                     boxShadow: const [
                                       BoxShadow(
@@ -141,13 +156,15 @@ class _StatMainScreenState extends State<StatMainScreen> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      (state.allAttempts?.data != null
+                      (state.allAttemptsData != null
                           ? ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
-                                return StatCardWidget(attemptEntity: state.allAttempts?.data[index]);
+                                return StatCardWidget(
+                                    attemptEntity:
+                                        state.allAttemptsData?[index]);
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) {
@@ -155,8 +172,11 @@ class _StatMainScreenState extends State<StatMainScreen> {
                                   height: 15.h,
                                 );
                               },
-                              itemCount: state.allAttempts!.data.length)
-                          : CircularProgressIndicator())
+                              itemCount: state.allAttemptsData!.length)
+                          : CircularProgressIndicator()),
+                      (state.isLoadingPagination
+                          ? Center(child: CircularProgressIndicator())
+                          : SizedBox())
                     ],
                   ),
                 ),
@@ -168,4 +188,10 @@ class _StatMainScreenState extends State<StatMainScreen> {
     );
   }
 
+  void _endScrollBar() {
+    if (_scrollController.position.maxScrollExtent ==
+        _scrollController.offset) {
+      context.read<StatMainBloc>().add(StatMainPaginateStatEvent());
+    }
+  }
 }

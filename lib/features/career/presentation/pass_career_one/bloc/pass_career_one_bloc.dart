@@ -22,6 +22,7 @@ class PassCareerOneBloc extends Bloc<PassCareerOneEvent, PassCareerOneState> {
     on<PassCareerOneGetAllEvent>(_handlePassCareerOneGetAllEvent);
     on<PassCareerOneGiveAnswerEvent>(_handlePassCareerOneGiveAnswerEvent);
     on<PassCareerOneFinishEvent>(_handlePassCareerOneFinishEvent);
+    on<PassCareerOneChangeSliderEvent>(_handlePassCareerOneChangeSliderEvent);
   }
 
   final FinishCareerCase _finishCareerCase;
@@ -64,6 +65,14 @@ class PassCareerOneBloc extends Bloc<PassCareerOneEvent, PassCareerOneState> {
       result.fold(
           (l) => emit(PassCareerOneFailedState(FailureData.fromApiFailure(l))),
           (r) => emit(PassCareerOneFinishedState(resultId: r)));
+    }
+  }
+
+  void _handlePassCareerOneChangeSliderEvent(
+      PassCareerOneChangeSliderEvent event, Emitter<PassCareerOneState> emit) {
+    if (state is PassCareerOneSuccessState) {
+      final currentState = state as PassCareerOneSuccessState;
+      emit(currentState.copyWith(PageIndex: event.pageIndex));
     }
   }
 }
